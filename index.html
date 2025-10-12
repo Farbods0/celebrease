@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CeleBrease | Reimagining Celebrations</title>
+    <!-- First Commit-->
+    <!-- Favicon link using the uploaded image (This makes the icon appear in the browser tab) -->
+    <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_67ngl767ngl767ng.jpg">
+    
+    <!-- Load Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter for body text and Pacifico for the stylish logo font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Pacifico&display=swap');
+        
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F9FF; /* Very pale blue base */
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* --- Stylish Logo Font --- */
+        .logo-font {
+            font-family: 'Pacifico', cursive;
+            line-height: 1.1; /* FIX: Increased line-height to prevent clipping of the 'g' descender */
+            /* Added subtle text shadow for lift */
+            text-shadow: 2px 2px 6px rgba(217, 70, 239, 0.4); 
+            font-weight: 400; /* Pacifico default weight */
+        }
+
+        /* --- Fluid Gradient Background (Parallax Base) --- */
+
+        .gradient-bg {
+            position: fixed; /* Ensures background stays in the viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            /* Large size and heavy blur for fluid look */
+            width: 800px; 
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(250px); 
+            opacity: 0.8; 
+            transition: all 0.5s ease-in-out;
+            pointer-events: none;
+            /* Use will-change for performance optimization during scrolling */
+            will-change: transform; 
+        }
+
+        /* Blob 1: Pink/Purple Gradient (Initial position will be set in JS) */
+        #blob1 {
+            background: linear-gradient(45deg, #F472B6, #8B5CF6); 
+        }
+
+        /* Blob 2: Sky Blue/Cyan Gradient (Initial position will be set in JS) */
+        #blob2 {
+            background: linear-gradient(135deg, #38BDF8, #06B6D4); 
+        }
+
+        /* --- Scroll Reveal Animation (NEW) --- */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px); /* Starts slightly below position */
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth transition */
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0); /* Slides up to final position */
+        }
+
+        /* --- Custom Glow Styles --- */
+
+        .cta-glow-fuchsia {
+            box-shadow: 0 4px 15px rgba(217, 70, 239, 0.7); /* Fuchsia-500 */
+            transition: all 0.3s ease;
+        }
+        .cta-glow-fuchsia:hover {
+             box-shadow: 0 8px 25px rgba(217, 70, 239, 1);
+             transform: translateY(-2px);
+        }
+
+        /* Custom styles for the pillar icons */
+        .pillar-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 9999px; 
+        }
+        /* Keeping structural colors neutral, but adding a subtle lift */
+        .pillar-icon.effortless { background-color: #FEE2E2; color: #EF4444; box-shadow: 0 4px 6px rgba(239, 68, 68, 0.1); }
+        .pillar-icon.inclusive { background-color: #FEF3C7; color: #F59E0B; box-shadow: 0 4px 6px rgba(245, 158, 11, 0.1); }
+        .pillar-icon.sustainable { background-color: #D1FAE5; color: #10B981; box-shadow: 0 4px 6px rgba(16, 185, 129, 0.1); }
+    </style>
+</head>
+<body class="text-gray-900 antialiased">
+
+    <!-- Fluid Gradient Background Container (Parallax Base) -->
+    <div class="gradient-bg">
+        <!-- Blobs will be positioned and moved by JavaScript -->
+        <div id="blob1" class="blob"></div>
+        <div id="blob2" class="blob"></div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+
+        <!-- Header (Stylish font applied) -->
+        <header class="flex items-center py-6">
+            <h1 class="logo-font text-5xl sm:text-6xl tracking-tight text-fuchsia-600">
+                CeleBrease
+            </h1>
+        </header>
+
+        <!-- Hero Section: Exclusivity and Value Proposition -->
+        <!-- Added scroll-reveal class -->
+        <section id="hero-section" class="scroll-reveal text-center py-16 md:py-24 bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl ring-4 ring-cyan-400/30 mb-16">
+            <p class="text-xl font-semibold text-cyan-600 mb-4 tracking-widest uppercase">
+                Introducing the Founder's Circle
+            </p>
+            <!-- FIX: Added pb-4 to explicitly give the descenders space and reduced mb-16 to mb-12 -->
+            <h2 class="text-5xl sm:text-7xl font-extrabold mb-12 pb-4 leading-relaxed bg-clip-text text-transparent" 
+                style="background-image: linear-gradient(120deg, #38BDF8 0%, #F472B6 100%);">
+                Cultural Magic, Zero Clutter.
+            </h2>
+            <p class="max-w-3xl mx-auto text-2xl text-gray-700 mb-10 font-medium">
+                We're solving the $40B clutter crisis by making event decor <b class="text-fuchsia-600 font-extrabold">Effortless, Inclusive, and Sustainable.</b> Get ready to celebrate smarter.
+            </p>
+            <a href="#waitlist-form" class="inline-block px-12 py-4 text-xl font-extrabold text-white bg-fuchsia-500 rounded-full hover:bg-fuchsia-600 cta-glow-fuchsia transition duration-300 transform hover:scale-105">
+                Join the Founder's Circle Today! &rarr;
+            </a>
+        </section>
+
+        <!-- The Moat/Pillars Section -->
+        <!-- Added scroll-reveal class -->
+        <section id="pillars-section" class="scroll-reveal py-16">
+            <h3 class="text-4xl font-extrabold text-center mb-12 text-gray-800">Our Three Pillars of Magic</h3>
+            <div class="grid md:grid-cols-3 gap-10">
+
+                <!-- Pillar 1: Effortless Convenience -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 border-t-4 border-red-500 transform hover:translate-y-[-2px]">
+                    <div class="pillar-icon effortless mb-4">
+                        <!-- SVG Icon for Effortless (Original) -->
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-red-600">Effortless Convenience</h4>
+                    <p class="text-gray-600">Stop spending weekends shopping. We handle everything from curated rental box delivery to professional setup and takedown, ensuring a truly stress free celebration.</p>
+                </div>
+
+                <!-- Pillar 2: Cultural Inclusivity -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 border-t-4 border-amber-500 transform hover:translate-y-[-2px]">
+                    <div class="pillar-icon inclusive mb-4">
+                        <!-- New SVG Icon for Inclusivity (Globe/Map for Cultural Reach) -->
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5M12 21a9 9 0 100-18 9 9 0 000 18z"></path></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-amber-600">Cultural Inclusivity</h4>
+                    <p class="text-gray-600">Décor for all major and cultural celebrations. From Diwali and Eid to Christmas and New Year, we handle everything so you can enjoy your celebration!</p>
+                </div>
+
+                <!-- Pillar 3: Sustainability -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 border-t-4 border-emerald-500 transform hover:translate-y-[-2px]">
+                    <div class="pillar-icon sustainable mb-4">
+                        <!-- SVG Icon for Sustainability (Original) -->
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 text-emerald-600">Sustainability First</h4>
+                    <p class="text-gray-600">Our core model is rental and reuse, dramatically eliminating the clutter and waste that often piles up after every party. Celebrate guilt free!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Waitlist Form Section -->
+        <!-- Added scroll-reveal class -->
+        <section id="waitlist-form" class="scroll-reveal py-16 md:py-20">
+            <div class="max-w-xl mx-auto bg-white/95 backdrop-blur-xl p-8 sm:p-10 rounded-3xl shadow-2xl border-2 border-fuchsia-500/50">
+                <h3 class="text-3xl font-extrabold text-center mb-2 text-fuchsia-600">Join the Founder's Circle</h3>
+                <p class="text-center text-xl font-bold text-cyan-600 mb-6 border-b pb-4 border-dashed border-gray-200">
+                    <span class="p-1 bg-cyan-100 rounded-lg">Get Early Access + 20% Off Your First Box!</span>
+                </p>
+
+                <!-- Waitlist Form: IDs are still finalized -->
+                <form id="waitlistForm" class="space-y-6">
+
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <!-- FINALIZED ID for Full Name -->
+                        <input type="text" id="fullName" name="entry.914408956" required placeholder="Jane Doe"
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-fuchsia-500 focus:border-fuchsia-500 transition duration-150">
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <!-- FINALIZED ID for Email Address -->
+                        <input type="email" id="email" name="entry.1935268068" required placeholder="you@example.com"
+                               class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-fuchsia-500 focus:border-fuchsia-500 transition duration-150">
+                    </div>
+
+                    <button type="submit" id="submitButton"
+                            class="w-full py-3 text-lg font-bold text-white bg-fuchsia-500 rounded-xl hover:bg-fuchsia-600 cta-glow-fuchsia transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                        Secure My VIP Spot!
+                    </button>
+
+                    <div id="message" class="text-center mt-4 font-semibold hidden"></div>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="text-center py-6 border-t border-gray-200 mt-16 text-gray-500 text-sm">
+            &copy; 2025 CeleBrease. All rights reserved. Reimagining Celebrations.
+        </footer>
+
+    </div>
+
+    <!-- JavaScript for Parallax, Scroll Reveal, and Form Submission -->
+    <script>
+        // --- Parallax Logic ---
+        const blob1 = document.getElementById('blob1');
+        const blob2 = document.getElementById('blob2');
+        const PARALLAX_SPEED_1 = 0.2; // Front blob (moves faster, still slower than content)
+        const PARALLAX_SPEED_2 = 0.1; // Back blob (moves slowest)
+        
+        // Initial fixed positions (CSS style for fixed elements)
+        const INITIAL_X1 = -200; // px offset from left
+        const INITIAL_Y1 = -200; // px offset from top
+        const INITIAL_X2 = 80;    // vw offset from right
+        const INITIAL_Y2 = 80;    // vh offset from bottom
+
+        function applyParallax() {
+            const scrolled = window.scrollY;
+            
+            // Blob 1: Pink/Purple (Faster parallax speed)
+            const yOffset1 = scrolled * PARALLAX_SPEED_1;
+            if (blob1) {
+                // translate(x, y) applies relative to its initial position
+                blob1.style.transform = `translate(${INITIAL_X1}px, ${INITIAL_Y1 + yOffset1}px)`;
+            }
+
+            // Blob 2: Sky Blue/Cyan (Slower parallax speed for deeper background)
+            const yOffset2 = scrolled * PARALLAX_SPEED_2;
+            if (blob2) {
+                // translate(x, y) applied relative to its initial position
+                blob2.style.transform = `translate(calc(${INITIAL_X2}vw), calc(${INITIAL_Y2}vh + ${yOffset2}px))`;
+            }
+        }
+
+        // --- Scroll Reveal Logic (NEW) ---
+        function setupScrollReveal() {
+            const sectionsToReveal = document.querySelectorAll('.scroll-reveal');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Stop observing once revealed
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sectionsToReveal.forEach(section => {
+                observer.observe(section);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Parallax
+            applyParallax();
+            window.addEventListener('scroll', applyParallax);
+
+            // Initialize Scroll Reveal
+            setupScrollReveal();
+            
+            // --- Form Submission Logic (Existing) ---
+            const form = document.getElementById('waitlistForm');
+            const messageDiv = document.getElementById('message');
+            const submitButton = document.getElementById('submitButton');
+            
+            const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSeAZ96HqiGc3-r8LnN7h0Vdt7N2p42vyxVwiDp-TyWt0MwHVw/formResponse'; 
+
+            function delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            async function handleSubmit(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(form);
+                const urlEncodedData = new URLSearchParams(formData).toString();
+
+                submitButton.disabled = true;
+                submitButton.textContent = 'Securing Spot...';
+                messageDiv.style.display = 'none';
+
+                let success = false;
+                let retries = 0;
+                const MAX_RETRIES = 3;
+                const BASE_DELAY = 1000;
+
+                while (retries < MAX_RETRIES && !success) {
+                    try {
+                        const response = await fetch(GOOGLE_FORM_URL, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: urlEncodedData
+                        });
+
+                        success = true;
+
+                    } catch (error) {
+                        console.error('Submission attempt failed:', error);
+                        retries++;
+                        if (retries < MAX_RETRIES) {
+                            const nextDelay = BASE_DELAY * Math.pow(2, retries);
+                            await delay(nextDelay);
+                        }
+                    }
+                }
+
+                submitButton.disabled = false;
+                submitButton.textContent = 'Secure My VIP Spot!';
+
+                if (success) {
+                    messageDiv.textContent = 'Success! You are on the Founder\'s Circle waitlist. Check your email for updates!';
+                    messageDiv.className = 'text-center mt-4 font-semibold text-emerald-600 p-3 bg-emerald-100 rounded-xl';
+                    form.reset(); 
+                } else {
+                    messageDiv.textContent = 'Oops! There was an issue submitting your form. Please try refreshing the page.';
+                    messageDiv.className = 'text-center mt-4 font-semibold text-red-600 p-3 bg-red-100 rounded-xl';
+                }
+
+                messageDiv.style.display = 'block';
+            }
+
+            form.addEventListener('submit', handleSubmit);
+        });
+    </script>
+
+</body>
+</html>

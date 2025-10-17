@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CeleBrease STAGING Environment</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons for aesthetic components -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5A67D8; /* Indigo/Purple for a celebratory yet modern feel */
+            --secondary: #F6AD55; /* Warm accent color */
+            --text-dark: #2D3748;
+            --text-light: #E2E8F0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background-color: #F7FAFC; /* Light gray background */
+        }
+        .text-primary { color: var(--primary); }
+        .bg-primary { background-color: var(--primary); }
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #4C51BF;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link.active {
+            border-bottom: 2px solid var(--secondary);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        /* Custom card background for visual appeal */
+        .pattern-bg {
+            background-image: linear-gradient(135deg, #F7FAFC 25%, transparent 25%),
+                              linear-gradient(225deg, #F7FAFC 25%, transparent 25%),
+                              linear-gradient(45deg, #F7FAFC 25%, transparent 25%),
+                              linear-gradient(315deg, #F7FAFC 25%, #EBF4FF 25%);
+            background-position: 10px 0, 10px 0, 0 0, 0 0;
+            background-size: 20px 20px;
+            background-repeat: repeat;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- STAGING WARNING BANNER -->
+    <div class="bg-red-600 text-white font-bold p-2 text-center text-sm">
+        *** STAGING ENVIRONMENT: This is a private testing site. DO NOT USE FOR LIVE BUSINESS. ***
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" onclick="navigate('home')" class="text-2xl font-extrabold text-primary tracking-tight flex items-center">
+                    <i data-lucide="sparkles" class="w-6 h-6 mr-1"></i>
+                    CeleBrease
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary transition duration-150 py-2" data-page="shop" onclick="navigate('shop')">Shop The Collection</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary transition duration-150 py-2" data-page="howItWorks" onclick="navigate('howItWorks')">How It Works</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary transition duration-150 py-2" data-page="pricing" onclick="navigate('pricing')">Membership & Pricing</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary transition duration-150 py-2" data-page="mission" onclick="navigate('mission')">Our Mission</a>
+                </nav>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="#" onclick="navigate('pricing')" class="btn-primary px-4 py-2 text-sm font-medium rounded-lg shadow-lg">Start Renting</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden p-2 text-gray-700 hover:text-primary rounded-md focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-page="shop" onclick="navigate('shop')">Shop The Collection</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-page="howItWorks" onclick="navigate('howItWorks')">How It Works</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-page="pricing" onclick="navigate('pricing')">Membership & Pricing</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-page="mission" onclick="navigate('mission')">Our Mission</a>
+                <a href="#" onclick="navigate('pricing')" class="block w-full text-center mt-4 btn-primary px-4 py-2 text-sm font-medium rounded-lg shadow-lg">Start Renting</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        <div id="page-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Page content will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-text-light mt-12">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">CeleBrease</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" onclick="navigate('mission')" class="hover:text-primary transition">Our Mission</a></li>
+                        <li><a href="#" onclick="navigate('howItWorks')" class="hover:text-primary transition">The Process</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Help & Support</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-primary transition">FAQs</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Damage Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-white">Legal</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-primary transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-primary transition">Shipping & Returns</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <h3 class="text-lg font-semibold mb-4 text-white">Join Our Newsletter</h3>
+                    <p class="text-sm mb-4">Get early access to new cultural collections and deals.</p>
+                    <form onsubmit="handleNewsletter(event)">
+                        <input type="email" placeholder="Your email address" class="w-full p-2 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-secondary" required>
+                        <button type="submit" class="w-full mt-3 btn-primary text-sm font-medium py-2 rounded-lg">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-400">&copy; 2025 CeleBrease. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-primary transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-primary transition"><i data-lucide="pinterest" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Core Application Logic & State ---
+        let currentPage = 'home';
+        let currentFilter = 'All Decor';
+        const pageContent = document.getElementById('page-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Render Lucide icons after loading content
+        const renderIcons = () => {
+            lucide.createIcons();
+        };
+
+        // Navigation function to switch pages
+        let navigate = (page) => {
+            currentPage = page;
+            renderPage();
+            // Close mobile menu on navigation
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        };
+
+        // Update active navigation link styling
+        const updateNavStyles = () => {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        // --- Product Data Structure for Filtering ---
+        const products = [
+            { name: 'Diwali: The Festival of Lights Set', description: 'A collection of traditional diyas, torans, and vibrant colored textiles. Essential for a beautiful, auspicious celebration.', icon: 'Mandala', tier: '3 Items / 1 Swap', classes: 'bg-orange-500/10 text-orange-700', category: 'Cultural Celebrations' },
+            { name: 'Lunar New Year: Prosperity Collection', description: 'Red and gold lanterns, calligraphy scrolls, and plush animal figures to ring in the new year with fortune and joy.', icon: 'Lantern', tier: '4 Items / 1 Swap', classes: 'bg-red-500/10 text-red-700', category: 'Cultural Celebrations' },
+            { name: 'Nowruz: Haft-Sin Table Set', description: 'Elegantly curated set including mirror, clock, and placeholder items for a perfect symbolic new beginning.', icon: 'Feather', tier: '5 Items / Reserve Only', classes: 'bg-yellow-500/10 text-yellow-700', category: 'Cultural Celebrations' },
+            { name: 'Eid al-Fitr: Crescent & Star Set', description: 'Subtle, elegant light-up crescent moons, geometric lanterns, and fine serving platters for the gathering.', icon: 'Moon', tier: '3 Items / 1 Swap', classes: 'bg-blue-500/10 text-blue-700', category: 'Cultural Celebrations' },
+            { name: 'Hanukkah: Modern Menorah Collection', description: 'Contemporary menorah designs, dreidels, and blue/silver table runners. Clean design, rich tradition.', icon: 'Candlestick', tier: '2 Items / 1 Swap', classes: 'bg-indigo-500/10 text-indigo-700', category: 'Cultural Celebrations' },
+            { name: 'Dia de Muertos: Ofrenda Basics', description: 'Sugar skull figures, marigold replicas, and candles for a respectful and vibrant altar setup.', icon: 'Skull', tier: '4 Items / Reserve Only', classes: 'bg-purple-500/10 text-purple-700', category: 'Cultural Celebrations' },
+            { name: 'Kwanzaa: Kinara & Mazao Bundle', description: 'The essential seven-candle holder, decorative straw mat, and symbolic fruit basket for the seven principles.', icon: 'Zap', tier: '3 Items / Reserve Only', classes: 'bg-green-500/10 text-green-700', category: 'Cultural Celebrations' },
+            { name: 'Christmas: Scandinavian Hygge Set', description: 'Minimalist wooden ornaments, soft faux-fur throws, and string lights for a cozy, Nordic feel.', icon: 'TreePine', tier: '6 Items / 2 Swaps', classes: 'bg-red-500/10 text-red-700', category: 'Major Holidays' },
+            { name: 'Halloween: Spooky Statement Lanterns', description: 'Oversized black and orange geometric lanterns with subtle LED lighting for a sophisticated spooky look.', icon: 'Ghost', tier: '2 Items / Reserve Only', classes: 'bg-gray-800/10 text-gray-800', category: 'Major Holidays' },
+            { name: 'Birthday: Modern Party Kit (10 Guests)', description: 'Reusable plates, cutlery, centerpiece, and banner for a stylish, zero-waste birthday party.', icon: 'Cake', tier: '8 Items / 1 Swap', classes: 'bg-pink-500/10 text-pink-700', category: 'Event Sets' },
+        ];
+
+
+        // Function to handle the filter click
+        window.handleFilter = (filter) => {
+            currentFilter = filter;
+            // Rerender the shop page content to apply the filter
+            renderPage(); 
+        };
+
+        // --- Page Content Definitions ---
+
+        const pages = {
+            home: () => `
+                <section class="text-center py-16 md:py-24 bg-white rounded-xl shadow-2xl pattern-bg">
+                    <h1 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight text-text-dark">
+                        Rent Your Celebration Magic.
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto">
+                        Effortless, inclusive, and sustainable decor for every holiday and cultural celebration. Less Clutter. More Joy.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#" onclick="navigate('shop')" class="btn-primary text-lg px-8 py-3 rounded-xl shadow-xl">
+                            Browse Collections
+                        </a>
+                        <a href="#" onclick="navigate('pricing')" class="bg-white text-primary border border-primary text-lg px-8 py-3 rounded-xl shadow-xl hover:bg-primary/5 transition duration-200">
+                            View Memberships
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Value Proposition -->
+                <section class="mt-16 py-12">
+                    <h2 class="text-3xl font-bold text-center mb-12">The CeleBrease Moat: Our Three Pillars</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        ${renderPillarCard('package', 'Effortless Convenience', 'Rental box delivery/return and our Platinum Service for professional setup/takedown. Get the magic without the manual labor or storage headache.', 'text-primary')}
+                        ${renderPillarCard('globe', 'Cultural Inclusivity', 'Curated decor for all major holidays and specific cultural celebrations like Diwali, Lunar New Year, and Eid.', 'text-secondary')}
+                        ${renderPillarCard('leaf', 'Sustainable Celebrations', 'Our core model is rental and reuse, dramatically reducing waste and contributing to a circular celebration economy.', 'text-green-600')}
+                    </div>
+                </section>
+
+                <!-- Featured Collection CTA (RTR Parallel: Featured Edits) -->
+                <section class="mt-16 bg-white p-10 rounded-xl shadow-lg">
+                    <h2 class="text-4xl font-bold text-center mb-4 text-primary">Ready to Transform Your Home?</h2>
+                    <p class="text-xl text-center text-gray-600 mb-8">Discover the latest arrivals for the upcoming season.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        ${renderCollectionCard('New Year', 'Shimmering sets for a fresh start.', 'text-blue-500', 'navigate("shop")')}
+                        ${renderCollectionCard('Diwali', 'Vibrant lanterns & spiritual ambiance.', 'text-orange-500', 'navigate("shop")')}
+                    </div>
+                </section>
+            `,
+            shop: () => {
+                // Filter the products based on the currentFilter state
+                const filteredProducts = products.filter(p => 
+                    currentFilter === 'All Decor' || p.category === currentFilter
+                );
+
+                return `
+                    <h1 class="text-4xl font-bold mb-4">Shop The Collection</h1>
+                    <p class="text-lg text-gray-600 mb-8">Find perfectly curated decor sets by cultural celebration, holiday, or occasion. Choose your Reserve date or start a Subscription.</p>
+
+                    <!-- Filters & Categories -->
+                    <div class="flex flex-wrap gap-3 mb-8 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                        <h3 class="font-semibold text-gray-700 w-full mb-2">Filter By:</h3>
+                        ${renderFilterChip('All Decor', 'star', 'bg-primary/10 text-primary')}
+                        ${renderFilterChip('Cultural Celebrations', 'mandala', 'bg-red-100 text-red-600')}
+                        ${renderFilterChip('Major Holidays', 'gift', 'bg-green-100 text-green-600')}
+                        ${renderFilterChip('Event Sets', 'cake', 'bg-yellow-100 text-yellow-600')}
+                    </div>
+
+                    <!-- Product Grid -->
+                    <div id="product-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        ${filteredProducts.length > 0 ? filteredProducts.map(p => renderProductCard(p.name, p.description, p.icon, p.tier, p.classes, p.category)).join('') : '<p class="text-lg text-gray-500 col-span-full py-10 text-center">No products found for this filter.</p>'}
+                    </div>
+                `;
+            },
+            howItWorks: () => `
+                <h1 class="text-4xl font-bold mb-4">How CeleBrease Works</h1>
+                <p class="text-xl text-gray-600 mb-12">The world’s first Closet in the Cloud for celebrations. All the magic, none of the mess.</p>
+
+                <div class="relative max-w-4xl mx-auto">
+                    <!-- Timeline Steps -->
+                    ${renderTimelineStep('1', 'Browse & Reserve', 'Choose your desired decor sets by celebration, cultural event, or occasion. Select your rental start date—4 days or 8 days, or keep swapping with a Subscription.', 'shopping-cart')}
+                    ${renderTimelineStep('2', 'Delivered Ready', 'Your order arrives cleaned, professionally pressed, and organized in our reusable, eco-friendly CeleBrease box.', 'truck')}
+                    ${renderTimelineStep('3', 'Celebrate (DIY or Platinum)', 'Set up your decor effortlessly, or opt for our Platinum Service add-on for professional installation and teardown by a certified partner.', 'sparkles')}
+                    ${renderTimelineStep('4', 'Return Effortlessly', 'Place all items back in the original box. Use the included prepaid label and schedule a home pickup or drop at a partner location. No cleaning required!', 'box')}
+                    
+                    <!-- The Timeline Axis. Hidden on mobile, only blocks on medium screens and up. -->
+                    <div id="timeline-axis" class="hidden md:block h-full border-l-4 border-primary absolute top-0 md:left-[50%] md:translate-x-[-50%] z-0"></div>
+                </div>
+
+                <section class="mt-16 text-center bg-white p-10 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-bold text-primary mb-3">Upgrade to Platinum Service</h2>
+                    <p class="text-lg text-gray-600 mb-6 max-w-3xl mx-auto">
+                        For the time-poor, high-net-worth segment: our White Glove Pro Setup & Takedown ensures perfect execution without lifting a finger. Available as an add-on or included with the Platinum Membership.
+                    </p>
+                    <a href="#" onclick="navigate('pricing')" class="bg-secondary text-white text-lg px-8 py-3 rounded-xl shadow-xl hover:bg-secondary/90 transition duration-200 font-semibold">
+                        Explore Platinum
+                    </a>
+                </section>
+            `,
+            pricing: () => `
+                <h1 class="text-4xl font-bold mb-4">Membership & Pricing</h1>
+                <p class="text-xl text-gray-600 mb-12">Unlock limitless celebration potential. Rent by the month, or for a single occasion (Reserve).</p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    ${renderPriceCard('Bronze Tier (Reserve Access)', '$59/mo', '1 Item at a time', [
+                        'Access to Starter Collection',
+                        '1 Shipment per month',
+                        'Full Cleaning & Damage Coverage',
+                        'One-Time Reserve Rentals Available',
+                        '❌ Pro Setup Service'
+                    ], 'Start Trial', 'bg-white')}
+
+                    ${renderPriceCard('Gold Tier (Most Popular)', '$129/mo', '3 Items at a time', [
+                        'Access to Full Collection',
+                        'Unlimited Swaps/Shipments',
+                        'Priority Booking & Early Access',
+                        'Full Cleaning & Damage Coverage',
+                        '❌ Pro Setup Service'
+                    ], 'Select Gold', 'bg-white border-2 border-primary shadow-xl scale-[1.02]')}
+
+                    ${renderPriceCard('Platinum Tier (White Glove)', '$249/mo', '5 Items at a time', [
+                        'Access to Full Collection',
+                        'Unlimited Swaps/Shipments',
+                        'FREE Pro Setup/Takedown Service',
+                        'Dedicated Celebration Concierge',
+                        'Top Priority Booking'
+                    ], 'Go Platinum', 'bg-primary text-white')}
+                </div>
+
+                <div class="mt-16 text-center p-8 rounded-xl bg-gray-100 shadow-inner">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">One-Time Reserve (A la Carte)</h3>
+                    <p class="text-lg text-gray-600">Need a single statement piece or a 4-day rental? Our Reserve option allows non-members to rent items individually at a fixed price.</p>
+                    <a href="#" onclick="navigate('shop')" class="text-primary font-semibold mt-4 inline-flex items-center hover:text-secondary transition">
+                        Browse Reserve Rentals <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                    </a>
+                </div>
+            `,
+            mission: () => `
+                <h1 class="text-4xl font-bold mb-4">Our Mission & Story</h1>
+                <p class="text-xl text-gray-600 mb-12">To make every celebration Effortless, Inclusive, and Sustainable.</p>
+
+                <section class="mb-12 bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-3xl font-semibold text-primary mb-4 flex items-center"><i data-lucide="target" class="w-6 h-6 mr-2"></i> Why CeleBrease Exists</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        Americans spend over $40 billion annually on holiday and event decor, leading to massive **clutter and waste**. We saw families and organizers desiring celebration magic without the storage unit, lost weekends, or the guilt of throwing away single-use items. CeleBrease solves this by offering a high-end, rotating "Closet in the Cloud" for decorations, turning a linear consumption model into a sustainable, circular economy.
+                    </p>
+                </section>
+
+                <section class="mb-12 grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-semibold text-text-dark mb-3 flex items-center"><i data-lucide="heart" class="w-5 h-5 mr-2 text-red-500"></i> Cultural Inclusivity</h3>
+                        <p class="text-gray-700">Our commitment is to cater to *every* tradition. We actively curate collections for diverse celebrations, ensuring decor for **Diwali, Lunar New Year, Eid, Nowruz, and Kwanzaa** is as accessible and beautiful as that for Christmas or Halloween. This pillar is our core differentiator, building community and serving untapped demand.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md">
+                        <h3 class="text-2xl font-semibold text-text-dark mb-3 flex items-center"><i data-lucide="award" class="w-5 h-5 mr-2 text-yellow-600"></i> The Team's Vision</h3>
+                        <p class="text-gray-700">Led by Founder & CEO **Farbod Jahan** (12+ years of product and scaling experience), our focus is on building a robust, tech-enabled reverse logistics platform. Our immediate goal is to de-risk the complex white-glove logistics model—the foundation of our high-margin Platinum Tier—before scaling nationally.</p>
+                    </div>
+                </section>
+
+                <section class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">We are reimagining celebrations. Join us.</h2>
+                    <a href="#" onclick="navigate('pricing')" class="btn-primary text-lg px-8 py-3 rounded-xl shadow-lg">Start Your Sustainable Celebration</a>
+                </section>
+            `
+        };
+
+        // --- HTML Templating Functions ---
+
+        const renderPillarCard = (icon, title, description, iconColorClass) => `
+            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                <i data-lucide="${icon}" class="w-10 h-10 ${iconColorClass} mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">${title}</h3>
+                <p class="text-gray-600">${description}</p>
+            </div>
+        `;
+
+        const renderCollectionCard = (title, description, iconColorClass, action) => `
+            <div class="p-8 rounded-xl border-2 border-gray-100 hover:bg-gray-50 transition duration-300 cursor-pointer" onclick='${action}'>
+                <h3 class="text-2xl font-bold mb-1">${title}</h3>
+                <p class="text-gray-600 mb-4">${description}</p>
+                <div class="text-sm font-semibold inline-flex items-center ${iconColorClass} border-b-2 border-current pb-0.5">
+                    View Collection <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </div>
+            </div>
+        `;
+
+        const renderFilterChip = (text, icon, classes) => {
+            const isActive = currentFilter === text;
+            const activeClasses = isActive ? 'ring-2 ring-offset-2 ring-primary shadow-md' : 'hover:shadow-md';
+
+            return `
+                <button 
+                    class="flex items-center px-3 py-1.5 text-sm font-medium rounded-full ${classes} ${activeClasses} transition duration-150"
+                    onclick="handleFilter('${text}')"
+                >
+                    <i data-lucide="${icon}" class="w-4 h-4 mr-1"></i>
+                    ${text}
+                </button>
+            `;
+        };
+
+        const renderProductCard = (title, description, icon, tier, classes, category) => `
+            <div class="product-card" data-category="${category}" onclick="alert('Viewing Product: ${title}')">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition duration-300 cursor-pointer">
+                    <!-- Placeholder Image/Icon -->
+                    <div class="h-48 flex items-center justify-center ${classes}">
+                        <i data-lucide="${icon}" class="w-20 h-20 text-gray-800"></i>
+                    </div>
+                    <div class="p-4 flex-grow">
+                        <p class="text-sm font-semibold text-gray-500 mb-1">${tier}</p>
+                        <h3 class="text-xl font-bold mb-2">${title}</h3>
+                        <p class="text-gray-600 text-sm">${description}</p>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 flex justify-between items-center">
+                        <span class="text-xl font-extrabold text-primary">$45 / Reserve</span>
+                        <button class="bg-secondary text-white text-sm px-3 py-1.5 rounded-lg hover:bg-secondary/90 transition">Rent Now</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const renderTimelineStep = (number, title, description, icon) => `
+            <div class="relative mb-8 md:mb-12 md:flex md:justify-center">
+                <!-- Left/Right Content -->
+                <div class="md:w-5/12 p-4 md:p-0 md:pl-8 ${parseInt(number) % 2 === 0 ? 'md:order-2 md:text-left' : 'md:text-right md:pr-8'}">
+                    <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300">
+                        <h3 class="text-2xl font-bold text-primary mb-2">${title}</h3>
+                        <p class="text-gray-600">${description}</p>
+                    </div>
+                </div>
+
+                <!-- Icon Circle (Always aligned left on mobile, centered on desktop) -->
+                <div class="absolute left-0 md:left-[50%] transform -translate-x-1/2 md:translate-x-[-50%] top-0 h-full w-12 md:w-16">
+                    <div class="bg-primary/20 p-2 rounded-full w-12 h-12 flex items-center justify-center absolute top-0 left-0">
+                        <span class="text-xl font-bold text-primary">${number}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const renderPriceCard = (title, price, itemCount, features, cta, cardClasses) => {
+            const isPlatinum = cardClasses.includes('bg-primary');
+            return `
+            <div class="${cardClasses} p-8 rounded-xl flex flex-col shadow-lg">
+                <h3 class="text-2xl font-extrabold mb-1">${title}</h3>
+                <p class="${isPlatinum ? 'text-gray-200' : 'text-primary'} text-sm font-semibold mb-6">${itemCount}</p>
+                <div class="${isPlatinum ? 'text-white' : 'text-text-dark'}">
+                    <span class="text-5xl font-extrabold">${price.split('/')[0]}</span>
+                    <span class="text-xl font-semibold">${price.split('/')[1]}</span>
+                </div>
+                <div class="my-8 space-y-3 flex-grow">
+                    ${features.map(f => `
+                        <div class="flex items-start">
+                            <i data-lucide="${f.startsWith('❌') ? 'x-circle' : 'check-circle'}" class="w-5 h-5 mr-2 ${f.startsWith('❌') ? 'text-red-400' : (isPlatinum ? 'text-green-300' : 'text-green-500')} flex-shrink-0 mt-1"></i>
+                            <span class="${f.startsWith('❌') ? 'line-through opacity-70' : ''} text-base">${f.replace('❌', '')}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="${isPlatinum ? 'bg-white text-primary hover:bg-gray-100' : 'btn-primary'} w-full py-3 rounded-lg font-bold shadow-md transition duration-200 mt-4" onclick="alert('You chose the ${title}!')">
+                    ${cta}
+                </button>
+            </div>
+        `;
+        }
+
+        // --- Dynamic Page Rendering ---
+        const renderPage = () => {
+            if (pages[currentPage]) {
+                pageContent.innerHTML = pages[currentPage]();
+                updateNavStyles();
+                renderIcons();
+                window.scrollTo(0, 0); // Scroll to top on page switch
+            } else {
+                pageContent.innerHTML = '<div class="text-center py-20"><h1 class="text-4xl font-bold">404 - Page Not Found</h1><p class="mt-4">The page you are looking for does not exist.</p></div>';
+            }
+        };
+
+        // --- Event Handlers & Mobile Menu ---
+        document.getElementById('mobile-menu-button').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            const icon = document.querySelector('#mobile-menu-button i');
+            icon.setAttribute('data-lucide', document.getElementById('mobile-menu').classList.contains('hidden') ? 'menu' : 'x');
+            renderIcons();
+        });
+
+        const handleNewsletter = (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            // Simulated success message display
+            console.log(`Newsletter Subscription: ${email}. Success message displayed to user via custom modal (simulated).`);
+            e.target.reset();
+        };
+
+        // Initial page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const path = window.location.hash.replace('#', '');
+            if (path && pages[path]) {
+                currentPage = path;
+            }
+            renderPage();
+
+            // Handle browser history back/forward for hashes
+            window.addEventListener('hashchange', () => {
+                const newPath = window.location.hash.replace('#', '');
+                if (newPath && pages[newPath] && newPath !== currentPage) {
+                    navigate(newPath);
+                }
+            });
+
+            // Re-render icons after initial load
+            renderIcons();
+        });
+
+        // Simple navigation handling to update the URL hash
+        const originalNavigate = navigate;
+        navigate = (page) => {
+            window.location.hash = page;
+            originalNavigate(page);
+        };
+    </script>
+</body>
+</html>

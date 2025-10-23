@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CeleBrease Prototype</title>
+    <!-- Tailwind via CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React and ReactDOM UMD builds -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel Standalone to transpile JSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-neutral-50 to-white text-neutral-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useMemo, useState } = React;
+
+      const PRICING = {
+        starter: { d30: 75, d60: 120, deposit: 50 },
+        premium: { d30: 150, d60: 225, deposit: 100 },
+      };
+
+      const ADD_ONS_MASTER = {
+        tree: { name: "Tree", price30: 60, price60: 90, deposit: 100 },
+        extraLights: { name: "Extra string lights", price30: 15, price60: 25, deposit: 0 },
+        centerpiece: { name: "Table centerpiece", price30: 20, price60: 30, deposit: 0 },
+        balloonKit: { name: "Balloon kit", price30: 25, price60: 40, deposit: 0 },
+        wreath: { name: "Wreath", price30: 25, price60: 40, deposit: 0 },
+        lanterns: { name: "Lanterns", price30: 20, price60: 30, deposit: 0 },
+        lawnDecor: { name: "Lawn decor", price30: 30, price60: 45, deposit: 0 },
+        runner: { name: "Table runner", price30: 10, price60: 16, deposit: 0 },
+        props: { name: "Theme props", price30: 18, price60: 28, deposit: 0 },
+        partyHats: { name: "Party hats", price30: 8, price60: 12, deposit: 0 },
+        rosePetals: { name: "Rose petals", price30: 10, price60: 16, deposit: 0 },
+        xlHeart: { name: "XL heart prop", price30: 22, price60: 36, deposit: 0 },
+        wreathEaster: { name: "Spring wreath", price30: 22, price60: 34, deposit: 0 },
+        pumpkins: { name: "Extra pumpkins", price30: 18, price60: 30, deposit: 0 },
+        candles: { name: "Candle set", price30: 12, price60: 18, deposit: 0 },
+        leavesKit: { name: "Faux leaves kit", price30: 10, price60: 16, deposit: 0 },
+        mantleAddOns: { name: "Mantle add ons", price30: 20, price60: 32, deposit: 0 },
+        outdoorLights: { name: "Outdoor lights", price30: 28, price60: 44, deposit: 0 },
+        rangoli: { name: "Extended rangoli kit", price30: 16, price60: 26, deposit: 0 },
+        lanternSet: { name: "Lantern set", price30: 18, price60: 28, deposit: 0 },
+        premiumCloth: { name: "Premium table cloth", price30: 14, price60: 22, deposit: 0 },
+        numberBalloons: { name: "Number balloons", price30: 12, price60: 18, deposit: 0 },
+        favors: { name: "Party favors", price30: 10, price60: 16, deposit: 0 },
+        backdropStand: { name: "Backdrop stand", price30: 20, price60: 30, deposit: 0 },
+        spiderWeb: { name: "Spider web kit", price30: 12, price60: 18, deposit: 0 },
+      };
+
+      const HOLIDAYS = [
+        { id: "newyear", name: "New Year", hero: "https://images.unsplash.com/photo-1513785077084-84adb77e90ab?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["LED string lights","Table centerpiece","Banner"],
+                     premium: ["LED string lights","Centerpiece","New Year sign","Balloon garland","Champagne themed props"] },
+          modal: {
+            starter: ["LED string lights","Table centerpiece","Banner","Confetti accents","Table scatters","Photo props"],
+            premium: ["Premium LED lights","Statement centerpiece","New Year sign","Balloon garland","Champagne props","Backdrop cloth","Table runner"],
+            addons: ["balloonKit","runner","partyHats","props"],
+          },
+        },
+        { id: "valentines", name: "Valentine’s", hero: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Heart garland","Candle set","Table accents"],
+                     premium: ["Heart garland","LED candles","Balloon cluster","Table runner","Floral pieces"] },
+          modal: {
+            starter: ["Heart garland","Candle set","Table accents","Mini petals","Vase filler","Place cards"],
+            premium: ["Heart garland","LED candles","Balloon cluster","Table runner","Floral pieces","Backdrop cloth"],
+            addons: ["rosePetals","balloonKit","xlHeart"],
+          },
+        },
+        { id: "easter", name: "Easter", hero: "https://images.unsplash.com/photo-1521996462507-c1c6d1f3fd9a?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Pastel banner","Egg ornaments","Table accents"],
+                     premium: ["Pastel banner","Egg display set","Faux flowers","Garland","Rabbit figurines"] },
+          modal: {
+            starter: ["Pastel banner","Egg ornaments","Table accents","Mini nests","Confetti","Ribbon set"],
+            premium: ["Pastel banner","Egg display set","Faux flowers","Garland","Rabbit figurines","Pastel runner"],
+            addons: ["wreathEaster","extraLights","runner"],
+          },
+        },
+        { id: "independence", name: "Independence Day", hero: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Flag banner","Table centerpiece","LED string lights"],
+                     premium: ["Banner","Premium garland","Flag display","Centerpiece","Lawn decor"] },
+          modal: {
+            starter: ["Flag banner","Centerpiece","String lights","Paper fans","Stars confetti","Table flags"],
+            premium: ["Statement banner","Premium garland","Flag display","Centerpiece","Lawn decor","Backdrop cloth"],
+            addons: ["lawnDecor","extraLights","balloonKit"],
+          },
+        },
+        { id: "halloween", name: "Halloween", hero: "https://images.unsplash.com/photo-1509822929063-6b6cfc9b42f2?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Themed garland","Small figurines","Table accents"],
+                     premium: ["Large figurines","Mantle garland","Window clings","Pumpkin decor","Accent lighting"] },
+          modal: {
+            starter: ["Themed garland","Small figurines","Table accents","Window cutouts","Spider confetti","Mini pumpkins"],
+            premium: ["Large figurines","Mantle garland","Window clings","Pumpkin decor","Accent lights","Backdrop cloth"],
+            addons: ["spiderWeb","lawnDecor","pumpkins"],
+          },
+        },
+        { id: "thanksgiving", name: "Thanksgiving", hero: "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Harvest garland","Table centerpiece","Accent lights"],
+                     premium: ["Garland","Full centerpiece","Wreath","Figurines","Table runner"] },
+          modal: {
+            starter: ["Harvest garland","Table centerpiece","Accent lights","Place cards","Napkin rings","Mini pumpkins"],
+            premium: ["Garland","Full centerpiece","Wreath","Figurines","Table runner","Backdrop cloth"],
+            addons: ["candles","leavesKit","centerpiece"],
+          },
+        },
+        { id: "christmas", name: "Christmas", hero: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Garland","LED string lights","Small ornaments"],
+                     premium: ["Garland","Premium string lights","Ornaments","Wreath","Tree skirt"] },
+          modal: {
+            starter: ["Garland","LED string lights","Small ornaments","Table accents","Gift boxes","Ribbons set"],
+            premium: ["Garland","Premium string lights","Ornaments","Wreath","Tree skirt","Backdrop cloth"],
+            addons: ["tree","mantleAddOns","outdoorLights"],
+          },
+        },
+        { id: "diwali", name: "Diwali", hero: "https://images.unsplash.com/photo-1605170439002-13e9d7a3d56a?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["LED candles","Floral banner","Rangoli accents"],
+                     premium: ["LED candles","Floral garlands","Rangoli mats","Lanterns","Table display"] },
+          modal: {
+            starter: ["LED candles","Floral banner","Rangoli accents","Tea lights","Door hangings","Table decor"],
+            premium: ["LED candles","Floral garlands","Rangoli mats","Lanterns","Table display","Backdrop cloth"],
+            addons: ["lanterns","rangoli"],
+          },
+        },
+        { id: "nowruz", name: "Nowruz", hero: "https://images.unsplash.com/photo-1558271739-807b1ccf57f7?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Table accents","Sabzeh themed decor","Banner"],
+                     premium: ["Full table set","Candle set","Floral elements","Banner","Mantle accents"] },
+          modal: {
+            starter: ["Table accents","Sabzeh decor","Banner","Vase filler","Place cards","Mini garland"],
+            premium: ["Full table set","Candle set","Floral elements","Banner","Mantle accents","Backdrop cloth"],
+            addons: ["lanternSet","premiumCloth"],
+          },
+        },
+        { id: "birthdays", name: "Birthdays", hero: "https://images.unsplash.com/photo-1546106284-8c9d2a97b5ae?q=80&w=1600&auto=format&fit=crop",
+          preview: { starter: ["Balloon cluster","Table banner","LED string lights"],
+                     premium: ["Balloon garland","Table runner","Cake stand","Backdrop","Accent lighting"] },
+          modal: {
+            starter: ["Balloon cluster","Table banner","LED string lights","Cake toppers","Confetti","Table accents"],
+            premium: ["Balloon garland","Table runner","Cake stand","Backdrop","Accent lighting","Backdrop cloth"],
+            addons: ["numberBalloons","favors","backdropStand"],
+          },
+        },
+      ];
+
+      const getAddOnData = (keys) => keys.map((k) => ({ key: k, ...ADD_ONS_MASTER[k] })).filter(Boolean);
+
+      function PriceBadge({ label, value }) {
+        return (
+          <div className="rounded-2xl border px-3 py-1 text-sm font-medium shadow-sm bg-white/70 backdrop-blur">
+            <span className="opacity-70">{label}: </span>
+            <span>${value.toFixed(2)}</span>
+          </div>
+        );
+      }
+
+      function Pill({ children, active, onClick }) {
+        return (
+          <button
+            onClick={onClick}
+            className={"px-3 py-2 rounded-full text-sm font-medium border transition focus:outline-none focus:ring-2 focus:ring-offset-2 " + (active ? "bg-black text-white border-black" : "bg-white text-black border-neutral-300 hover:border-black")}
+          >
+            {children}
+          </button>
+        );
+      }
+
+      function Modal({ open, onClose, title, children }) {
+        if (!open) return null;
+        return (
+          <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-label="Close overlay" />
+            <div className="relative z-10 max-h-[90vh] w-[min(1100px,92vw)] overflow-hidden rounded-3xl bg-white shadow-2xl">
+              <div className="flex items-center justify-between border-b p-4">
+                <h2 className="text-xl font-semibold">{title}</h2>
+                <button onClick={onClose} className="rounded-full border px-3 py-1 text-sm hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-offset-2" aria-label="Close modal">Close</button>
+              </div>
+              <div className="overflow-auto p-4">{children}</div>
+            </div>
+          </div>
+        );
+      }
+
+      function AddOnCard({ addon, selected, onToggle, duration }) {
+        const price = duration === "d30" ? addon.price30 : addon.price60;
+        const deposit = addon.deposit || 0;
+        return (
+          <button onClick={() => onToggle(addon.key)} className={"flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 " + (selected ? "border-black bg-neutral-50" : "border-neutral-300 bg-white")} aria-pressed={selected}>
+            <div className="h-12 w-12 flex-none rounded-xl bg-neutral-100" aria-hidden />
+            <div className="flex-1">
+              <div className="font-medium">{addon.name}</div>
+              <div className="text-sm opacity-70">${price} for selected duration</div>
+              {deposit > 0 && <div className="text-xs opacity-60">Deposit +${deposit} applies</div>}
+            </div>
+            <div className={"ml-2 h-5 w-5 rounded-full border " + (selected ? "bg-black border-black" : "bg-white border-neutral-400")} aria-hidden />
+          </button>
+        );
+      }
+
+      function GridList({ title, items }) {
+        return (
+          <section className="mb-6">
+            <h3 className="mb-3 text-lg font-semibold">{title}</h3>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {items.map((it, i) => (
+                <div key={i} className="flex items-center gap-3 rounded-2xl border border-neutral-200 p-3">
+                  <div className="h-12 w-12 flex-none rounded-xl bg-neutral-100" aria-hidden />
+                  <div className="flex-1">
+                    <div className="font-medium">{it}</div>
+                    <div className="text-xs opacity-60">Included</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      }
+
+      function usePricing({ tier, duration, selectedAddOns, holiday }) {
+        return useMemo(() => {
+          const base = PRICING[tier][duration];
+          const baseDeposit = PRICING[tier].deposit;
+          const addOnKeys = holiday.modal.addons || [];
+          const addonObjects = getAddOnData(addOnKeys).filter((a) => selectedAddOns.includes(a.key));
+
+          const addonsTotal = addonObjects.reduce((sum, a) => sum + (duration === "d30" ? a.price30 : a.price60), 0);
+          const addonsDeposit = addonObjects.reduce((sum, a) => sum + (a.deposit || 0), 0);
+
+          return {
+            base,
+            baseDeposit,
+            addonsTotal,
+            addonsDeposit,
+            total: base + addonsTotal,
+            depositTotal: baseDeposit + addonsDeposit,
+          };
+        }, [tier, duration, selectedAddOns, holiday]);
+      }
+
+      function PDP({ holiday, onBack }) {
+        const [tier, setTier] = useState("starter");
+        const [duration, setDuration] = useState("d30");
+        const [modalOpen, setModalOpen] = useState(false);
+        const [selectedAddOns, setSelectedAddOns] = useState([]);
+
+        const addOnList = getAddOnData(holiday.modal.addons || []);
+        const pricing = usePricing({ tier, duration, selectedAddOns, holiday });
+
+        function toggleAddOn(key) {
+          setSelectedAddOns((prev) => prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]);
+        }
+
+        return (
+          <div className="mx-auto max-w-6xl px-4 py-6">
+            <button onClick={onBack} className="mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm hover:bg-neutral-50" aria-label="Back to catalog">← Back to catalog</button>
+
+            <div className="grid items-start gap-6 md:grid-cols-2">
+              <div>
+                <img src={holiday.hero} alt={`${holiday.name} hero image`} className="aspect-[4/3] w-full rounded-3xl object-cover shadow" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-semibold">{holiday.name}</h1>
+                <p className="mt-2 text-neutral-700">Premium, reusable decor delivered for a set period. Enjoy, then return. No storage required.</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Pill active={tier === "starter"} onClick={() => setTier("starter")}>Starter Kit</Pill>
+                  <Pill active={tier === "premium"} onClick={() => setTier("premium")}>Premium Kit</Pill>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Pill active={duration === "d30"} onClick={() => setDuration("d30")}>30 day</Pill>
+                  <Pill active={duration === "d60"} onClick={() => setDuration("d60")}>60 day</Pill>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <PriceBadge label="Kit price" value={pricing.base} />
+                  <PriceBadge label="Add ons" value={pricing.addonsTotal} />
+                  <PriceBadge label="Deposit" value={pricing.depositTotal} />
+                  <PriceBadge label="Total today" value={pricing.total + pricing.depositTotal} />
+                </div>
+
+                <div className="mt-6 rounded-2xl border p-4">
+                  <div className="mb-2 text-sm font-semibold">What is included</div>
+                  <ul className="ml-5 list-disc space-y-1 text-sm">
+                    {(tier === "starter" ? holiday.preview.starter : holiday.preview.premium).map((it, i) => (<li key={i}>{it}</li>))}
+                  </ul>
+                  <button onClick={() => setModalOpen(true)} className="mt-3 rounded-full border px-3 py-2 text-sm hover:bg-neutral-50">View full kit</button>
+                </div>
+
+                {addOnList.length > 0 && (
+                  <div className="mt-6">
+                    <div className="mb-2 text-sm font-semibold">Add ons</div>
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {addOnList.map((a) => (
+                        <AddOnCard key={a.key} addon={a} duration={duration} selected={selectedAddOns.includes(a.key)} onToggle={toggleAddOn} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-6 flex gap-3">
+                  <button className="rounded-2xl bg-black px-5 py-3 text-white shadow hover:opacity-90">Add to cart</button>
+                  <button className="rounded-2xl border px-5 py-3 shadow hover:bg-neutral-50">Pick dates</button>
+                </div>
+
+                <p className="mt-3 text-xs opacity-70">Deposits are held and released after inspection. Dates and inventory will be validated before checkout.</p>
+              </div>
+            </div>
+
+            <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={`${holiday.name} full kit`}>
+              <div className="grid gap-6 md:grid-cols-2">
+                <GridList title="Starter kit items" items={holiday.modal.starter} />
+                <GridList title="Premium kit items" items={holiday.modal.premium} />
+              </div>
+              {addOnList.length > 0 && (
+                <section className="mt-4">
+                  <h3 className="mb-3 text-lg font-semibold">Add ons</h3>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {addOnList.map((a) => (
+                      <AddOnCard key={a.key} addon={a} duration={duration} selected={selectedAddOns.includes(a.key)} onToggle={toggleAddOn} />
+                    ))}
+                  </div>
+                </section>
+              )}
+              <div className="mt-6 flex flex-wrap gap-3">
+                <PriceBadge label="Kit price" value={pricing.base} />
+                <PriceBadge label="Add ons" value={pricing.addonsTotal} />
+                <PriceBadge label="Deposit" value={pricing.depositTotal} />
+                <PriceBadge label="Total today" value={pricing.total + pricing.depositTotal} />
+              </div>
+            </Modal>
+          </div>
+        );
+      }
+
+      function CatalogCard({ holiday, onClick }) {
+        return (
+          <button onClick={onClick} className="group flex flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2">
+            <img src={holiday.hero} alt={`${holiday.name} cover`} className="aspect-[4/3] w-full object-cover transition group-hover:scale-[1.02]" />
+            <div className="flex items-center justify-between p-4">
+              <div className="text-left">
+                <div className="text-lg font-semibold">{holiday.name}</div>
+                <div className="text-sm opacity-70">Starter and Premium kits</div>
+              </div>
+              <div className="rounded-full border px-3 py-1 text-sm">View</div>
+            </div>
+          </button>
+        );
+      }
+
+      function Catalog({ onPick }) {
+        return (
+          <div className="mx-auto max-w-6xl px-4 py-8">
+            <header className="mb-6 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-end">
+              <div>
+                <h1 className="text-3xl font-semibold">CeleBrease holiday catalog</h1>
+                <p className="text-neutral-700">Browse the ten launch holidays. Future holidays will appear as coming soon.</p>
+              </div>
+              <div className="rounded-2xl border px-3 py-2 text-sm">Subscription option is available. Three holidays per year.</div>
+            </header>
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {HOLIDAYS.map((h) => (<CatalogCard key={h.id} holiday={h} onClick={() => onPick(h)} />))}
+            </div>
+          </div>
+        );
+      }
+
+      function App() {
+        const [activeHoliday, setActiveHoliday] = useState(null);
+        return (
+          <div>
+            <nav className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur">
+              <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-black text-white">C</span>
+                  <span className="text-lg font-semibold">CeleBrease</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <button className="rounded-full border px-3 py-1">Catalog</button>
+                  <button className="rounded-full border px-3 py-1">Subscription</button>
+                  <button className="rounded-full border px-3 py-1">Account</button>
+                  <button className="rounded-full border px-3 py-1">Cart</button>
+                </div>
+              </div>
+            </nav>
+
+            {!activeHoliday ? (<Catalog onPick={(h) => setActiveHoliday(h)} />) : (<PDP holiday={activeHoliday} onBack={() => setActiveHoliday(null)} />)}
+
+            <footer className="border-t py-10 text-center text-sm opacity-70">
+              © {new Date().getFullYear()} CeleBrease. Front end prototype. Pricing and items are placeholders.
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>

@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Navbar() {
     return (
-        <nav className="dark bg-secondary text-foreground">
+        <nav className="border-b">
             <div className="container mx-auto flex h-20 items-center justify-between px-6">
                 <Link href="/">
                     <Image src="/logo.png" alt="Logo" width={142} height={21.54} />
@@ -23,7 +23,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-5">
-                    <HugeiconsIcon icon={Search} />
+                    <HugeiconsIcon icon={Search} className="hidden md:inline-block" />
                     <ShoppingBasket />
                     <Button>
                         <UserCircle />

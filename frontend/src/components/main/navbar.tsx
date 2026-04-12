@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Navbar() {
     return (
-        <nav className="border-b">
+        <nav className="absolute w-full border-b">
             <div className="container mx-auto flex h-20 items-center justify-between px-6">
                 <Link href="/">
                     <Image src="/logo.png" alt="Logo" width={142} height={21.54} />

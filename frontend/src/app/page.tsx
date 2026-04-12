@@ -1,5 +1,4 @@
 import { DecorKit, Return, Sustainable } from "@/components/icons";
-import CallToAction from "@/components/main/call-to-action";
 import SectionHeading from "@/components/main/section-heading";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -182,8 +181,6 @@ export default function HomePage() {
                     ))}
                 </div>
             </section>
-            {/* --- CTA SECTION --- */}
-            <CallToAction />
         </div>
     );
 }

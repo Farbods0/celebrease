@@ -1,3 +1,4 @@
+import CallToAction from "@/components/main/call-to-action";
 import Footer from "@/components/main/footer";
 import Navbar from "@/components/main/navbar";
 import type { Metadata } from "next";
@@ -27,6 +28,7 @@ export default function RootLayout({
             <body className="min-h-full flex flex-col">
                 <Navbar />
                 {children}
+                <CallToAction />
                 <Footer />
             </body>
         </html>

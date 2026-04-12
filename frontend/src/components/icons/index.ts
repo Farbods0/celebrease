@@ -1,4 +1,5 @@
 export { default as DecorKit } from "./décor-Kit";
+export { default as GiftCard } from "./gift-card";
 export { default as Return } from "./return";
 export { default as ShoppingBasket } from "./shopping-basket";
 export { default as Sustainable } from "./sustainable";

@@ -1,71 +1,15 @@
 import { DecorKit, Return, Sustainable } from "@/components/icons";
+import CallToAction from "@/components/main/call-to-action";
 import SectionHeading from "@/components/main/section-heading";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { events } from "../data";
 
 export default function HomePage() {
     return (
         <div className="min-h-screen font-sans text-gray-900 bg-white">
             {/* --- HERO SECTION --- */}
-            <section className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-pink-50 via-white to-indigo-100 text-center">
-                <div className="max-w-4xl mx-auto">
-                    <h1 className="text-5xl md:text-6xl font-serif font-bold tracking-tight mb-6">
-                        Celebrate Beautifully, Without
-                        <br />
-                        The Storage.
-                    </h1>
-                    <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-                        Curated holiday kits delivered to your door.
-                        <br />
-                        Rent, celebrate, return.
-                    </p>
-                    <div className="flex justify-center gap-4 mb-16">
-                        <button className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition">
-                            Browse Rentals
-                        </button>
-                        <button className="bg-white text-black px-6 py-3 rounded-full font-medium shadow-sm hover:bg-gray-50 transition">
-                            How It Works
-                        </button>
-                    </div>
-
-                    {/* Hero Image Grid */}
-                    <div className="grid grid-cols-3 gap-4 max-w-4xl mx-auto">
-                        <div className="col-span-1 row-span-2">
-                            <img
-                                src="https://placehold.co/400x500/orange/white?text=Halloween"
-                                alt="Halloween"
-                                className="w-full h-full object-cover rounded-xl"
-                            />
-                        </div>
-                        <div className="col-span-1 space-y-4">
-                            <img
-                                src="https://placehold.co/400x240/teal/white?text=Diwali"
-                                alt="Diwali"
-                                className="w-full h-40 object-cover rounded-xl"
-                            />
-                            <img
-                                src="https://placehold.co/400x240/pink/white?text=Decor"
-                                alt="Decor"
-                                className="w-full h-40 object-cover rounded-xl"
-                            />
-                        </div>
-                        <div className="col-span-1 row-span-2">
-                            <img
-                                src="https://placehold.co/400x500/green/white?text=Christmas"
-                                alt="Christmas"
-                                className="w-full h-full object-cover rounded-xl"
-                            />
-                        </div>
-                        <div className="col-span-3">
-                            <img
-                                src="https://placehold.co/1200x150/brown/white?text=Lights"
-                                alt="Lights Bottom"
-                                className="w-full h-24 object-cover rounded-xl"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <section></section>
             {/* --- HOW IT WORKS SECTION --- */}
             <section className="container mx-auto px-6 pt-16 md:pt-20 lg:pt-24">
                 <SectionHeading title="Beautiful, & Hassle-Free Rentals" subtitle="How It Works" />
@@ -119,7 +63,6 @@ export default function HomePage() {
                     </button>
                 </div>
             </section>
-
             {/* --- BENEFITS SECTION --- */}
             <section className="container mx-auto px-6 pt-16 md:pt-20 lg:pt-24">
                 <SectionHeading title="Why Rent With Celebrease?" subtitle="Benefits" />
@@ -158,20 +101,21 @@ export default function HomePage() {
                 </div>
             </section>
             {/* --- CATEGORIES SECTION --- */}
-            <section className="pt-16 md:pt-20 lg:pt-24">
+            <section className="py-16 md:py-20 lg:py-24">
                 <SectionHeading title="Our Loved Celebrations" subtitle="Categories" />
 
                 <div className="flex gap-4 overflow-x-auto">
-                    {["Halloween", "Christmas", "Diwali", "Birthdays"].map((category, index) => (
+                    {events.map((event, index) => (
                         <div key={index} className="relative min-w-76 md:min-w-96 lg:min-w-116 aspect-4/5 rounded-md overflow-hidden">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src={`https://placehold.co/400x500/333/white?text=${category}`}
-                                alt={category}
+                                src={event.image}
+                                alt={event.title}
                                 className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
                             <div className="absolute bottom-0 left-0 p-6 text-white space-y-2">
-                                <h3 className="font-semibold text-xl lg:text-2xl">{category}</h3>
+                                <h3 className="font-semibold text-xl lg:text-2xl">{event.title}</h3>
                                 <p className="text-base lg:text-lg">
                                     From $45 - <span className="text-white/60">3-5 Days</span>
                                 </p>
@@ -181,7 +125,7 @@ export default function HomePage() {
                 </div>
             </section>
             {/* --- REVIEWS SECTION --- */}
-            <section className="pt-16 md:pt-20 lg:pt-24">
+            <section className="pb-16 md:pb-20 lg:pb-24">
                 <SectionHeading title="See How Customers Enjoying" subtitle="Reviews" />
 
                 <div className="flex gap-4 overflow-x-auto">
@@ -226,7 +170,7 @@ export default function HomePage() {
                             key={review.name}
                             className="p-6 min-w-70 md:min-w-78 lg:min-w-86 h-min bg-muted rounded-2xl flex flex-col gap-6 lg:gap-8"
                         >
-                            <div className="flex items-center gap-4 mb-">
+                            <div className="flex items-center gap-4">
                                 <div className="w-16 h-16 bg-gray-200 rounded-full"></div>
                                 <div>
                                     <h4 className="font-medium text-base lg:text-lg">{review.name}</h4>
@@ -238,32 +182,8 @@ export default function HomePage() {
                     ))}
                 </div>
             </section>
-            {/* --- FOOTER / CTA SECTION --- */}
-            <footer className="bg-linear-to-r from-primary to-secondary text-white py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-pink-500/20 rounded-full flex items-center justify-center">
-                            <span className="text-2xl">✨</span>
-                        </div>
-                        <div>
-                            <h3 className="text-4xl">Join The Celebration Club</h3>
-                            <p>Get 15% off your first rental and exclusive holiday tips.</p>
-                        </div>
-                    </div>
-                    <div className="w-full md:w-auto">
-                        <form className="flex w-full md:w-[400px] bg-white/10 rounded-full overflow-hidden p-1">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="w-full bg-transparent text-white px-4 py-2 outline-none placeholder-gray-400"
-                            />
-                            <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition">
-                                Subscribe
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </footer>
+            {/* --- CTA SECTION --- */}
+            <CallToAction />
         </div>
     );
 }

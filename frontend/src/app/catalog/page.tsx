@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { events } from "@/data";
 import { ArrowRight02Icon, FilterMailIcon, Heart, Search } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 
 export default function CatalogPage() {
     return (
@@ -16,7 +17,7 @@ export default function CatalogPage() {
                     </>
                 }
             />
-            <div className="container mx-auto p-6 py-12 flex flex-col gap-6 lg:gap-8">
+            <div className="container mx-auto p-6 py-8 md:py-10 lg:py-12 flex flex-col gap-6 lg:gap-8">
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div className="flex flex-col gap-4">
                         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">All Celebrations</h2>
@@ -47,32 +48,23 @@ export default function CatalogPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {events.map((event) => (
                         <div key={event.title} className="group border rounded-2xl overflow-hidden flex flex-col">
-                            {/* Image Section */}
                             <div className="relative">
                                 <img src={event.image} className="h-64 w-full object-cover" alt={event.title} />
-
-                                {/* Gradient overlay */}
                                 <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
-
-                                {/* Category badge */}
                                 <div className="absolute top-4 left-4 bg-white px-4 py-1 rounded-full text-sm font-medium">
                                     {"Traditional"}
                                 </div>
-
-                                {/* Wishlist button */}
                                 <div className="absolute top-4 right-4 bg-white/30 text-white border backdrop-blur p-1.75 rounded-full cursor-pointer hover:scale-105 transition">
                                     <HugeiconsIcon size={20} icon={Heart} />
                                 </div>
                             </div>
 
-                            {/* Content */}
                             <div className="p-5 flex-1 flex flex-col gap-4">
                                 <div className="flex-1">
                                     <h3 className="text-xl lg:text-2xl font-semibold">{event.title}</h3>
                                     <p className="text-base lg:text-lg text-muted-foreground">{event.description}</p>
                                 </div>
 
-                                {/* Pricing */}
                                 <div className="grid grid-cols-2">
                                     <div>
                                         <p className="text-sm text-muted-foreground">Basic</p>
@@ -84,11 +76,14 @@ export default function CatalogPage() {
                                     </div>
                                 </div>
 
-                                {/* Button */}
-                                <Button>
-                                    View Kits
-                                    <HugeiconsIcon icon={ArrowRight02Icon} />
-                                </Button>
+                                <Button
+                                    render={
+                                        <Link href={`/catalog/${event.id}`}>
+                                            View Kits
+                                            <HugeiconsIcon icon={ArrowRight02Icon} />
+                                        </Link>
+                                    }
+                                />
                             </div>
                         </div>
                     ))}

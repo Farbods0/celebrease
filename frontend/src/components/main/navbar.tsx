@@ -19,7 +19,7 @@ export default function Navbar() {
                     <Link href="/">Home</Link>
                     <Link href="/catalog">Catalog</Link>
                     <Link href="/subscription">Subscription</Link>
-                    <Link href="/how-it-work">How It Work</Link>
+                    <Link href="/faqs">How It Work</Link>
                 </div>
 
                 <div className="flex items-center gap-5">

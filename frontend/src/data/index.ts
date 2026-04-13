@@ -1,5 +1,6 @@
 export const events = [
     {
+        id: "evt-001",
         title: "New Year's",
         image: "events/New Year's.png",
         type: "Traditional",
@@ -7,6 +8,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-002",
         title: "Ramadan",
         image: "events/Ramadan.png",
         type: "Cultural",
@@ -14,6 +16,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-003",
         title: "Diwali",
         image: "events/Diwali.png",
         type: "Cultural",
@@ -21,6 +24,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-004",
         title: "Birthdays",
         image: "events/Birthdays.png",
         type: "Event-Based",
@@ -28,6 +32,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-005",
         title: "Valentine's Day",
         image: "events/Valentine's Day.png",
         type: "Traditional",
@@ -35,6 +40,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-006",
         title: "Nowruz",
         image: "events/Nowruz.png",
         type: "Cultural",
@@ -42,6 +48,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-007",
         title: "Baby Showers",
         image: "events/Baby Showers.png",
         type: "Event-Based",
@@ -49,6 +56,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-008",
         title: "Easter",
         image: "events/Easter.png",
         type: "Traditional",
@@ -56,6 +64,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-009",
         title: "Eid",
         image: "events/Eid.png",
         type: "Cultural",
@@ -63,6 +72,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-010",
         title: "Engagement Parties",
         image: "events/Engagement Parties.png",
         type: "Event-Based",
@@ -70,6 +80,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-011",
         title: "Halloween",
         image: "events/Halloween.png",
         type: "Traditional",
@@ -77,6 +88,7 @@ export const events = [
         price: { basic: "30-35", premium: "50-60" },
     },
     {
+        id: "evt-012",
         title: "Hanukkah",
         image: "events/Hanukkah.png",
         type: "Cultural",

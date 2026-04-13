@@ -1,9 +1,5 @@
 "use client";
 
-import { ArrowRight02Icon, Heart, Plus, Share03Icon, Tick } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import Link from "next/link";
-import { useState } from "react";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -11,11 +7,15 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "../../../components/ui/breadcrumb";
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
-import { Separator } from "../../../components/ui/separator";
-import { events } from "../../../data";
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { events } from "@/data";
+import { ArrowRight02Icon, Heart, Plus, Share03Icon, Tick } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
+import { useState } from "react";
 
 const kitItems = [
     { id: 1, emoji: "🧦", name: "Velvet Stockings (4)", sub: "Luxury fabric", bg: "bg-purple-900" },
@@ -89,7 +89,7 @@ export default function CatalogDetailPage() {
     }, 0);
     const total = kitPrice + extendedFee + deposit + addonTotal;
 
-    const toggleAddon = (id) => {
+    const toggleAddon = (id: string) => {
         setSelectedAddons((prev) => {
             const next = new Set(prev);
             next.has(id) ? next.delete(id) : next.add(id);
@@ -340,7 +340,7 @@ export default function CatalogDetailPage() {
 
                                 <Button
                                     render={
-                                        <Link href={`/catalog/${event.id}`}>
+                                        <Link href={`/catalog/details`}>
                                             View Kits
                                             <HugeiconsIcon icon={ArrowRight02Icon} />
                                         </Link>

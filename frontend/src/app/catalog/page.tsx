@@ -78,7 +78,7 @@ export default function CatalogPage() {
 
                                 <Button
                                     render={
-                                        <Link href={`/catalog/${event.id}`}>
+                                        <Link href={`/catalog/details`}>
                                             View Kits
                                             <HugeiconsIcon icon={ArrowRight02Icon} />
                                         </Link>

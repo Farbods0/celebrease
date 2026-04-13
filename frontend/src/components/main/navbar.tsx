@@ -25,7 +25,7 @@ export default function Navbar() {
                 <div className="flex items-center gap-5">
                     <HugeiconsIcon icon={Search} className="hidden md:inline-block" />
                     <ShoppingBasket />
-                    <Button>
+                    <Button className="bg-white hover:bg-white/80 shadow-lg">
                         <UserCircle />
                         Sign in
                     </Button>

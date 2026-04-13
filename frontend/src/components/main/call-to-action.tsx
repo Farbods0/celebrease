@@ -2,12 +2,15 @@ import { GiftCard } from "@/components/icons";
 
 export default function CallToAction() {
     return (
-        <section className="relative bg-foreground text-white overflow-hidden">
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute left-[20%] -top-25 w-175 h-100 rounded-full bg-secondary opacity-60 blur-[80px]" />
-                <div className="absolute left-[35%] -top-25 w-150 h-75 rounded-full bg-primary opacity-40 blur-[70px]" />
-            </div>
-
+        <section
+            style={{
+                position: "relative",
+                backgroundImage: `url('gradient/footer.png')`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                color: "white",
+            }}
+        >
             <div className="relative z-10 container mx-auto px-6 py-12 flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
                 <div className="flex flex-col items-center gap-6 lg:flex-row xl:gap-12 ">
                     <GiftCard />

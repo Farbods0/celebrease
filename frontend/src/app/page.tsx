@@ -2,15 +2,42 @@ import { DecorKit, Return, Sustainable } from "@/components/icons";
 import SectionHeading from "@/components/main/section-heading";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { Button } from "../components/ui/button";
 import { events } from "../data";
 
 export default function HomePage() {
     return (
         <div className="min-h-screen font-sans text-gray-900 bg-white">
             {/* --- HERO SECTION --- */}
-            <section></section>
+            <section
+                className="mb-16 md:mb-20 lg:mb-24"
+                style={{
+                    backgroundImage: `url('gradient/hero.png')`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
+            >
+                <div className="h-20" />
+                <div className="container mx-auto px-6 py-16 md:py-20 lg:py-24 text-center space-y-8 md:space-y-10 lg:space-y-12">
+                    <div>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-heading">
+                            Celebrate beautifully, without <br className="hidden sm:block" /> the storage.
+                        </h1>
+                        <p className="mt-4 md:mt-5 text-base lg:text-lg">
+                            Curated holiday & event décor kits, delivered <br className="hidden sm:block" /> and returned with ease.
+                        </p>
+                        <div className="mt-5 md:mt-6 flex justify-center gap-4">
+                            <Button className="bg-white hover:bg-white/80 shadow-lg">Browse Holidays</Button>
+                            <Button>How It Works</Button>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="hero.png" alt="" />
+                    </div>
+                </div>
+            </section>
             {/* --- HOW IT WORKS SECTION --- */}
-            <section className="container mx-auto px-6 pt-16 md:pt-20 lg:pt-24">
+            <section className="container mx-auto px-6 pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
                 <SectionHeading title="Beautiful, & Hassle-Free Rentals" subtitle="How It Works" />
 
                 <div className="grid md:grid-cols-3 gap-5">
@@ -51,19 +78,19 @@ export default function HomePage() {
                     ))}
                 </div>
 
-                <div className="mt-8 md:mt-10 lg:mt-12 px-6 lg:px-8 py-4 lg:py-6 border rounded-2xl max-w-96 mx-auto flex items-center justify-between">
+                <div className="px-6 lg:px-8 py-4 lg:py-6 border rounded-2xl lg:max-w-88 xl:max-w-99 mx-auto flex items-center justify-between hover:shadow-2xl transition-all duration-300">
                     <div className="flex flex-col gap-2">
                         <span className="text-base lg:text-lg">Plans start from</span>
                         <span className="text-3xl lg:text-4xl font-semibold">$45</span>
                     </div>
-                    <button className="bg-black text-white  px-6 py-3 rounded-full font-semibold flex items-center gap-2">
+                    <Button variant="black">
                         Join Now
                         <HugeiconsIcon icon={ArrowRight02Icon} />
-                    </button>
+                    </Button>
                 </div>
             </section>
             {/* --- BENEFITS SECTION --- */}
-            <section className="container mx-auto px-6 pt-16 md:pt-20 lg:pt-24">
+            <section className="container mx-auto px-6 pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
                 <SectionHeading title="Why Rent With Celebrease?" subtitle="Benefits" />
 
                 <div className="grid md:grid-cols-3 gap-6">
@@ -100,7 +127,7 @@ export default function HomePage() {
                 </div>
             </section>
             {/* --- CATEGORIES SECTION --- */}
-            <section className="py-16 md:py-20 lg:py-24">
+            <section className="pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
                 <SectionHeading title="Our Loved Celebrations" subtitle="Categories" />
 
                 <div className="flex gap-4 overflow-x-auto">
@@ -124,7 +151,7 @@ export default function HomePage() {
                 </div>
             </section>
             {/* --- REVIEWS SECTION --- */}
-            <section className="pb-16 md:pb-20 lg:pb-24">
+            <section className="pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
                 <SectionHeading title="See How Customers Enjoying" subtitle="Reviews" />
 
                 <div className="flex gap-4 overflow-x-auto">

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { events } from "@/data";
-import { ArrowRight02Icon, FilterMailIcon, Search } from "@hugeicons/core-free-icons";
+import { ArrowRight02Icon, FilterMailIcon, Heart, Search } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 export default function CatalogPage() {
@@ -9,7 +9,7 @@ export default function CatalogPage() {
         <>
             <div
                 style={{
-                    backgroundImage: `url('section.png')`,
+                    backgroundImage: `url('gradient/section.png')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}
@@ -22,13 +22,16 @@ export default function CatalogPage() {
                     </p>
                 </div>
             </div>
-            <div className="container mx-auto p-6 py-12 flex flex-col">
-                <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
+            <div className="container mx-auto p-6 py-12 flex flex-col gap-6 lg:gap-8">
+                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div className="flex flex-col gap-4">
                         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">All Celebrations</h2>
-                        <div className="p-2 bg-muted rounded-full flex">
+                        <div className="p-1.5 lg:p-2 bg-muted w-fit rounded-full flex">
                             {["All", "Traditional", "Cultural", "Event Based"].map((item) => (
-                                <div key={item} className={`px-5 py-2 rounded-full ${item === "All" ? "bg-white shadow-lg" : ""}`}>
+                                <div
+                                    key={item}
+                                    className={`px-4 py-1.5 lg:px-5 lg:py-2 rounded-full whitespace-nowrap ${item === "All" ? "bg-white shadow-lg" : ""}`}
+                                >
                                     {item}
                                 </div>
                             ))}
@@ -36,9 +39,9 @@ export default function CatalogPage() {
                     </div>
                     <div className="flex gap-3">
                         <div className="relative">
-                            <Input className="pl-12" placeholder="Search any kit" />
-                            <div className="absolute top-1/2 left-4 -translate-y-1/2">
-                                <HugeiconsIcon icon={Search} />
+                            <Input className="pl-9.5 lg:pl-11" placeholder="Search any kit" />
+                            <div className="absolute top-1/2 left-3 lg:left-4 -translate-y-1/2">
+                                <HugeiconsIcon className="size-5" icon={Search} />
                             </div>
                         </div>
                         <Button variant="outline">
@@ -47,7 +50,7 @@ export default function CatalogPage() {
                         </Button>
                     </div>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {events.map((event) => (
                         <div key={event.title} className="group border rounded-2xl overflow-hidden flex flex-col">
                             {/* Image Section */}
@@ -63,8 +66,8 @@ export default function CatalogPage() {
                                 </div>
 
                                 {/* Wishlist button */}
-                                <div className="absolute top-4 right-4 bg-white/30 border backdrop-blur p-2 rounded-full cursor-pointer hover:scale-105 transition">
-                                    ❤️
+                                <div className="absolute top-4 right-4 bg-white/30 text-white border backdrop-blur p-1.75 rounded-full cursor-pointer hover:scale-105 transition">
+                                    <HugeiconsIcon className="size-5" icon={Heart} />
                                 </div>
                             </div>
 

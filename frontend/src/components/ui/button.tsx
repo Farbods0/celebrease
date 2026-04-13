@@ -11,17 +11,13 @@ const buttonVariants = cva(
         variants: {
             variant: {
                 default: "bg-muted text-foreground hover:bg-muted/80",
-                secondary: "bg-transparent border border-primary text-primary hover:bg-primary/10",
                 outline: "bg-transparent border text-foreground hover:bg-muted",
                 destructive: "bg-destructive text-white hover:bg-destructive/80",
-                ghost: "bg-transparent hover:bg-muted",
+                black: "bg-black text-white hover:bg-black/80",
             },
             size: {
-                default: "h-12 gap-2 px-5 py-3",
-                sm: "h-10 gap-1.5 px-3 py-2",
-                icon: "size-12",
-                "icon-sm": "size-10",
-                "icon-xs": "size-8 [&_svg:not([class*='size-'])]:size-4",
+                default: "h-10 gap-1.5 px-4 py-2 lg:h-12 lg:gap-2 lg:px-5 lg:py-3",
+                icon: "size-10 lg:size-12",
             },
         },
         defaultVariants: {

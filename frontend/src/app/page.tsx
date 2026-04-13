@@ -1,9 +1,9 @@
 import { DecorKit, Return, Sustainable } from "@/components/icons";
-import SectionHeading from "@/components/main/section-heading";
+import SectionHeader from "@/components/main/section-header";
+import { Button } from "@/components/ui/button";
+import { events } from "@/data";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Button } from "../components/ui/button";
-import { events } from "../data";
 
 export default function HomePage() {
     return (
@@ -38,9 +38,9 @@ export default function HomePage() {
             </section>
             {/* --- HOW IT WORKS SECTION --- */}
             <section className="container mx-auto px-6 pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeading title="Beautiful, & Hassle-Free Rentals" subtitle="How It Works" />
+                <SectionHeader title="Beautiful, & Hassle-Free Rentals" subtitle="How It Works" />
 
-                <div className="grid md:grid-cols-3 gap-5">
+                <div className="grid md:grid-cols-3 gap-6">
                     {[
                         {
                             step: 1,
@@ -63,7 +63,7 @@ export default function HomePage() {
                     ].map((step) => (
                         <div
                             key={step.step}
-                            className="p-6 lg:p-8 border rounded-2xl flex flex-col gap-10 lg:gap-12 hover:-translate-y-2 transition-all duration-300"
+                            className="p-6 border rounded-2xl flex flex-col gap-10 lg:gap-12 hover:-translate-y-2 transition-all duration-300"
                         >
                             <div className="px-4 py-1.5 bg-linear-to-r from-primary/10 to-secondary/10 rounded-full w-fit">
                                 <span className="bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary font-semibold">
@@ -78,7 +78,7 @@ export default function HomePage() {
                     ))}
                 </div>
 
-                <div className="px-6 lg:px-8 py-4 lg:py-6 border rounded-2xl lg:max-w-88 xl:max-w-99 mx-auto flex items-center justify-between hover:shadow-2xl transition-all duration-300">
+                <div className="p-6 border rounded-2xl lg:max-w-88 xl:max-w-99 mx-auto flex items-center justify-between hover:shadow-2xl transition-all duration-300">
                     <div className="flex flex-col gap-2">
                         <span className="text-base lg:text-lg">Plans start from</span>
                         <span className="text-3xl lg:text-4xl font-semibold">$45</span>
@@ -91,7 +91,7 @@ export default function HomePage() {
             </section>
             {/* --- BENEFITS SECTION --- */}
             <section className="container mx-auto px-6 pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeading title="Why Rent With Celebrease?" subtitle="Benefits" />
+                <SectionHeader title="Why Rent With Celebrease?" subtitle="Benefits" />
 
                 <div className="grid md:grid-cols-3 gap-6">
                     {[
@@ -113,7 +113,7 @@ export default function HomePage() {
                     ].map((benefit) => (
                         <div
                             key={benefit.title}
-                            className="p-6 lg:p-8 bg-linear-to-r from-primary/10 to-secondary/10 rounded-2xl flex flex-col items-center gap-6 lg:gap-8 hover:scale-105 origin-bottom transition-all duration-300"
+                            className="p-6 bg-linear-to-r from-primary/10 to-secondary/10 rounded-2xl flex flex-col items-center gap-6 lg:gap-8 hover:scale-105 origin-bottom transition-all duration-300"
                         >
                             <div className="size-16 bg-linear-to-r from-primary to-secondary text-white rounded-2xl flex justify-center items-center">
                                 {benefit.icon}
@@ -128,7 +128,7 @@ export default function HomePage() {
             </section>
             {/* --- CATEGORIES SECTION --- */}
             <section className="pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeading title="Our Loved Celebrations" subtitle="Categories" />
+                <SectionHeader title="Our Loved Celebrations" subtitle="Categories" />
 
                 <div className="flex gap-4 overflow-x-auto">
                     {events.map((event, index) => (
@@ -152,7 +152,7 @@ export default function HomePage() {
             </section>
             {/* --- REVIEWS SECTION --- */}
             <section className="pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeading title="See How Customers Enjoying" subtitle="Reviews" />
+                <SectionHeader title="See How Customers Enjoying" subtitle="Reviews" />
 
                 <div className="flex gap-4 overflow-x-auto">
                     {[

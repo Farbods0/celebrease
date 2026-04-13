@@ -1,3 +1,4 @@
+import PageHeader from "@/components/main/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { events } from "@/data";
@@ -7,21 +8,14 @@ import { HugeiconsIcon } from "@hugeicons/react";
 export default function CatalogPage() {
     return (
         <>
-            <div
-                style={{
-                    backgroundImage: `url('gradient/section.png')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                }}
-            >
-                <div className="h-20" />
-                <div className="container mx-auto px-6 py-16 md:py-20 lg:py-24 text-center space-y-4">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-semibold">Explore Every Celebration</h2>
-                    <p>
-                        Discover seasonal, cultural, and event based décor <br /> kits curated for every moment.
-                    </p>
-                </div>
-            </div>
+            <PageHeader
+                title="Explore Every Celebration"
+                description={
+                    <>
+                        Discover seasonal, cultural, and event based décor <br className="hidden sm:block" /> kits curated for every moment.
+                    </>
+                }
+            />
             <div className="container mx-auto p-6 py-12 flex flex-col gap-6 lg:gap-8">
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div className="flex flex-col gap-4">
@@ -41,11 +35,11 @@ export default function CatalogPage() {
                         <div className="relative">
                             <Input className="pl-9.5 lg:pl-11" placeholder="Search any kit" />
                             <div className="absolute top-1/2 left-3 lg:left-4 -translate-y-1/2">
-                                <HugeiconsIcon className="size-5" icon={Search} />
+                                <HugeiconsIcon size={20} icon={Search} />
                             </div>
                         </div>
                         <Button variant="outline">
-                            <HugeiconsIcon icon={FilterMailIcon} />
+                            <HugeiconsIcon size={20} icon={FilterMailIcon} />
                             All Filters
                         </Button>
                     </div>
@@ -67,7 +61,7 @@ export default function CatalogPage() {
 
                                 {/* Wishlist button */}
                                 <div className="absolute top-4 right-4 bg-white/30 text-white border backdrop-blur p-1.75 rounded-full cursor-pointer hover:scale-105 transition">
-                                    <HugeiconsIcon className="size-5" icon={Heart} />
+                                    <HugeiconsIcon size={20} icon={Heart} />
                                 </div>
                             </div>
 

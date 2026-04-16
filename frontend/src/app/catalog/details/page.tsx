@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { events } from "@/data";
+import { cn } from "@/lib/utils";
 import { ArrowRight02Icon, Heart, Plus, Share03Icon, Tick } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
@@ -31,48 +32,6 @@ const addons = [
     { id: "lights", name: "Extra Lights", sub: "Premium quality add-on", price: 25, strike: false },
     { id: "runner", name: "Table Runner Set", sub: "Premium quality add-on", price: 30, strike: false },
     { id: "wreath", name: "Wreath Collection", sub: "Premium quality add-on", price: 35, strike: false },
-];
-
-const similar = [
-    {
-        emoji: "🎊",
-        tag: "Traditional",
-        name: "New Year's",
-        desc: "Ring in the new year with festive decorations and elegant touches.",
-        tiers: [
-            ["Basic (DIY Setup)", "$30–35"],
-            ["Standard (Full Setup)", "$40–45"],
-            ["Premium (Curated)", "$60–80"],
-        ],
-        days: "Duration",
-        bg: "bg-emerald-800",
-    },
-    {
-        emoji: "🕌",
-        tag: "Cultural",
-        name: "Ramadan",
-        desc: "Foster a calm and lovely solace for reflection and celebration.",
-        tiers: [
-            ["Basic (DIY Setup)", "$30–35"],
-            ["Standard (Full Setup)", "$40–45"],
-            ["Premium (Curated)", "$50–60"],
-        ],
-        days: "30 Days",
-        bg: "bg-amber-800",
-    },
-    {
-        emoji: "🪔",
-        tag: "Cultural",
-        name: "Diwali",
-        desc: "Illuminate your space with traditional diyas and vibrant decorations.",
-        tiers: [
-            ["Basic (DIY Setup)", "$30–35"],
-            ["Standard (Full Setup)", "$40–45"],
-            ["Premium (Curated)", "$50–60"],
-        ],
-        days: "7–14 Days",
-        bg: "bg-orange-900",
-    },
 ];
 
 export default function CatalogDetailPage() {
@@ -118,7 +77,7 @@ export default function CatalogDetailPage() {
                         </BreadcrumbList>
                     </Breadcrumb>
                     {/* Top bar */}
-                    <div className="flex gap-5">
+                    <div className="hidden sm:flex gap-5">
                         <button className="flex items-center gap-2">
                             <HugeiconsIcon size={20} icon={Share03Icon} />
                             <span className="underline">Share</span>
@@ -130,9 +89,17 @@ export default function CatalogDetailPage() {
                     </div>
                 </div>
                 {/* Gallery */}
-                <div className="mt-6 grid grid-cols-4 grid-rows-2 gap-1 h-72 md:h-112 rounded-2xl overflow-hidden">
-                    {events.slice(0, 5).map((event) => (
-                        <img key={event.id} src={event.image} alt={event.title} className="first:col-span-2 first:row-span-2 bg-muted" />
+                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 grid-rows-3 md:grid-rows-2 gap-1 h-auto md:h-112 rounded-2xl overflow-hidden">
+                    {events.slice(0, 5).map((event, index) => (
+                        <img
+                            key={event.id}
+                            src={event.image}
+                            alt={event.title}
+                            className={cn(
+                                "w-full h-48 md:h-full object-cover bg-muted",
+                                index === 0 ? "col-span-2 row-span-1 md:row-span-2" : "",
+                            )}
+                        />
                     ))}
                 </div>
                 {/* Main Content */}
@@ -140,9 +107,22 @@ export default function CatalogDetailPage() {
                     {/* Left Column */}
                     <div>
                         {/* Tag + Title */}
-                        <div className="w-max bg-primary/10 text-primary border border-primary/30 rounded-full px-4 py-1.5">
-                            Traditional
+                        <div className="flex justify-between items-center">
+                            <div className="w-max bg-primary/10 text-primary border border-primary/30 rounded-full px-4 py-1.5">
+                                Traditional
+                            </div>
+                            <div className="flex gap-5 sm:hidden">
+                                <button className="flex items-center gap-2">
+                                    <HugeiconsIcon size={20} icon={Share03Icon} />
+                                    <span className="underline">Share</span>
+                                </button>
+                                <button className="flex items-center gap-2">
+                                    <HugeiconsIcon size={20} icon={Heart} />
+                                    <span className="underline">Save</span>
+                                </button>
+                            </div>
                         </div>
+
                         <h3 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold">Christmas Décor Kit</h3>
                         <p className="mt-1">Celebrate with candled décor — beautifully delivered.</p>
                         <div className="mt-4 flex items-center gap-2">
@@ -153,7 +133,7 @@ export default function CatalogDetailPage() {
                         {/* Choose Kit */}
                         <div className="mt-6">
                             <p className="text-sm font-medium uppercase mb-2">Choose your kit</p>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Basic */}
                                 <button
                                     onClick={() => setKit("basic")}
@@ -196,7 +176,7 @@ export default function CatalogDetailPage() {
                         {/* Rental Window */}
                         <div className="mt-6">
                             <p className="text-sm font-medium uppercase mb-2">Rental window</p>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <button
                                     onClick={() => setRentalWindow("standard")}
                                     className={`relative rounded-2xl border p-4 space-y-1 transition-all ${
@@ -219,7 +199,7 @@ export default function CatalogDetailPage() {
                         {/* Select Dates */}
                         <div className="mt-6">
                             <p className="text-sm font-medium uppercase mb-2">Select your dates</p>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <Input type="date" />
                                 <Input type="date" />
                             </div>
@@ -234,7 +214,7 @@ export default function CatalogDetailPage() {
                         {/* Add-ons */}
                         <div className="mt-6">
                             <p className="text-sm font-medium uppercase mb-2">Add-Ons</p>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {addons.map((addon) => {
                                     const active = selectedAddons.has(addon.id);
                                     return (
@@ -308,7 +288,7 @@ export default function CatalogDetailPage() {
                 </div>
             </section>
             {/* You Might Also Like */}
-            <section className="container mx-auto px-6 py-8 md:py-10 lg:py-12">
+            <section className="container mx-auto px-6 pb-8 md:pb-10 lg:pb-12">
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold">You Might Also Like</h3>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {events.slice(0, 4).map((event) => (

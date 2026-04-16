@@ -34,7 +34,7 @@ export default function CatalogPage() {
                     </div>
                     <div className="flex gap-3">
                         <div className="relative">
-                            <Input className="pl-9.5 lg:pl-11" placeholder="Search any kit" />
+                            <Input className="pl-9.5 lg:pl-11 rounded-full" placeholder="Search any kit" />
                             <div className="absolute top-1/2 left-3 lg:left-4 -translate-y-1/2">
                                 <HugeiconsIcon size={20} icon={Search} />
                             </div>

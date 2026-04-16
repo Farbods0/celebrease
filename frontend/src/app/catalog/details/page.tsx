@@ -241,21 +241,25 @@ export default function CatalogDetailPage() {
                     </div>
                     {/* Right Column — Order Card */}
                     <div className="lg:sticky lg:top-6">
-                        <div className="bg-white rounded-2xl border p-4 shadow-lg grid gap-3">
-                            <p className="text-xl lg:text-2xl font-semibold">What&apos;s Inside Your Kit</p>
-                            {kitItems.map((item) => (
-                                <div key={item.id} className="p-2 rounded-md border flex items-center gap-3">
-                                    <div className={`w-10 h-10 rounded-lg ${item.bg} flex items-center justify-center text-lg shrink-0`}>
-                                        {item.emoji}
+                        <div className="bg-white rounded-2xl border p-4 shadow-lg space-y-4">
+                            <div className="space-y-3">
+                                <p className="text-xl lg:text-2xl font-semibold">What&apos;s Inside Your Kit</p>
+                                {kitItems.map((item) => (
+                                    <div key={item.id} className="p-2 rounded-md border flex items-center gap-3">
+                                        <div
+                                            className={`w-10 h-10 rounded-lg ${item.bg} flex items-center justify-center text-lg shrink-0`}
+                                        >
+                                            {item.emoji}
+                                        </div>
+                                        <div className="flex-1 min-w-0 space-y-0.5">
+                                            <p className="text-sm font-semibold truncate">{item.name}</p>
+                                            <p className="text-xs text-muted-foreground">{item.sub}</p>
+                                        </div>
+                                        <span className="text-muted-foreground">↗</span>
                                     </div>
-                                    <div className="flex-1 min-w-0 space-y-0.5">
-                                        <p className="text-sm font-semibold truncate">{item.name}</p>
-                                        <p className="text-xs text-muted-foreground">{item.sub}</p>
-                                    </div>
-                                    <span className="text-muted-foreground">↗</span>
-                                </div>
-                            ))}
-                            <p className="text-sm text-muted-foreground">Items may vary slightly based on availability and season</p>
+                                ))}
+                                <p className="text-sm text-muted-foreground">Items may vary slightly based on availability and season</p>
+                            </div>
                             <Separator />
                             {/* Price Breakdown */}
                             <div className="bg-muted rounded-md border p-3 space-y-1">
@@ -281,8 +285,10 @@ export default function CatalogDetailPage() {
                                 </div>
                             </div>
 
-                            <Button variant="black">🛒 Purchase Now</Button>
-                            <Button variant="outline">+ Add to Cart</Button>
+                            <div className="grid gap-2">
+                                <Button variant="black" render={<Link href="/checkout">🛒 Purchase Now</Link>} />
+                                <Button variant="outline" render={<Link href="/cart">+ Add to Cart</Link>} />
+                            </div>
                         </div>
                     </div>
                 </div>

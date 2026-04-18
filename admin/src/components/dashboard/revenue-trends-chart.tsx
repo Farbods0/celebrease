@@ -20,7 +20,7 @@ const formatK = (value: number) => (value === 0 ? "0" : `${Math.round(value / 10
 function LegendDot({ color, label }: { color: string; label: string }) {
     return (
         <div className="inline-flex items-center gap-2 rounded-md border bg-background px-2 py-1 text-xs">
-            <span aria-hidden="true" className="size-2.5 rounded-sm" style={{ background: color }} />
+            <span className="size-2.5 rounded-sm" style={{ background: color }} />
             <span className="text-foreground">{label}</span>
         </div>
     );

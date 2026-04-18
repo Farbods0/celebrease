@@ -6,21 +6,21 @@ import { Button } from "@/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 import { Box, CalendarCheck, CheckCircle2, DollarSign, Flame, Plus, ShoppingCart, Star, TrendingUp, Undo2 } from "lucide-react";
 
-export const Route = createFileRoute("/")({ component: App });
+export const Route = createFileRoute("/")({ component: RouteComponent });
 
-function App() {
+function RouteComponent() {
     return (
         <main className="mx-auto w-full max-w-384 p-6">
             {/* Page header */}
-            <div className="flex flex-wrap items-center justify-between gap-2">
-                <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">Dashboard Overview</h1>
-                <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+                <h1 className="text-2xl font-semibold md:text-3xl">Dashboard Overview</h1>
+                <div className="w-full grid grid-cols-2 sm:w-max sm:flex gap-4">
                     <Button variant="black">
-                        <Undo2 className="mr-1 size-4" aria-hidden="true" />
+                        <Undo2 className="mr-1 size-4" />
                         Process Return
                     </Button>
                     <Button>
-                        <Plus aria-hidden="true" />
+                        <Plus />
                         Create Order
                     </Button>
                 </div>

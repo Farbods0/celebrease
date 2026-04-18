@@ -54,7 +54,6 @@ function NavigationMenuTrigger({ className, children, ...props }: NavigationMenu
                     icon={ArrowDown01Icon}
                     strokeWidth={2}
                     className="size-4 transition duration-300 group-data-popup-open/navigation-menu-trigger:rotate-180 group-data-open/navigation-menu-trigger:rotate-180"
-                    aria-hidden="true"
                 />
             </div>
         </NavigationMenuPrimitive.Trigger>

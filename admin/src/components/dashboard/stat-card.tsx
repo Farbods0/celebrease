@@ -14,11 +14,11 @@ export function StatCard({ label, value, icon: Icon, iconBg = "bg-muted", iconCo
         <div className="flex flex-col gap-3 rounded-lg border bg-card p-4 shadow-none">
             <div className="flex items-start justify-between gap-2">
                 <span className="font-medium text-muted-foreground">{label}</span>
-                <span className={cn("inline-flex size-7 items-center justify-center rounded-md", iconBg)} aria-hidden="true">
+                <span className={cn("inline-flex size-7 items-center justify-center rounded-md", iconBg)}>
                     <Icon className={cn("size-3.5", iconColor)} />
                 </span>
             </div>
-            <div className="text-3xl font-bold tracking-tight text-foreground">{value}</div>
+            <div className="text-3xl font-bold">{value}</div>
         </div>
     );
 }

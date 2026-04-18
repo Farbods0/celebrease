@@ -39,9 +39,9 @@ export function RevenueCard({ label, value, icon: Icon, tone }: RevenueCardProps
         <div className={cn("flex flex-col gap-2 rounded-lg border p-4", t.bg, t.fg, t.border)}>
             <div className="flex items-start justify-between gap-2">
                 <span className="font-medium opacity-90">{label}</span>
-                <Icon className="size-4 opacity-80" aria-hidden="true" />
+                <Icon className="size-4 opacity-80" />
             </div>
-            <div className="text-3xl font-bold tracking-tight">{value}</div>
+            <div className="text-3xl font-bold">{value}</div>
         </div>
     );
 }

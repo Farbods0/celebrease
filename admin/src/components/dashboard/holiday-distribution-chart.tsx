@@ -47,7 +47,7 @@ export function HolidayDistributionChart() {
                 {holidays.map((h) => (
                     <li key={h.name} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <span aria-hidden="true" className="size-2.5 rounded-sm" style={{ background: h.color }} />
+                            <span className="size-2.5 rounded-sm" style={{ background: h.color }} />
                             <span className="text-foreground">{h.name}</span>
                         </div>
                         <span className="font-medium text-muted-foreground tabular-nums">{h.value}%</span>

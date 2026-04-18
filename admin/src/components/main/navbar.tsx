@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, LayoutDashboard, Package, PlusCircle, ShoppingBag, Star, Tag, Undo2, Users } from "lucide-react";
+import { createElement } from "react";
 
 const navItems = [
     { label: "Dashboard", link: "/", icon: LayoutDashboard, key: "dashboard" },
@@ -25,22 +25,18 @@ export function Navbar() {
 
                 {/* Nav */}
                 <nav className="hidden md:flex items-center gap-1 flex-1 min-w-0 overflow-x-auto">
-                    {navItems.map((item) => {
-                        const Icon = item.icon;
-
-                        return (
-                            <Link
-                                to={item.link}
-                                key={item.key}
-                                className="group inline-flex items-center gap-2 rounded-md px-3 py-2 transition-colors whitespace-nowrap"
-                                activeProps={{ className: "text-foreground font-medium" }}
-                                inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
-                            >
-                                <Icon className={cn("size-4", "text-muted-foreground")} />
-                                <span>{item.label}</span>
-                            </Link>
-                        );
-                    })}
+                    {navItems.map((item) => (
+                        <Link
+                            to={item.link}
+                            key={item.key}
+                            className="group inline-flex items-center gap-2 rounded-md px-3 py-2 transition-colors whitespace-nowrap"
+                            activeProps={{ className: "text-foreground font-medium" }}
+                            inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
+                        >
+                            {createElement(item.icon, { className: "size-4" })}
+                            <span>{item.label}</span>
+                        </Link>
+                    ))}
                 </nav>
 
                 {/* User */}
@@ -53,7 +49,7 @@ export function Navbar() {
                         <span className="font-medium text-foreground">John Doe</span>
                         <span className="text-xs tracking-wider text-muted-foreground">ADMIN</span>
                     </div>
-                    <ChevronDown className="size-4 text-muted-foreground" aria-hidden="true" />
+                    <ChevronDown className="size-4 text-muted-foreground" />
                 </div>
             </div>
         </header>

@@ -13,7 +13,7 @@
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1280px;
 
-    --default-font-family: var(--font-geist);
+    --font-sans: var(--font-geist);
     --font-heading: var(--font-playfair-display);
 
     --color-background: var(--background);

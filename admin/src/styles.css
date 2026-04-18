@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -5,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --default-font-family: "Geist", sans-serif;
+    --font-sans: "Geist", sans-serif;
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -57,25 +58,24 @@
 }
 
 :root {
-    --background: oklch(0.975 0.003 247);
-    --foreground: oklch(0.18 0.02 264);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.18 0.02 264);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.18 0.02 264);
+    --background: rgb(255, 255, 255);
+    --foreground: rgb(17, 17, 17);
+    --card: rgb(255, 255, 255);
+    --card-foreground: rgb(17, 17, 17);
+    --popover: rgb(255, 255, 255);
+    --popover-foreground: rgb(17, 17, 17);
     --primary: rgb(0, 113, 181);
-    --primary-foreground: oklch(0.985 0 0);
+    --primary-foreground: rgb(255, 255, 255);
     --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0.003 247);
-    --muted-foreground: oklch(0.55 0.015 264);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.92 0.005 247);
-    --input: oklch(0.92 0.005 247);
-    --ring: oklch(0.708 0 0);
+    --secondary-foreground: rgb(255, 255, 255);
+    --muted: rgb(248, 248, 248);
+    --muted-foreground: rgba(17, 17, 17, 0.6);
+    --accent: rgb(243, 248, 255);
+    --accent-foreground: rgb(17, 17, 17);
+    --destructive: rgb(211, 0, 4);
+    --border: rgba(17, 17, 17, 0.12);
+    --input: rgba(17, 17, 17, 0.12);
+    --ring: rgba(17, 17, 17, 0.3);
 
     /* Brand */
     --brand: oklch(0.62 0.22 350);
@@ -98,24 +98,24 @@
     --chart-4: oklch(0.78 0.1 140); /* green  - Others */
     --chart-5: oklch(0.78 0.08 350); /* light pink - Valentine */
 
-    --radius: 0.75rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
+    --radius: 0.625rem;
+    --sidebar: rgb(255, 255, 255);
+    --sidebar-foreground: rgb(17, 17, 17);
     --sidebar-primary: rgb(0, 113, 181);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --sidebar-primary-foreground: rgb(255, 255, 255);
+    --sidebar-accent: rgb(248, 248, 248);
+    --sidebar-accent-foreground: rgb(17, 17, 17);
+    --sidebar-border: rgba(17, 17, 17, 0.12);
+    --sidebar-ring: rgba(17, 17, 17, 0.12);
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
+    --background: rgb(17, 17, 17);
+    --foreground: rgb(255, 255, 255);
+    --card: rgb(26, 26, 26);
+    --card-foreground: rgb(255, 255, 255);
+    --popover: rgb(26, 26, 26);
+    --popover-foreground: rgb(255, 255, 255);
     --primary: rgb(0, 113, 181);
     --primary-foreground: oklch(0.205 0 0);
     --secondary: oklch(0.269 0 0);
@@ -149,7 +149,7 @@
         @apply border-border outline-ring/50;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-muted text-foreground;
     }
     html {
         @apply font-sans;

@@ -20,7 +20,7 @@ export default function CatalogPage() {
             <div className="container mx-auto p-6 py-8 md:py-10 lg:py-12 flex flex-col gap-6 lg:gap-8">
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div className="flex flex-col gap-4">
-                        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">All Celebrations</h2>
+                        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold">All Celebrations</h2>
                         <div className="p-1.5 lg:p-2 bg-muted w-fit rounded-full flex">
                             {["All", "Traditional", "Cultural", "Event Based"].map((item) => (
                                 <div

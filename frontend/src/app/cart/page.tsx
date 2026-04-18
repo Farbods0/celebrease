@@ -208,7 +208,7 @@ export default function CartPage() {
                         </div>
                         <div>
                             <div className="flex-1 pr-10">
-                                <h4 className="text-lg lg:text-xl font-medium">New Year's Eve Kit</h4>
+                                <h4 className="text-lg lg:text-xl font-medium">New Year&apos;s Eve Kit</h4>
                                 <p className="text-sm lg:text-base text-muted-foreground mt-1">
                                     Starter &middot; Dec 28 &ndash; Jan 2, 2026
                                 </p>
@@ -422,7 +422,7 @@ export default function CartPage() {
 
                     <Button className="mt-6">
                         Explore Subscription Plans
-                        <span className="font-bold ml-1">&rarr;</span>
+                        <span className="font-semibold ml-1">&rarr;</span>
                     </Button>
 
                     <p className="mt-3 text-sm text-white/80 font-medium">

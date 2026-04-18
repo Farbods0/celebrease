@@ -24,11 +24,15 @@ export default function Navbar() {
 
                 <div className="flex items-center gap-5">
                     <HugeiconsIcon icon={Search} className="hidden md:inline-block" />
-                    <ShoppingBasket />
-                    <Button className="bg-white hover:bg-white/80 shadow-lg">
-                        <UserCircle />
-                        Sign in
-                    </Button>
+                    <Link href="/cart">
+                        <ShoppingBasket />
+                    </Link>
+                    <Link href="/account">
+                        <Button className="bg-white hover:bg-white/80 shadow-lg">
+                            <UserCircle />
+                            Sign in
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </nav>

@@ -14,7 +14,7 @@ function FilterLegend({ children }: { children: React.ReactNode }) {
 
 export function InventoryFilters() {
     return (
-        <div className="flex-1 overflow-y-auto px-6 flex flex-col gap-4">
+        <div className="flex-1 overflow-y-auto flex flex-col gap-4">
             {/* Search */}
             <div className="space-y-1.5">
                 <FilterLegend>Search</FilterLegend>

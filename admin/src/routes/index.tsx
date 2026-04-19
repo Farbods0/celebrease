@@ -27,7 +27,7 @@ function RouteComponent() {
             </div>
 
             {/* Operational stats */}
-            <section aria-label="Operational stats" className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            <section aria-label="Operational stats" className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                 <StatCard
                     label="Active Rentals"
                     value={128}

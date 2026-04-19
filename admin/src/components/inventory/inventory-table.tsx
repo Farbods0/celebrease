@@ -1,7 +1,7 @@
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { InventoryItem } from "@/data";
 import { AlertTriangle } from "lucide-react";
-import { HolidayBadge } from "./holiday-badge";
 
 function LowStockChip() {
     return (
@@ -10,23 +10,6 @@ function LowStockChip() {
             Low stock
         </span>
     );
-}
-
-function StatusBadge({ status }: { status: InventoryItem["status"] }) {
-    if (status === "Active") {
-        return (
-            <span
-                className="rounded-md px-2 py-0.5 text-xs font-medium"
-                style={{
-                    backgroundColor: "oklch(0.93 0.08 150)",
-                    color: "oklch(0.4 0.14 150)",
-                }}
-            >
-                Active
-            </span>
-        );
-    }
-    return <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">{status}</span>;
 }
 
 type InventoryTableProps = {
@@ -63,7 +46,7 @@ export function InventoryTable({ items, onView }: InventoryTableProps) {
                                 </div>
                             </TableCell>
                             <TableCell>
-                                <HolidayBadge holiday={item.holiday} />
+                                <StatusBadge status={item.holiday} />
                             </TableCell>
                             <TableCell>{item.kitType}</TableCell>
                             <TableCell className="font-medium">{item.totalQty}</TableCell>

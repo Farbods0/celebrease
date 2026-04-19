@@ -1,3 +1,5 @@
+// ============ TYPES ============
+
 export type Holiday =
     | "Christmas"
     | "Diwali"
@@ -7,9 +9,32 @@ export type Holiday =
     | "Halloween"
     | "Thanksgiving"
     | "Nowruz"
-    | "Valentine's";
+    | "Valentine's"
+    | "Hanukkah"
+    | "New Year"
+    | "Baby Shower";
 
 export type KitType = "Starter" | "Premium" | "Add-On";
+
+export type SubscriptionPlan = "Monthly ($29/Mo)" | "Prepaid (3 Holidays)";
+export type SubscriptionStage = "Holiday 0" | "Holiday 1" | "Holiday 2" | "Holiday 3";
+export type SubscriptionStatus = "Active" | "Cancelled" | "In Transit";
+export type NextAction =
+    | "Awaiting Return"
+    | "Pick Next Holiday"
+    | "Choose First Holiday"
+    | "Renewal Pending"
+    | "In Transit"
+    | "Kit Delivered"
+    | "Renewal Decision";
+
+export type OrderStatus = "Shipped" | "Delivered" | "Reserved" | "Return in Transit" | "Completed";
+export type ReturnStatus = "In Cleaning" | "In Transit" | "Inspection Needed" | "Completed";
+export type AddOnStatus = "Active" | "Hidden";
+
+export type Region = "CA" | "TX" | "NY" | "WA" | "FL" | "NV" | "IL" | "OH" | "PA" | "OR" | "MA" | "CO" | "MI" | "AZ";
+
+// ============ INVENTORY ============
 
 export type InventoryItem = {
     id: string;
@@ -203,3 +228,430 @@ export const INVENTORY: InventoryItem[] = [
 ];
 
 export const TOTAL_ITEMS = 647;
+
+// ============ CUSTOMERS ============
+
+export type Customer = {
+    name: string;
+    email: string;
+    orders: number;
+    subscription: boolean;
+    onTimeReturns: string;
+    depositsHeld: string;
+    region: Region;
+};
+
+export const CUSTOMERS: Customer[] = [
+    // Page 2 (visible in screenshot)
+    {
+        name: "Terry Calzoni",
+        email: "jaylon.saris@example.com",
+        orders: 12,
+        subscription: true,
+        onTimeReturns: "85%",
+        depositsHeld: "$0",
+        region: "CA",
+    },
+    {
+        name: "Randy Madsen",
+        email: "lincoln.workman@example.com",
+        orders: 7,
+        subscription: false,
+        onTimeReturns: "90%",
+        depositsHeld: "$50",
+        region: "TX",
+    },
+    {
+        name: "Ann Donin",
+        email: "randy.carders@example.com",
+        orders: 19,
+        subscription: true,
+        onTimeReturns: "95%",
+        depositsHeld: "$75",
+        region: "NY",
+    },
+    {
+        name: "Adison Kenter",
+        email: "jaxson.workman@example.com",
+        orders: 4,
+        subscription: false,
+        onTimeReturns: "82%",
+        depositsHeld: "$100",
+        region: "WA",
+    },
+    {
+        name: "Angel Septimus",
+        email: "ahmad.bergson@example.com",
+        orders: 15,
+        subscription: false,
+        onTimeReturns: "88%",
+        depositsHeld: "$250",
+        region: "FL",
+    },
+    {
+        name: "Martin Culhane",
+        email: "aspen.baptista@example.com",
+        orders: 1,
+        subscription: true,
+        onTimeReturns: "80%",
+        depositsHeld: "$0",
+        region: "NV",
+    },
+    {
+        name: "Lindsey Rosser",
+        email: "gustavo.curtis@example.com",
+        orders: 20,
+        subscription: true,
+        onTimeReturns: "100%",
+        depositsHeld: "$100",
+        region: "IL",
+    },
+    {
+        name: "Livia Arcand",
+        email: "lincoln.lipshutz@example.com",
+        orders: 9,
+        subscription: true,
+        onTimeReturns: "92%",
+        depositsHeld: "$50",
+        region: "OH",
+    },
+    {
+        name: "Cooper Botosh",
+        email: "corey.workman@example.com",
+        orders: 16,
+        subscription: true,
+        onTimeReturns: "97%",
+        depositsHeld: "$75",
+        region: "PA",
+    },
+    {
+        name: "Erin Vetrovs",
+        email: "corey.workman2@example.com",
+        orders: 3,
+        subscription: false,
+        onTimeReturns: "81%",
+        depositsHeld: "$0",
+        region: "OR",
+    },
+    {
+        name: "Jordyn Rosser",
+        email: "corey.workman3@example.com",
+        orders: 10,
+        subscription: true,
+        onTimeReturns: "89%",
+        depositsHeld: "$50",
+        region: "MA",
+    },
+    {
+        name: "Craig Culhane",
+        email: "corey.workman4@example.com",
+        orders: 5,
+        subscription: true,
+        onTimeReturns: "86%",
+        depositsHeld: "$75",
+        region: "CO",
+    },
+    {
+        name: "Skylar Press",
+        email: "corey.workman5@example.com",
+        orders: 14,
+        subscription: false,
+        onTimeReturns: "94%",
+        depositsHeld: "$100",
+        region: "MI",
+    },
+    {
+        name: "Kaiya Donin",
+        email: "corey.workman6@example.com",
+        orders: 8,
+        subscription: false,
+        onTimeReturns: "91%",
+        depositsHeld: "$250",
+        region: "AZ",
+    },
+];
+
+// ============ SUBSCRIPTIONS ============
+
+export type Subscription = {
+    subId: string;
+    customer: string;
+    plan: SubscriptionPlan;
+    currentHoliday: Holiday;
+    stage: SubscriptionStage;
+    nextAction: NextAction;
+    renewal: string;
+    status: SubscriptionStatus;
+};
+
+export const SUBSCRIPTIONS: Subscription[] = [
+    {
+        subId: "S-3012",
+        customer: "Jayton Saris",
+        plan: "Monthly ($29/Mo)",
+        currentHoliday: "Christmas",
+        stage: "Holiday 2",
+        nextAction: "Awaiting Return",
+        renewal: "Sep 12, 2026",
+        status: "Active",
+    },
+    {
+        subId: "S-3012",
+        customer: "Lincoln Workman",
+        plan: "Prepaid (3 Holidays)",
+        currentHoliday: "Diwali",
+        stage: "Holiday 1",
+        nextAction: "Pick Next Holiday",
+        renewal: "Aug 19, 2026",
+        status: "Active",
+    },
+    {
+        subId: "S-3012",
+        customer: "Randy Carder",
+        plan: "Monthly ($29/Mo)",
+        currentHoliday: "Diwali",
+        stage: "Holiday 0",
+        nextAction: "Choose First Holiday",
+        renewal: "Mar 10, 2026",
+        status: "In Transit",
+    },
+    {
+        subId: "S-3012",
+        customer: "Jaxson Workman",
+        plan: "Monthly ($29/Mo)",
+        currentHoliday: "Easter",
+        stage: "Holiday 3",
+        nextAction: "Renewal Pending",
+        renewal: "Jun 15, 2026",
+        status: "Active",
+    },
+    {
+        subId: "S-3012",
+        customer: "Ahmad Bergson",
+        plan: "Prepaid (3 Holidays)",
+        currentHoliday: "Valentine's",
+        stage: "Holiday 2",
+        nextAction: "Awaiting Return",
+        renewal: "May 30, 2026",
+        status: "Active",
+    },
+    {
+        subId: "S-3012",
+        customer: "Aspen Baptista",
+        plan: "Monthly ($29/Mo)",
+        currentHoliday: "Thanksgiving",
+        stage: "Holiday 1",
+        nextAction: "In Transit",
+        renewal: "Apr 25, 2026",
+        status: "Active",
+    },
+    {
+        subId: "S-3012",
+        customer: "Gustavo Curtis",
+        plan: "Prepaid (3 Holidays)",
+        currentHoliday: "Birthday",
+        stage: "Holiday 2",
+        nextAction: "Pick Next Holiday",
+        renewal: "Feb 20, 2026",
+        status: "Active",
+    },
+    {
+        subId: "S-3012",
+        customer: "Lincoln Lipehutz",
+        plan: "Monthly ($29/Mo)",
+        currentHoliday: "Ramadan",
+        stage: "Holiday 1",
+        nextAction: "Kit Delivered",
+        renewal: "Jul 4, 2026",
+        status: "Active",
+    },
+    {
+        subId: "S-3012",
+        customer: "Corey Workman",
+        plan: "Monthly ($29/Mo)",
+        currentHoliday: "Hanukkah",
+        stage: "Holiday 3",
+        nextAction: "Renewal Decision",
+        renewal: "Jan 15, 2026",
+        status: "Cancelled",
+    },
+];
+
+// ============ ORDERS ============
+
+export type Order = {
+    orderId: string;
+    customer: string;
+    holiday: Holiday;
+    kitType: KitType;
+    duration: string;
+    addOns: string;
+    status: OrderStatus;
+    shipDate: string;
+    deposit: string;
+    total: string;
+};
+
+export const ORDERS: Order[] = [
+    {
+        orderId: "8421",
+        customer: "Ryan Gouse",
+        holiday: "Christmas",
+        kitType: "Premium",
+        duration: "60 Days",
+        addOns: "Tree, Lights",
+        status: "Shipped",
+        shipDate: "Nov 12",
+        deposit: "$100",
+        total: "$225",
+    },
+    {
+        orderId: "8421",
+        customer: "Paityn Vaccaro",
+        holiday: "Diwali",
+        kitType: "Starter",
+        duration: "30 Days",
+        addOns: "Lanterns",
+        status: "Delivered",
+        shipDate: "Oct 28",
+        deposit: "$50",
+        total: "$120",
+    },
+    {
+        orderId: "8421",
+        customer: "Emery Siphron",
+        holiday: "Halloween",
+        kitType: "Starter",
+        duration: "30 Days",
+        addOns: "--",
+        status: "Reserved",
+        shipDate: "Nov 20",
+        deposit: "$50",
+        total: "$75",
+    },
+    {
+        orderId: "8421",
+        customer: "Skylar Siphron",
+        holiday: "Birthday",
+        kitType: "Premium",
+        duration: "14 Days",
+        addOns: "Balloon Arch",
+        status: "Return in Transit",
+        shipDate: "Nov 5",
+        deposit: "$0",
+        total: "$155",
+    },
+    {
+        orderId: "8421",
+        customer: "Angel Philips",
+        holiday: "Easter",
+        kitType: "Premium",
+        duration: "60 Days",
+        addOns: "Wreath",
+        status: "Completed",
+        shipDate: "Sep 10",
+        deposit: "$0",
+        total: "$225",
+    },
+];
+
+// ============ RETURNS ============
+
+export type Return = {
+    returnId: string;
+    orderId: string;
+    customer: string;
+    holiday: Holiday;
+    kit: KitType;
+    dueDate: string;
+    deposit: string;
+    damage: boolean;
+    status: ReturnStatus;
+};
+
+export const RETURNS: Return[] = [
+    {
+        returnId: "R-1011",
+        orderId: "8421",
+        customer: "Ryan Gouse",
+        holiday: "Christmas",
+        kit: "Premium",
+        dueDate: "Jan 10",
+        status: "In Cleaning",
+        deposit: "Hold",
+        damage: false,
+    },
+    {
+        returnId: "R-1011",
+        orderId: "8421",
+        customer: "Paityn Vaccaro",
+        holiday: "Birthday",
+        kit: "Premium",
+        dueDate: "Nov 18",
+        status: "In Transit",
+        deposit: "--",
+        damage: false,
+    },
+    {
+        returnId: "R-1011",
+        orderId: "8421",
+        customer: "Emery Siphron",
+        holiday: "Easter",
+        kit: "Starter",
+        dueDate: "Oct 15",
+        status: "Inspection Needed",
+        deposit: "Hold",
+        damage: true,
+    },
+    {
+        returnId: "R-1011",
+        orderId: "8421",
+        customer: "Skylar Siphron",
+        holiday: "New Year",
+        kit: "Starter",
+        dueDate: "Sep 20",
+        status: "Completed",
+        deposit: "Refunded",
+        damage: false,
+    },
+];
+
+// ============ ADD-ONS ============
+
+export type AddOn = {
+    name: string;
+    price: string;
+    deposit: string;
+    inventory: number;
+    holidaysMapped: Holiday[];
+    status: AddOnStatus;
+};
+
+export const ADD_ONS: AddOn[] = [
+    { name: "Christmas Tree (6ft)", price: "$59", deposit: "+$100", inventory: 42, holidaysMapped: ["Christmas"], status: "Active" },
+    { name: "Extra Lights Kit", price: "$12", deposit: "$0", inventory: 110, holidaysMapped: ["Christmas", "Halloween"], status: "Active" },
+    {
+        name: "Metallic Table Runner",
+        price: "$8",
+        deposit: "$0",
+        inventory: 34,
+        holidaysMapped: ["New Year", "Valentine's"],
+        status: "Active",
+    },
+    {
+        name: "Balloon Arch Deluxe",
+        price: "$29",
+        deposit: "$0",
+        inventory: 76,
+        holidaysMapped: ["Birthday", "Baby Shower"],
+        status: "Active",
+    },
+    {
+        name: "Wreath (Premium Floral)",
+        price: "$19",
+        deposit: "+$25",
+        inventory: 20,
+        holidaysMapped: ["Easter", "Thanksgiving"],
+        status: "Hidden",
+    },
+];

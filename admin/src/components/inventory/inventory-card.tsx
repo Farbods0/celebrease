@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/status-badge";
 import type { InventoryItem } from "@/data";
 import { AlertTriangle } from "lucide-react";
-import { HolidayBadge } from "./holiday-badge";
 
 function Field({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "available" | "reserved" | "repair" | "status" }) {
     let valueColor: string | undefined;
@@ -28,7 +28,7 @@ export function InventoryCard({ item, onView }: InventoryCardProps) {
     return (
         <article className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2 flex-wrap">
-                <HolidayBadge holiday={item.holiday} />
+                <StatusBadge status={item.holiday} />
                 {item.lowStock && (
                     <span className="inline-flex items-center gap-1 rounded-md bg-[oklch(0.95_0.06_60)] px-1.5 py-0.5 text-[10px] font-medium text-[oklch(0.5_0.17_60)]">
                         <AlertTriangle className="size-3" />
@@ -47,20 +47,7 @@ export function InventoryCard({ item, onView }: InventoryCardProps) {
                 <Field label="Shipped" value={item.shipped} />
                 <Field label="Cleaning" value={item.cleaning} />
                 <Field label="Repair" value={item.repair} tone="repair" />
-                <Field
-                    label="Status"
-                    value={
-                        <span
-                            className="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium"
-                            style={{
-                                backgroundColor: "oklch(0.93 0.08 150)",
-                                color: "oklch(0.4 0.14 150)",
-                            }}
-                        >
-                            {item.status}
-                        </span>
-                    }
-                />
+                <Field label="Status" value={<StatusBadge status={item.status} />} />
             </div>
 
             <Button size="sm" onClick={() => onView(item)} className="mt-4 w-full bg-muted text-foreground [a]:hover:bg-muted/80">

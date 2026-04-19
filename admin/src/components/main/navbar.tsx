@@ -6,7 +6,7 @@ import { createElement } from "react";
 const navItems = [
     { label: "Dashboard", link: "/", icon: LayoutDashboard, key: "dashboard" },
     { label: "Inventory", link: "/inventory", icon: Package, key: "inventory" },
-    { label: "Kits & Pricing", link: "/kits", icon: Tag, key: "kits" },
+    { label: "Kits & Pricing", link: "/pricing", icon: Tag, key: "pricing" },
     { label: "Add-Ons", link: "/addons", icon: PlusCircle, key: "addons" },
     { label: "Orders", link: "/orders", icon: ShoppingBag, key: "orders" },
     { label: "Returns", link: "/returns", icon: Undo2, key: "returns" },

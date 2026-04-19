@@ -1,12 +1,12 @@
 import { InventoryCard } from "@/components/inventory/inventory-card";
 import { InventoryFilters } from "@/components/inventory/inventory-filters";
+import { InventoryForm } from "@/components/inventory/inventory-form";
 import { InventoryTable } from "@/components/inventory/inventory-table";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { INVENTORY, TOTAL_ITEMS } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, SlidersHorizontal, Upload } from "lucide-react";
-import { useAppForm } from "../components/form/form-context";
 
 export const Route = createFileRoute("/inventory")({
     component: RouteComponent,
@@ -14,30 +14,6 @@ export const Route = createFileRoute("/inventory")({
 
 function RouteComponent() {
     const items = INVENTORY;
-
-    const form = useAppForm({
-        defaultValues: {
-            // Basic Information
-            name: "",
-            sku: "",
-            category: "",
-            quantity: 0,
-            description: "",
-
-            // Image
-            image: "", // or "" if you're storing URL
-
-            // Pricing & Vendor Info
-            vendorName: "",
-            vendorEmail: "",
-            vendorPhone: "",
-            costPerUnit: 0,
-        },
-
-        onSubmit: async ({ value }) => {
-            console.log(value);
-        },
-    });
 
     return (
         <main className="flex w-full">
@@ -69,84 +45,7 @@ function RouteComponent() {
                                     <span>Add Inventory Item</span>
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-                                <DialogHeader>
-                                    <DialogTitle>Add Inventory Item</DialogTitle>
-                                </DialogHeader>
-                                <form className="grid gap-6">
-                                    <div>
-                                        <form.AppField name="image">{(field) => <field.FormImage label="Image" />}</form.AppField>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-x-3 gap-y-2">
-                                        <p className="col-span-2 text-xs text-muted-foreground uppercase">Basic Information</p>
-
-                                        <form.AppField name="name">
-                                            {(field) => <field.FormInput label="Item Name" placeholder="e.g., LED String Lights" />}
-                                        </form.AppField>
-
-                                        <form.AppField name="sku">
-                                            {(field) => <field.FormInput label="SKU" placeholder="e.g., CELE-LGT-01" />}
-                                        </form.AppField>
-
-                                        <form.AppField name="category">
-                                            {(field) => <field.FormInput label="Item Category" />}
-                                        </form.AppField>
-
-                                        <form.AppField name="quantity">
-                                            {(field) => <field.FormInput label="Total Quantity" placeholder="e.g., 120" type="number" />}
-                                        </form.AppField>
-
-                                        <div className="col-span-2">
-                                            <form.AppField name="description">
-                                                {(field) => (
-                                                    <field.FormTextarea
-                                                        label="Item Description"
-                                                        placeholder="Add detailed description of the item..."
-                                                    />
-                                                )}
-                                            </form.AppField>
-                                        </div>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-x-3 gap-y-2">
-                                        <p className="col-span-2 text-xs text-muted-foreground uppercase">Pricing & Vendor Information</p>
-
-                                        <div className="col-span-2">
-                                            <form.AppField name="vendorName">
-                                                {(field) => (
-                                                    <field.FormInput label="Vendor Name" placeholder="e.g., Holiday Lighting Co." />
-                                                )}
-                                            </form.AppField>
-                                        </div>
-
-                                        <form.AppField name="vendorEmail">
-                                            {(field) => (
-                                                <field.FormInput label="Vendor Email" type="email" placeholder="vendor@example.com" />
-                                            )}
-                                        </form.AppField>
-
-                                        <form.AppField name="costPerUnit">
-                                            {(field) => <field.FormInput label="Cost Per Unit" placeholder="e.g., 12.00" type="number" />}
-                                        </form.AppField>
-
-                                        <div className="col-span-2">
-                                            <form.AppField name="vendorPhone">
-                                                {(field) => <field.FormInput label="Vendor Phone" placeholder="+1 (555) 123-4567" />}
-                                            </form.AppField>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-between gap-4">
-                                        <DialogClose asChild>
-                                            <Button variant="outline">Cancel</Button>
-                                        </DialogClose>
-                                        <form.AppForm>
-                                            <form.FormSubmit label="Continue" />
-                                        </form.AppForm>
-                                    </div>
-                                </form>
-                            </DialogContent>
+                            <InventoryForm />
                         </Dialog>
                     </div>
                 </div>

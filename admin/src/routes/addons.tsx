@@ -1,4 +1,5 @@
 import { AddOnCard } from "@/components/addons/addon-card";
+import { AddonForm } from "@/components/addons/addon-form";
 import { AddOnTable } from "@/components/addons/addon-table";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -38,7 +39,7 @@ function RouteComponent() {
                                 <span>New Add-On</span>
                             </Button>
                         </DialogTrigger>
-                        {/* TODO: Add-On Form */}
+                        <AddonForm />
                     </Dialog>
                 </div>
             </div>

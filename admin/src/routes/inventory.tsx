@@ -2,11 +2,13 @@ import { InventoryCard } from "@/components/inventory/inventory-card";
 import { InventoryFilters } from "@/components/inventory/inventory-filters";
 import { InventoryForm } from "@/components/inventory/inventory-form";
 import { InventoryTable } from "@/components/inventory/inventory-table";
+import InventoryView from "@/components/inventory/inventory-view";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { INVENTORY, TOTAL_ITEMS } from "@/data";
+import { INVENTORY, TOTAL_ITEMS, type InventoryItem } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, SlidersHorizontal, Upload } from "lucide-react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/inventory")({
     component: RouteComponent,
@@ -14,6 +16,7 @@ export const Route = createFileRoute("/inventory")({
 
 function RouteComponent() {
     const items = INVENTORY;
+    const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
 
     return (
         <main className="flex w-full">
@@ -68,15 +71,19 @@ function RouteComponent() {
                     </Dialog>
                 </div>
 
-                {/* Desktop table */}
-                <InventoryTable items={items} />
+                <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+                    {/* Desktop table */}
+                    <InventoryTable items={items} onView={setSelectedItem} />
 
-                {/* Mobile cards */}
-                <div className="space-y-4 md:hidden">
-                    {items.map((item) => (
-                        <InventoryCard key={item.id} item={item} />
-                    ))}
-                </div>
+                    {/* Mobile cards */}
+                    <div className="space-y-4 md:hidden">
+                        {items.map((item) => (
+                            <InventoryCard key={item.id} item={item} onView={setSelectedItem} />
+                        ))}
+                    </div>
+
+                    {selectedItem ? <InventoryView item={selectedItem} /> : null}
+                </Dialog>
             </main>
         </main>
     );

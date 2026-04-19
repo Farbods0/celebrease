@@ -29,7 +29,12 @@ function StatusBadge({ status }: { status: InventoryItem["status"] }) {
     return <span className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">{status}</span>;
 }
 
-export function InventoryTable({ items }: { items: InventoryItem[] }) {
+type InventoryTableProps = {
+    items: InventoryItem[];
+    onView: (item: InventoryItem) => void;
+};
+
+export function InventoryTable({ items, onView }: InventoryTableProps) {
     return (
         <div className="hidden md:block overflow-hidden rounded-lg border p-3">
             <Table>
@@ -77,7 +82,11 @@ export function InventoryTable({ items }: { items: InventoryItem[] }) {
                                 <StatusBadge status={item.status} />
                             </TableCell>
                             <TableCell>
-                                <button type="button" className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium">
+                                <button
+                                    type="button"
+                                    onClick={() => onView(item)}
+                                    className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium"
+                                >
                                     View
                                 </button>
                             </TableCell>

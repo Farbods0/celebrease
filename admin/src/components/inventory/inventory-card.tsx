@@ -19,7 +19,12 @@ function Field({ label, value, tone }: { label: string; value: React.ReactNode; 
     );
 }
 
-export function InventoryCard({ item }: { item: InventoryItem }) {
+type InventoryCardProps = {
+    item: InventoryItem;
+    onView: (item: InventoryItem) => void;
+};
+
+export function InventoryCard({ item, onView }: InventoryCardProps) {
     return (
         <article className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2 flex-wrap">
@@ -58,7 +63,7 @@ export function InventoryCard({ item }: { item: InventoryItem }) {
                 />
             </div>
 
-            <Button size="sm" className="mt-4 w-full bg-muted text-foreground [a]:hover:bg-muted/80">
+            <Button size="sm" onClick={() => onView(item)} className="mt-4 w-full bg-muted text-foreground [a]:hover:bg-muted/80">
                 View
             </Button>
         </article>

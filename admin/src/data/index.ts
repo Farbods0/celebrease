@@ -480,6 +480,7 @@ export const SUBSCRIPTIONS: Subscription[] = [
 // ============ ORDERS ============
 
 export type Order = {
+    email: ReactNode;
     orderId: string;
     customer: string;
     holiday: Holiday;

@@ -81,7 +81,7 @@ export default function InventoryView({ item }: { item: InventoryItem }) {
             {/* Kit Mapping */}
             <section>
                 <div className="flex justify-between items-center mb-3">
-                    <h3 className="text-base font-medium">Kit Mapping</h3>
+                    <h3 className="text-sm uppercase font-medium">Kit Mapping</h3>
                     <p className="border-b border-muted-foreground">Edit</p>
                 </div>
                 <div className="space-y-2">

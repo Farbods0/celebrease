@@ -656,3 +656,78 @@ export const ADD_ONS: AddOn[] = [
         status: "Hidden",
     },
 ];
+
+// ============ TYPES ============
+
+export type ItemStatus = "Active" | "Low Stock";
+
+export type Category = "Decor" | "Lighting" | "Ornaments" | "Tree" | "Accents";
+
+export type KitItem = {
+    name: string;
+    qty: number;
+    sku: string;
+    category: Category;
+    status: ItemStatus;
+};
+
+// ============ DATA ============
+
+export const KIT_ITEMS: KitItem[] = [
+    {
+        name: "Premium Garland",
+        qty: 1,
+        sku: "SKU-XY-ZA-001",
+        category: "Decor",
+        status: "Active",
+    },
+    {
+        name: "LED String Lights – Warm White",
+        qty: 2,
+        sku: "SKU-XY-ZA-002",
+        category: "Lighting",
+        status: "Active",
+    },
+    {
+        name: "Full Ornament Set",
+        qty: 1,
+        sku: "SKU-XY-ZA-003",
+        category: "Ornaments",
+        status: "Active",
+    },
+    {
+        name: "Gold Tree Skirt",
+        qty: 1,
+        sku: "SKU-XY-ZA-004",
+        category: "Tree",
+        status: "Active",
+    },
+    {
+        name: 'Large Wreath (24")',
+        qty: 1,
+        sku: "SKU-XY-ZA-005",
+        category: "Decor",
+        status: "Active",
+    },
+    {
+        name: "Mantle Accents",
+        qty: 3,
+        sku: "SKU-XY-ZA-006",
+        category: "Accents",
+        status: "Low Stock",
+    },
+    {
+        name: "Accent Lighting Pods",
+        qty: 2,
+        sku: "SKU-XY-ZA-007",
+        category: "Lighting",
+        status: "Active",
+    },
+    {
+        name: "Small Table Figurines",
+        qty: 3,
+        sku: "SKU-XY-ZA-008",
+        category: "Accents",
+        status: "Active",
+    },
+];

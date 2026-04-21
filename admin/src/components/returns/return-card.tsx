@@ -24,7 +24,7 @@ export function ReturnCard({ item, onView }: ReturnCardProps) {
                 <span className="text-sm text-muted-foreground">{item.returnId}</span>
             </div>
             <h3 className="mt-1.5 text-lg font-medium">
-                {item.customer} - {item.orderId}
+                {item.customerName} - {item.orderId}
             </h3>
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <Field label="Kit Type" value={item.kit} />

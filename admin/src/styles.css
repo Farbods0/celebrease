@@ -84,7 +84,7 @@
     /* Revenue card surfaces (pastel) */
     --card-mint: oklch(0.93 0.06 160);
     --card-mint-foreground: oklch(0.28 0.08 160);
-    --card-blue: oklch(0.92 0.04 250);
+    --card-blue: #4A31F5;
     --card-blue-foreground: oklch(0.3 0.08 250);
     --card-pink: oklch(0.93 0.05 350);
     --card-pink-foreground: oklch(0.3 0.1 350);

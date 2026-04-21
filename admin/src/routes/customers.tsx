@@ -3,6 +3,8 @@ import { CustomerTable } from "@/components/customers/customer-table";
 import { CUSTOMERS, type Customer } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { Dialog } from "../components/ui/dialog";
+import CustomerView from "../components/customers/customer-view";
 
 export const Route = createFileRoute("/customers")({
     component: RouteComponent,
@@ -22,15 +24,18 @@ function RouteComponent() {
                 </p>
             </div>
 
-            {/* Desktop table */}
-            <CustomerTable items={items} onView={setSelectedItem} />
+            <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+                {/* Desktop table */}
+                <CustomerTable items={items} onView={setSelectedItem} />
 
-            {/* Mobile cards */}
-            <div className="space-y-4 md:hidden">
-                {items.map((item, index) => (
-                    <CustomerCard key={index} item={item} onView={setSelectedItem} />
-                ))}
-            </div>
+                {/* Mobile cards */}
+                <div className="space-y-4 md:hidden">
+                    {items.map((item, index) => (
+                        <CustomerCard key={index} item={item} onView={setSelectedItem} />
+                    ))}
+                </div>
+                {selectedItem && <CustomerView item={selectedItem} />}
+            </Dialog>
         </main>
     );
 }

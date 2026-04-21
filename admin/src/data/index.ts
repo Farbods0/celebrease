@@ -561,7 +561,7 @@ export const ORDERS: Order[] = [
 export type Return = {
     returnId: string;
     orderId: string;
-    customer: string;
+    customerName: string;
     holiday: Holiday;
     kit: KitType;
     dueDate: string;
@@ -574,7 +574,7 @@ export const RETURNS: Return[] = [
     {
         returnId: "R-1011",
         orderId: "8421",
-        customer: "Ryan Gouse",
+        customerName: "Ryan Gouse",
         holiday: "Christmas",
         kit: "Premium",
         dueDate: "Jan 10",
@@ -585,7 +585,7 @@ export const RETURNS: Return[] = [
     {
         returnId: "R-1011",
         orderId: "8421",
-        customer: "Paityn Vaccaro",
+        customerName: "Paityn Vaccaro",
         holiday: "Birthday",
         kit: "Premium",
         dueDate: "Nov 18",
@@ -596,7 +596,7 @@ export const RETURNS: Return[] = [
     {
         returnId: "R-1011",
         orderId: "8421",
-        customer: "Emery Siphron",
+        customerName: "Emery Siphron",
         holiday: "Easter",
         kit: "Starter",
         dueDate: "Oct 15",
@@ -607,7 +607,7 @@ export const RETURNS: Return[] = [
     {
         returnId: "R-1011",
         orderId: "8421",
-        customer: "Skylar Siphron",
+        customerName: "Skylar Siphron",
         holiday: "New Year",
         kit: "Starter",
         dueDate: "Sep 20",

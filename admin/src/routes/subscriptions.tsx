@@ -3,6 +3,8 @@ import { SubscriptionTable } from "@/components/subscriptions/subscription-table
 import { SUBSCRIPTIONS, type Subscription } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { Dialog } from "../components/ui/dialog";
+import SubscriptionView from "../components/subscriptions/subscription-view";
 
 export const Route = createFileRoute("/subscriptions")({
     component: RouteComponent,
@@ -20,15 +22,18 @@ function RouteComponent() {
                 <p className="mt-1.5 text-sm text-muted-foreground">Manage subscriber plans, holiday cycles, and shipping triggers</p>
             </div>
 
-            {/* Desktop table */}
-            <SubscriptionTable items={items} onView={setSelectedItem} />
+            <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+                {/* Desktop table */}
+                <SubscriptionTable items={items} onView={setSelectedItem} />
 
-            {/* Mobile cards */}
-            <div className="space-y-4 md:hidden">
-                {items.map((item, index) => (
-                    <SubscriptionCard key={index} item={item} onView={setSelectedItem} />
-                ))}
-            </div>
+                {/* Mobile cards */}
+                <div className="space-y-4 md:hidden">
+                    {items.map((item, index) => (
+                        <SubscriptionCard key={index} item={item} onView={setSelectedItem} />
+                    ))}
+                </div>
+                {selectedItem && <SubscriptionView item={selectedItem} />}
+            </Dialog>
         </main>
     );
 }

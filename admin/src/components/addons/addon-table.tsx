@@ -43,13 +43,19 @@ export function AddOnTable({ items, onView }: AddOnTableProps) {
                                 <TableCell>
                                     <StatusBadge status={item.status} />
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="space-x-2">
+                                    <button
+                                        type="button"
+                                        className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-border/60 transition-colors"
+                                    >
+                                        Trash
+                                    </button>
                                     <button
                                         type="button"
                                         onClick={() => onView(item)}
                                         className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium hover:bg-border/60 transition-colors"
                                     >
-                                        View
+                                        Edit
                                     </button>
                                 </TableCell>
                             </TableRow>

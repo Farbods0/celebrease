@@ -3,6 +3,8 @@ import { ReturnTable } from "@/components/returns/return-table";
 import { RETURNS, type Return } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import ReturnView from "../components/returns/return-view";
+import { Dialog } from "../components/ui/dialog";
 
 export const Route = createFileRoute("/returns")({
     component: RouteComponent,
@@ -20,15 +22,18 @@ function RouteComponent() {
                 <p className="mt-1.5 text-sm text-muted-foreground">Process returns, release deposits, and document damages</p>
             </div>
 
-            {/* Desktop table */}
-            <ReturnTable items={items} onView={setSelectedItem} />
+            <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+                {/* Desktop table */}
+                <ReturnTable items={items} onView={setSelectedItem} />
 
-            {/* Mobile cards */}
-            <div className="space-y-4 md:hidden">
-                {items.map((item, index) => (
-                    <ReturnCard key={index} item={item} onView={setSelectedItem} />
-                ))}
-            </div>
+                {/* Mobile cards */}
+                <div className="space-y-4 md:hidden">
+                    {items.map((item, index) => (
+                        <ReturnCard key={index} item={item} onView={setSelectedItem} />
+                    ))}
+                </div>
+                {selectedItem && <ReturnView item={selectedItem} />}
+            </Dialog>
         </main>
     );
 }

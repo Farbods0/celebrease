@@ -31,7 +31,7 @@ export function ReturnTable({ items, onView }: ReturnTableProps) {
                             <TableRow key={i}>
                                 <TableCell className="font-medium text-muted-foreground">{item.returnId}</TableCell>
                                 <TableCell className="text-muted-foreground">{item.orderId}</TableCell>
-                                <TableCell className="font-medium">{item.customer}</TableCell>
+                                <TableCell className="font-medium">{item.customerName}</TableCell>
                                 <TableCell>
                                     <StatusBadge status={item.holiday} />
                                 </TableCell>
@@ -48,7 +48,7 @@ export function ReturnTable({ items, onView }: ReturnTableProps) {
                                         onClick={() => onView(item)}
                                         className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium hover:bg-border/60 transition-colors"
                                     >
-                                        View
+                                        Inspect
                                     </button>
                                 </TableCell>
                             </TableRow>

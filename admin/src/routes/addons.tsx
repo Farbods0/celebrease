@@ -7,6 +7,7 @@ import { ADD_ONS, type AddOn } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Upload } from "lucide-react";
 import { useState } from "react";
+import AddonEdit from "../components/addons/addon-edit";
 
 export const Route = createFileRoute("/addons")({
     component: RouteComponent,
@@ -44,15 +45,18 @@ function RouteComponent() {
                 </div>
             </div>
 
-            {/* Desktop table */}
-            <AddOnTable items={items} onView={setSelectedItem} />
+            <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+                {/* Desktop table */}
+                <AddOnTable items={items} onView={setSelectedItem} />
 
-            {/* Mobile cards */}
-            <div className="space-y-4 md:hidden">
-                {items.map((item, index) => (
-                    <AddOnCard key={index} item={item} onView={setSelectedItem} />
-                ))}
-            </div>
+                {/* Mobile cards */}
+                <div className="space-y-4 md:hidden">
+                    {items.map((item, index) => (
+                        <AddOnCard key={index} item={item} onView={setSelectedItem} />
+                    ))}
+                </div>
+                {selectedItem && <AddonEdit item={selectedItem} />}
+            </Dialog>
         </main>
     );
 }

@@ -1,21 +1,15 @@
-import type { InventoryItem } from "@/data";
-import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
-import { StatusBadge } from "../ui/status-badge";
+import type { InventoryItem } from "@/data";
 
-function Field({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "available" | "reserved" | "repair" | "status" }) {
-    let valueColor: string | undefined;
-
+function Field({ label, value }: { label: string; value: React.ReactNode }) {
     return (
         <div className="flex flex-col gap-0.5">
             <span className="text-sm text-muted-foreground">{label}</span>
-            <span className="font-medium" style={valueColor ? { color: valueColor } : undefined}>
-                {value}
-            </span>
+            <span className="font-medium">{value}</span>
         </div>
     );
 }
-
 
 export default function InventoryView({ item }: { item: InventoryItem }) {
     return (
@@ -26,7 +20,7 @@ export default function InventoryView({ item }: { item: InventoryItem }) {
             {/* TODO: Add inventory view */}
             {/* Inventory Section */}
             <section>
-                <h3 className="uppercase text-sm font-medium mb-3">Inventory</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Inventory</h3>
                 <div className="space-y-2">
                     <div className="grid grid-cols-[80px_1fr_6px] items-center justify-between gap-2 ">
                         <p className="text-sm text-muted-foreground">Available</p>
@@ -57,30 +51,30 @@ export default function InventoryView({ item }: { item: InventoryItem }) {
             </section>
             {/* Item Details */}
             <section>
-                <h3 className="uppercase text-sm font-medium mb-3">Item Details</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Item Details</h3>
                 <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                     <Field label="SKU" value={item.sku} />
                     <Field label="Category" value="Lighting" />
-                    <Field label="Cost per unit" value="$12.00" tone="available" />
-                    <Field label="Vendor" value="Holiday Lighting Co." tone="reserved" />
+                    <Field label="Cost per unit" value="$12.00" />
+                    <Field label="Vendor" value="Holiday Lighting Co." />
                     <Field label="Added on" value="Oct 12, 2024" />
                     <Field label="Last updated" value="Nov 3, 2024" />
                 </div>
             </section>
             {/* Status Management */}
             <section>
-                <h3 className="uppercase text-sm font-medium mb-3">Status Management</h3>
-                <div className="space-x-2 space-y-3">
-                    <button className="bg-muted p-3 rounded-xl">Mark as Cleaned</button>
-                    <button className="bg-muted p-3 rounded-xl">Move to Repair</button>
-                    <button className="bg-muted p-3 rounded-xl">Retire Item</button>
-                    <button className="bg-muted p-3 rounded-xl">Add Replacement Unit</button>
-                    <button className="bg-muted p-3 rounded-xl">Mark Lost</button>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Status Management</h3>
+                <div className="flex flex-wrap gap-2">
+                    <button className="bg-muted px-3 py-2 rounded-lg text-sm">Mark as Cleaned</button>
+                    <button className="bg-muted px-3 py-2 rounded-lg text-sm">Move to Repair</button>
+                    <button className="bg-muted px-3 py-2 rounded-lg text-sm">Retire Item</button>
+                    <button className="bg-muted px-3 py-2 rounded-lg text-sm">Add Replacement Unit</button>
+                    <button className="bg-muted px-3 py-2 rounded-lg text-sm">Mark Lost</button>
                 </div>
             </section>
             {/* Kit Mapping */}
             <section>
-                <div className="flex justify-between items-center mb-3">
+                <div className="flex justify-between items-center mb-2.5">
                     <h3 className="text-sm uppercase font-medium">Kit Mapping</h3>
                     <p className="border-b border-muted-foreground">Edit</p>
                 </div>
@@ -101,8 +95,8 @@ export default function InventoryView({ item }: { item: InventoryItem }) {
             </section>
             {/* Damage History */}
             <section>
-                <h3 className="font-medium mb-3 uppercase text-sm">Damage History</h3>
-                <div className="bg-destructive/5 p-4 rounded-lg flex gap-3 items-start mb-4">
+                <h3 className="text-sm uppercase font-medium mb-2.5">Damage History</h3>
+                <div className="bg-destructive/5 p-4 rounded-lg flex gap-3 items-start mb-2">
                     <div className="w-1 bg-destructive rounded-full self-stretch"></div>
                     <div>
                         <p className="text-muted-foreground">Nov 12, 2024 • Processed by Admin #3</p>

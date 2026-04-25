@@ -1,21 +1,17 @@
-import React from "react";
-import type { Subscription } from "../../data";
-import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-
 import {
     Stepper,
-    StepperContent,
     StepperDescription,
     StepperIndicator,
     StepperItem,
     StepperNav,
-    StepperPanel,
     StepperSeparator,
     StepperTitle,
     StepperTrigger,
 } from "@/components/reui/stepper";
+import { Button } from "@/components/ui/button";
+import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import type { Subscription } from "@/data";
 import { CheckIcon, LoaderCircleIcon } from "lucide-react";
-import { Button } from "../ui/button";
 
 const steps = [
     { title: "Holiday 1", description: "Halloween" },
@@ -23,15 +19,11 @@ const steps = [
     { title: "Holiday 3", description: "Not Started" },
 ];
 
-function Field({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "available" | "reserved" | "repair" | "status" }) {
-    let valueColor: string | undefined;
-
+function Field({ label, value }: { label: string; value: React.ReactNode }) {
     return (
         <div className="flex flex-col gap-0.5">
             <span className="text-sm text-muted-foreground">{label}</span>
-            <span className="font-medium" style={valueColor ? { color: valueColor } : undefined}>
-                {value}
-            </span>
+            <span className="font-medium">{value}</span>
         </div>
     );
 }
@@ -77,7 +69,7 @@ export default function SubscriptionView({ item }: { item: Subscription }) {
                                 </StepperTrigger>
 
                                 {steps.length > index + 1 && (
-                                    <StepperSeparator className="group-data-[state=completed]/step:bg-card-blue absolute inset-x-0 top-2.5 left-[calc(50%+0.875rem)] m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem+0.225rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none" />
+                                    <StepperSeparator className="group-data-[state=completed]/step:bg-secondary absolute inset-x-0 top-2.5 left-[calc(50%+0.875rem)] m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem+0.225rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none" />
                                 )}
                             </StepperItem>
                         ))}
@@ -87,16 +79,16 @@ export default function SubscriptionView({ item }: { item: Subscription }) {
             {/* Automation Log */}
             <section>
                 <h3 className="font-medium mb-3 uppercase text-sm">Damage History</h3>
-                <div className="bg-card-blue/6 p-4 rounded-lg flex gap-3 items-start ">
-                    <div className="w-1 bg-card-blue rounded-full self-stretch"></div>
+                <div className="bg-secondary/10 p-4 rounded-lg flex gap-3 items-start ">
+                    <div className="w-1 bg-secondary rounded-full self-stretch"></div>
                     <h3 className="text-base font-medium">Pick next holiday email sent - Nov 1</h3>
                 </div>
-                <div className="bg-card-blue/6 p-4 rounded-lg flex gap-3 items-start mt-3 mb-3">
-                    <div className="w-1 bg-card-blue rounded-full self-stretch"></div>
+                <div className="bg-secondary/10 p-4 rounded-lg flex gap-3 items-start mt-3 mb-3">
+                    <div className="w-1 bg-secondary rounded-full self-stretch"></div>
                     <h3 className="text-base font-medium">Return scanned received - Oct 30</h3>
                 </div>
-                <div className="bg-card-blue/6 p-4 rounded-lg flex gap-3 items-start">
-                    <div className="w-1 bg-card-blue rounded-full self-stretch"></div>
+                <div className="bg-secondary/10 p-4 rounded-lg flex gap-3 items-start">
+                    <div className="w-1 bg-secondary rounded-full self-stretch"></div>
                     <h3 className="text-base font-medium">Shipment processed - Oct 15</h3>
                 </div>
             </section>

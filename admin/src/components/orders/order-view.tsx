@@ -1,20 +1,20 @@
-import { X } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import type { Order } from "../../data";
+import type { Order } from "@/data";
+import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 import {
     Stepper,
-    StepperContent,
     StepperDescription,
     StepperIndicator,
     StepperItem,
     StepperNav,
-    StepperPanel,
     StepperSeparator,
     StepperTitle,
     StepperTrigger,
 } from "@/components/reui/stepper";
+import { Separator } from "@/components/ui/separator";
 import { CheckIcon, LoaderCircleIcon } from "lucide-react";
+import { Button } from "../ui/button";
+
 const steps = [
     { title: "Order Reserved", description: "Nov 10, 2025" },
     { title: "Shipped", description: "Nov 12, 2025" },
@@ -23,15 +23,11 @@ const steps = [
     { title: "Returned", description: "Pending" },
 ];
 
-function Field({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "available" | "reserved" | "repair" | "status" }) {
-    let valueColor: string | undefined;
-
+function Field({ label, value }: { label: string; value: React.ReactNode }) {
     return (
         <div className="flex flex-col gap-0.5">
             <span className="text-sm text-muted-foreground">{label}</span>
-            <span className="font-medium" style={valueColor ? { color: valueColor } : undefined}>
-                {value}
-            </span>
+            <span className="font-medium">{value}</span>
         </div>
     );
 }
@@ -44,13 +40,13 @@ export default function OrderView({ item }: { item: Order }) {
             </DialogHeader>
             {/* Item Details */}
             <section>
-                <h3 className="uppercase text-sm font-medium mb-3">Item Details</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Item Details</h3>
                 <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                     <Field label="Order #" value={item.orderId} />
                     <Field label="Customer" value={item.customer} />
                     <Field label="Phone" value="(555) 123-4567" />
-                    <Field label="Email address" value="(555) 123-4567" tone="available" />
-                    <Field label="Holiday" value={item.holiday} tone="reserved" />
+                    <Field label="Email address" value="sj@example.com" />
+                    <Field label="Holiday" value={item.holiday} />
                     <Field label="Kit Type" value={item.kitType} />
                     <Field label="Duration" value={item.duration} />
                     <Field label="Price" value={item.total} />
@@ -59,7 +55,7 @@ export default function OrderView({ item }: { item: Order }) {
             </section>
             {/* Items */}
             <section>
-                <h3 className="text-sm uppercase font-medium mb-3">Items</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Items</h3>
                 <div className="space-y-2">
                     <div className="border p-2 rounded-lg">
                         <p>Christmas Starter Kit</p>
@@ -74,7 +70,7 @@ export default function OrderView({ item }: { item: Order }) {
             </section>
             {/* Add-on */}
             <section>
-                <h3 className="text-sm uppercase font-medium mb-3">Add-on</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Add-on</h3>
                 <div className="space-y-2">
                     <div className="border p-2 rounded-lg">
                         <p>Christmas Starter Kit</p>
@@ -89,10 +85,9 @@ export default function OrderView({ item }: { item: Order }) {
             </section>
             {/* Shipment Timeline */}
             <section>
-                <h3 className="text-sm uppercase font-medium mb-3">Shipment Timeline</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Shipment Timeline</h3>
                 <div className="flex items-center justify-center">
                     <Stepper
-                        className="flex flex-col gap-10"
                         defaultValue={2}
                         orientation="vertical"
                         indicators={{
@@ -103,7 +98,7 @@ export default function OrderView({ item }: { item: Order }) {
                         <StepperNav>
                             {steps.map((step, index) => (
                                 <StepperItem key={index} step={index + 1} className="relative items-start not-last:flex-1">
-                                    <StepperTrigger className="items-start gap-2.5 pb-12 last:pb-0">
+                                    <StepperTrigger className="items-start gap-2.5 pb-4 last:pb-0">
                                         <StepperIndicator className="data-[state=completed]:bg-chart-4 data-[state=completed]:text-white">
                                             {index + 1}
                                         </StepperIndicator>
@@ -118,13 +113,13 @@ export default function OrderView({ item }: { item: Order }) {
                                 </StepperItem>
                             ))}
                         </StepperNav>
-                        <h3 className="font-medium">Tracking: UPS #1Z7Y28...</h3>
+                        <h3 className="font-medium mt-2.5">Tracking: UPS #1Z7Y28...</h3>
                     </Stepper>
                 </div>
             </section>
             {/* Payment & Deposit */}
             <section>
-                <h3 className="uppercase text-sm font-medium mb-3">Payment & Deposit</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">Payment & Deposit</h3>
                 <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                     <Field label="Total" value={item.total} />
                     <Field label="Deposit Status" value={item.status} />
@@ -132,18 +127,17 @@ export default function OrderView({ item }: { item: Order }) {
             </section>
             {/* Button */}
             <section>
-                <div className="flex items-center gap-3">
-                    <button className="bg-black p-3 rounded-lg text-primary-foreground w-full">Release Deposit</button>
-                    <button className="border p-3 rounded-lg text-foreground w-full">Download Invoice</button>
+                <div className="grid grid-cols-2 gap-3">
+                    <Button variant="black">Release Deposit</Button>
+                    <Button variant="outline">Download Invoice</Button>
                 </div>
             </section>
             {/* bottom button */}
+            <Separator />
             <section>
-                <div className="border-t p-3 ">
-                    <div className="flex items-center justify-between gap-3">
-                        <button className="border p-3 rounded-lg text-foreground">Download Shipping Label</button>
-                        <button className="bg-primary p-3 rounded-lg text-primary-foreground ">Mark as Delivered</button>
-                    </div>
+                <div className="grid grid-cols-2 gap-3">
+                    <Button>Mark as Delivered</Button>
+                    <Button variant="outline">Download Shipping Label</Button>
                 </div>
             </section>
         </DialogContent>

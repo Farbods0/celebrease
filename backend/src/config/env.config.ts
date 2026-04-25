@@ -1,0 +1,20 @@
+export const config = () => ({
+    nodeEnv: process.env.NODE_ENV,
+    port: process.env.PORT || 4000,
+    appName: process.env.APP_NAME,
+    apiPrefix: process.env.API_PREFIX,
+    appVersion: process.env.APP_VERSION,
+    client: process.env.CLIENT,
+
+    databaseUrl: process.env.DATABASE_URL,
+
+    betterAuth: {
+        secret: process.env.BETTER_AUTH_SECRET,
+        url: process.env.BETTER_AUTH_URL,
+    },
+
+    mail: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
+    },
+});

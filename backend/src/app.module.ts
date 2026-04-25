@@ -1,10 +1,26 @@
+import { AppController } from "@/app.controller";
+import { AppService } from "@/app.service";
+import { CommonModule } from "@/common/common.module";
+import { config } from "@/config/env.config";
+import { CacheModule } from "@nestjs/cache-manager";
 import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
+import { ConfigModule } from "@nestjs/config";
+import { APP_GUARD } from "@nestjs/core";
+import { AuthGuard } from "@thallesp/nestjs-better-auth";
 
 @Module({
-    imports: [],
+    imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            load: [config],
+            envFilePath: ".env",
+        }),
+        CacheModule.register({
+            isGlobal: true,
+        }),
+        CommonModule,
+    ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],
 })
 export class AppModule {}

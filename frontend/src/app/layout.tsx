@@ -1,6 +1,7 @@
 import CallToAction from "@/components/main/call-to-action";
 import Footer from "@/components/main/footer";
 import Navbar from "@/components/main/navbar";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Geist, Playfair_Display } from "next/font/google";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
                 {children}
                 <CallToAction />
                 <Footer />
+                <Toaster />
             </body>
         </html>
     );

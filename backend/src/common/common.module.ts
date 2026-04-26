@@ -58,19 +58,6 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                         additionalFields: {
                             role: {
                                 type: "string",
-                                defaultValue: "user",
-                            },
-                            phone: {
-                                type: "string",
-                            },
-                            city: {
-                                type: "string",
-                            },
-                            code: {
-                                type: "string",
-                            },
-                            identifier: {
-                                type: "string",
                             },
                         },
                     },

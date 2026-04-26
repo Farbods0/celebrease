@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { useFormContext } from "./form-context";
 
 export function FormSubmit({ label }: { label: string }) {
@@ -7,8 +8,8 @@ export function FormSubmit({ label }: { label: string }) {
     return (
         <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
-                <Button type="submit" disabled={!canSubmit}>
-                    {label}
+                <Button type="submit" variant="black" disabled={!canSubmit}>
+                    {isSubmitting ? <Spinner /> : label}
                 </Button>
             )}
         </form.Subscribe>

@@ -1,0 +1,27 @@
+import { inferAdditionalFields } from "better-auth/client/plugins";
+import { createAuthClient } from "better-auth/react";
+import { toast } from "sonner";
+
+export const auth = createAuthClient({
+    fetchOptions: {
+        onError(e) {
+            if (e.error.status === 429) {
+                toast.error("Too many requests. Please try again later.");
+            } else {
+                toast.error(e.error.message ?? "Something went wrong.");
+            }
+        },
+    },
+    plugins: [
+        inferAdditionalFields({
+            user: {
+                role: {
+                    type: "string",
+                },
+            },
+        }),
+    ],
+    baseURL: process.env.NEXT_PUBLIC_APP_SERVER,
+});
+
+export type Session = typeof auth.$Infer.Session;

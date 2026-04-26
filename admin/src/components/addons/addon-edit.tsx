@@ -1,36 +1,14 @@
-import React from "react";
-import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import type { AddOn } from "../../data";
-import { useAppForm } from "../form/form-context";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { useAppForm } from "@/components/form/form-context";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import type { AddOn } from "@/data";
 
-function Fieldcomp({
-    label,
-    value,
-    tone,
-}: {
-    label: string;
-    value: React.ReactNode;
-    tone?: "available" | "reserved" | "repair" | "status";
-}) {
-    let valueColor: string | undefined;
-
-    return (
-        <div className="flex flex-col gap-0.5">
-            <span className="text-sm text-muted-foreground">{label}</span>
-            <span className="font-medium" style={valueColor ? { color: valueColor } : undefined}>
-                {value}
-            </span>
-        </div>
-    );
-}
-
-export default function AddonEdit({ item }: { item: AddOn }) {
+export function AddonEdit({ item }: { item: AddOn }) {
     const form = useAppForm({
         defaultValues: {
             // Basic Information
@@ -216,4 +194,3 @@ export default function AddonEdit({ item }: { item: AddOn }) {
         </DialogContent>
     );
 }
-

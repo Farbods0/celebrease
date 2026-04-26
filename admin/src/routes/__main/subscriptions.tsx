@@ -1,12 +1,12 @@
 import { SubscriptionCard } from "@/components/subscriptions/subscription-card";
 import { SubscriptionTable } from "@/components/subscriptions/subscription-table";
+import { SubscriptionView } from "@/components/subscriptions/subscription-view";
+import { Dialog } from "@/components/ui/dialog";
 import { SUBSCRIPTIONS, type Subscription } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Dialog } from "../components/ui/dialog";
-import SubscriptionView from "../components/subscriptions/subscription-view";
 
-export const Route = createFileRoute("/subscriptions")({
+export const Route = createFileRoute("/__main/subscriptions")({
     component: RouteComponent,
 });
 

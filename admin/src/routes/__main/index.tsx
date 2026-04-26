@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 import { Box, CalendarCheck, CheckCircle2, DollarSign, Flame, Plus, ShoppingCart, Star, TrendingUp, Undo2 } from "lucide-react";
 
-export const Route = createFileRoute("/")({ component: RouteComponent });
+export const Route = createFileRoute("/__main/")({ component: RouteComponent });
 
 function RouteComponent() {
     return (

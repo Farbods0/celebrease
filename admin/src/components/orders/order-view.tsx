@@ -11,9 +11,9 @@ import {
     StepperTitle,
     StepperTrigger,
 } from "@/components/reui/stepper";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CheckIcon, LoaderCircleIcon } from "lucide-react";
-import { Button } from "../ui/button";
 
 const steps = [
     { title: "Order Reserved", description: "Nov 10, 2025" },
@@ -32,7 +32,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
     );
 }
 
-export default function OrderView({ item }: { item: Order }) {
+export function OrderView({ item }: { item: Order }) {
     return (
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>

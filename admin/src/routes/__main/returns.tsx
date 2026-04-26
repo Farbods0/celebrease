@@ -1,12 +1,12 @@
 import { ReturnCard } from "@/components/returns/return-card";
 import { ReturnTable } from "@/components/returns/return-table";
+import { ReturnView } from "@/components/returns/return-view";
+import { Dialog } from "@/components/ui/dialog";
 import { RETURNS, type Return } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import ReturnView from "../components/returns/return-view";
-import { Dialog } from "../components/ui/dialog";
 
-export const Route = createFileRoute("/returns")({
+export const Route = createFileRoute("/__main/returns")({
     component: RouteComponent,
 });
 

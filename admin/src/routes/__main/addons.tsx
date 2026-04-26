@@ -1,4 +1,5 @@
 import { AddOnCard } from "@/components/addons/addon-card";
+import { AddonEdit } from "@/components/addons/addon-edit";
 import { AddonForm } from "@/components/addons/addon-form";
 import { AddOnTable } from "@/components/addons/addon-table";
 import { Button } from "@/components/ui/button";
@@ -7,9 +8,8 @@ import { ADD_ONS, type AddOn } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Upload } from "lucide-react";
 import { useState } from "react";
-import AddonEdit from "../components/addons/addon-edit";
 
-export const Route = createFileRoute("/addons")({
+export const Route = createFileRoute("/__main/addons")({
     component: RouteComponent,
 });
 

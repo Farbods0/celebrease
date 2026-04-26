@@ -1,12 +1,12 @@
 import { CustomerCard } from "@/components/customers/customer-card";
 import { CustomerTable } from "@/components/customers/customer-table";
+import { CustomerView } from "@/components/customers/customer-view";
+import { Dialog } from "@/components/ui/dialog";
 import { CUSTOMERS, type Customer } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Dialog } from "../components/ui/dialog";
-import CustomerView from "../components/customers/customer-view";
 
-export const Route = createFileRoute("/customers")({
+export const Route = createFileRoute("/__main/customers")({
     component: RouteComponent,
 });
 

@@ -1,12 +1,12 @@
 import { OrderCard } from "@/components/orders/order-card";
 import { OrderTable } from "@/components/orders/order-table";
+import { OrderView } from "@/components/orders/order-view";
+import { Dialog } from "@/components/ui/dialog";
 import { ORDERS, type Order } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
-import { Dialog } from "@/components/ui/dialog";
 import { useState } from "react";
-import OrderView from "../components/orders/order-view";
 
-export const Route = createFileRoute("/orders")({
+export const Route = createFileRoute("/__main/orders")({
     component: RouteComponent,
 });
 
@@ -33,7 +33,7 @@ function RouteComponent() {
                     ))}
                 </div>
 
-              {selectedItem && <OrderView item={selectedItem} />}
+                {selectedItem && <OrderView item={selectedItem} />}
             </Dialog>
         </main>
     );

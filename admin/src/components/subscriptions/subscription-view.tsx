@@ -28,7 +28,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
     );
 }
 
-export default function SubscriptionView({ item }: { item: Subscription }) {
+export function SubscriptionView({ item }: { item: Subscription }) {
     return (
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>

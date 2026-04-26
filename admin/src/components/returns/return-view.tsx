@@ -1,12 +1,11 @@
-import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import type { Return } from "../../data";
-import { Checkbox } from "@/components/ui/checkbox";
-
+import { useAppForm } from "@/components/form/form-context";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { useAppForm } from "../form/form-context";
+import type { Return } from "@/data";
+import React from "react";
+import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 function FieldComp({
     label,
@@ -29,7 +28,7 @@ function FieldComp({
     );
 }
 
-export default function ReturnView({ item }: { item: Return }) {
+export function ReturnView({ item }: { item: Return }) {
     const form = useAppForm({
         defaultValues: {
             // Basic Information

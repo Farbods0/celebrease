@@ -9,91 +9,137 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
-import { Route as ReturnsRouteImport } from './routes/returns'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as OrdersRouteImport } from './routes/orders'
-import { Route as InventoryRouteImport } from './routes/inventory'
-import { Route as CustomersRouteImport } from './routes/customers'
-import { Route as AddonsRouteImport } from './routes/addons'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as _mainRouteRouteImport } from './routes/__main/route'
+import { Route as _mainIndexRouteImport } from './routes/__main/index'
+import { Route as _mainSubscriptionsRouteImport } from './routes/__main/subscriptions'
+import { Route as _mainReturnsRouteImport } from './routes/__main/returns'
+import { Route as _mainPricingRouteImport } from './routes/__main/pricing'
+import { Route as _mainOrdersRouteImport } from './routes/__main/orders'
+import { Route as _mainInventoryRouteImport } from './routes/__main/inventory'
+import { Route as _mainCustomersRouteImport } from './routes/__main/customers'
+import { Route as _mainAddonsRouteImport } from './routes/__main/addons'
+import { Route as _authVerificationRouteImport } from './routes/__auth/verification'
+import { Route as _authSigninRouteImport } from './routes/__auth/signin'
+import { Route as _authResetPasswordRouteImport } from './routes/__auth/reset-password'
+import { Route as _authForgotPasswordRouteImport } from './routes/__auth/forgot-password'
 
-const SubscriptionsRoute = SubscriptionsRouteImport.update({
-  id: '/subscriptions',
-  path: '/subscriptions',
+const _mainRouteRoute = _mainRouteRouteImport.update({
+  id: '/__main',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReturnsRoute = ReturnsRouteImport.update({
-  id: '/returns',
-  path: '/returns',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OrdersRoute = OrdersRouteImport.update({
-  id: '/orders',
-  path: '/orders',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InventoryRoute = InventoryRouteImport.update({
-  id: '/inventory',
-  path: '/inventory',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CustomersRoute = CustomersRouteImport.update({
-  id: '/customers',
-  path: '/customers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AddonsRoute = AddonsRouteImport.update({
-  id: '/addons',
-  path: '/addons',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
+const _mainIndexRoute = _mainIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainSubscriptionsRoute = _mainSubscriptionsRouteImport.update({
+  id: '/subscriptions',
+  path: '/subscriptions',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainReturnsRoute = _mainReturnsRouteImport.update({
+  id: '/returns',
+  path: '/returns',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainPricingRoute = _mainPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainOrdersRoute = _mainOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainInventoryRoute = _mainInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainCustomersRoute = _mainCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainAddonsRoute = _mainAddonsRouteImport.update({
+  id: '/addons',
+  path: '/addons',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _authVerificationRoute = _authVerificationRouteImport.update({
+  id: '/__auth/verification',
+  path: '/verification',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const _authSigninRoute = _authSigninRouteImport.update({
+  id: '/__auth/signin',
+  path: '/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const _authResetPasswordRoute = _authResetPasswordRouteImport.update({
+  id: '/__auth/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const _authForgotPasswordRoute = _authForgotPasswordRouteImport.update({
+  id: '/__auth/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/addons': typeof AddonsRoute
-  '/customers': typeof CustomersRoute
-  '/inventory': typeof InventoryRoute
-  '/orders': typeof OrdersRoute
-  '/pricing': typeof PricingRoute
-  '/returns': typeof ReturnsRoute
-  '/subscriptions': typeof SubscriptionsRoute
+  '/': typeof _mainIndexRoute
+  '/forgot-password': typeof _authForgotPasswordRoute
+  '/reset-password': typeof _authResetPasswordRoute
+  '/signin': typeof _authSigninRoute
+  '/verification': typeof _authVerificationRoute
+  '/addons': typeof _mainAddonsRoute
+  '/customers': typeof _mainCustomersRoute
+  '/inventory': typeof _mainInventoryRoute
+  '/orders': typeof _mainOrdersRoute
+  '/pricing': typeof _mainPricingRoute
+  '/returns': typeof _mainReturnsRoute
+  '/subscriptions': typeof _mainSubscriptionsRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/addons': typeof AddonsRoute
-  '/customers': typeof CustomersRoute
-  '/inventory': typeof InventoryRoute
-  '/orders': typeof OrdersRoute
-  '/pricing': typeof PricingRoute
-  '/returns': typeof ReturnsRoute
-  '/subscriptions': typeof SubscriptionsRoute
+  '/forgot-password': typeof _authForgotPasswordRoute
+  '/reset-password': typeof _authResetPasswordRoute
+  '/signin': typeof _authSigninRoute
+  '/verification': typeof _authVerificationRoute
+  '/addons': typeof _mainAddonsRoute
+  '/customers': typeof _mainCustomersRoute
+  '/inventory': typeof _mainInventoryRoute
+  '/orders': typeof _mainOrdersRoute
+  '/pricing': typeof _mainPricingRoute
+  '/returns': typeof _mainReturnsRoute
+  '/subscriptions': typeof _mainSubscriptionsRoute
+  '/': typeof _mainIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/addons': typeof AddonsRoute
-  '/customers': typeof CustomersRoute
-  '/inventory': typeof InventoryRoute
-  '/orders': typeof OrdersRoute
-  '/pricing': typeof PricingRoute
-  '/returns': typeof ReturnsRoute
-  '/subscriptions': typeof SubscriptionsRoute
+  '/__main': typeof _mainRouteRouteWithChildren
+  '/__auth/forgot-password': typeof _authForgotPasswordRoute
+  '/__auth/reset-password': typeof _authResetPasswordRoute
+  '/__auth/signin': typeof _authSigninRoute
+  '/__auth/verification': typeof _authVerificationRoute
+  '/__main/addons': typeof _mainAddonsRoute
+  '/__main/customers': typeof _mainCustomersRoute
+  '/__main/inventory': typeof _mainInventoryRoute
+  '/__main/orders': typeof _mainOrdersRoute
+  '/__main/pricing': typeof _mainPricingRoute
+  '/__main/returns': typeof _mainReturnsRoute
+  '/__main/subscriptions': typeof _mainSubscriptionsRoute
+  '/__main/': typeof _mainIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/signin'
+    | '/verification'
     | '/addons'
     | '/customers'
     | '/inventory'
@@ -103,7 +149,10 @@ export interface FileRouteTypes {
     | '/subscriptions'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/forgot-password'
+    | '/reset-password'
+    | '/signin'
+    | '/verification'
     | '/addons'
     | '/customers'
     | '/inventory'
@@ -111,99 +160,160 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/returns'
     | '/subscriptions'
+    | '/'
   id:
     | '__root__'
-    | '/'
-    | '/addons'
-    | '/customers'
-    | '/inventory'
-    | '/orders'
-    | '/pricing'
-    | '/returns'
-    | '/subscriptions'
+    | '/__main'
+    | '/__auth/forgot-password'
+    | '/__auth/reset-password'
+    | '/__auth/signin'
+    | '/__auth/verification'
+    | '/__main/addons'
+    | '/__main/customers'
+    | '/__main/inventory'
+    | '/__main/orders'
+    | '/__main/pricing'
+    | '/__main/returns'
+    | '/__main/subscriptions'
+    | '/__main/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AddonsRoute: typeof AddonsRoute
-  CustomersRoute: typeof CustomersRoute
-  InventoryRoute: typeof InventoryRoute
-  OrdersRoute: typeof OrdersRoute
-  PricingRoute: typeof PricingRoute
-  ReturnsRoute: typeof ReturnsRoute
-  SubscriptionsRoute: typeof SubscriptionsRoute
+  _mainRouteRoute: typeof _mainRouteRouteWithChildren
+  _authForgotPasswordRoute: typeof _authForgotPasswordRoute
+  _authResetPasswordRoute: typeof _authResetPasswordRoute
+  _authSigninRoute: typeof _authSigninRoute
+  _authVerificationRoute: typeof _authVerificationRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/subscriptions': {
-      id: '/subscriptions'
-      path: '/subscriptions'
-      fullPath: '/subscriptions'
-      preLoaderRoute: typeof SubscriptionsRouteImport
+    '/__main': {
+      id: '/__main'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof _mainRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/returns': {
-      id: '/returns'
-      path: '/returns'
-      fullPath: '/returns'
-      preLoaderRoute: typeof ReturnsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/orders': {
-      id: '/orders'
-      path: '/orders'
-      fullPath: '/orders'
-      preLoaderRoute: typeof OrdersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/inventory': {
-      id: '/inventory'
-      path: '/inventory'
-      fullPath: '/inventory'
-      preLoaderRoute: typeof InventoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/customers': {
-      id: '/customers'
-      path: '/customers'
-      fullPath: '/customers'
-      preLoaderRoute: typeof CustomersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/addons': {
-      id: '/addons'
-      path: '/addons'
-      fullPath: '/addons'
-      preLoaderRoute: typeof AddonsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/__main/': {
+      id: '/__main/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof _mainIndexRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/subscriptions': {
+      id: '/__main/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/subscriptions'
+      preLoaderRoute: typeof _mainSubscriptionsRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/returns': {
+      id: '/__main/returns'
+      path: '/returns'
+      fullPath: '/returns'
+      preLoaderRoute: typeof _mainReturnsRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/pricing': {
+      id: '/__main/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof _mainPricingRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/orders': {
+      id: '/__main/orders'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof _mainOrdersRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/inventory': {
+      id: '/__main/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof _mainInventoryRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/customers': {
+      id: '/__main/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof _mainCustomersRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/addons': {
+      id: '/__main/addons'
+      path: '/addons'
+      fullPath: '/addons'
+      preLoaderRoute: typeof _mainAddonsRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__auth/verification': {
+      id: '/__auth/verification'
+      path: '/verification'
+      fullPath: '/verification'
+      preLoaderRoute: typeof _authVerificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/__auth/signin': {
+      id: '/__auth/signin'
+      path: '/signin'
+      fullPath: '/signin'
+      preLoaderRoute: typeof _authSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/__auth/reset-password': {
+      id: '/__auth/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof _authResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/__auth/forgot-password': {
+      id: '/__auth/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof _authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
+interface _mainRouteRouteChildren {
+  _mainAddonsRoute: typeof _mainAddonsRoute
+  _mainCustomersRoute: typeof _mainCustomersRoute
+  _mainInventoryRoute: typeof _mainInventoryRoute
+  _mainOrdersRoute: typeof _mainOrdersRoute
+  _mainPricingRoute: typeof _mainPricingRoute
+  _mainReturnsRoute: typeof _mainReturnsRoute
+  _mainSubscriptionsRoute: typeof _mainSubscriptionsRoute
+  _mainIndexRoute: typeof _mainIndexRoute
+}
+
+const _mainRouteRouteChildren: _mainRouteRouteChildren = {
+  _mainAddonsRoute: _mainAddonsRoute,
+  _mainCustomersRoute: _mainCustomersRoute,
+  _mainInventoryRoute: _mainInventoryRoute,
+  _mainOrdersRoute: _mainOrdersRoute,
+  _mainPricingRoute: _mainPricingRoute,
+  _mainReturnsRoute: _mainReturnsRoute,
+  _mainSubscriptionsRoute: _mainSubscriptionsRoute,
+  _mainIndexRoute: _mainIndexRoute,
+}
+
+const _mainRouteRouteWithChildren = _mainRouteRoute._addFileChildren(
+  _mainRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AddonsRoute: AddonsRoute,
-  CustomersRoute: CustomersRoute,
-  InventoryRoute: InventoryRoute,
-  OrdersRoute: OrdersRoute,
-  PricingRoute: PricingRoute,
-  ReturnsRoute: ReturnsRoute,
-  SubscriptionsRoute: SubscriptionsRoute,
+  _mainRouteRoute: _mainRouteRouteWithChildren,
+  _authForgotPasswordRoute: _authForgotPasswordRoute,
+  _authResetPasswordRoute: _authResetPasswordRoute,
+  _authSigninRoute: _authSigninRoute,
+  _authVerificationRoute: _authVerificationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

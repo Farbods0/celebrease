@@ -1,12 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import type { KitItem } from "@/data";
+import { KIT_ITEMS } from "@/data";
+import { cn } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
-import { StatusBadge } from "../components/ui/status-badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table";
-
-import type { KitItem } from "../data";
-import { KIT_ITEMS } from "../data";
-import { Button } from "../components/ui/button";
 import { Plus } from "lucide-react";
-import { cn } from "../lib/utils";
 
 const holidays = ["Christmas", "Diwali", "Halloween", "Thanksgiving", "Valentine's", "Easter", "Independence Day", "New Year", "Birthdays"];
 
@@ -108,6 +107,6 @@ function RouteComponent({ items, onView }: RouteComponentProps) {
 }
 
 // Route export
-export const Route = createFileRoute("/pricing")({
+export const Route = createFileRoute("/__main/pricing")({
     component: () => <RouteComponent items={KIT_ITEMS} onView={(item) => console.log(item)} />,
 });

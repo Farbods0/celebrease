@@ -10,7 +10,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus, SlidersHorizontal, Upload } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/inventory")({
+export const Route = createFileRoute("/__main/inventory")({
     component: RouteComponent,
 });
 

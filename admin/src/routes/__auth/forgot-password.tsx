@@ -22,7 +22,7 @@ function RouteComponent() {
             await auth.requestPasswordReset(
                 {
                     email: value.email,
-                    redirectTo: `${process.env.NEXT_PUBLIC_APP_CLIENT}/reset-password`,
+                    redirectTo: `${import.meta.env.VITE_APP_CLIENT}/reset-password`,
                 },
                 {
                     onSuccess: () => {

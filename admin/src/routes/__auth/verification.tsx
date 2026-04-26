@@ -36,12 +36,12 @@ function RouteComponent() {
                 if (type === "reset") {
                     await auth.requestPasswordReset({
                         email: user,
-                        redirectTo: `${process.env.NEXT_PUBLIC_APP_CLIENT}/reset-password`,
+                        redirectTo: `${import.meta.env.VITE_APP_CLIENT}/reset-password`,
                     });
                 } else {
                     await auth.sendVerificationEmail({
                         email: user,
-                        callbackURL: `${process.env.NEXT_PUBLIC_APP_CLIENT}/account`,
+                        callbackURL: `${import.meta.env.VITE_APP_CLIENT}/account`,
                     });
                 }
                 toast.success("Verification email sent successfully!");

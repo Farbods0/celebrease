@@ -1,3 +1,4 @@
+import { redirect } from "@tanstack/react-router";
 import { inferAdditionalFields } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { toast } from "sonner";
@@ -21,7 +22,19 @@ export const auth = createAuthClient({
             },
         }),
     ],
-    baseURL: process.env.NEXT_PUBLIC_APP_SERVER,
+    baseURL: import.meta.env.VITE_APP_SERVER,
 });
+
+export const validateSession = async () => {
+    const { data } = await auth.getSession();
+
+    if (!data?.user) {
+        throw redirect({ to: "/signin" });
+    } else if (!data.user.emailVerified) {
+        throw redirect({ to: "/verification", search: { user: data.user.email, type: "signup" } });
+    } else {
+        return { user: data.user, session: data.session };
+    }
+};
 
 export type Session = typeof auth.$Infer.Session;

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as _mainRouteRouteImport } from './routes/__main/route'
+import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _mainIndexRouteImport } from './routes/__main/index'
 import { Route as _mainSubscriptionsRouteImport } from './routes/__main/subscriptions'
 import { Route as _mainReturnsRouteImport } from './routes/__main/returns'
@@ -25,6 +26,10 @@ import { Route as _authForgotPasswordRouteImport } from './routes/__auth/forgot-
 
 const _mainRouteRoute = _mainRouteRouteImport.update({
   id: '/__main',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const _authRouteRoute = _authRouteRouteImport.update({
+  id: '/__auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const _mainIndexRoute = _mainIndexRouteImport.update({
@@ -68,24 +73,24 @@ const _mainAddonsRoute = _mainAddonsRouteImport.update({
   getParentRoute: () => _mainRouteRoute,
 } as any)
 const _authVerificationRoute = _authVerificationRouteImport.update({
-  id: '/__auth/verification',
+  id: '/verification',
   path: '/verification',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => _authRouteRoute,
 } as any)
 const _authSigninRoute = _authSigninRouteImport.update({
-  id: '/__auth/signin',
+  id: '/signin',
   path: '/signin',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => _authRouteRoute,
 } as any)
 const _authResetPasswordRoute = _authResetPasswordRouteImport.update({
-  id: '/__auth/reset-password',
+  id: '/reset-password',
   path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => _authRouteRoute,
 } as any)
 const _authForgotPasswordRoute = _authForgotPasswordRouteImport.update({
-  id: '/__auth/forgot-password',
+  id: '/forgot-password',
   path: '/forgot-password',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => _authRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -103,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/subscriptions': typeof _mainSubscriptionsRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof _mainIndexRoute
   '/forgot-password': typeof _authForgotPasswordRoute
   '/reset-password': typeof _authResetPasswordRoute
   '/signin': typeof _authSigninRoute
@@ -114,10 +120,10 @@ export interface FileRoutesByTo {
   '/pricing': typeof _mainPricingRoute
   '/returns': typeof _mainReturnsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
-  '/': typeof _mainIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/__auth': typeof _authRouteRouteWithChildren
   '/__main': typeof _mainRouteRouteWithChildren
   '/__auth/forgot-password': typeof _authForgotPasswordRoute
   '/__auth/reset-password': typeof _authResetPasswordRoute
@@ -149,6 +155,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/forgot-password'
     | '/reset-password'
     | '/signin'
@@ -160,9 +167,9 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/returns'
     | '/subscriptions'
-    | '/'
   id:
     | '__root__'
+    | '/__auth'
     | '/__main'
     | '/__auth/forgot-password'
     | '/__auth/reset-password'
@@ -179,11 +186,8 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  _authRouteRoute: typeof _authRouteRouteWithChildren
   _mainRouteRoute: typeof _mainRouteRouteWithChildren
-  _authForgotPasswordRoute: typeof _authForgotPasswordRoute
-  _authResetPasswordRoute: typeof _authResetPasswordRoute
-  _authSigninRoute: typeof _authSigninRoute
-  _authVerificationRoute: typeof _authVerificationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -193,6 +197,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof _mainRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/__auth': {
+      id: '/__auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof _authRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/__main/': {
@@ -256,31 +267,49 @@ declare module '@tanstack/react-router' {
       path: '/verification'
       fullPath: '/verification'
       preLoaderRoute: typeof _authVerificationRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof _authRouteRoute
     }
     '/__auth/signin': {
       id: '/__auth/signin'
       path: '/signin'
       fullPath: '/signin'
       preLoaderRoute: typeof _authSigninRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof _authRouteRoute
     }
     '/__auth/reset-password': {
       id: '/__auth/reset-password'
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof _authResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof _authRouteRoute
     }
     '/__auth/forgot-password': {
       id: '/__auth/forgot-password'
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof _authForgotPasswordRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof _authRouteRoute
     }
   }
 }
+
+interface _authRouteRouteChildren {
+  _authForgotPasswordRoute: typeof _authForgotPasswordRoute
+  _authResetPasswordRoute: typeof _authResetPasswordRoute
+  _authSigninRoute: typeof _authSigninRoute
+  _authVerificationRoute: typeof _authVerificationRoute
+}
+
+const _authRouteRouteChildren: _authRouteRouteChildren = {
+  _authForgotPasswordRoute: _authForgotPasswordRoute,
+  _authResetPasswordRoute: _authResetPasswordRoute,
+  _authSigninRoute: _authSigninRoute,
+  _authVerificationRoute: _authVerificationRoute,
+}
+
+const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
+  _authRouteRouteChildren,
+)
 
 interface _mainRouteRouteChildren {
   _mainAddonsRoute: typeof _mainAddonsRoute
@@ -309,11 +338,8 @@ const _mainRouteRouteWithChildren = _mainRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  _authRouteRoute: _authRouteRouteWithChildren,
   _mainRouteRoute: _mainRouteRouteWithChildren,
-  _authForgotPasswordRoute: _authForgotPasswordRoute,
-  _authResetPasswordRoute: _authResetPasswordRoute,
-  _authSigninRoute: _authSigninRoute,
-  _authVerificationRoute: _authVerificationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

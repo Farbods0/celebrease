@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import * as z from "zod";
 
 const searchSchema = z.object({
-    token: z.string(),
-    error: z.string(),
+    token: z.string().optional(),
+    error: z.string().optional(),
 });
 
 export const Route = createFileRoute("/__auth/reset-password")({

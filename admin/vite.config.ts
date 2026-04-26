@@ -15,6 +15,7 @@ const config = defineConfig({
     preview: {
         host: true,
         port: 4001,
+        allowedHosts: ["visualexstasy-celebrease-admin.kodevio.com"],
     },
     plugins: [devtools(), tailwindcss(), tanstackRouter({ target: "react", autoCodeSplitting: true }), viteReact()],
 });

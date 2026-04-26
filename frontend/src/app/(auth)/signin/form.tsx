@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const signinSchema = z.object({
@@ -27,8 +28,17 @@ export function SigninForm() {
                     rememberMe: value.remember,
                 },
                 {
-                    onSuccess: () => {
-                        router.push("/account");
+                    onSuccess: async ({ data }) => {
+                        if (!data.user.emailVerified) {
+                            const params = new URLSearchParams({ user: data.user.email, type: "signup" });
+                            router.push(`/verification?${params.toString()}`);
+                        } else if (data.user.role === "admin") {
+                            await auth.signOut();
+                            toast.error("Admins must use the admin portal.");
+                            router.push("/signin");
+                        } else {
+                            router.push("/account");
+                        }
                     },
                 },
             );

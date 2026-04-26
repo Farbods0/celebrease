@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, LinkSquare02Icon, PackageIcon, PencilEdit02Icon, StarIcon, Upload01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Separator } from "../../components/ui/separator";
+import { Separator } from "@/components/ui/separator";
 
 export default function AccountPage() {
     return (

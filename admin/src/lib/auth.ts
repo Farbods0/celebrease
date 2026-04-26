@@ -32,6 +32,10 @@ export const validateSession = async () => {
         throw redirect({ to: "/signin" });
     } else if (!data.user.emailVerified) {
         throw redirect({ to: "/verification", search: { user: data.user.email, type: "signup" } });
+    } else if (data.user.role !== "admin") {
+        await auth.signOut();
+        toast.error("Only admins can access the admin portal.");
+        throw redirect({ to: "/signin" });
     } else {
         return { user: data.user, session: data.session };
     }

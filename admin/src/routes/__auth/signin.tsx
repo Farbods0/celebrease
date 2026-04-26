@@ -2,6 +2,7 @@ import { useAppForm } from "@/components/form/form-context";
 import { Checkbox } from "@/components/ui/checkbox";
 import { auth } from "@/lib/auth";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import * as z from "zod";
 
 export const Route = createFileRoute("/__auth/signin")({
@@ -28,8 +29,16 @@ function RouteComponent() {
                     rememberMe: value.remember,
                 },
                 {
-                    onSuccess: () => {
-                        navigate({ to: "/" });
+                    onSuccess: async ({ data }) => {
+                        if (!data.user.emailVerified) {
+                            navigate({ to: "/verification", search: { user: data.user.email, type: "signup" } });
+                        } else if (data.user.role !== "admin") {
+                            await auth.signOut();
+                            toast.error("Only admins can access the admin portal.");
+                            navigate({ to: "/signin" });
+                        } else {
+                            navigate({ to: "/" });
+                        }
                     },
                 },
             );

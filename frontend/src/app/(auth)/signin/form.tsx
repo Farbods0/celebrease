@@ -28,7 +28,7 @@ export function SigninForm() {
                 },
                 {
                     onSuccess: () => {
-                        router.push("/settings");
+                        router.push("/account");
                     },
                 },
             );

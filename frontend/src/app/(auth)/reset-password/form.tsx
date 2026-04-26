@@ -2,7 +2,7 @@
 
 import { useAppForm } from "@/components/form/form-context";
 import { auth } from "@/lib/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -18,13 +18,20 @@ const resetSchema = z
 
 export function ResetPasswordForm() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token") ?? "";
+    const error = searchParams.get("error");
 
     const form = useAppForm({
         defaultValues: { password: "", confirmPassword: "" },
         validators: { onChange: resetSchema },
         onSubmit: async ({ value }) => {
+            if (!token) {
+                toast.error("Reset link is invalid or has expired. Please request a new one.");
+                return;
+            }
             await auth.resetPassword(
-                { token: "", newPassword: value.password },
+                { token, newPassword: value.password },
                 {
                     onSuccess: () => {
                         toast.success("Password reset successfully!");
@@ -34,6 +41,18 @@ export function ResetPasswordForm() {
             );
         },
     });
+
+    if (error || !token) {
+        return (
+            <p className="text-center text-sm text-muted-foreground">
+                This reset link is invalid or has expired.{" "}
+                <a href="/forgot-password" className="underline">
+                    Request a new one
+                </a>
+                .
+            </p>
+        );
+    }
 
     return (
         <form

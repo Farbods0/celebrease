@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ResetPasswordForm } from "./form";
 
 export default async function ResetPassword() {
@@ -8,7 +9,9 @@ export default async function ResetPassword() {
                 <p className="mt-2 text-center text-muted-foreground">Create a new password for your account.</p>
             </div>
 
-            <ResetPasswordForm />
+            <Suspense>
+                <ResetPasswordForm />
+            </Suspense>
         </div>
     );
 }

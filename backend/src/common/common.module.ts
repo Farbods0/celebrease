@@ -1,6 +1,5 @@
 import { EmailService } from "@/common/services/email.service";
 import { PrismaService } from "@/common/services/prisma.service";
-import { Cache } from "@nestjs/cache-manager";
 import { Global, Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { AuthModule } from "@thallesp/nestjs-better-auth";
@@ -11,8 +10,8 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 @Module({
     imports: [
         AuthModule.forRootAsync({
-            inject: [ConfigService, PrismaService, Cache, EmailService],
-            useFactory: (configService: ConfigService, prismaService: PrismaService, cacheService: Cache, emailService: EmailService) => ({
+            inject: [ConfigService, PrismaService, EmailService],
+            useFactory: (configService: ConfigService, prismaService: PrismaService, emailService: EmailService) => ({
                 auth: betterAuth({
                     appName: "CeleBrease",
                     baseURL: configService.get<string>("betterAuth.url")!,
@@ -20,21 +19,6 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                     database: prismaAdapter(prismaService, {
                         provider: "postgresql",
                     }),
-                    secondaryStorage: {
-                        get: async (key) => {
-                            return await cacheService.get(key);
-                        },
-                        set: async (key, value, ttl) => {
-                            if (ttl) {
-                                await cacheService.set(key, value, ttl);
-                            } else {
-                                await cacheService.set(key, value);
-                            }
-                        },
-                        delete: async (key) => {
-                            await cacheService.del(key);
-                        },
-                    },
                     emailVerification: {
                         sendOnSignUp: true,
                         sendVerificationEmail: async (data) => {

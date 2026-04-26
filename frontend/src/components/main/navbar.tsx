@@ -2,12 +2,15 @@
 
 import { ShoppingBasket, UserCircle } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { Search } from "@hugeicons/core-free-icons";
+import { auth } from "@/lib/auth";
+import { LoginCircle02Icon, Search } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar() {
+    const { data } = auth.useSession();
+
     return (
         <nav className="absolute w-full border-b">
             <div className="container mx-auto flex h-20 items-center justify-between px-6">
@@ -27,12 +30,21 @@ export default function Navbar() {
                     <Link href="/cart">
                         <ShoppingBasket />
                     </Link>
-                    <Link href="/account">
-                        <Button className="bg-white hover:bg-white/80 shadow-lg">
-                            <UserCircle />
-                            Sign in
-                        </Button>
-                    </Link>
+                    {data?.user ? (
+                        <Link href="/account">
+                            <Button className="bg-white hover:bg-white/80 shadow-lg">
+                                <UserCircle />
+                                Account
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Link href="/signin">
+                            <Button className="bg-white hover:bg-white/80 shadow-lg">
+                                <HugeiconsIcon icon={LoginCircle02Icon} />
+                                Sign in
+                            </Button>
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>

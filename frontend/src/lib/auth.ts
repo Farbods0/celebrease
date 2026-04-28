@@ -18,6 +18,14 @@ export const auth = createAuthClient({
                 role: {
                     type: "string",
                 },
+                phone: {
+                    type: "string",
+                    required: false,
+                },
+                region: {
+                    type: "string",
+                    required: false,
+                },
             },
         }),
     ],

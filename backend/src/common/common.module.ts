@@ -43,6 +43,14 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                             role: {
                                 type: "string",
                             },
+                            phone: {
+                                type: "string",
+                                required: false,
+                            },
+                            region: {
+                                type: "string",
+                                required: false,
+                            },
                         },
                     },
                     trustedOrigins: configService.get<string>("client")?.split(",") || [],

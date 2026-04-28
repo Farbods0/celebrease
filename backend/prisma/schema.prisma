@@ -24,13 +24,13 @@ model User {
     emailVerified Boolean   @default(false)
     image         String?
     role          String    @default("user")
+    phone         String?
+    region        String?
     createdAt     DateTime  @default(now())
     updatedAt     DateTime  @updatedAt
     sessions      Session[]
     accounts      Account[]
 
-    phone          String?
-    region         String?
     addresses      Address[]
     paymentMethods PaymentMethod[]
     subscriptions  Subscription[]
@@ -235,7 +235,7 @@ model Address {
     userId       String
     user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     type         AddressType @default(SHIPPING)
-    fullName     String
+    name         String
     phone        String?
     streetLine1  String
     streetLine2  String?

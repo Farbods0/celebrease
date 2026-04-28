@@ -30,7 +30,7 @@ function RouteComponent({ items, onView }: RouteComponentProps) {
                 </div>
                 <Button>
                     <Plus className="size-4" />
-                    <span>Create New Kit Tier</span>
+                    <span>Add New Kit Tier</span>
                 </Button>
             </div>
             <main className="flex w-full">

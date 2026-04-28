@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import type { User } from "@/data";
+import type { ApiUser } from "@/lib/api";
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
     return (
@@ -15,17 +15,25 @@ function getInitials(str: string) {
     return (str.match(/\b(\w)/g) ?? []).slice(0, 2).join("").toUpperCase();
 }
 
+const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "2-digit", year: "numeric" });
+function formatDate(value: string) {
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return "—";
+    return dateFormatter.format(d);
+}
+
 type UserCardProps = {
-    item: User;
-    onView: (item: User) => void;
+    item: ApiUser;
+    onView: (item: ApiUser) => void;
+    onEdit: (item: ApiUser) => void;
 };
 
-export function UserCard({ item, onView }: UserCardProps) {
+export function UserCard({ item, onView, onEdit }: UserCardProps) {
     return (
         <article className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2">
                 <Avatar className="size-12">
-                    <AvatarImage src="" alt={item.name} />
+                    <AvatarImage src={item.image ?? ""} alt={item.name} />
                     <AvatarFallback>{getInitials(item.name)}</AvatarFallback>
                 </Avatar>
                 <div>
@@ -34,28 +42,32 @@ export function UserCard({ item, onView }: UserCardProps) {
                 </div>
             </div>
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                <Field label="Role" value={item.role} />
+                <Field label="Role" value={<span className="capitalize">{item.role}</span>} />
                 <Field
                     label="Status"
                     value={
                         <span
                             className="rounded-md px-2 py-0.5 text-xs font-medium"
                             style={
-                                item.status === "Active"
+                                item.emailVerified
                                     ? { backgroundColor: "oklch(0.93 0.08 150)", color: "oklch(0.4 0.14 150)" }
                                     : { backgroundColor: "oklch(0.93 0.08 25)", color: "oklch(0.45 0.2 25)" }
                             }
                         >
-                            {item.status}
+                            {item.emailVerified ? "Active" : "Inactive"}
                         </span>
                     }
                 />
-                <Field label="Last Login" value={item.lastLogin} />
-                <Field label="Created" value={item.createdAt} />
+                <Field label="Created" value={formatDate(item.createdAt)} />
             </div>
-            <Button size="sm" onClick={() => onView(item)} className="mt-4 w-full bg-muted text-foreground hover:bg-muted/80">
-                View
-            </Button>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+                <Button size="sm" variant="outline" onClick={() => onView(item)}>
+                    View
+                </Button>
+                <Button size="sm" onClick={() => onEdit(item)}>
+                    Edit
+                </Button>
+            </div>
         </article>
     );
 }

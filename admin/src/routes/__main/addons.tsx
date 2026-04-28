@@ -37,7 +37,7 @@ function RouteComponent() {
                         <DialogTrigger asChild>
                             <Button>
                                 <Plus className="size-4" />
-                                <span>New Add-On</span>
+                                <span>Add New Add-On</span>
                             </Button>
                         </DialogTrigger>
                         <AddonForm />

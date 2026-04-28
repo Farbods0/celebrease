@@ -3,6 +3,10 @@ import { Avatar as AvatarPrimitive } from "radix-ui";
 
 import { cn } from "#/lib/utils";
 
+function getInitials(str: string) {
+    return (str.match(/\b(\w)/g) ?? []).slice(0, 2).join("").toUpperCase();
+}
+
 function Avatar({
     className,
     size = "default",
@@ -42,7 +46,9 @@ function AvatarFallback({ className, ...props }: React.ComponentProps<typeof Ava
                 className,
             )}
             {...props}
-        />
+        >
+            {typeof props.children === "string" ? getInitials(props.children) : props.children}
+        </AvatarPrimitive.Fallback>
     );
 }
 

@@ -7,6 +7,7 @@ export type ApiUser = {
     email: string;
     image: string | null;
     role: string;
+    isBan: boolean;
     phone: string | null;
     region: string | null;
     createdAt: string;
@@ -22,7 +23,6 @@ export type ListUsersParams = {
     page?: string;
     limit?: string;
     search?: string;
-    role?: "admin" | "user";
 };
 
 export type CreateUserPayload = {
@@ -34,7 +34,13 @@ export type CreateUserPayload = {
     region?: string;
 };
 
-export type UpdateUserPayload = Partial<Omit<CreateUserPayload, "password">>;
+export type UpdateUserPayload = {
+    name: string;
+    role?: "admin" | "user";
+    isBan: boolean;
+    phone?: string;
+    region?: string;
+};
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
     const res = await fetch(`${baseURL}${apiPrefix}${path}`, {

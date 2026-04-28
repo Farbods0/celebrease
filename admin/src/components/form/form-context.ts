@@ -1,9 +1,10 @@
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { FormImage } from "./form-image";
 import { FormInput } from "./form-input";
 import { FormRadio } from "./form-radio";
+import { FormSelect } from "./form-select";
 import { FormSubmit } from "./form-submit";
 import { FormTextarea } from "./form-textarea";
-import { FormImage } from "./form-image";
 
 export const { fieldContext, formContext, useFormContext, useFieldContext } = createFormHookContexts();
 
@@ -14,6 +15,7 @@ export const { useAppForm } = createFormHook({
         FormInput,
         FormImage,
         FormRadio,
+        FormSelect,
         FormTextarea,
     },
     formComponents: {

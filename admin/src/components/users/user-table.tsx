@@ -3,7 +3,6 @@ import type { ApiUser } from "@/lib/api";
 
 type UserTableProps = {
     items: ApiUser[];
-    onView: (item: ApiUser) => void;
     onEdit: (item: ApiUser) => void;
 };
 
@@ -15,7 +14,7 @@ function formatDate(value: string) {
     return dateFormatter.format(d);
 }
 
-export function UserTable({ items, onView, onEdit }: UserTableProps) {
+export function UserTable({ items, onEdit }: UserTableProps) {
     return (
         <div className="hidden md:block overflow-hidden rounded-lg border p-3">
             <Table>
@@ -46,23 +45,16 @@ export function UserTable({ items, onView, onEdit }: UserTableProps) {
                                     <span
                                         className="rounded-md px-2 py-0.5 text-xs font-medium"
                                         style={
-                                            item.emailVerified
-                                                ? { backgroundColor: "oklch(0.93 0.08 150)", color: "oklch(0.4 0.14 150)" }
-                                                : { backgroundColor: "oklch(0.93 0.08 25)", color: "oklch(0.45 0.2 25)" }
+                                            item.isBan
+                                                ? { backgroundColor: "oklch(0.93 0.08 25)", color: "oklch(0.45 0.2 25)" }
+                                                : { backgroundColor: "oklch(0.93 0.08 150)", color: "oklch(0.4 0.14 150)" }
                                         }
                                     >
-                                        {item.emailVerified ? "Active" : "Inactive"}
+                                        {item.isBan ? "Banned" : "Active"}
                                     </span>
                                 </TableCell>
                                 <TableCell>{formatDate(item.createdAt)}</TableCell>
-                                <TableCell className="space-x-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => onView(item)}
-                                        className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium hover:bg-border/60 transition-colors"
-                                    >
-                                        View
-                                    </button>
+                                <TableCell>
                                     <button
                                         type="button"
                                         onClick={() => onEdit(item)}

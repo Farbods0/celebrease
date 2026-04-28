@@ -3,16 +3,17 @@ import { ListUsersDto } from "@/users/dto/list-users.dto";
 import { UpdateUserDto } from "@/users/dto/update-user.dto";
 import { UsersService } from "@/users/users.service";
 import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
-import { Roles } from "@thallesp/nestjs-better-auth";
+import type { UserSession } from "@thallesp/nestjs-better-auth";
+import { Roles, Session } from "@thallesp/nestjs-better-auth";
 
 @Controller("/user")
-@Roles(["admin"])
+@Roles(["admin", "superadmin"])
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Get()
-    list(@Query() query: ListUsersDto) {
-        return this.usersService.list(query);
+    list(@Query() query: ListUsersDto, @Session() session: UserSession) {
+        return this.usersService.list(query, session);
     }
 
     @Get(":id")

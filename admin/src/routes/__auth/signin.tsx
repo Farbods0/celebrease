@@ -32,7 +32,7 @@ function RouteComponent() {
                     onSuccess: async ({ data }) => {
                         if (!data.user.emailVerified) {
                             navigate({ to: "/verification", search: { user: data.user.email, type: "signup" } });
-                        } else if (data.user.role !== "admin") {
+                        } else if (data.user.role !== "admin" && data.user.role !== "superadmin") {
                             await auth.signOut();
                             toast.error("Only admins can access the admin portal.");
                             navigate({ to: "/signin" });

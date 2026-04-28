@@ -3,7 +3,6 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { UserCard } from "@/components/users/user-card";
 import { UserForm } from "@/components/users/user-form";
 import { UserTable } from "@/components/users/user-table";
-import { UserView } from "@/components/users/user-view";
 import { usersApi, type ApiUser } from "@/lib/api";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
@@ -52,17 +51,15 @@ function RouteComponent() {
             </div>
 
             <Dialog open={!!viewItem} onOpenChange={(open) => !open && setViewItem(null)}>
-                <UserTable items={items} onView={setViewItem} onEdit={setEditItem} />
+                <UserTable items={items} onEdit={setEditItem} />
 
                 <div className="space-y-4 md:hidden">
                     {items.length === 0 ? (
                         <p className="text-center text-sm text-muted-foreground py-10">No users found</p>
                     ) : (
-                        items.map((item) => <UserCard key={item.id} item={item} onView={setViewItem} onEdit={setEditItem} />)
+                        items.map((item) => <UserCard key={item.id} item={item} onEdit={setEditItem} />)
                     )}
                 </div>
-
-                {viewItem && <UserView item={viewItem} />}
             </Dialog>
 
             <Dialog open={!!editItem} onOpenChange={(open) => !open && setEditItem(null)}>

@@ -43,6 +43,10 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                             role: {
                                 type: "string",
                             },
+                            isBan: {
+                                type: "boolean",
+                                defaultValue: false,
+                            },
                             phone: {
                                 type: "string",
                                 required: false,

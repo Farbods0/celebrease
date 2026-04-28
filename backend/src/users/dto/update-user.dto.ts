@@ -1,4 +1,4 @@
-import { IsIn, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsBoolean, IsIn, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 export class UpdateUserDto {
     @IsOptional()
@@ -10,6 +10,10 @@ export class UpdateUserDto {
     @IsOptional()
     @IsIn(["admin", "user"])
     role?: string;
+
+    @IsOptional()
+    @IsBoolean()
+    isBan?: boolean;
 
     @IsOptional()
     @IsString()

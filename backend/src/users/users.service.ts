@@ -3,6 +3,7 @@ import { CreateUserDto } from "@/users/dto/create-user.dto";
 import { ListUsersDto } from "@/users/dto/list-users.dto";
 import { UpdateUserDto } from "@/users/dto/update-user.dto";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { UserSession } from "@thallesp/nestjs-better-auth";
 import { hashPassword } from "better-auth/crypto";
 import { randomBytes } from "node:crypto";
 
@@ -12,6 +13,7 @@ const userSelect = {
     email: true,
     image: true,
     role: true,
+    isBan: true,
     phone: true,
     region: true,
     createdAt: true,
@@ -22,12 +24,12 @@ const userSelect = {
 export class UsersService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async list(query: ListUsersDto) {
-        const { page, limit, search, role } = query;
+    async list(query: ListUsersDto, session: UserSession) {
+        const { page, limit, search } = query;
         const skip = (page - 1) * limit;
 
         const where = {
-            ...(role ? { role } : {}),
+            ...(session.user.role !== "superadmin" ? { role: "user" } : {}),
             ...(search
                 ? {
                       OR: [
@@ -72,6 +74,7 @@ export class UsersService {
                     id: userId,
                     name: dto.name,
                     email: dto.email,
+                    emailVerified: true,
                     role: dto.role ?? "user",
                     phone: dto.phone,
                     region: dto.region,
@@ -99,6 +102,7 @@ export class UsersService {
             data: {
                 ...(dto.name !== undefined && { name: dto.name }),
                 ...(dto.role !== undefined && { role: dto.role }),
+                ...(dto.isBan !== undefined && { isBan: dto.isBan }),
                 ...(dto.phone !== undefined && { phone: dto.phone }),
                 ...(dto.region !== undefined && { region: dto.region }),
             },

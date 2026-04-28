@@ -19,6 +19,18 @@ export const auth = createAuthClient({
                 role: {
                     type: "string",
                 },
+                isBan: {
+                    type: "boolean",
+                    defaultValue: false,
+                },
+                phone: {
+                    type: "string",
+                    required: false,
+                },
+                region: {
+                    type: "string",
+                    required: false,
+                },
             },
         }),
     ],
@@ -32,7 +44,7 @@ export const validateSession = async () => {
         throw redirect({ to: "/signin" });
     } else if (!data.user.emailVerified) {
         throw redirect({ to: "/verification", search: { user: data.user.email, type: "signup" } });
-    } else if (data.user.role !== "admin") {
+    } else if (data.user.role !== "admin" && data.user.role !== "superadmin") {
         await auth.signOut();
         toast.error("Only admins can access the admin portal.");
         throw redirect({ to: "/signin" });

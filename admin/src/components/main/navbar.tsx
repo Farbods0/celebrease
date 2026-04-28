@@ -16,6 +16,7 @@ const navItems = [
     { label: "Returns", link: "/returns", icon: Undo2, key: "returns" },
     { label: "Subscriptions", link: "/subscriptions", icon: Star, key: "subscriptions" },
     { label: "Customers", link: "/customers", icon: Users, key: "customers" },
+    { label: "Plans", link: "/plans", icon: Tag, key: "plans" },
     { label: "Users", link: "/users", icon: ShieldUser, key: "users" },
 ];
 

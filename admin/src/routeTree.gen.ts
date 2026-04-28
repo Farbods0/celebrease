@@ -16,6 +16,7 @@ import { Route as _mainUsersRouteImport } from './routes/__main/users'
 import { Route as _mainSubscriptionsRouteImport } from './routes/__main/subscriptions'
 import { Route as _mainReturnsRouteImport } from './routes/__main/returns'
 import { Route as _mainPricingRouteImport } from './routes/__main/pricing'
+import { Route as _mainPlansRouteImport } from './routes/__main/plans'
 import { Route as _mainOrdersRouteImport } from './routes/__main/orders'
 import { Route as _mainInventoryRouteImport } from './routes/__main/inventory'
 import { Route as _mainCustomersRouteImport } from './routes/__main/customers'
@@ -56,6 +57,11 @@ const _mainReturnsRoute = _mainReturnsRouteImport.update({
 const _mainPricingRoute = _mainPricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainPlansRoute = _mainPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
   getParentRoute: () => _mainRouteRoute,
 } as any)
 const _mainOrdersRoute = _mainOrdersRouteImport.update({
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/customers': typeof _mainCustomersRoute
   '/inventory': typeof _mainInventoryRoute
   '/orders': typeof _mainOrdersRoute
+  '/plans': typeof _mainPlansRoute
   '/pricing': typeof _mainPricingRoute
   '/returns': typeof _mainReturnsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/customers': typeof _mainCustomersRoute
   '/inventory': typeof _mainInventoryRoute
   '/orders': typeof _mainOrdersRoute
+  '/plans': typeof _mainPlansRoute
   '/pricing': typeof _mainPricingRoute
   '/returns': typeof _mainReturnsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/__main/customers': typeof _mainCustomersRoute
   '/__main/inventory': typeof _mainInventoryRoute
   '/__main/orders': typeof _mainOrdersRoute
+  '/__main/plans': typeof _mainPlansRoute
   '/__main/pricing': typeof _mainPricingRoute
   '/__main/returns': typeof _mainReturnsRoute
   '/__main/subscriptions': typeof _mainSubscriptionsRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/inventory'
     | '/orders'
+    | '/plans'
     | '/pricing'
     | '/returns'
     | '/subscriptions'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/inventory'
     | '/orders'
+    | '/plans'
     | '/pricing'
     | '/returns'
     | '/subscriptions'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/__main/customers'
     | '/__main/inventory'
     | '/__main/orders'
+    | '/__main/plans'
     | '/__main/pricing'
     | '/__main/returns'
     | '/__main/subscriptions'
@@ -251,6 +263,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof _mainPricingRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/plans': {
+      id: '/__main/plans'
+      path: '/plans'
+      fullPath: '/plans'
+      preLoaderRoute: typeof _mainPlansRouteImport
       parentRoute: typeof _mainRouteRoute
     }
     '/__main/orders': {
@@ -335,6 +354,7 @@ interface _mainRouteRouteChildren {
   _mainCustomersRoute: typeof _mainCustomersRoute
   _mainInventoryRoute: typeof _mainInventoryRoute
   _mainOrdersRoute: typeof _mainOrdersRoute
+  _mainPlansRoute: typeof _mainPlansRoute
   _mainPricingRoute: typeof _mainPricingRoute
   _mainReturnsRoute: typeof _mainReturnsRoute
   _mainSubscriptionsRoute: typeof _mainSubscriptionsRoute
@@ -347,6 +367,7 @@ const _mainRouteRouteChildren: _mainRouteRouteChildren = {
   _mainCustomersRoute: _mainCustomersRoute,
   _mainInventoryRoute: _mainInventoryRoute,
   _mainOrdersRoute: _mainOrdersRoute,
+  _mainPlansRoute: _mainPlansRoute,
   _mainPricingRoute: _mainPricingRoute,
   _mainReturnsRoute: _mainReturnsRoute,
   _mainSubscriptionsRoute: _mainSubscriptionsRoute,

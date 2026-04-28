@@ -2,6 +2,7 @@ import { AppController } from "@/app.controller";
 import { AppService } from "@/app.service";
 import { CommonModule } from "@/common/common.module";
 import { config } from "@/config/env.config";
+import { PlansModule } from "@/plans/plans.module";
 import { UsersModule } from "@/users/users.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import { Module } from "@nestjs/common";
@@ -21,6 +22,7 @@ import { AuthGuard } from "@thallesp/nestjs-better-auth";
         }),
         CommonModule,
         UsersModule,
+        PlansModule,
     ],
     controllers: [AppController],
     providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],

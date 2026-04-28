@@ -371,6 +371,103 @@ export const CUSTOMERS: Customer[] = [
     },
 ];
 
+// ============ USERS ============
+
+export type UserRole = "Admin" | "Manager" | "Staff";
+export type UserStatus = "Active" | "Inactive";
+
+export type User = {
+    name: string;
+    email: string;
+    role: UserRole;
+    status: UserStatus;
+    lastLogin: string;
+    createdAt: string;
+};
+
+export const USERS: User[] = [
+    {
+        name: "Sarah Mitchell",
+        email: "sarah.mitchell@example.com",
+        role: "Admin",
+        status: "Active",
+        lastLogin: "Apr 27, 2026",
+        createdAt: "Jan 12, 2025",
+    },
+    {
+        name: "James Carter",
+        email: "james.carter@example.com",
+        role: "Manager",
+        status: "Active",
+        lastLogin: "Apr 26, 2026",
+        createdAt: "Mar 03, 2025",
+    },
+    {
+        name: "Olivia Bennett",
+        email: "olivia.bennett@example.com",
+        role: "Staff",
+        status: "Active",
+        lastLogin: "Apr 25, 2026",
+        createdAt: "May 18, 2025",
+    },
+    {
+        name: "Ethan Reynolds",
+        email: "ethan.reynolds@example.com",
+        role: "Manager",
+        status: "Inactive",
+        lastLogin: "Mar 14, 2026",
+        createdAt: "Jul 22, 2025",
+    },
+    {
+        name: "Mia Thompson",
+        email: "mia.thompson@example.com",
+        role: "Staff",
+        status: "Active",
+        lastLogin: "Apr 27, 2026",
+        createdAt: "Aug 09, 2025",
+    },
+    {
+        name: "Liam Foster",
+        email: "liam.foster@example.com",
+        role: "Admin",
+        status: "Active",
+        lastLogin: "Apr 24, 2026",
+        createdAt: "Sep 30, 2025",
+    },
+    {
+        name: "Ava Sullivan",
+        email: "ava.sullivan@example.com",
+        role: "Staff",
+        status: "Inactive",
+        lastLogin: "Feb 02, 2026",
+        createdAt: "Oct 15, 2025",
+    },
+    {
+        name: "Noah Patterson",
+        email: "noah.patterson@example.com",
+        role: "Manager",
+        status: "Active",
+        lastLogin: "Apr 26, 2026",
+        createdAt: "Nov 21, 2025",
+    },
+    {
+        name: "Isabella Hayes",
+        email: "isabella.hayes@example.com",
+        role: "Staff",
+        status: "Active",
+        lastLogin: "Apr 23, 2026",
+        createdAt: "Dec 05, 2025",
+    },
+    {
+        name: "Lucas Brennan",
+        email: "lucas.brennan@example.com",
+        role: "Staff",
+        status: "Active",
+        lastLogin: "Apr 25, 2026",
+        createdAt: "Jan 28, 2026",
+    },
+];
+
 // ============ SUBSCRIPTIONS ============
 
 export type Subscription = {

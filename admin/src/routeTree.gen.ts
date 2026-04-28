@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as _mainRouteRouteImport } from './routes/__main/route'
 import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _mainIndexRouteImport } from './routes/__main/index'
+import { Route as _mainUsersRouteImport } from './routes/__main/users'
 import { Route as _mainSubscriptionsRouteImport } from './routes/__main/subscriptions'
 import { Route as _mainReturnsRouteImport } from './routes/__main/returns'
 import { Route as _mainPricingRouteImport } from './routes/__main/pricing'
@@ -35,6 +36,11 @@ const _authRouteRoute = _authRouteRouteImport.update({
 const _mainIndexRoute = _mainIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainUsersRoute = _mainUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
   getParentRoute: () => _mainRouteRoute,
 } as any)
 const _mainSubscriptionsRoute = _mainSubscriptionsRouteImport.update({
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof _mainPricingRoute
   '/returns': typeof _mainReturnsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
+  '/users': typeof _mainUsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof _mainIndexRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof _mainPricingRoute
   '/returns': typeof _mainReturnsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
+  '/users': typeof _mainUsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/__main/pricing': typeof _mainPricingRoute
   '/__main/returns': typeof _mainReturnsRoute
   '/__main/subscriptions': typeof _mainSubscriptionsRoute
+  '/__main/users': typeof _mainUsersRoute
   '/__main/': typeof _mainIndexRoute
 }
 export interface FileRouteTypes {
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/returns'
     | '/subscriptions'
+    | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/returns'
     | '/subscriptions'
+    | '/users'
   id:
     | '__root__'
     | '/__auth'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/__main/pricing'
     | '/__main/returns'
     | '/__main/subscriptions'
+    | '/__main/users'
     | '/__main/'
   fileRoutesById: FileRoutesById
 }
@@ -211,6 +223,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof _mainIndexRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/users': {
+      id: '/__main/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof _mainUsersRouteImport
       parentRoute: typeof _mainRouteRoute
     }
     '/__main/subscriptions': {
@@ -319,6 +338,7 @@ interface _mainRouteRouteChildren {
   _mainPricingRoute: typeof _mainPricingRoute
   _mainReturnsRoute: typeof _mainReturnsRoute
   _mainSubscriptionsRoute: typeof _mainSubscriptionsRoute
+  _mainUsersRoute: typeof _mainUsersRoute
   _mainIndexRoute: typeof _mainIndexRoute
 }
 
@@ -330,6 +350,7 @@ const _mainRouteRouteChildren: _mainRouteRouteChildren = {
   _mainPricingRoute: _mainPricingRoute,
   _mainReturnsRoute: _mainReturnsRoute,
   _mainSubscriptionsRoute: _mainSubscriptionsRoute,
+  _mainUsersRoute: _mainUsersRoute,
   _mainIndexRoute: _mainIndexRoute,
 }
 

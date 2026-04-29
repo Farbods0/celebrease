@@ -27,9 +27,9 @@ export function Protected({ children }: { children: React.ReactNode }) {
 
     if (isPending || !data?.user || !data.user.emailVerified || data.user.role === "admin") {
         return (
-            <section className="bg-linear-to-b from-primary/10 to-transparent">
+            <section className="flex-1 flex flex-col bg-linear-to-b from-primary/10 to-transparent">
                 <div className="h-20" />
-                <div className="flex justify-center py-16 md:py-20 lg:py-24">
+                <div className="my-16 mx-auto flex-1 flex justify-center items-center">
                     <Spinner className="size-12 stroke-primary" />
                 </div>
             </section>

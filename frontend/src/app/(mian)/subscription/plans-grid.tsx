@@ -1,11 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import type { ApiPlan } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import { ArrowRight02Icon, CheckmarkCircle03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useState } from "react";
-import { Button } from "../../components/ui/button";
-import { cn } from "../../lib/utils";
 
 type BillingCycle = "Monthly" | "Yearly";
 

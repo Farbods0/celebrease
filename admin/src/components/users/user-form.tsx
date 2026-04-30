@@ -18,7 +18,7 @@ const createSchema = z.object({
     email: z.email("Enter a valid email address"),
     password: z.string().min(8, "Password must be at least 8 characters").max(64),
     role: z.enum(["admin", "user"]),
-    isBan: z.boolean(),
+    banned: z.boolean(),
     phone: z.string().max(32),
     region: z.string().max(64),
 });
@@ -28,7 +28,7 @@ const updateSchema = z.object({
     email: z.email("Enter a valid email address"),
     password: z.string(),
     role: z.enum(["admin", "user"]),
-    isBan: z.boolean(),
+    banned: z.boolean(),
     phone: z.string().max(32),
     region: z.string().max(64),
 });
@@ -44,7 +44,7 @@ export function UserForm({ user, onClose }: UserFormProps) {
             email: user?.email ?? "",
             password: "",
             role: (user?.role ?? "user") as "admin" | "user",
-            isBan: user?.isBan ?? false,
+            banned: user?.banned ?? false,
             phone: user?.phone ?? "",
             region: user?.region ?? "",
         },
@@ -55,7 +55,7 @@ export function UserForm({ user, onClose }: UserFormProps) {
                     await usersApi.update(user.id, {
                         name: value.name,
                         role: value.role,
-                        isBan: value.isBan,
+                        banned: value.banned,
                         phone: value.phone || undefined,
                         region: value.region || undefined,
                     });
@@ -125,7 +125,7 @@ export function UserForm({ user, onClose }: UserFormProps) {
                 </div>
 
                 {isEdit ? (
-                    <form.AppField name="isBan">
+                    <form.AppField name="banned">
                         {(field) => (
                             <Field orientation="horizontal">
                                 <FieldContent>

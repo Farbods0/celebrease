@@ -13,7 +13,7 @@ export class UpdateUserDto {
 
     @IsOptional()
     @IsBoolean()
-    isBan?: boolean;
+    banned?: boolean;
 
     @IsOptional()
     @IsString()

@@ -13,7 +13,7 @@ const userSelect = {
     email: true,
     image: true,
     role: true,
-    isBan: true,
+    banned: true,
     phone: true,
     region: true,
     createdAt: true,
@@ -102,7 +102,7 @@ export class UsersService {
             data: {
                 ...(dto.name !== undefined && { name: dto.name }),
                 ...(dto.role !== undefined && { role: dto.role }),
-                ...(dto.isBan !== undefined && { isBan: dto.isBan }),
+                ...(dto.banned !== undefined && { banned: dto.banned }),
                 ...(dto.phone !== undefined && { phone: dto.phone }),
                 ...(dto.region !== undefined && { region: dto.region }),
             },

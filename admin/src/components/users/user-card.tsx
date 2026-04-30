@@ -38,12 +38,12 @@ export function UserCard({ item, onEdit }: UserCardProps) {
                         <span
                             className="rounded-md px-2 py-0.5 text-xs font-medium"
                             style={
-                                item.isBan
+                                item.banned
                                     ? { backgroundColor: "oklch(0.93 0.08 25)", color: "oklch(0.45 0.2 25)" }
                                     : { backgroundColor: "oklch(0.93 0.08 150)", color: "oklch(0.4 0.14 150)" }
                             }
                         >
-                            {item.isBan ? "Banned" : "Active"}
+                            {item.banned ? "Banned" : "Active"}
                         </span>
                     }
                 />

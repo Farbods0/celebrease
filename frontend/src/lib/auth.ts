@@ -18,7 +18,7 @@ export const auth = createAuthClient({
                 role: {
                     type: "string",
                 },
-                isBan: {
+                banned: {
                     type: "boolean",
                     defaultValue: false,
                 },

@@ -6,7 +6,7 @@ export type ApiUser = {
     email: string;
     image: string | null;
     role: string;
-    isBan: boolean;
+    banned: boolean;
     phone: string | null;
     region: string | null;
     createdAt: string;
@@ -31,7 +31,7 @@ export type CreateUserPayload = {
 export type UpdateUserPayload = {
     name: string;
     role?: "admin" | "user";
-    isBan: boolean;
+    banned: boolean;
     phone?: string;
     region?: string;
 };

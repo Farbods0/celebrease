@@ -36,7 +36,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
 
     return (
         <>
-            <div className="mt-5 lg:mt-6 flex items-center gap-6">
+            <div className="mt-5 lg:mt-6 flex items-center justify-center gap-6">
                 <div className="p-1.5 lg:p-2 bg-muted w-fit rounded-full flex">
                     {(["Monthly", "Yearly"] as BillingCycle[]).map((item) => (
                         <button

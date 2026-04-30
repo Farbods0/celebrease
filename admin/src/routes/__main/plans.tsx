@@ -36,7 +36,7 @@ function RouteComponent() {
                     <DialogTrigger asChild>
                         <Button disabled={!canAddMore}>
                             <Plus className="size-4" />
-                            <span>Add Plan</span>
+                            <span>Add New Plan</span>
                         </Button>
                     </DialogTrigger>
                     {createOpen && <PlanForm existingCodes={existingCodes} onClose={() => setCreateOpen(false)} />}

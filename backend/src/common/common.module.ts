@@ -43,7 +43,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                             role: {
                                 type: "string",
                             },
-                            isBan: {
+                            banned: {
                                 type: "boolean",
                                 defaultValue: false,
                             },
@@ -60,8 +60,8 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                     trustedOrigins: configService.get<string>("client")?.split(",") || [],
                     advanced: {
                         defaultCookieAttributes: {
-                            sameSite: "lax",
-                            secure: false,
+                            sameSite: "none",
+                            secure: true,
                         },
                     },
                 }),

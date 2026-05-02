@@ -423,7 +423,6 @@ model Kit {
     sku         String    @unique // e.g., XMAS-PREM-2025
     name        String
     description String?
-    category    String? // Christmas Kit, Halloween Kit, etc.
     tier        KitTier
     holidayId   String
     holiday     Holiday   @relation(fields: [holidayId], references: [id])
@@ -433,14 +432,13 @@ model Kit {
     price60Day Decimal? @db.Decimal(10, 2)
     deposit    Decimal  @db.Decimal(10, 2)
 
-    seasonStart   DateTime?
-    seasonEnd     DateTime?
-    alwaysVisible Boolean   @default(false)
+    seasonStart DateTime?
+    seasonEnd   DateTime?
 
+    alwaysVisible  Boolean @default(false)
     visibleOnPdp   Boolean @default(true)
     addOnsEnabled  Boolean @default(true)
     limitInventory Boolean @default(false)
-    inventoryLimit Int?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

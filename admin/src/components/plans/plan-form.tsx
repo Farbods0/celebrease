@@ -106,7 +106,7 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
             </DialogHeader>
 
             <form
-                className="grid gap-5"
+                className="grid gap-4"
                 onSubmit={(e) => {
                     e.preventDefault();
                     form.handleSubmit();

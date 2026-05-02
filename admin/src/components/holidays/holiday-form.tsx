@@ -76,7 +76,7 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
             </DialogHeader>
 
             <form
-                className="grid gap-5"
+                className="grid gap-4"
                 onSubmit={(e) => {
                     e.preventDefault();
                     form.handleSubmit();

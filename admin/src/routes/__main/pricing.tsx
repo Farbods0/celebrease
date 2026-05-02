@@ -1,4 +1,6 @@
+import { PricingForm } from "@/components/pricing/pricing-form";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { KitItem } from "@/data";
@@ -6,6 +8,7 @@ import { KIT_ITEMS } from "@/data";
 import { cn } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
+import { useState } from "react";
 
 const holidays = ["Christmas", "Diwali", "Halloween", "Thanksgiving", "Valentine's", "Easter", "Independence Day", "New Year", "Birthdays"];
 
@@ -15,6 +18,8 @@ type RouteComponentProps = {
 };
 
 function RouteComponent({ items, onView }: RouteComponentProps) {
+    const [createOpen, setCreateOpen] = useState(false);
+
     return (
         <main>
             <div className="px-6 py-4 bg-white flex justify-between items-center">
@@ -28,10 +33,15 @@ function RouteComponent({ items, onView }: RouteComponentProps) {
                         ))}
                     </div>
                 </div>
-                <Button>
-                    <Plus className="size-4" />
-                    <span>Add New Kit Tier</span>
-                </Button>
+                <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+                    <DialogTrigger asChild>
+                        <Button>
+                            <Plus className="size-4" />
+                            <span>Add New Kit Tier</span>
+                        </Button>
+                    </DialogTrigger>
+                    {createOpen && <PricingForm onClose={() => setCreateOpen(false)} />}
+                </Dialog>
             </div>
             <main className="flex w-full">
                 {/* Desktop sidebar */}

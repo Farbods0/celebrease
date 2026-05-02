@@ -32,6 +32,8 @@ model User {
     sessions      Session[]
     accounts      Account[]
 
+    stripeCustomerId String? @unique
+
     addresses      Address[]
     paymentMethods PaymentMethod[]
     subscriptions  Subscription[]
@@ -559,17 +561,19 @@ model KitAddOn {
 // ============================================================
 
 model Plan {
-    id              String   @id @default(cuid())
-    code            PlanCode @unique
-    name            String
-    description     String?
-    monthlyPrice    Decimal  @db.Decimal(10, 2)
-    yearlyPrice     Decimal? @db.Decimal(10, 2)
-    holidaysPerYear Int      @default(3)
-    isActive        Boolean  @default(true)
-    sortOrder       Int      @default(0)
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+    id                   String   @id @default(cuid())
+    code                 PlanCode @unique
+    name                 String
+    description          String?
+    monthlyPrice         Decimal  @db.Decimal(10, 2)
+    yearlyPrice          Decimal? @db.Decimal(10, 2)
+    holidaysPerYear      Int      @default(3)
+    isActive             Boolean  @default(true)
+    sortOrder            Int      @default(0)
+    stripePriceMonthlyId String?  @unique
+    stripePriceYearlyId  String?  @unique
+    createdAt            DateTime @default(now())
+    updatedAt            DateTime @updatedAt
 
     features      PlanFeature[]
     subscriptions Subscription[]
@@ -589,23 +593,24 @@ model PlanFeature {
 }
 
 model Subscription {
-    id              String             @id @default(cuid())
-    userId          String
-    user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-    planId          String
-    plan            Plan               @relation(fields: [planId], references: [id])
-    status          SubscriptionStatus @default(ACTIVE)
-    stage           SubscriptionStage  @default(NOT_STARTED)
-    billingCycle    BillingCycle       @default(MONTHLY)
-    paymentMethodId String?
-    paymentMethod   PaymentMethod?     @relation(fields: [paymentMethodId], references: [id])
-    startedAt       DateTime           @default(now())
-    cycleStart      DateTime?
-    cycleEnd        DateTime?
-    nextBillingAt   DateTime?
-    cancelledAt     DateTime?
-    createdAt       DateTime           @default(now())
-    updatedAt       DateTime           @updatedAt
+    id                   String             @id @default(cuid())
+    userId               String
+    user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+    planId               String
+    plan                 Plan               @relation(fields: [planId], references: [id])
+    status               SubscriptionStatus @default(ACTIVE)
+    stage                SubscriptionStage  @default(NOT_STARTED)
+    billingCycle         BillingCycle       @default(MONTHLY)
+    paymentMethodId      String?
+    paymentMethod        PaymentMethod?     @relation(fields: [paymentMethodId], references: [id])
+    stripeSubscriptionId String?            @unique
+    startedAt            DateTime           @default(now())
+    cycleStart           DateTime?
+    cycleEnd             DateTime?
+    nextBillingAt        DateTime?
+    cancelledAt          DateTime?
+    createdAt            DateTime           @default(now())
+    updatedAt            DateTime           @updatedAt
 
     holidaySlots SubscriptionHolidaySlot[]
     orders       Order[]

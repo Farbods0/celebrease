@@ -3,6 +3,8 @@ import { AppService } from "@/app.service";
 import { CommonModule } from "@/common/common.module";
 import { config } from "@/config/env.config";
 import { PlansModule } from "@/plans/plans.module";
+import { StripeModule } from "@/stripe/stripe.module";
+import { SubscriptionsModule } from "@/subscriptions/subscriptions.module";
 import { UsersModule } from "@/users/users.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import { Module } from "@nestjs/common";
@@ -21,8 +23,10 @@ import { AuthGuard } from "@thallesp/nestjs-better-auth";
             isGlobal: true,
         }),
         CommonModule,
+        StripeModule,
         UsersModule,
         PlansModule,
+        SubscriptionsModule,
     ],
     controllers: [AppController],
     providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],

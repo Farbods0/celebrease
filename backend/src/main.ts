@@ -11,7 +11,7 @@ async function bootstrap() {
         timestamp: true,
     });
 
-    const app = await NestFactory.create(AppModule, { logger });
+    const app = await NestFactory.create(AppModule, { logger, rawBody: true });
     const configService = app.get(ConfigService);
 
     // Security

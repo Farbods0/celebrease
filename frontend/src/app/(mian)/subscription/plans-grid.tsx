@@ -1,11 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import type { ApiPlan } from "@/lib/api";
+import { type ApiPlan, createSubscriptionCheckout } from "@/lib/api";
+import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { ArrowRight02Icon, CheckmarkCircle03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 type BillingCycle = "Monthly" | "Yearly";
 
@@ -33,6 +36,29 @@ function priceFor(plan: ApiPlan, cycle: BillingCycle) {
 
 export default function PlansGrid({ plans }: PlansGridProps) {
     const [cycle, setCycle] = useState<BillingCycle>("Monthly");
+    const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
+    const { data: session, isPending: sessionLoading } = auth.useSession();
+    const router = useRouter();
+
+    async function handleSubscribe(planId: string) {
+        if (sessionLoading) return;
+        if (!session) {
+            router.push("/signin?redirect=/subscription");
+            return;
+        }
+        setPendingPlanId(planId);
+        try {
+            const { url } = await createSubscriptionCheckout({
+                planId,
+                billingCycle: cycle === "Yearly" ? "YEARLY" : "MONTHLY",
+            });
+            if (!url) throw new Error("Stripe did not return a redirect URL");
+            window.location.href = url;
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Could not start checkout");
+            setPendingPlanId(null);
+        }
+    }
 
     return (
         <>
@@ -102,8 +128,12 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                                         <p>{plan.holidaysPerYear} holidays per year included</p>
                                     </div>
 
-                                    <Button variant="black">
-                                        Get Started
+                                    <Button
+                                        variant="black"
+                                        disabled={pendingPlanId !== null}
+                                        onClick={() => handleSubscribe(plan.id)}
+                                    >
+                                        {pendingPlanId === plan.id ? "Redirecting..." : "Get Started"}
                                         <HugeiconsIcon icon={ArrowRight02Icon} />
                                     </Button>
                                 </div>

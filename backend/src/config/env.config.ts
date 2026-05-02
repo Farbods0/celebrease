@@ -17,4 +17,11 @@ export const config = () => ({
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
     },
+
+    stripe: {
+        secretKey: process.env.STRIPE_SECRET_KEY,
+        webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+        successUrl: process.env.STRIPE_SUCCESS_URL,
+        cancelUrl: process.env.STRIPE_CANCEL_URL,
+    },
 });

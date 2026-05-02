@@ -30,3 +30,22 @@ export async function getPlans(): Promise<ApiPlan[]> {
     const data = (await res.json()) as { items: ApiPlan[] };
     return data.items;
 }
+
+export type BillingCycle = "MONTHLY" | "YEARLY";
+
+export async function createSubscriptionCheckout(args: {
+    planId: string;
+    billingCycle: BillingCycle;
+}): Promise<{ url: string }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/subscription/checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(args),
+    });
+    if (!res.ok) {
+        const message = await res.text().catch(() => res.statusText);
+        throw new Error(message || "Failed to start checkout");
+    }
+    return res.json();
+}

@@ -4,11 +4,8 @@ export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
 
 export type ApiHoliday = {
     id: string;
-    slug: string;
     name: string;
     category: HolidayCategory;
-    iconUrl: string | null;
-    coverUrl: string | null;
     description: string | null;
     sortOrder: number;
     isActive: boolean;
@@ -17,11 +14,8 @@ export type ApiHoliday = {
 };
 
 export type CreateHolidayPayload = {
-    slug: string;
     name: string;
     category: HolidayCategory;
-    iconUrl?: string;
-    coverUrl?: string;
     description?: string;
     sortOrder?: number;
     isActive?: boolean;

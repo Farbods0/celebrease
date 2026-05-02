@@ -287,11 +287,8 @@ model PaymentMethod {
 
 model Holiday {
     id          String          @id @default(cuid())
-    slug        String          @unique
     name        String
     category    HolidayCategory
-    iconUrl     String?
-    coverUrl    String?
     description String?
     sortOrder   Int             @default(0)
     isActive    Boolean         @default(true)

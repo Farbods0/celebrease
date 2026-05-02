@@ -11,16 +11,11 @@ export function HolidayCard({ item, onEdit, onDelete }: HolidayCardProps) {
         <div className="flex flex-col gap-3 rounded-lg border p-4 bg-card text-card-foreground">
             <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
-                    {item.iconUrl ? (
-                        <img src={item.iconUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
-                    ) : (
-                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
-                            {item.name.charAt(0)}
-                        </div>
-                    )}
+                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-xs font-medium">
+                        {item.name.charAt(0)}
+                    </div>
                     <div>
                         <h3 className="font-semibold text-sm leading-none">{item.name}</h3>
-                        <p className="mt-1 text-xs text-muted-foreground font-mono">{item.slug}</p>
                     </div>
                 </div>
                 <span

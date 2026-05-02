@@ -20,12 +20,9 @@ const CATEGORIES: { value: HolidayCategory; label: string }[] = [
 ];
 
 const formSchema = z.object({
-    slug: z.string().min(2, "Slug is required").max(64),
     name: z.string().min(2, "Name is required").max(64),
     category: z.enum(["TRADITIONAL", "CULTURAL", "EVENT_BASED"]),
     description: z.string().max(500),
-    iconUrl: z.string().optional(),
-    coverUrl: z.string().optional(),
     sortOrder: z.string().refine((v) => v === "" || (Number.isInteger(Number(v)) && Number(v) >= 0), "Must be 0 or greater"),
     isActive: z.boolean(),
 });
@@ -36,12 +33,9 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
 
     const form = useAppForm({
         defaultValues: {
-            slug: holiday?.slug ?? "",
             name: holiday?.name ?? "",
             category: holiday?.category ?? "TRADITIONAL",
             description: holiday?.description ?? "",
-            iconUrl: holiday?.iconUrl ?? "",
-            coverUrl: holiday?.coverUrl ?? "",
             sortOrder: String(holiday?.sortOrder ?? 0),
             isActive: holiday?.isActive ?? true,
         },
@@ -50,24 +44,18 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
             try {
                 if (isEdit && holiday) {
                     await holidaysApi.update(holiday.id, {
-                        slug: value.slug,
                         name: value.name,
                         category: value.category as HolidayCategory,
                         description: value.description || undefined,
-                        iconUrl: value.iconUrl || undefined,
-                        coverUrl: value.coverUrl || undefined,
                         sortOrder: value.sortOrder ? Number(value.sortOrder) : 0,
                         isActive: value.isActive,
                     });
                     toast.success("Holiday updated");
                 } else {
                     await holidaysApi.create({
-                        slug: value.slug,
                         name: value.name,
                         category: value.category as HolidayCategory,
                         description: value.description || undefined,
-                        iconUrl: value.iconUrl || undefined,
-                        coverUrl: value.coverUrl || undefined,
                         sortOrder: value.sortOrder ? Number(value.sortOrder) : 0,
                         isActive: value.isActive,
                     });
@@ -96,24 +84,11 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
             >
                 <form.AppField name="name">{(field) => <field.FormInput label="Name" placeholder="e.g. Christmas" />}</form.AppField>
 
-                <form.AppField name="slug">{(field) => <field.FormInput label="Slug" placeholder="e.g. christmas" />}</form.AppField>
-
-                <form.AppField name="category">
-                    {(field) => <field.FormSelect label="Category" options={CATEGORIES} />}
-                </form.AppField>
+                <form.AppField name="category">{(field) => <field.FormSelect label="Category" options={CATEGORIES} />}</form.AppField>
 
                 <form.AppField name="description">
                     {(field) => <field.FormTextarea label="Description" placeholder="Optional" />}
                 </form.AppField>
-
-                <div className="grid grid-cols-2 gap-3">
-                    <form.AppField name="iconUrl">
-                        {(field) => <field.FormInput label="Icon URL" placeholder="https://..." />}
-                    </form.AppField>
-                    <form.AppField name="coverUrl">
-                        {(field) => <field.FormInput label="Cover URL" placeholder="https://..." />}
-                    </form.AppField>
-                </div>
 
                 <form.AppField name="sortOrder">
                     {(field) => <field.FormInput type="number" label="Sort Order" placeholder="0" />}

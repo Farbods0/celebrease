@@ -29,8 +29,8 @@ export class HolidaysService {
     }
 
     async create(dto: CreateHolidayDto) {
-        const exists = await this.prisma.holiday.findUnique({ where: { slug: dto.slug }, select: { id: true } });
-        if (exists) throw new ConflictException(`A holiday with slug ${dto.slug} already exists`);
+        const exists = await this.prisma.holiday.findFirst({ where: { name: dto.name }, select: { id: true } });
+        if (exists) throw new ConflictException(`A holiday with name ${dto.name.toLowerCase()} already exists`);
 
         return this.prisma.holiday.create({
             data: dto,
@@ -41,10 +41,10 @@ export class HolidaysService {
         const holiday = await this.prisma.holiday.findUnique({ where: { id }, select: { id: true } });
         if (!holiday) throw new NotFoundException("Holiday not found");
 
-        if (dto.slug) {
-            const exists = await this.prisma.holiday.findUnique({ where: { slug: dto.slug }, select: { id: true } });
+        if (dto.name) {
+            const exists = await this.prisma.holiday.findFirst({ where: { name: dto.name }, select: { id: true } });
             if (exists && exists.id !== id) {
-                throw new ConflictException(`A holiday with slug ${dto.slug} already exists`);
+                throw new ConflictException(`A holiday with name ${dto.name.toLowerCase()} already exists`);
             }
         }
 

@@ -14,7 +14,6 @@ export function HolidayTable({ items, onEdit, onDelete }: HolidayTableProps) {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Name</TableHead>
-                        <TableHead>Slug</TableHead>
                         <TableHead>Category</TableHead>
                         <TableHead>Order</TableHead>
                         <TableHead>Status</TableHead>
@@ -24,7 +23,7 @@ export function HolidayTable({ items, onEdit, onDelete }: HolidayTableProps) {
                 <TableBody>
                     {items.length === 0 ? (
                         <TableRow>
-                            <TableCell colSpan={6} className="py-10 text-center text-sm text-muted-foreground">
+                            <TableCell colSpan={5} className="py-10 text-center text-sm text-muted-foreground">
                                 No holidays found
                             </TableCell>
                         </TableRow>
@@ -33,13 +32,9 @@ export function HolidayTable({ items, onEdit, onDelete }: HolidayTableProps) {
                             <TableRow key={item.id}>
                                 <TableCell className="font-medium">
                                     <div className="flex items-center gap-2">
-                                        {item.iconUrl && (
-                                            <img src={item.iconUrl} alt={item.name} className="w-6 h-6 rounded-full object-cover" />
-                                        )}
                                         {item.name}
                                     </div>
                                 </TableCell>
-                                <TableCell className="font-mono text-xs">{item.slug}</TableCell>
                                 <TableCell>{item.category.replace("_", " ")}</TableCell>
                                 <TableCell>{item.sortOrder}</TableCell>
                                 <TableCell>

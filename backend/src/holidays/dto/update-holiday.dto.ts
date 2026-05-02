@@ -4,23 +4,11 @@ import { IsBoolean, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from "clas
 export class UpdateHolidayDto {
     @IsString()
     @IsNotEmpty()
-    slug: string;
-
-    @IsString()
-    @IsNotEmpty()
     name: string;
 
     @IsEnum(HolidayCategory)
     @IsNotEmpty()
     category: HolidayCategory;
-
-    @IsString()
-    @IsOptional()
-    iconUrl?: string;
-
-    @IsString()
-    @IsOptional()
-    coverUrl?: string;
 
     @IsString()
     @IsOptional()

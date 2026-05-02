@@ -6,6 +6,7 @@ import { PlansModule } from "@/plans/plans.module";
 import { StripeModule } from "@/stripe/stripe.module";
 import { SubscriptionsModule } from "@/subscriptions/subscriptions.module";
 import { UsersModule } from "@/users/users.module";
+import { HolidaysModule } from "@/holidays/holidays.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
@@ -27,6 +28,7 @@ import { AuthGuard } from "@thallesp/nestjs-better-auth";
         UsersModule,
         PlansModule,
         SubscriptionsModule,
+        HolidaysModule,
     ],
     controllers: [AppController],
     providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],

@@ -19,6 +19,7 @@ import { Route as _mainPricingRouteImport } from './routes/__main/pricing'
 import { Route as _mainPlansRouteImport } from './routes/__main/plans'
 import { Route as _mainOrdersRouteImport } from './routes/__main/orders'
 import { Route as _mainInventoryRouteImport } from './routes/__main/inventory'
+import { Route as _mainHolidaysRouteImport } from './routes/__main/holidays'
 import { Route as _mainCustomersRouteImport } from './routes/__main/customers'
 import { Route as _mainAddonsRouteImport } from './routes/__main/addons'
 import { Route as _authVerificationRouteImport } from './routes/__auth/verification'
@@ -74,6 +75,11 @@ const _mainInventoryRoute = _mainInventoryRouteImport.update({
   path: '/inventory',
   getParentRoute: () => _mainRouteRoute,
 } as any)
+const _mainHolidaysRoute = _mainHolidaysRouteImport.update({
+  id: '/holidays',
+  path: '/holidays',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
 const _mainCustomersRoute = _mainCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/verification': typeof _authVerificationRoute
   '/addons': typeof _mainAddonsRoute
   '/customers': typeof _mainCustomersRoute
+  '/holidays': typeof _mainHolidaysRoute
   '/inventory': typeof _mainInventoryRoute
   '/orders': typeof _mainOrdersRoute
   '/plans': typeof _mainPlansRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/verification': typeof _authVerificationRoute
   '/addons': typeof _mainAddonsRoute
   '/customers': typeof _mainCustomersRoute
+  '/holidays': typeof _mainHolidaysRoute
   '/inventory': typeof _mainInventoryRoute
   '/orders': typeof _mainOrdersRoute
   '/plans': typeof _mainPlansRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/__auth/verification': typeof _authVerificationRoute
   '/__main/addons': typeof _mainAddonsRoute
   '/__main/customers': typeof _mainCustomersRoute
+  '/__main/holidays': typeof _mainHolidaysRoute
   '/__main/inventory': typeof _mainInventoryRoute
   '/__main/orders': typeof _mainOrdersRoute
   '/__main/plans': typeof _mainPlansRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/verification'
     | '/addons'
     | '/customers'
+    | '/holidays'
     | '/inventory'
     | '/orders'
     | '/plans'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
     | '/verification'
     | '/addons'
     | '/customers'
+    | '/holidays'
     | '/inventory'
     | '/orders'
     | '/plans'
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/__auth/verification'
     | '/__main/addons'
     | '/__main/customers'
+    | '/__main/holidays'
     | '/__main/inventory'
     | '/__main/orders'
     | '/__main/plans'
@@ -286,6 +298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _mainInventoryRouteImport
       parentRoute: typeof _mainRouteRoute
     }
+    '/__main/holidays': {
+      id: '/__main/holidays'
+      path: '/holidays'
+      fullPath: '/holidays'
+      preLoaderRoute: typeof _mainHolidaysRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
     '/__main/customers': {
       id: '/__main/customers'
       path: '/customers'
@@ -352,6 +371,7 @@ const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
 interface _mainRouteRouteChildren {
   _mainAddonsRoute: typeof _mainAddonsRoute
   _mainCustomersRoute: typeof _mainCustomersRoute
+  _mainHolidaysRoute: typeof _mainHolidaysRoute
   _mainInventoryRoute: typeof _mainInventoryRoute
   _mainOrdersRoute: typeof _mainOrdersRoute
   _mainPlansRoute: typeof _mainPlansRoute
@@ -365,6 +385,7 @@ interface _mainRouteRouteChildren {
 const _mainRouteRouteChildren: _mainRouteRouteChildren = {
   _mainAddonsRoute: _mainAddonsRoute,
   _mainCustomersRoute: _mainCustomersRoute,
+  _mainHolidaysRoute: _mainHolidaysRoute,
   _mainInventoryRoute: _mainInventoryRoute,
   _mainOrdersRoute: _mainOrdersRoute,
   _mainPlansRoute: _mainPlansRoute,

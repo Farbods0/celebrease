@@ -295,42 +295,29 @@ model Holiday {
     createdAt   DateTime        @default(now())
     updatedAt   DateTime        @updatedAt
 
-    inventoryItems InventoryItemHoliday[]
-    kits           Kit[]
-    addOns         AddOnHoliday[]
-    holidaySlots   SubscriptionHolidaySlot[]
-    orders         Order[]
-    cartItems      CartItem[]
+    kits         Kit[]
+    addOns       AddOnHoliday[]
+    holidaySlots SubscriptionHolidaySlot[]
+    orders       Order[]
+    cartItems    CartItem[]
 
     @@map("holiday")
 }
 
 // ============================================================
-// VENDORS + INVENTORY
+// INVENTORY
 // ============================================================
-
-model Vendor {
-    id        String   @id @default(cuid())
-    name      String
-    email     String?
-    phone     String?
-    notes     String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    items InventoryItem[]
-
-    @@map("vendor")
-}
 
 model InventoryItem {
     id                String          @id @default(cuid())
     sku               String          @unique
     name              String
+    image             String
     description       String?
     category          String? // Lighting, Tabletop Décor, Accents, Ornaments, etc.
-    vendorId          String?
-    vendor            Vendor?         @relation(fields: [vendorId], references: [id])
+    vendorName        String
+    vendorEmail       String
+    vendorPhone       String
     costPerUnit       Decimal         @db.Decimal(10, 2)
     totalQty          Int             @default(0)
     lowStockThreshold Int             @default(0)
@@ -339,39 +326,13 @@ model InventoryItem {
     createdAt         DateTime        @default(now())
     updatedAt         DateTime        @updatedAt
 
-    images          InventoryItemImage[]
-    holidays        InventoryItemHoliday[]
     units           InventoryUnit[]
     kitItems        KitItem[]
     kitPreviewItems KitPreviewItem[]
     orderItems      OrderItem[]
     damageEvents    DamageEvent[]
 
-    @@index([vendorId])
     @@map("inventory_item")
-}
-
-model InventoryItemImage {
-    id        String        @id @default(cuid())
-    itemId    String
-    item      InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    url       String
-    sortOrder Int           @default(0)
-    createdAt DateTime      @default(now())
-
-    @@index([itemId])
-    @@map("inventory_item_image")
-}
-
-model InventoryItemHoliday {
-    itemId    String
-    holidayId String
-    item      InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    holiday   Holiday       @relation(fields: [holidayId], references: [id], onDelete: Cascade)
-
-    @@id([itemId, holidayId])
-    @@index([holidayId])
-    @@map("inventory_item_holiday")
 }
 
 // Optional per-physical-unit tracking. Aggregate counts by status are derivable

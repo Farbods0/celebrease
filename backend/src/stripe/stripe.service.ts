@@ -6,6 +6,7 @@ type StripeClient = InstanceType<typeof StripeLib>;
 export type StripeEvent = ReturnType<StripeClient["webhooks"]["constructEvent"]>;
 export type StripeSubscription = Awaited<ReturnType<StripeClient["subscriptions"]["retrieve"]>>;
 export type StripeCheckoutSession = Awaited<ReturnType<StripeClient["checkout"]["sessions"]["retrieve"]>>;
+export type StripePaymentMethod = Awaited<ReturnType<StripeClient["paymentMethods"]["retrieve"]>>;
 
 @Injectable()
 export class StripeService {
@@ -19,6 +20,10 @@ export class StripeService {
 
     constructEvent(rawBody: Buffer, signature: string): StripeEvent {
         return this.client.webhooks.constructEvent(rawBody, signature, this.webhookSecret);
+    }
+
+    retrievePaymentMethod(id: string): Promise<StripePaymentMethod> {
+        return this.client.paymentMethods.retrieve(id);
     }
 
     async ensureCustomer(args: {

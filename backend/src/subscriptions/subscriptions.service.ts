@@ -13,6 +13,15 @@ const subscriptionInclude = {
     },
 } as const;
 
+const adminSubscriptionInclude = {
+    user: { select: { id: true, name: true, email: true } },
+    plan: { select: { id: true, code: true, name: true, holidaysPerYear: true } },
+    holidaySlots: {
+        orderBy: { slotNumber: "asc" as const },
+        include: { holiday: { select: { id: true, name: true } } },
+    },
+} as const;
+
 const ACTIVE_SUBSCRIPTION_STATUSES: SubscriptionStatus[] = ["ACTIVE" as SubscriptionStatus, "PAUSED" as SubscriptionStatus];
 
 function mapStripeStatus(status: StripeSubscription["status"]): SubscriptionStatus {
@@ -50,6 +59,23 @@ export class SubscriptionsService {
             orderBy: { createdAt: "desc" },
         });
         return sub ?? null;
+    }
+
+    async listAll() {
+        const items = await this.prisma.subscription.findMany({
+            include: adminSubscriptionInclude,
+            orderBy: { createdAt: "desc" },
+        });
+        return { items };
+    }
+
+    async getById(id: string) {
+        const sub = await this.prisma.subscription.findUnique({
+            where: { id },
+            include: adminSubscriptionInclude,
+        });
+        if (!sub) throw new NotFoundException("Subscription not found");
+        return sub;
     }
 
     async createCheckout(dto: CreateCheckoutDto, session: UserSession) {

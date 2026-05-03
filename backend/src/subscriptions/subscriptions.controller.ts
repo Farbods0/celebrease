@@ -1,7 +1,7 @@
 import { CreateCheckoutDto } from "@/subscriptions/dto/checkout.dto";
 import { SubscriptionsService } from "@/subscriptions/subscriptions.service";
-import { Body, Controller, Get, Post } from "@nestjs/common";
-import { Session, type UserSession } from "@thallesp/nestjs-better-auth";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Roles, Session, type UserSession } from "@thallesp/nestjs-better-auth";
 
 @Controller("/subscription")
 export class SubscriptionsController {
@@ -10,6 +10,18 @@ export class SubscriptionsController {
     @Get("/me")
     getMine(@Session() session: UserSession) {
         return this.subscriptions.getMine(session);
+    }
+
+    @Get("/admin")
+    @Roles(["admin", "superadmin"])
+    listAll() {
+        return this.subscriptions.listAll();
+    }
+
+    @Get("/admin/:id")
+    @Roles(["admin", "superadmin"])
+    getById(@Param("id") id: string) {
+        return this.subscriptions.getById(id);
     }
 
     @Post("/checkout")

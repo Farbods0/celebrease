@@ -272,7 +272,6 @@ model Holiday {
     updatedAt   DateTime        @updatedAt
 
     kits         Kit[]
-    addOns       AddOnHoliday[]
     holidaySlots SubscriptionHolidaySlot[]
     orders       Order[]
     cartItems    CartItem[]
@@ -439,6 +438,7 @@ model AddOn {
     id          String      @id @default(cuid())
     sku         String?     @unique
     name        String
+    image       String
     description String?
     price       Decimal     @db.Decimal(10, 2)
     deposit     Decimal     @default(0) @db.Decimal(10, 2)
@@ -447,34 +447,11 @@ model AddOn {
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
 
-    images         AddOnImage[]
-    holidays       AddOnHoliday[]
     kitLinks       KitAddOn[]
     orderAddOns    OrderAddOn[]
     cartItemAddOns CartItemAddOn[]
 
     @@map("addon")
-}
-
-model AddOnImage {
-    id        String @id @default(cuid())
-    addOnId   String
-    addOn     AddOn  @relation(fields: [addOnId], references: [id], onDelete: Cascade)
-    url       String
-    sortOrder Int    @default(0)
-
-    @@index([addOnId])
-    @@map("addon_image")
-}
-
-model AddOnHoliday {
-    addOnId   String
-    holidayId String
-    addOn     AddOn   @relation(fields: [addOnId], references: [id], onDelete: Cascade)
-    holiday   Holiday @relation(fields: [holidayId], references: [id], onDelete: Cascade)
-
-    @@id([addOnId, holidayId])
-    @@map("addon_holiday")
 }
 
 // Which add-ons are offered for which kit (admin curates per kit).

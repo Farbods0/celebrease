@@ -1,10 +1,19 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { Subscription } from "@/data";
+import {
+    formatDate,
+    formatPlanLabel,
+    formatStatus,
+    formatSubId,
+    getCurrentHolidayName,
+    getNextActionLabel,
+    getStageLabel,
+    type ApiSubscription,
+} from "@/lib/api";
 
 type SubscriptionTableProps = {
-    items: Subscription[];
-    onView: (item: Subscription) => void;
+    items: ApiSubscription[];
+    onView: (item: ApiSubscription) => void;
 };
 
 export function SubscriptionTable({ items, onView }: SubscriptionTableProps) {
@@ -25,20 +34,26 @@ export function SubscriptionTable({ items, onView }: SubscriptionTableProps) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {items.map((item, i) => {
-                        return (
-                            <TableRow key={i}>
-                                <TableCell className="font-medium text-muted-foreground">{item.subId}</TableCell>
-                                <TableCell className="font-medium">{item.customer}</TableCell>
-                                <TableCell>{item.plan}</TableCell>
+                    {items.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={9} className="text-center text-sm text-muted-foreground py-10">
+                                No subscriptions found
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        items.map((item) => (
+                            <TableRow key={item.id}>
+                                <TableCell className="font-medium text-muted-foreground">{formatSubId(item.id)}</TableCell>
+                                <TableCell className="font-medium">{item.user.name}</TableCell>
+                                <TableCell>{formatPlanLabel(item)}</TableCell>
                                 <TableCell>
-                                    <StatusBadge status={item.currentHoliday} />
+                                    <StatusBadge status={getCurrentHolidayName(item)} />
                                 </TableCell>
-                                <TableCell className="text-muted-foreground">{item.stage}</TableCell>
-                                <TableCell>{item.nextAction}</TableCell>
-                                <TableCell>{item.renewal}</TableCell>
+                                <TableCell className="text-muted-foreground">{getStageLabel(item)}</TableCell>
+                                <TableCell>{getNextActionLabel(item)}</TableCell>
+                                <TableCell>{formatDate(item.nextBillingAt)}</TableCell>
                                 <TableCell>
-                                    <StatusBadge status={item.status} />
+                                    <StatusBadge status={formatStatus(item.status)} />
                                 </TableCell>
                                 <TableCell>
                                     <button
@@ -50,8 +65,8 @@ export function SubscriptionTable({ items, onView }: SubscriptionTableProps) {
                                     </button>
                                 </TableCell>
                             </TableRow>
-                        );
-                    })}
+                        ))
+                    )}
                 </TableBody>
             </Table>
         </div>

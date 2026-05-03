@@ -1,10 +1,4 @@
-import {
-    type StripeCheckoutSession,
-    type StripeEvent,
-    type StripePaymentMethod,
-    type StripeSubscription,
-    StripeService,
-} from "@/stripe/stripe.service";
+import { type StripeCheckoutSession, type StripeEvent, type StripeSubscription, StripeService } from "@/stripe/stripe.service";
 import { SubscriptionsService } from "@/subscriptions/subscriptions.service";
 import { BadRequestException, Controller, Headers, HttpCode, Logger, Post, Req } from "@nestjs/common";
 import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
@@ -46,16 +40,6 @@ export class StripeWebhookController {
                     break;
                 case "customer.subscription.deleted":
                     await this.subs.onSubscriptionDeleted(event.data.object as StripeSubscription);
-                    break;
-                case "payment_method.attached":
-                    await this.subs.onPaymentMethodAttached(event.data.object as StripePaymentMethod);
-                    break;
-                case "payment_method.updated":
-                case "payment_method.automatically_updated":
-                    await this.subs.onPaymentMethodUpdated(event.data.object as StripePaymentMethod);
-                    break;
-                case "payment_method.detached":
-                    await this.subs.onPaymentMethodDetached(event.data.object as StripePaymentMethod);
                     break;
                 default:
                     this.logger.debug(`Unhandled event type: ${event.type}`);

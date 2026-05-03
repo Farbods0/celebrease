@@ -33,6 +33,46 @@ export async function getPlans(): Promise<ApiPlan[]> {
 
 export type BillingCycle = "MONTHLY" | "YEARLY";
 
+export type SubscriptionStatus = "ACTIVE" | "PAUSED" | "CANCELLED" | "EXPIRED";
+export type HolidaySlotStatus = "PENDING" | "SELECTED" | "SHIPPED" | "RETURNED" | "SKIPPED";
+
+export type ApiSubscriptionHolidaySlot = {
+    id: string;
+    slotNumber: number;
+    status: HolidaySlotStatus;
+    holidayId: string | null;
+    orderId: string | null;
+};
+
+export type ApiSubscription = {
+    id: string;
+    plan: { id: string; code: PlanCode; name: string; holidaysPerYear: number };
+    status: SubscriptionStatus;
+    billingCycle: BillingCycle;
+    cycleStart: string | null;
+    cycleEnd: string | null;
+    nextBillingAt: string | null;
+    cancelledAt: string | null;
+    holidaySlots: ApiSubscriptionHolidaySlot[];
+};
+
+export class CheckoutConflictError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = "CheckoutConflictError";
+    }
+}
+
+export async function getMySubscription(): Promise<ApiSubscription | null> {
+    const res = await fetch(`${baseURL}${apiPrefix}/subscription/me`, {
+        credentials: "include",
+        cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as ApiSubscription | null;
+    return data ?? null;
+}
+
 export async function createSubscriptionCheckout(args: {
     planId: string;
     billingCycle: BillingCycle;
@@ -44,7 +84,14 @@ export async function createSubscriptionCheckout(args: {
         body: JSON.stringify(args),
     });
     if (!res.ok) {
-        const message = await res.text().catch(() => res.statusText);
+        let message = res.statusText;
+        try {
+            const body = await res.json();
+            if (body && typeof body.message === "string") message = body.message;
+        } catch {
+            // body wasn't JSON — keep statusText
+        }
+        if (res.status === 409) throw new CheckoutConflictError(message || "You already have an active subscription");
         throw new Error(message || "Failed to start checkout");
     }
     return res.json();

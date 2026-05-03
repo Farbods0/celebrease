@@ -35,11 +35,10 @@ model User {
     stripeCustomerId String? @unique
 
     addresses      Address[]
-    paymentMethods PaymentMethod[]
     subscriptions  Subscription[]
     orders         Order[]
-    returnsHandled Return[]        @relation("ReturnHandledBy")
-    damageLogged   DamageEvent[]   @relation("DamageLoggedBy")
+    returnsHandled Return[]       @relation("ReturnHandledBy")
+    damageLogged   DamageEvent[]  @relation("DamageLoggedBy")
     cart           Cart?
 
     @@unique([email])
@@ -256,29 +255,6 @@ model Address {
 
     @@index([userId])
     @@map("address")
-}
-
-model PaymentMethod {
-    id          String            @id @default(cuid())
-    userId      String
-    user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-    type        PaymentMethodType @default(CARD)
-    provider    String? // stripe, etc.
-    providerRef String? // tokenized PM id
-    brand       String? // visa, mastercard
-    last4       String?
-    expMonth    Int?
-    expYear     Int?
-    holderName  String?
-    isDefault   Boolean           @default(false)
-    createdAt   DateTime          @default(now())
-    updatedAt   DateTime          @updatedAt
-
-    subscriptions Subscription[]
-    orders        Order[]
-
-    @@index([userId])
-    @@map("payment_method")
 }
 
 // ============================================================
@@ -557,8 +533,6 @@ model Subscription {
     status               SubscriptionStatus @default(ACTIVE)
     stage                SubscriptionStage  @default(NOT_STARTED)
     billingCycle         BillingCycle       @default(MONTHLY)
-    paymentMethodId      String?
-    paymentMethod        PaymentMethod?     @relation(fields: [paymentMethodId], references: [id])
     stripeSubscriptionId String?            @unique
     startedAt            DateTime           @default(now())
     cycleStart           DateTime?
@@ -662,11 +636,9 @@ model Order {
     status OrderStatus @default(PENDING)
 
     shippingAddressId String?
-    shippingAddress   Address?       @relation("OrderShippingAddress", fields: [shippingAddressId], references: [id])
+    shippingAddress   Address? @relation("OrderShippingAddress", fields: [shippingAddressId], references: [id])
     billingAddressId  String?
-    billingAddress    Address?       @relation("OrderBillingAddress", fields: [billingAddressId], references: [id])
-    paymentMethodId   String?
-    paymentMethod     PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+    billingAddress    Address? @relation("OrderBillingAddress", fields: [billingAddressId], references: [id])
 
     deliveryOption DeliveryOption @default(STANDARD)
     deliveryNote   String?

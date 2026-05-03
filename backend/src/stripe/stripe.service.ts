@@ -26,12 +26,7 @@ export class StripeService {
         return this.client.paymentMethods.retrieve(id);
     }
 
-    async ensureCustomer(args: {
-        userId: string;
-        email: string;
-        name: string;
-        existingId: string | null;
-    }): Promise<string> {
+    async ensureCustomer(args: { userId: string; email: string; name: string; existingId: string | null }): Promise<string> {
         if (args.existingId) return args.existingId;
 
         const customer = await this.client.customers.create({

@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { type ApiPlan, createSubscriptionCheckout } from "@/lib/api";
+import { type ApiPlan, type ApiSubscription, CheckoutConflictError, createSubscriptionCheckout, getMySubscription } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { ArrowRight02Icon, CheckmarkCircle03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type BillingCycle = "Monthly" | "Yearly";
@@ -37,13 +37,39 @@ function priceFor(plan: ApiPlan, cycle: BillingCycle) {
 export default function PlansGrid({ plans }: PlansGridProps) {
     const [cycle, setCycle] = useState<BillingCycle>("Monthly");
     const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
+    const [subscription, setSubscription] = useState<ApiSubscription | null>(null);
+    const [subLoading, setSubLoading] = useState(false);
     const { data: session, isPending: sessionLoading } = auth.useSession();
     const router = useRouter();
+
+    useEffect(() => {
+        if (sessionLoading) return;
+        if (!session) {
+            setSubscription(null);
+            return;
+        }
+        let cancelled = false;
+        setSubLoading(true);
+        getMySubscription()
+            .then((sub) => {
+                if (!cancelled) setSubscription(sub);
+            })
+            .finally(() => {
+                if (!cancelled) setSubLoading(false);
+            });
+        return () => {
+            cancelled = true;
+        };
+    }, [session, sessionLoading]);
 
     async function handleSubscribe(planId: string) {
         if (sessionLoading) return;
         if (!session) {
             router.push("/signin?redirect=/subscription");
+            return;
+        }
+        if (subscription) {
+            router.push("/account");
             return;
         }
         setPendingPlanId(planId);
@@ -55,6 +81,11 @@ export default function PlansGrid({ plans }: PlansGridProps) {
             if (!url) throw new Error("Stripe did not return a redirect URL");
             window.location.href = url;
         } catch (err) {
+            if (err instanceof CheckoutConflictError) {
+                toast.error(err.message);
+                router.push("/account");
+                return;
+            }
             toast.error(err instanceof Error ? err.message : "Could not start checkout");
             setPendingPlanId(null);
         }
@@ -89,6 +120,17 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                     plans.map((plan) => {
                         const highlight = plan.code === HIGHLIGHT_CODE;
                         const { perMonth, billedLabel } = priceFor(plan, cycle);
+                        const isCurrentPlan = subscription?.plan.id === plan.id;
+                        const hasOtherSub = !!subscription && !isCurrentPlan;
+                        const buttonLabel = subLoading
+                            ? "Loading..."
+                            : isCurrentPlan
+                              ? "Current Plan"
+                              : hasOtherSub
+                                ? "Manage Subscription"
+                                : pendingPlanId === plan.id
+                                  ? "Redirecting..."
+                                  : "Get Started";
 
                         return (
                             <div
@@ -130,10 +172,10 @@ export default function PlansGrid({ plans }: PlansGridProps) {
 
                                     <Button
                                         variant="black"
-                                        disabled={pendingPlanId !== null}
+                                        disabled={subLoading || isCurrentPlan || pendingPlanId !== null}
                                         onClick={() => handleSubscribe(plan.id)}
                                     >
-                                        {pendingPlanId === plan.id ? "Redirecting..." : "Get Started"}
+                                        {buttonLabel}
                                         <HugeiconsIcon icon={ArrowRight02Icon} />
                                     </Button>
                                 </div>

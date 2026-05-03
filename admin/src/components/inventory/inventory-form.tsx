@@ -5,20 +5,9 @@ import { DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/compone
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { ApiHoliday } from "@/lib/api";
+import { getHolidays } from "@/lib/utils";
 import { useState } from "react";
-
-// ─── Constants ───────────────────────────────────────────────────────────────
-const HOLIDAYS = [
-    "Christmas",
-    "Halloween",
-    "Diwali",
-    "Easter",
-    "Thanksgiving",
-    "Valentine's",
-    "Nowruz",
-    "Birthday",
-    "Independence Day",
-] as const;
 
 const KITS = ["Christmas Starter Kit", "Christmas Premium Kit", "Diwali Starter Kit", "Halloween Premium Kit"] as const;
 
@@ -36,10 +25,10 @@ function StepBar({ step }: { step: 1 | 2 }) {
 
 export function InventoryForm() {
     const [step, setStep] = useState<1 | 2>(1);
-
+    const { data: holidays, isLoading } = getHolidays();
     // Holiday checkboxes (uncontrolled via local state since useAppForm
     // may not natively support arrays; adapt as needed for your form lib)
-    const [selectedHolidays, setSelectedHolidays] = useState<string[]>([]);
+    const [selectedHolidays, setSelectedHolidays] = useState<ApiHoliday[]>([]);
     const [kitQuantities, setKitQuantities] = useState<Record<string, boolean>>({});
     const [kitQty, setKitQty] = useState<Record<string, number>>(Object.fromEntries(KITS.map((k) => [k, 1])));
     const [inventoryStatus, setInventoryStatus] = useState("Available");
@@ -77,7 +66,8 @@ export function InventoryForm() {
     });
 
     // ── Toggle helpers ──────────────────────────────────────────────────────────
-    const toggleHoliday = (h: string) => setSelectedHolidays((prev) => (prev.includes(h) ? prev.filter((x) => x !== h) : [...prev, h]));
+    const toggleHoliday = (h: ApiHoliday) =>
+        setSelectedHolidays((prev) => (prev.some((x) => x.id === h.id) ? prev.filter((x) => x.id !== h.id) : [...prev, h]));
 
     const toggleKit = (k: string) => setKitQuantities((prev) => ({ ...prev, [k]: !prev[k] }));
 
@@ -155,20 +145,24 @@ export function InventoryForm() {
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">Select Holidays Mapping</p>
 
                 <div className="flex flex-wrap gap-2">
-                    {HOLIDAYS.map((holiday) => {
-                        const checked = selectedHolidays.includes(holiday);
-                        return (
-                            <div
-                                key={holiday}
-                                className={`flex items-center gap-2 px-2 py-1.5 rounded-lg border text-sm transition-colors ${
-                                    checked ? "bg-primary/10 border-primary" : "bg-muted hover:bg-muted/80"
-                                }`}
-                            >
-                                <Checkbox id={holiday} checked={checked} onCheckedChange={() => toggleHoliday(holiday)} />
-                                <label htmlFor={holiday}>{holiday}</label>
-                            </div>
-                        );
-                    })}
+                    {isLoading
+                        ? [...Array(4)].map((_, index) => {
+                              return <div key={index} className="animate-pulse bg-muted w-26 h-8.5 rounded-lg" />;
+                          })
+                        : holidays?.map((holiday) => {
+                              const checked = selectedHolidays.map((h) => h.id).includes(holiday.id);
+                              return (
+                                  <div
+                                      key={holiday.id}
+                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-lg border text-sm transition-colors ${
+                                          checked ? "bg-primary/10 border-primary" : "bg-muted hover:bg-muted/80"
+                                      }`}
+                                  >
+                                      <Checkbox id={holiday.id} checked={checked} onCheckedChange={() => toggleHoliday(holiday)} />
+                                      <label htmlFor={holiday.id}>{holiday.name}</label>
+                                  </div>
+                              );
+                          })}
                 </div>
             </div>
 

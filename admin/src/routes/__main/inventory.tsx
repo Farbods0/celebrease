@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { INVENTORY, TOTAL_ITEMS, type InventoryItem } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, SlidersHorizontal, Upload } from "lucide-react";
+import { Plus, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/__main/inventory")({
@@ -35,22 +35,15 @@ function RouteComponent() {
                             Showing {items.length} of {TOTAL_ITEMS} items
                         </p>
                     </div>
-
-                    <div className="w-full grid grid-cols-2 sm:w-max sm:flex gap-4">
-                        <Button variant="outline">
-                            <Upload className="size-4" />
-                            <span>Upload CSV</span>
-                        </Button>
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button>
-                                    <Plus className="size-4" />
-                                    <span>Add Inventory Item</span>
-                                </Button>
-                            </DialogTrigger>
-                            <InventoryForm />
-                        </Dialog>
-                    </div>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button>
+                                <Plus className="size-4" />
+                                <span>Add Inventory Item</span>
+                            </Button>
+                        </DialogTrigger>
+                        <InventoryForm />
+                    </Dialog>
                 </div>
 
                 {/* Mobile filter trigger */}

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { ADD_ONS, type AddOn } from "@/data";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Upload } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/__main/addons")({
@@ -28,21 +28,15 @@ function RouteComponent() {
                     </p>
                 </div>
 
-                <div className="w-full grid grid-cols-2 sm:w-max sm:flex gap-4">
-                    <Button variant="outline">
-                        <Upload className="size-4" />
-                        <span>Upload CSV</span>
-                    </Button>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button>
-                                <Plus className="size-4" />
-                                <span>Add New Add-On</span>
-                            </Button>
-                        </DialogTrigger>
-                        <AddonForm />
-                    </Dialog>
-                </div>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button>
+                            <Plus className="size-4" />
+                            <span>Add New Add-On</span>
+                        </Button>
+                    </DialogTrigger>
+                    <AddonForm />
+                </Dialog>
             </div>
 
             <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>

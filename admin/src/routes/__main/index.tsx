@@ -2,9 +2,8 @@ import { RevenueCard } from "#/components/dashboard/revenue-card";
 import { HolidayDistributionChart } from "@/components/dashboard/holiday-distribution-chart";
 import { RevenueTrendsChart } from "@/components/dashboard/revenue-trends-chart";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { Button } from "@/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
-import { Box, CalendarCheck, CheckCircle2, DollarSign, Flame, Plus, ShoppingCart, Star, TrendingUp, Undo2 } from "lucide-react";
+import { Box, CalendarCheck, CheckCircle2, DollarSign, Flame, ShoppingCart, Star, TrendingUp, Undo2 } from "lucide-react";
 
 export const Route = createFileRoute("/__main/")({ component: RouteComponent });
 
@@ -12,19 +11,7 @@ function RouteComponent() {
     return (
         <main className="mx-auto w-full max-w-384 p-6">
             {/* Page header */}
-            <div className="flex flex-wrap items-center justify-between gap-3">
-                <h1 className="text-2xl font-semibold md:text-3xl">Dashboard Overview</h1>
-                <div className="w-full grid grid-cols-2 sm:w-max sm:flex gap-4">
-                    <Button variant="black">
-                        <Undo2 className="mr-1 size-4" />
-                        Process Return
-                    </Button>
-                    <Button>
-                        <Plus />
-                        Create Order
-                    </Button>
-                </div>
-            </div>
+            <h1 className="text-2xl font-semibold md:text-3xl">Dashboard Overview</h1>
 
             {/* Operational stats */}
             <section aria-label="Operational stats" className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">

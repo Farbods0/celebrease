@@ -5,12 +5,10 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { KitItem } from "@/data";
 import { KIT_ITEMS } from "@/data";
-import { cn } from "@/lib/utils";
+import { cn, getHolidays } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-
-const holidays = ["Christmas", "Diwali", "Halloween", "Thanksgiving", "Valentine's", "Easter", "Independence Day", "New Year", "Birthdays"];
 
 type RouteComponentProps = {
     items: KitItem[];
@@ -19,6 +17,7 @@ type RouteComponentProps = {
 
 function RouteComponent({ items, onView }: RouteComponentProps) {
     const [createOpen, setCreateOpen] = useState(false);
+    const { data: holidays, isLoading } = getHolidays();
 
     return (
         <main>
@@ -49,16 +48,27 @@ function RouteComponent({ items, onView }: RouteComponentProps) {
                     <div className="rounded-lg border p-4">
                         <h2 className="font-medium mb-2">Select Holiday</h2>
 
-                        <div className="space-y-1">
-                            {holidays.map((holiday, index) => (
-                                <button
-                                    className={`w-full text-left px-3 py-2 rounded-lg transition-all
-                ${index === 0 ? "bg-primary/10 font-medium" : "text-muted-foreground hover:text-foreground"}`}
-                                >
-                                    {holiday}
-                                </button>
-                            ))}
-                        </div>
+                        {isLoading ? (
+                            <div className="space-y-1 w-60">
+                                <div className="h-10 w-full bg-primary/10 rounded-lg animate-pulse" />
+                                <div className="h-10 w-full bg-primary/10 rounded-lg animate-pulse" />
+                                <div className="h-10 w-full bg-primary/10 rounded-lg animate-pulse" />
+                            </div>
+                        ) : (
+                            <div className="space-y-1 w-60">
+                                {holidays.map((holiday, index) => (
+                                    <button
+                                        key={holiday.id}
+                                        className={cn(
+                                            "w-full text-left px-3 py-2 rounded-lg transition-all",
+                                            index === 0 ? "bg-primary/10 font-medium" : "text-muted-foreground hover:text-foreground",
+                                        )}
+                                    >
+                                        {holiday.name}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </aside>
 

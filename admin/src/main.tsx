@@ -1,9 +1,12 @@
 import { ErrorComp } from "@/components/ui/error-comp";
 import { NotFoundComp } from "@/components/ui/not-found-comp";
 import { PendingComp } from "@/components/ui/pending-comp";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
+
+const queryClient = new QueryClient();
 
 const router = createRouter({
     routeTree,
@@ -25,5 +28,9 @@ const rootElement = document.getElementById("app")!;
 
 if (!rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement);
-    root.render(<RouterProvider router={router} />);
+    root.render(
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+        </QueryClientProvider>,
+    );
 }

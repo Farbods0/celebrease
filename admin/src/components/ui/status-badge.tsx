@@ -10,6 +10,7 @@ const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
     "Inspection Needed": { bg: "rgba(211, 0, 4, 0.12)", color: "rgb(211, 0, 4)" },
     "Return in Transit": { bg: "rgba(211, 0, 4, 0.12)", color: "rgb(211, 0, 4)" },
     Cancelled: { bg: "rgba(211, 0, 4, 0.12)", color: "rgb(211, 0, 4)" },
+    "Low Stock": { bg: "rgba(255, 170, 0, 0.12)", color: "rgb(212, 108, 10)" },
     Retired: { bg: "oklch(0.93 0 0)", color: "oklch(0.5 0 0)" },
 };
 

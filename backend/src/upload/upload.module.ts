@@ -14,7 +14,16 @@ if (!existsSync(uploadDir)) {
     imports: [
         MulterModule.register({
             storage: diskStorage({
-                destination: uploadDir,
+                destination: (req, _file, cb) => {
+                    const folder = typeof req.query?.folder === "string" ? req.query.folder : "";
+                    if (folder && !/^[a-z0-9-]+$/.test(folder)) {
+                        cb(new BadRequestException("Invalid folder"), "");
+                        return;
+                    }
+                    const dest = folder ? join(uploadDir, folder) : uploadDir;
+                    mkdirSync(dest, { recursive: true });
+                    cb(null, dest);
+                },
                 filename: (_req, file, cb) => {
                     const unique = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
                     cb(null, `${unique}${extname(file.originalname)}`);

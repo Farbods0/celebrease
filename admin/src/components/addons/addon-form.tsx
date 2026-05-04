@@ -45,7 +45,7 @@ export function AddonForm() {
             <form className="grid gap-6">
                 {/* Image upload */}
                 <div>
-                    <form.AppField name="image">{(field) => <field.FormImage label="Item Images" />}</form.AppField>
+                    <form.AppField name="image">{(field) => <field.FormImage label="Add-On Image" />}</form.AppField>
                 </div>
 
                 {/* Basic Information */}

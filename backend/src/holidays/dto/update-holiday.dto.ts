@@ -6,6 +6,10 @@ export class UpdateHolidayDto {
     @IsNotEmpty()
     name: string;
 
+    @IsString()
+    @IsNotEmpty()
+    image: string;
+
     @IsEnum(HolidayCategory)
     @IsNotEmpty()
     category: HolidayCategory;

@@ -21,6 +21,7 @@ const CATEGORIES: { value: HolidayCategory; label: string }[] = [
 
 const formSchema = z.object({
     name: z.string().min(2, "Name is required").max(64),
+    image: z.string().min(2, "Image is required"),
     category: z.enum(["TRADITIONAL", "CULTURAL", "EVENT_BASED"]),
     description: z.string().max(500),
     sortOrder: z.string().refine((v) => v === "" || (Number.isInteger(Number(v)) && Number(v) >= 0), "Must be 0 or greater"),
@@ -34,6 +35,7 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
     const form = useAppForm({
         defaultValues: {
             name: holiday?.name ?? "",
+            image: holiday?.image ?? "",
             category: holiday?.category ?? "TRADITIONAL",
             description: holiday?.description ?? "",
             sortOrder: String(holiday?.sortOrder ?? 0),
@@ -45,6 +47,7 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
                 if (isEdit && holiday) {
                     await holidaysApi.update(holiday.id, {
                         name: value.name,
+                        image: value.image,
                         category: value.category as HolidayCategory,
                         description: value.description || undefined,
                         sortOrder: value.sortOrder ? Number(value.sortOrder) : 0,
@@ -54,6 +57,7 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
                 } else {
                     await holidaysApi.create({
                         name: value.name,
+                        image: value.image,
                         category: value.category as HolidayCategory,
                         description: value.description || undefined,
                         sortOrder: value.sortOrder ? Number(value.sortOrder) : 0,
@@ -82,7 +86,11 @@ export function HolidayForm({ holiday, onClose }: HolidayFormProps) {
                     form.handleSubmit();
                 }}
             >
-                <form.AppField name="name">{(field) => <field.FormInput label="Name" placeholder="e.g. Christmas" />}</form.AppField>
+                <form.AppField name="image">{(field) => <field.FormImage label="Holiday Image" folder="holidays" />}</form.AppField>
+
+                <form.AppField name="name">
+                    {(field) => <field.FormInput label="Holiday Name" placeholder="e.g. Christmas" />}
+                </form.AppField>
 
                 <form.AppField name="category">{(field) => <field.FormSelect label="Category" options={CATEGORIES} />}</form.AppField>
 

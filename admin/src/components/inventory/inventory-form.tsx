@@ -76,7 +76,7 @@ export function InventoryForm() {
         <>
             {/* Image upload */}
             <div>
-                <form.AppField name="image">{(field) => <field.FormImage label="Item Images" />}</form.AppField>
+                <form.AppField name="image">{(field) => <field.FormImage label="Item Image" />}</form.AppField>
             </div>
 
             {/* Basic Information */}

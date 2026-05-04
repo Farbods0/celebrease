@@ -5,6 +5,7 @@ export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
 export type ApiHoliday = {
     id: string;
     name: string;
+    image: string;
     category: HolidayCategory;
     description: string | null;
     sortOrder: number;
@@ -15,6 +16,7 @@ export type ApiHoliday = {
 
 export type CreateHolidayPayload = {
     name: string;
+    image: string;
     category: HolidayCategory;
     description?: string;
     sortOrder?: number;

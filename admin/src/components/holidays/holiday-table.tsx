@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { ApiHoliday } from "@/lib/api";
+import { baseURL, type ApiHoliday } from "@/lib/api";
 
 type HolidayTableProps = {
     items: ApiHoliday[];
@@ -32,6 +32,14 @@ export function HolidayTable({ items, onEdit, onDelete }: HolidayTableProps) {
                             <TableRow key={item.id}>
                                 <TableCell className="font-medium">
                                     <div className="flex items-center gap-2">
+                                        <div className="size-8 shrink-0 rounded-md bg-muted">
+                                            <img
+                                                src={`${baseURL}${item.image}`}
+                                                alt={item.name}
+                                                crossOrigin="anonymous"
+                                                className="w-full h-full object-cover rounded-md"
+                                            />
+                                        </div>
                                         {item.name}
                                     </div>
                                 </TableCell>

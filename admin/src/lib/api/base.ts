@@ -1,5 +1,5 @@
-const baseURL = import.meta.env.VITE_APP_SERVER as string;
-const apiPrefix = "/api/v1";
+export const baseURL = import.meta.env.VITE_APP_SERVER as string;
+export const apiPrefix = "/api/v1";
 
 export type Paginated<T> = {
     items: T[];

@@ -5,15 +5,60 @@ import { DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/compone
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import type { ApiHoliday } from "@/lib/api";
-import { getHolidays } from "@/lib/utils";
-import { useState } from "react";
+import {
+    inventoryApi,
+    type ApiHoliday,
+    type ApiInventoryItem,
+    type ApiKit,
+    type InventoryStatus,
+} from "@/lib/api";
+import { useRouter } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
+import * as z from "zod";
 
-const KITS = ["Christmas Starter Kit", "Christmas Premium Kit", "Diwali Starter Kit", "Halloween Premium Kit"] as const;
+type InventoryFormProps = {
+    item?: ApiInventoryItem;
+    holidays: ApiHoliday[];
+    kits: ApiKit[];
+    onClose: () => void;
+};
 
-const INVENTORY_STATUSES = ["Available", "Unavailable", "On Order"] as const;
+const STATUS_OPTIONS: { value: InventoryStatus; label: string }[] = [
+    { value: "ACTIVE", label: "Active" },
+    { value: "LOW_STOCK", label: "Low Stock" },
+    { value: "RETIRED", label: "Retired" },
+];
 
-// ─── Step indicator ───────────────────────────────────────────────────────────
+const numericString = (label: string, opts: { allowZero?: boolean; integer?: boolean } = {}) =>
+    z.string().refine(
+        (v) => {
+            if (v === "") return false;
+            const n = Number(v);
+            if (Number.isNaN(n)) return false;
+            if (opts.integer && !Number.isInteger(n)) return false;
+            return opts.allowZero ? n >= 0 : n > 0;
+        },
+        opts.allowZero ? `${label} must be 0 or greater` : `${label} must be greater than 0`,
+    );
+
+const formSchema = z.object({
+    name: z.string().min(2, "Item name is required").max(120),
+    sku: z.string().min(2, "SKU is required").max(64),
+    category: z.string().max(64),
+    description: z.string().max(1000),
+    image: z.string().min(1, "Image is required"),
+    totalQty: numericString("Total quantity", { allowZero: true, integer: true }),
+    vendorName: z.string().min(2, "Vendor name is required").max(120),
+    vendorEmail: z.email("Valid email required"),
+    vendorPhone: z.string().min(4, "Vendor phone is required").max(32),
+    costPerUnit: numericString("Cost per unit", { allowZero: true }),
+    status: z.enum(["ACTIVE", "LOW_STOCK", "RETIRED"]),
+    lowStockThreshold: z
+        .string()
+        .refine((v) => v === "" || (Number.isInteger(Number(v)) && Number(v) >= 0), "Must be 0 or greater"),
+});
+
 function StepBar({ step }: { step: 1 | 2 }) {
     return (
         <div className="flex gap-1.5 mb-2">
@@ -23,63 +68,123 @@ function StepBar({ step }: { step: 1 | 2 }) {
     );
 }
 
-export function InventoryForm() {
+export function InventoryForm({ item, holidays, kits, onClose }: InventoryFormProps) {
+    const router = useRouter();
+    const isEdit = !!item;
     const [step, setStep] = useState<1 | 2>(1);
-    const { data: holidays, isLoading } = getHolidays();
-    // Holiday checkboxes (uncontrolled via local state since useAppForm
-    // may not natively support arrays; adapt as needed for your form lib)
-    const [selectedHolidays, setSelectedHolidays] = useState<ApiHoliday[]>([]);
-    const [kitQuantities, setKitQuantities] = useState<Record<string, boolean>>({});
-    const [kitQty, setKitQty] = useState<Record<string, number>>(Object.fromEntries(KITS.map((k) => [k, 1])));
-    const [inventoryStatus, setInventoryStatus] = useState("Available");
-    const [lowStockThreshold, setLowStockThreshold] = useState("");
+
+    const initialKitsByHoliday = useMemo(() => {
+        const set = new Set<string>();
+        item?.kitItems.forEach((ki) => set.add(ki.kit.holidayId));
+        return set;
+    }, [item]);
+
+    const initialKitQty = useMemo(() => {
+        const map: Record<string, number> = {};
+        item?.kitItems.forEach((ki) => {
+            map[ki.kit.id] = ki.qty;
+        });
+        return map;
+    }, [item]);
+
+    const [selectedHolidayIds, setSelectedHolidayIds] = useState<Set<string>>(initialKitsByHoliday);
+    const [kitQty, setKitQty] = useState<Record<string, number>>(initialKitQty);
+
+    const kitsByHoliday = useMemo(() => {
+        const map = new Map<string, ApiKit[]>();
+        for (const kit of kits) {
+            if (!map.has(kit.holidayId)) map.set(kit.holidayId, []);
+            map.get(kit.holidayId)!.push(kit);
+        }
+        return map;
+    }, [kits]);
 
     const form = useAppForm({
         defaultValues: {
-            // Basic Information
-            name: "",
-            sku: "",
-            category: "",
-            quantity: 0,
-            description: "",
-            // Image
-            image: "",
-            // Pricing & Vendor Info
-            vendorName: "",
-            vendorEmail: "",
-            vendorPhone: "",
-            costPerUnit: 0,
+            name: item?.name ?? "",
+            sku: item?.sku ?? "",
+            category: item?.category ?? "",
+            description: item?.description ?? "",
+            image: item?.image ?? "",
+            totalQty: item ? String(item.totalQty) : "",
+            vendorName: item?.vendorName ?? "",
+            vendorEmail: item?.vendorEmail ?? "",
+            vendorPhone: item?.vendorPhone ?? "",
+            costPerUnit: item ? String(item.costPerUnit) : "",
+            status: item?.status ?? "ACTIVE",
+            lowStockThreshold: item ? String(item.lowStockThreshold) : "0",
         },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
-            const fullPayload = {
-                ...value,
-                holidays: selectedHolidays,
-                kits: KITS.filter((k) => kitQuantities[k]).map((k) => ({
-                    kit: k,
-                    quantity: kitQty[k],
-                })),
-                inventoryStatus,
-                lowStockThreshold: lowStockThreshold ? Number(lowStockThreshold) : null,
-            };
-            console.log(fullPayload);
+            try {
+                const kitMappings = Object.entries(kitQty)
+                    .filter(([, qty]) => qty > 0)
+                    .map(([kitId, qty]) => ({ kitId, qty }));
+
+                const payload = {
+                    name: value.name,
+                    sku: value.sku,
+                    image: value.image,
+                    description: value.description || undefined,
+                    category: value.category || undefined,
+                    vendorName: value.vendorName,
+                    vendorEmail: value.vendorEmail,
+                    vendorPhone: value.vendorPhone,
+                    costPerUnit: Number(value.costPerUnit),
+                    totalQty: Number(value.totalQty),
+                    lowStockThreshold: value.lowStockThreshold ? Number(value.lowStockThreshold) : 0,
+                    status: value.status as InventoryStatus,
+                    kits: kitMappings,
+                };
+
+                if (isEdit && item) {
+                    await inventoryApi.update(item.id, payload);
+                    toast.success("Inventory item updated");
+                } else {
+                    await inventoryApi.create({ ...payload, initialStatus: value.status as InventoryStatus });
+                    toast.success("Inventory item created");
+                }
+                await router.invalidate();
+                onClose();
+            } catch (e) {
+                toast.error(e instanceof Error ? e.message : "Something went wrong");
+            }
         },
     });
 
-    // ── Toggle helpers ──────────────────────────────────────────────────────────
-    const toggleHoliday = (h: ApiHoliday) =>
-        setSelectedHolidays((prev) => (prev.some((x) => x.id === h.id) ? prev.filter((x) => x.id !== h.id) : [...prev, h]));
+    const toggleHoliday = (id: string) =>
+        setSelectedHolidayIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+                // Clear kit qty for kits in this holiday
+                const kitsInHoliday = kitsByHoliday.get(id) ?? [];
+                setKitQty((q) => {
+                    const updated = { ...q };
+                    for (const k of kitsInHoliday) delete updated[k.id];
+                    return updated;
+                });
+            } else {
+                next.add(id);
+            }
+            return next;
+        });
 
-    const toggleKit = (k: string) => setKitQuantities((prev) => ({ ...prev, [k]: !prev[k] }));
+    const toggleKit = (kitId: string) =>
+        setKitQty((prev) => {
+            const updated = { ...prev };
+            if (updated[kitId]) delete updated[kitId];
+            else updated[kitId] = 1;
+            return updated;
+        });
 
-    // ── Step 1 ──────────────────────────────────────────────────────────────────
+    const setKitCount = (kitId: string, qty: number) =>
+        setKitQty((prev) => ({ ...prev, [kitId]: Math.max(1, qty || 1) }));
+
     const renderStep1 = () => (
         <>
-            {/* Image upload */}
-            <div>
-                <form.AppField name="image">{(field) => <field.FormImage label="Item Image" />}</form.AppField>
-            </div>
+            <form.AppField name="image">{(field) => <field.FormImage label="Item Image" folder="inventory" />}</form.AppField>
 
-            {/* Basic Information */}
             <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                 <p className="col-span-2 text-xs text-muted-foreground uppercase tracking-wide">Basic Information</p>
 
@@ -89,9 +194,11 @@ export function InventoryForm() {
 
                 <form.AppField name="sku">{(field) => <field.FormInput label="SKU" placeholder="e.g., CELE-LGT-01" />}</form.AppField>
 
-                <form.AppField name="category">{(field) => <field.FormInput label="Item Category" />}</form.AppField>
+                <form.AppField name="category">
+                    {(field) => <field.FormInput label="Item Category" placeholder="e.g., Lighting" />}
+                </form.AppField>
 
-                <form.AppField name="quantity">
+                <form.AppField name="totalQty">
                     {(field) => <field.FormInput label="Total Quantity" placeholder="e.g., 120" type="number" />}
                 </form.AppField>
 
@@ -102,7 +209,6 @@ export function InventoryForm() {
                 </div>
             </div>
 
-            {/* Pricing & Vendor Information */}
             <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                 <p className="col-span-2 text-xs text-muted-foreground uppercase tracking-wide">Pricing &amp; Vendor Information</p>
 
@@ -127,138 +233,166 @@ export function InventoryForm() {
                 </div>
             </div>
 
-            {/* Footer */}
             <div className="flex justify-between gap-4">
                 <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button onClick={() => setStep(2)}>Continue</Button>
+                <Button type="button" onClick={() => setStep(2)}>
+                    Continue
+                </Button>
             </div>
         </>
     );
 
-    // ── Step 2 ──────────────────────────────────────────────────────────────────
     const renderStep2 = () => (
         <>
-            {/* Holiday Mapping */}
             <div className="grid gap-3">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">Select Holidays Mapping</p>
-
-                <div className="flex flex-wrap gap-2">
-                    {isLoading
-                        ? [...Array(4)].map((_, index) => {
-                              return <div key={index} className="animate-pulse bg-muted w-26 h-8.5 rounded-lg" />;
-                          })
-                        : holidays?.map((holiday) => {
-                              const checked = selectedHolidays.map((h) => h.id).includes(holiday.id);
-                              return (
-                                  <div
-                                      key={holiday.id}
-                                      className={`flex items-center gap-2 px-2 py-1.5 rounded-lg border text-sm transition-colors ${
-                                          checked ? "bg-primary/10 border-primary" : "bg-muted hover:bg-muted/80"
-                                      }`}
-                                  >
-                                      <Checkbox id={holiday.id} checked={checked} onCheckedChange={() => toggleHoliday(holiday)} />
-                                      <label htmlFor={holiday.id}>{holiday.name}</label>
-                                  </div>
-                              );
-                          })}
-                </div>
+                {holidays.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No holidays available. Add a holiday first.</p>
+                ) : (
+                    <div className="flex flex-wrap gap-2">
+                        {holidays.map((holiday) => {
+                            const checked = selectedHolidayIds.has(holiday.id);
+                            return (
+                                <div
+                                    key={holiday.id}
+                                    className={`flex items-center gap-2 px-2 py-1.5 rounded-lg border text-sm transition-colors ${
+                                        checked ? "bg-primary/10 border-primary" : "bg-muted hover:bg-muted/80"
+                                    }`}
+                                >
+                                    <Checkbox id={`hol-${holiday.id}`} checked={checked} onCheckedChange={() => toggleHoliday(holiday.id)} />
+                                    <label htmlFor={`hol-${holiday.id}`} className="cursor-pointer">
+                                        {holiday.name}
+                                    </label>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
 
-            {/* Kit Mapping */}
             <div className="grid gap-3">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">Kit Mapping – Assign to Kits</p>
-
-                <div className="bg-muted p-2 rounded-lg grid gap-2">
-                    {KITS.map((kit) => {
-                        const isChecked = !!kitQuantities[kit];
-                        return (
-                            <div key={kit} className="flex items-center justify-between rounded-lg border bg-white p-2 pl-3 gap-3">
-                                <div className="flex items-center gap-3">
-                                    <Checkbox id={kit} checked={isChecked} onCheckedChange={() => toggleKit(kit)} />
-                                    <label htmlFor={kit}>{kit}</label>
-                                </div>
-                                <input
-                                    type="number"
-                                    min={1}
-                                    value={kitQty[kit]}
-                                    onChange={(e) =>
-                                        setKitQty((prev) => ({
-                                            ...prev,
-                                            [kit]: Number(e.target.value),
-                                        }))
-                                    }
-                                    disabled={!isChecked}
-                                    className="px-2 w-14 h-7 rounded-md border text-sm text-center"
-                                />
-                            </div>
-                        );
-                    })}
-                </div>
-
+                {selectedHolidayIds.size === 0 ? (
+                    <p className="text-sm text-muted-foreground">Select one or more holidays above to map kits.</p>
+                ) : (
+                    <div className="bg-muted p-2 rounded-lg grid gap-2">
+                        {[...selectedHolidayIds].flatMap((holidayId) => {
+                            const holiday = holidays.find((h) => h.id === holidayId);
+                            const holidayKits = kitsByHoliday.get(holidayId) ?? [];
+                            if (holidayKits.length === 0) {
+                                return [
+                                    <div key={`empty-${holidayId}`} className="rounded-lg border bg-white p-2 px-3 text-xs text-muted-foreground">
+                                        No kits yet for {holiday?.name}.
+                                    </div>,
+                                ];
+                            }
+                            return holidayKits.map((kit) => {
+                                const isChecked = kit.id in kitQty;
+                                return (
+                                    <div key={kit.id} className="flex items-center justify-between rounded-lg border bg-white p-2 pl-3 gap-3">
+                                        <div className="flex items-center gap-3">
+                                            <Checkbox id={kit.id} checked={isChecked} onCheckedChange={() => toggleKit(kit.id)} />
+                                            <label htmlFor={kit.id} className="capitalize">
+                                                {holiday?.name} {kit.tier === "STARTER" ? "Starter" : "Premium"} Kit
+                                            </label>
+                                        </div>
+                                        <input
+                                            type="number"
+                                            min={1}
+                                            value={kitQty[kit.id] ?? 1}
+                                            onChange={(e) => setKitCount(kit.id, Number(e.target.value))}
+                                            disabled={!isChecked}
+                                            className="px-2 w-14 h-7 rounded-md border text-sm text-center"
+                                        />
+                                    </div>
+                                );
+                            });
+                        })}
+                    </div>
+                )}
                 <p className="text-xs text-muted-foreground">Select which kits include this item and specify quantity per kit</p>
             </div>
 
-            {/* Initial Status */}
             <div className="grid gap-3">
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">Initial Status</p>
 
-                <div className="grid gap-2">
-                    <Label className="text-sm font-medium">Inventory Status</Label>
-                    <Select value={inventoryStatus} onValueChange={setInventoryStatus}>
-                        <SelectTrigger className="w-full">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {INVENTORY_STATUSES.map((s) => (
-                                <SelectItem key={s} value={s}>
-                                    {s}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
+                <form.AppField name="status">
+                    {(field) => (
+                        <div className="grid gap-2">
+                            <Label htmlFor={field.name}>Inventory Status</Label>
+                            <Select value={field.state.value} onValueChange={(v) => field.handleChange(v as InventoryStatus)}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {STATUS_OPTIONS.map((s) => (
+                                        <SelectItem key={s.value} value={s.value}>
+                                            {s.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    )}
+                </form.AppField>
 
-                <div className="grid gap-2">
-                    <Label className="text-sm font-medium">Low Stock Threshold</Label>
-                    <Input
-                        type="number"
-                        placeholder="e.g., 20"
-                        value={lowStockThreshold}
-                        onChange={(e) => setLowStockThreshold(e.target.value)}
-                    />
-                    <p className="text-xs text-muted-foreground">Alert when available quantity falls below this number</p>
-                </div>
+                <form.AppField name="lowStockThreshold">
+                    {(field) => (
+                        <div className="grid gap-2">
+                            <Label htmlFor={field.name}>Low Stock Threshold</Label>
+                            <Input
+                                id={field.name}
+                                type="number"
+                                min={0}
+                                placeholder="e.g., 20"
+                                value={field.state.value}
+                                onChange={(e) => field.handleChange(e.target.value)}
+                            />
+                            <p className="text-xs text-muted-foreground">Alert when available quantity falls below this number</p>
+                        </div>
+                    )}
+                </form.AppField>
             </div>
 
-            {/* Footer */}
             <div className="flex justify-between gap-4">
                 <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                 </DialogClose>
                 <div className="flex gap-2">
-                    <Button variant="outline" onClick={() => setStep(1)}>
+                    <Button type="button" variant="outline" onClick={() => setStep(1)}>
                         Back
                     </Button>
                     <form.AppForm>
-                        <form.FormSubmit label="Add Item Now" />
+                        <form.FormSubmit label={isEdit ? "Save changes" : "Add Item"} />
                     </form.AppForm>
                 </div>
             </div>
         </>
     );
 
-    // ── Render ──────────────────────────────────────────────────────────────────
     return (
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-                <DialogTitle>Add Inventory Item</DialogTitle>
+                <DialogTitle>{isEdit ? "Edit Inventory Item" : "Add Inventory Item"}</DialogTitle>
             </DialogHeader>
 
             <StepBar step={step} />
 
-            <form className="grid gap-6">{step === 1 ? renderStep1() : renderStep2()}</form>
+            <form
+                className="grid gap-6"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    if (step === 1) {
+                        setStep(2);
+                        return;
+                    }
+                    form.handleSubmit();
+                }}
+            >
+                {step === 1 ? renderStep1() : renderStep2()}
+            </form>
         </DialogContent>
     );
 }

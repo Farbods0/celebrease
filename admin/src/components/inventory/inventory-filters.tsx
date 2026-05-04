@@ -3,62 +3,115 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import type { ApiHoliday, InventoryStatus, KitTier } from "@/lib/api";
 import { Search } from "lucide-react";
 
-const KIT_TYPES = ["All", "Starter", "Premium", "Add-On"] as const;
-const STATUSES = ["Available", "Reserved", "Shipped", "In Cleaning", "In Repair", "Retired"] as const;
+export type InventoryFilterState = {
+    search: string;
+    holidayId: string; // "all" or holiday id
+    tiers: Set<"ALL" | KitTier>;
+    statuses: Set<InventoryStatus>;
+    category: string; // "all" or category name
+    lowStockOnly: boolean;
+};
+
+export const initialFilterState: InventoryFilterState = {
+    search: "",
+    holidayId: "all",
+    tiers: new Set(["ALL"]),
+    statuses: new Set(),
+    category: "all",
+    lowStockOnly: false,
+};
+
+const TIERS: { value: "ALL" | KitTier; label: string }[] = [
+    { value: "ALL", label: "All" },
+    { value: "STARTER", label: "Starter" },
+    { value: "PREMIUM", label: "Premium" },
+];
+
+const STATUSES: { value: InventoryStatus; label: string }[] = [
+    { value: "ACTIVE", label: "Active" },
+    { value: "LOW_STOCK", label: "Low Stock" },
+    { value: "RETIRED", label: "Retired" },
+];
 
 function FilterLegend({ children }: { children: React.ReactNode }) {
     return <span className="block text-xs uppercase tracking-wider text-muted-foreground">{children}</span>;
 }
 
-export function InventoryFilters() {
+type InventoryFiltersProps = {
+    holidays: ApiHoliday[];
+    categories: string[];
+    state: InventoryFilterState;
+    onChange: (next: InventoryFilterState) => void;
+};
+
+export function InventoryFilters({ holidays, categories, state, onChange }: InventoryFiltersProps) {
+    const toggleTier = (tier: "ALL" | KitTier) => {
+        const next = new Set(state.tiers);
+        if (tier === "ALL") {
+            onChange({ ...state, tiers: new Set(["ALL"]) });
+            return;
+        }
+        next.delete("ALL");
+        if (next.has(tier)) next.delete(tier);
+        else next.add(tier);
+        if (next.size === 0) next.add("ALL");
+        onChange({ ...state, tiers: next });
+    };
+
+    const toggleStatus = (s: InventoryStatus) => {
+        const next = new Set(state.statuses);
+        if (next.has(s)) next.delete(s);
+        else next.add(s);
+        onChange({ ...state, statuses: next });
+    };
+
     return (
         <div className="flex-1 overflow-y-auto flex flex-col gap-4">
-            {/* Search */}
             <div className="space-y-1.5">
                 <FilterLegend>Search</FilterLegend>
                 <InputGroup>
                     <InputGroupAddon>
                         <Search className="size-4 text-muted-foreground" />
                     </InputGroupAddon>
-                    <InputGroupInput placeholder="Search by item name or SKU..." />
+                    <InputGroupInput
+                        placeholder="Search by item name or SKU..."
+                        value={state.search}
+                        onChange={(e) => onChange({ ...state, search: e.target.value })}
+                    />
                 </InputGroup>
             </div>
 
-            {/* Holiday */}
             <div className="space-y-1.5">
                 <FilterLegend>Holiday</FilterLegend>
-                <Select defaultValue="all">
+                <Select value={state.holidayId} onValueChange={(v) => onChange({ ...state, holidayId: v })}>
                     <SelectTrigger className="w-full">
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">All Holidays</SelectItem>
-                        <SelectItem value="christmas">Christmas</SelectItem>
-                        <SelectItem value="diwali">Diwali</SelectItem>
-                        <SelectItem value="easter">Easter</SelectItem>
-                        <SelectItem value="halloween">Halloween</SelectItem>
-                        <SelectItem value="thanksgiving">Thanksgiving</SelectItem>
-                        <SelectItem value="valentines">Valentine&apos;s</SelectItem>
-                        <SelectItem value="nowruz">Nowruz</SelectItem>
-                        <SelectItem value="birthday">Birthday</SelectItem>
-                        <SelectItem value="independence">Independence Day</SelectItem>
+                        {holidays.map((h) => (
+                            <SelectItem key={h.id} value={h.id}>
+                                {h.name}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
             </div>
 
-            {/* Kit Type */}
             <fieldset className="space-y-3">
                 <FilterLegend>Kit Type</FilterLegend>
                 <div className="space-y-2">
-                    {KIT_TYPES.map((kt) => {
-                        const id = `kit-${kt.toLowerCase()}`;
+                    {TIERS.map((kt) => {
+                        const id = `kit-${kt.value.toLowerCase()}`;
+                        const checked = state.tiers.has(kt.value);
                         return (
-                            <div key={kt} className="flex items-center gap-2.5">
-                                <Checkbox id={id} defaultChecked={kt === "All"} />
+                            <div key={kt.value} className="flex items-center gap-2.5">
+                                <Checkbox id={id} checked={checked} onCheckedChange={() => toggleTier(kt.value)} />
                                 <Label htmlFor={id} className="text-sm font-normal cursor-pointer">
-                                    {kt}
+                                    {kt.label}
                                 </Label>
                             </div>
                         );
@@ -66,17 +119,17 @@ export function InventoryFilters() {
                 </div>
             </fieldset>
 
-            {/* Inventory Status */}
             <fieldset className="space-y-3">
                 <FilterLegend>Inventory Status</FilterLegend>
                 <div className="space-y-2">
                     {STATUSES.map((s) => {
-                        const id = `status-${s.toLowerCase().replace(/\s+/g, "-")}`;
+                        const id = `status-${s.value.toLowerCase()}`;
+                        const checked = state.statuses.has(s.value);
                         return (
-                            <div key={s} className="flex items-center gap-2.5">
-                                <Checkbox id={id} />
+                            <div key={s.value} className="flex items-center gap-2.5">
+                                <Checkbox id={id} checked={checked} onCheckedChange={() => toggleStatus(s.value)} />
                                 <Label htmlFor={id} className="text-sm font-normal cursor-pointer">
-                                    {s}
+                                    {s.label}
                                 </Label>
                             </div>
                         );
@@ -84,30 +137,32 @@ export function InventoryFilters() {
                 </div>
             </fieldset>
 
-            {/* Item Category */}
             <div className="space-y-1.5">
                 <FilterLegend>Item Category</FilterLegend>
-                <Select defaultValue="all">
+                <Select value={state.category} onValueChange={(v) => onChange({ ...state, category: v })}>
                     <SelectTrigger className="w-full">
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">All Categories</SelectItem>
-                        <SelectItem value="lights">Lights</SelectItem>
-                        <SelectItem value="ornaments">Ornaments</SelectItem>
-                        <SelectItem value="garlands">Garlands</SelectItem>
-                        <SelectItem value="trees">Trees</SelectItem>
-                        <SelectItem value="candles">Candles</SelectItem>
+                        {categories.map((c) => (
+                            <SelectItem key={c} value={c}>
+                                {c}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                 </Select>
             </div>
 
-            {/* Low Stock Alert */}
             <div className="flex items-center justify-between rounded-md">
                 <Label htmlFor="low-stock" className="text-sm font-medium cursor-pointer">
-                    Low Stock Alert
+                    Low Stock Only
                 </Label>
-                <Switch id="low-stock" defaultChecked />
+                <Switch
+                    id="low-stock"
+                    checked={state.lowStockOnly}
+                    onCheckedChange={(v) => onChange({ ...state, lowStockOnly: v })}
+                />
             </div>
         </div>
     );

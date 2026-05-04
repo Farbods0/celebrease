@@ -4,6 +4,19 @@ import { UpdateHolidayDto } from "@/holidays/dto/update-holiday.dto";
 import { UploadService } from "@/upload/upload.service";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
+const holidayInclude = {
+    kits: {
+        select: {
+            sku: true,
+            tier: true,
+            status: true,
+            price30Day: true,
+            price60Day: true,
+            deposit: true,
+        },
+    },
+};
+
 @Injectable()
 export class HolidaysService {
     constructor(
@@ -15,6 +28,7 @@ export class HolidaysService {
         const items = await this.prisma.holiday.findMany({
             where: { isActive: true },
             orderBy: { sortOrder: "asc" },
+            include: holidayInclude,
         });
         return { items };
     }
@@ -22,6 +36,7 @@ export class HolidaysService {
     async listAll() {
         const items = await this.prisma.holiday.findMany({
             orderBy: { sortOrder: "asc" },
+            include: holidayInclude,
         });
         return { items };
     }

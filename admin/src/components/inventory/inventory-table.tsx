@@ -1,6 +1,6 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { InventoryItem } from "@/data";
+import type { ApiInventoryItem } from "@/lib/api";
 import { AlertTriangle } from "lucide-react";
 
 function LowStockChip() {
@@ -12,9 +12,28 @@ function LowStockChip() {
     );
 }
 
+const STATUS_LABEL: Record<ApiInventoryItem["status"], string> = {
+    ACTIVE: "Active",
+    LOW_STOCK: "Low Stock",
+    RETIRED: "Retired",
+};
+
+function holidayLabel(item: ApiInventoryItem): string {
+    const names = Array.from(new Set(item.kitItems.map((ki) => ki.kit.holiday.name)));
+    if (names.length === 0) return "—";
+    if (names.length === 1) return names[0];
+    return `${names[0]} +${names.length - 1}`;
+}
+
+function kitTierLabel(item: ApiInventoryItem): string {
+    const tiers = Array.from(new Set(item.kitItems.map((ki) => ki.kit.tier)));
+    if (tiers.length === 0) return "—";
+    return tiers.map((t) => (t === "STARTER" ? "Starter" : "Premium")).join(", ");
+}
+
 type InventoryTableProps = {
-    items: InventoryItem[];
-    onView: (item: InventoryItem) => void;
+    items: ApiInventoryItem[];
+    onView: (item: ApiInventoryItem) => void;
 };
 
 export function InventoryTable({ items, onView }: InventoryTableProps) {
@@ -37,44 +56,53 @@ export function InventoryTable({ items, onView }: InventoryTableProps) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {items.map((item) => (
+                    {items.length === 0 ? (
                         <TableRow>
-                            <TableCell>
-                                <div className="flex items-center gap-2">
-                                    <span>{item.name}</span>
-                                    {item.lowStock && <LowStockChip />}
-                                </div>
-                            </TableCell>
-                            <TableCell>
-                                <StatusBadge status={item.holiday} />
-                            </TableCell>
-                            <TableCell>{item.kitType}</TableCell>
-                            <TableCell className="font-medium">{item.totalQty}</TableCell>
-                            <TableCell className="font-medium" style={{ color: "oklch(0.55 0.17 150)" }}>
-                                {item.available}
-                            </TableCell>
-                            <TableCell className="font-medium" style={{ color: "oklch(0.65 0.18 55)" }}>
-                                {item.reserved}
-                            </TableCell>
-                            <TableCell className="font-medium">{item.shipped}</TableCell>
-                            <TableCell className="font-medium">{item.cleaning}</TableCell>
-                            <TableCell className="font-medium" style={{ color: "oklch(0.55 0.22 25)" }}>
-                                {item.repair}
-                            </TableCell>
-                            <TableCell>
-                                <StatusBadge status={item.status} />
-                            </TableCell>
-                            <TableCell>
-                                <button
-                                    type="button"
-                                    onClick={() => onView(item)}
-                                    className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium"
-                                >
-                                    View
-                                </button>
+                            <TableCell colSpan={11} className="text-center text-muted-foreground py-10">
+                                No inventory items found.
                             </TableCell>
                         </TableRow>
-                    ))}
+                    ) : (
+                        items.map((item) => {
+                            const lowStock = item.units.available <= item.lowStockThreshold && item.lowStockThreshold > 0;
+                            return (
+                                <TableRow key={item.id}>
+                                    <TableCell>
+                                        <div className="flex items-center gap-2">
+                                            <span className="capitalize">{item.name}</span>
+                                            {lowStock && <LowStockChip />}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>{holidayLabel(item)}</TableCell>
+                                    <TableCell>{kitTierLabel(item)}</TableCell>
+                                    <TableCell className="font-medium">{item.totalQty}</TableCell>
+                                    <TableCell className="font-medium" style={{ color: "oklch(0.55 0.17 150)" }}>
+                                        {item.units.available}
+                                    </TableCell>
+                                    <TableCell className="font-medium" style={{ color: "oklch(0.65 0.18 55)" }}>
+                                        {item.units.reserved}
+                                    </TableCell>
+                                    <TableCell className="font-medium">{item.units.shipped}</TableCell>
+                                    <TableCell className="font-medium">{item.units.cleaning}</TableCell>
+                                    <TableCell className="font-medium" style={{ color: "oklch(0.55 0.22 25)" }}>
+                                        {item.units.repair}
+                                    </TableCell>
+                                    <TableCell>
+                                        <StatusBadge status={STATUS_LABEL[item.status]} />
+                                    </TableCell>
+                                    <TableCell>
+                                        <button
+                                            type="button"
+                                            onClick={() => onView(item)}
+                                            className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium"
+                                        >
+                                            View
+                                        </button>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })
+                    )}
                 </TableBody>
             </Table>
         </div>

@@ -1,4 +1,5 @@
 import { request } from "./base";
+import type { KitStatus, KitTier } from "./kit";
 
 export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
 
@@ -12,6 +13,16 @@ export type ApiHoliday = {
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
+} & {
+    kits: Array<{
+        sku: string;
+        tier: KitTier;
+        holidayId: string;
+        status: KitStatus;
+        price30Day: number;
+        price60Day: number;
+        deposit: number;
+    }>;
 };
 
 export type CreateHolidayPayload = {
@@ -26,7 +37,8 @@ export type CreateHolidayPayload = {
 export type UpdateHolidayPayload = Partial<CreateHolidayPayload>;
 
 export const holidaysApi = {
-    list: () => request<{ items: ApiHoliday[] }>(`/holidays/admin`),
+    list: () => request<{ items: ApiHoliday[] }>(`/holidays`),
+    listAll: () => request<{ items: ApiHoliday[] }>(`/holidays/admin`),
     get: (id: string) => request<ApiHoliday>(`/holidays/${id}`),
     create: (payload: CreateHolidayPayload) =>
         request<ApiHoliday>(`/holidays`, {

@@ -1,52 +1,97 @@
 import { InventoryCard } from "@/components/inventory/inventory-card";
-import { InventoryFilters } from "@/components/inventory/inventory-filters";
+import { initialFilterState, InventoryFilters, type InventoryFilterState } from "@/components/inventory/inventory-filters";
 import { InventoryForm } from "@/components/inventory/inventory-form";
 import { InventoryTable } from "@/components/inventory/inventory-table";
 import InventoryView from "@/components/inventory/inventory-view";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { INVENTORY, TOTAL_ITEMS, type InventoryItem } from "@/data";
+import { holidaysApi, inventoryApi, kitsApi, type ApiInventoryItem } from "@/lib/api";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, SlidersHorizontal } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/__main/inventory")({
+    loader: async () => {
+        const [holidays, kits, inventory] = await Promise.all([
+            holidaysApi.list(),
+            kitsApi.listAll(),
+            inventoryApi.listAll(),
+        ]);
+        return { holidays: holidays.items, kits: kits.items, items: inventory.items };
+    },
     component: RouteComponent,
 });
 
 function RouteComponent() {
-    const items = INVENTORY;
-    const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+    const { holidays, kits, items } = Route.useLoaderData();
+
+    const [createOpen, setCreateOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<ApiInventoryItem | null>(null);
+    const [editing, setEditing] = useState<ApiInventoryItem | null>(null);
+    const [filters, setFilters] = useState<InventoryFilterState>(initialFilterState);
+
+    const categories = useMemo(() => {
+        const set = new Set<string>();
+        for (const it of items) if (it.category) set.add(it.category);
+        return [...set].sort();
+    }, [items]);
+
+    const filtered = useMemo(() => {
+        const search = filters.search.trim().toLowerCase();
+        return items.filter((item) => {
+            if (search && !item.name.toLowerCase().includes(search) && !item.sku.toLowerCase().includes(search)) {
+                return false;
+            }
+            if (filters.holidayId !== "all") {
+                const inHoliday = item.kitItems.some((ki) => ki.kit.holidayId === filters.holidayId);
+                if (!inHoliday) return false;
+            }
+            if (!filters.tiers.has("ALL")) {
+                const tiers = new Set(item.kitItems.map((ki) => ki.kit.tier));
+                const ok = [...filters.tiers].some((t) => t !== "ALL" && tiers.has(t));
+                if (!ok) return false;
+            }
+            if (filters.statuses.size > 0 && !filters.statuses.has(item.status)) {
+                return false;
+            }
+            if (filters.category !== "all" && item.category !== filters.category) {
+                return false;
+            }
+            if (filters.lowStockOnly) {
+                const lowStock = item.units.available <= item.lowStockThreshold && item.lowStockThreshold > 0;
+                if (!lowStock) return false;
+            }
+            return true;
+        });
+    }, [items, filters]);
 
     return (
         <main className="flex w-full">
-            {/* Desktop sidebar */}
             <aside className="hidden md:flex sticky top-18 h-[calc(100vh-4.5rem)] w-80 shrink-0 border-r p-6">
-                <InventoryFilters />
+                <InventoryFilters holidays={holidays} categories={categories} state={filters} onChange={setFilters} />
             </aside>
 
-            {/* Main content */}
             <main className="flex-1 min-w-0 flex flex-col gap-6 p-6">
-                {/* Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-xl font-semibold">Inventory</h1>
                         <p className="mt-1.5 text-sm text-muted-foreground">
-                            Showing {items.length} of {TOTAL_ITEMS} items
+                            Showing {filtered.length} of {items.length} items
                         </p>
                     </div>
-                    <Dialog>
+                    <Dialog open={createOpen} onOpenChange={setCreateOpen}>
                         <DialogTrigger asChild>
                             <Button>
                                 <Plus className="size-4" />
                                 <span>Add Inventory Item</span>
                             </Button>
                         </DialogTrigger>
-                        <InventoryForm />
+                        {createOpen && (
+                            <InventoryForm holidays={holidays} kits={kits} onClose={() => setCreateOpen(false)} />
+                        )}
                     </Dialog>
                 </div>
 
-                {/* Mobile filter trigger */}
                 <div className="-mt-2 md:hidden">
                     <Dialog>
                         <DialogTrigger asChild>
@@ -59,23 +104,43 @@ function RouteComponent() {
                             <DialogHeader>
                                 <DialogTitle>All Filters</DialogTitle>
                             </DialogHeader>
-                            <InventoryFilters />
+                            <InventoryFilters holidays={holidays} categories={categories} state={filters} onChange={setFilters} />
                         </DialogContent>
                     </Dialog>
                 </div>
 
                 <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-                    {/* Desktop table */}
-                    <InventoryTable items={items} onView={setSelectedItem} />
+                    <InventoryTable items={filtered} onView={setSelectedItem} />
 
-                    {/* Mobile cards */}
                     <div className="space-y-4 md:hidden">
-                        {items.map((item) => (
-                            <InventoryCard key={item.id} item={item} onView={setSelectedItem} />
-                        ))}
+                        {filtered.length === 0 ? (
+                            <p className="text-center text-sm text-muted-foreground py-10">No inventory items found.</p>
+                        ) : (
+                            filtered.map((item) => <InventoryCard key={item.id} item={item} onView={setSelectedItem} />)
+                        )}
                     </div>
 
-                    {selectedItem ? <InventoryView item={selectedItem} /> : null}
+                    {selectedItem ? (
+                        <InventoryView
+                            item={selectedItem}
+                            onEdit={() => {
+                                setEditing(selectedItem);
+                                setSelectedItem(null);
+                            }}
+                            onDeleted={() => setSelectedItem(null)}
+                        />
+                    ) : null}
+                </Dialog>
+
+                <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
+                    {editing && (
+                        <InventoryForm
+                            item={editing}
+                            holidays={holidays}
+                            kits={kits}
+                            onClose={() => setEditing(null)}
+                        />
+                    )}
                 </Dialog>
             </main>
         </main>

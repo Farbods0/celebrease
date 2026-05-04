@@ -10,7 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/__main/holidays")({
-    loader: () => holidaysApi.list(),
+    loader: () => holidaysApi.listAll(),
     component: RouteComponent,
 });
 

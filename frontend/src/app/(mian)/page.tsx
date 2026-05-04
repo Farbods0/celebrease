@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { events } from "@/data";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 
 export default function HomePage() {
     return (
@@ -27,8 +28,11 @@ export default function HomePage() {
                             Curated holiday & event décor kits, delivered <br className="hidden sm:block" /> and returned with ease.
                         </p>
                         <div className="mt-5 md:mt-6 flex justify-center gap-4">
-                            <Button className="bg-white hover:bg-white/80 shadow-lg">Browse Holidays</Button>
-                            <Button>How It Works</Button>
+                            <Button
+                                className="bg-white hover:bg-white/80 shadow-lg"
+                                render={<Link href="/catalog">Browse Holidays</Link>}
+                            />
+                            <Button className="bg-white hover:bg-white/80 shadow-lg" render={<Link href="/faqs">How It Works</Link>} />
                         </div>
                     </div>
                     <div>
@@ -83,10 +87,15 @@ export default function HomePage() {
                         <span className="text-base lg:text-lg">Plans start from</span>
                         <span className="text-3xl lg:text-4xl font-semibold">$45</span>
                     </div>
-                    <Button variant="black">
-                        Join Now
-                        <HugeiconsIcon icon={ArrowRight02Icon} />
-                    </Button>
+                    <Button
+                        variant="black"
+                        render={
+                            <Link href="/subscription">
+                                Join Now
+                                <HugeiconsIcon icon={ArrowRight02Icon} />
+                            </Link>
+                        }
+                    />
                 </div>
             </section>
             {/* --- BENEFITS SECTION --- */}

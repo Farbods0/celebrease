@@ -264,6 +264,7 @@ model Address {
 model Holiday {
     id          String          @id @default(cuid())
     name        String
+    image       String
     category    HolidayCategory
     description String?
     sortOrder   Int             @default(0)
@@ -355,14 +356,12 @@ model DamageEvent {
 // ============================================================
 
 model Kit {
-    id          String    @id @default(cuid())
-    sku         String    @unique // e.g., XMAS-PREM-2025
-    name        String
-    description String?
-    tier        KitTier
-    holidayId   String
-    holiday     Holiday   @relation(fields: [holidayId], references: [id])
-    status      KitStatus @default(DRAFT)
+    id        String    @id @default(cuid())
+    sku       String    @unique // e.g., XMAS-PREM-2025
+    tier      KitTier
+    holidayId String
+    holiday   Holiday   @relation(fields: [holidayId], references: [id])
+    status    KitStatus @default(DRAFT)
 
     price30Day Decimal  @db.Decimal(10, 2)
     price60Day Decimal? @db.Decimal(10, 2)
@@ -380,7 +379,6 @@ model Kit {
     updatedAt DateTime @updatedAt
 
     items         KitItem[]
-    images        KitImage[]
     previewItems  KitPreviewItem[]
     allowedAddOns KitAddOn[]
     orders        Order[]
@@ -389,18 +387,6 @@ model Kit {
     @@index([holidayId])
     @@index([tier])
     @@map("kit")
-}
-
-model KitImage {
-    id        String   @id @default(cuid())
-    kitId     String
-    kit       Kit      @relation(fields: [kitId], references: [id], onDelete: Cascade)
-    url       String
-    sortOrder Int      @default(0)
-    createdAt DateTime @default(now())
-
-    @@index([kitId])
-    @@map("kit_image")
 }
 
 // Bill of materials — what physical items make up the kit, and how many.

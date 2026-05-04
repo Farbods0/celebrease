@@ -15,9 +15,9 @@ import { Route as _mainIndexRouteImport } from './routes/__main/index'
 import { Route as _mainUsersRouteImport } from './routes/__main/users'
 import { Route as _mainSubscriptionsRouteImport } from './routes/__main/subscriptions'
 import { Route as _mainReturnsRouteImport } from './routes/__main/returns'
-import { Route as _mainPricingRouteImport } from './routes/__main/pricing'
 import { Route as _mainPlansRouteImport } from './routes/__main/plans'
 import { Route as _mainOrdersRouteImport } from './routes/__main/orders'
+import { Route as _mainKitsRouteImport } from './routes/__main/kits'
 import { Route as _mainInventoryRouteImport } from './routes/__main/inventory'
 import { Route as _mainHolidaysRouteImport } from './routes/__main/holidays'
 import { Route as _mainCustomersRouteImport } from './routes/__main/customers'
@@ -55,11 +55,6 @@ const _mainReturnsRoute = _mainReturnsRouteImport.update({
   path: '/returns',
   getParentRoute: () => _mainRouteRoute,
 } as any)
-const _mainPricingRoute = _mainPricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => _mainRouteRoute,
-} as any)
 const _mainPlansRoute = _mainPlansRouteImport.update({
   id: '/plans',
   path: '/plans',
@@ -68,6 +63,11 @@ const _mainPlansRoute = _mainPlansRouteImport.update({
 const _mainOrdersRoute = _mainOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainKitsRoute = _mainKitsRouteImport.update({
+  id: '/kits',
+  path: '/kits',
   getParentRoute: () => _mainRouteRoute,
 } as any)
 const _mainInventoryRoute = _mainInventoryRouteImport.update({
@@ -121,9 +121,9 @@ export interface FileRoutesByFullPath {
   '/customers': typeof _mainCustomersRoute
   '/holidays': typeof _mainHolidaysRoute
   '/inventory': typeof _mainInventoryRoute
+  '/kits': typeof _mainKitsRoute
   '/orders': typeof _mainOrdersRoute
   '/plans': typeof _mainPlansRoute
-  '/pricing': typeof _mainPricingRoute
   '/returns': typeof _mainReturnsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
   '/users': typeof _mainUsersRoute
@@ -138,9 +138,9 @@ export interface FileRoutesByTo {
   '/customers': typeof _mainCustomersRoute
   '/holidays': typeof _mainHolidaysRoute
   '/inventory': typeof _mainInventoryRoute
+  '/kits': typeof _mainKitsRoute
   '/orders': typeof _mainOrdersRoute
   '/plans': typeof _mainPlansRoute
-  '/pricing': typeof _mainPricingRoute
   '/returns': typeof _mainReturnsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
   '/users': typeof _mainUsersRoute
@@ -157,9 +157,9 @@ export interface FileRoutesById {
   '/__main/customers': typeof _mainCustomersRoute
   '/__main/holidays': typeof _mainHolidaysRoute
   '/__main/inventory': typeof _mainInventoryRoute
+  '/__main/kits': typeof _mainKitsRoute
   '/__main/orders': typeof _mainOrdersRoute
   '/__main/plans': typeof _mainPlansRoute
-  '/__main/pricing': typeof _mainPricingRoute
   '/__main/returns': typeof _mainReturnsRoute
   '/__main/subscriptions': typeof _mainSubscriptionsRoute
   '/__main/users': typeof _mainUsersRoute
@@ -177,9 +177,9 @@ export interface FileRouteTypes {
     | '/customers'
     | '/holidays'
     | '/inventory'
+    | '/kits'
     | '/orders'
     | '/plans'
-    | '/pricing'
     | '/returns'
     | '/subscriptions'
     | '/users'
@@ -194,9 +194,9 @@ export interface FileRouteTypes {
     | '/customers'
     | '/holidays'
     | '/inventory'
+    | '/kits'
     | '/orders'
     | '/plans'
-    | '/pricing'
     | '/returns'
     | '/subscriptions'
     | '/users'
@@ -212,9 +212,9 @@ export interface FileRouteTypes {
     | '/__main/customers'
     | '/__main/holidays'
     | '/__main/inventory'
+    | '/__main/kits'
     | '/__main/orders'
     | '/__main/plans'
-    | '/__main/pricing'
     | '/__main/returns'
     | '/__main/subscriptions'
     | '/__main/users'
@@ -270,13 +270,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _mainReturnsRouteImport
       parentRoute: typeof _mainRouteRoute
     }
-    '/__main/pricing': {
-      id: '/__main/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof _mainPricingRouteImport
-      parentRoute: typeof _mainRouteRoute
-    }
     '/__main/plans': {
       id: '/__main/plans'
       path: '/plans'
@@ -289,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/orders'
       preLoaderRoute: typeof _mainOrdersRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/kits': {
+      id: '/__main/kits'
+      path: '/kits'
+      fullPath: '/kits'
+      preLoaderRoute: typeof _mainKitsRouteImport
       parentRoute: typeof _mainRouteRoute
     }
     '/__main/inventory': {
@@ -373,9 +373,9 @@ interface _mainRouteRouteChildren {
   _mainCustomersRoute: typeof _mainCustomersRoute
   _mainHolidaysRoute: typeof _mainHolidaysRoute
   _mainInventoryRoute: typeof _mainInventoryRoute
+  _mainKitsRoute: typeof _mainKitsRoute
   _mainOrdersRoute: typeof _mainOrdersRoute
   _mainPlansRoute: typeof _mainPlansRoute
-  _mainPricingRoute: typeof _mainPricingRoute
   _mainReturnsRoute: typeof _mainReturnsRoute
   _mainSubscriptionsRoute: typeof _mainSubscriptionsRoute
   _mainUsersRoute: typeof _mainUsersRoute
@@ -387,9 +387,9 @@ const _mainRouteRouteChildren: _mainRouteRouteChildren = {
   _mainCustomersRoute: _mainCustomersRoute,
   _mainHolidaysRoute: _mainHolidaysRoute,
   _mainInventoryRoute: _mainInventoryRoute,
+  _mainKitsRoute: _mainKitsRoute,
   _mainOrdersRoute: _mainOrdersRoute,
   _mainPlansRoute: _mainPlansRoute,
-  _mainPricingRoute: _mainPricingRoute,
   _mainReturnsRoute: _mainReturnsRoute,
   _mainSubscriptionsRoute: _mainSubscriptionsRoute,
   _mainUsersRoute: _mainUsersRoute,

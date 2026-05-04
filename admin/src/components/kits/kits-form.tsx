@@ -6,12 +6,10 @@ type PricingFormProps = {
     onClose: () => void;
 };
 
-export function PricingForm({ onClose }: PricingFormProps) {
+export function KitsForm({ onClose }: PricingFormProps) {
     const form = useAppForm({
         defaultValues: {
             sku: "",
-            name: "",
-            description: "",
             tier: "",
             holidayId: "",
 
@@ -52,14 +50,6 @@ export function PricingForm({ onClose }: PricingFormProps) {
 
                 <form.AppField name="tier">
                     {(field) => <field.FormSelect label="Kit Tier" options={[]} placeholder="Select Kit Tier" />}
-                </form.AppField>
-
-                <form.AppField name="name">
-                    {(field) => <field.FormInput label="Kit Name" placeholder="e.g., Christmas Premium" />}
-                </form.AppField>
-
-                <form.AppField name="description">
-                    {(field) => <field.FormTextarea label="Kit Description" placeholder="Add detailed description of the kit..." />}
                 </form.AppField>
 
                 {/* Pricing Information */}

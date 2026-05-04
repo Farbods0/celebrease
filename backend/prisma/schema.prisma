@@ -363,9 +363,9 @@ model Kit {
     holiday   Holiday   @relation(fields: [holidayId], references: [id])
     status    KitStatus @default(DRAFT)
 
-    price30Day Decimal  @db.Decimal(10, 2)
-    price60Day Decimal? @db.Decimal(10, 2)
-    deposit    Decimal  @db.Decimal(10, 2)
+    price30Day Decimal @db.Decimal(10, 2)
+    price60Day Decimal @db.Decimal(10, 2)
+    deposit    Decimal @db.Decimal(10, 2)
 
     seasonStart DateTime?
     seasonEnd   DateTime?
@@ -384,6 +384,7 @@ model Kit {
     orders        Order[]
     cartItems     CartItem[]
 
+    @@unique([holidayId, tier])
     @@index([holidayId])
     @@index([tier])
     @@map("kit")

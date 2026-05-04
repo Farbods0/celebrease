@@ -3,18 +3,38 @@ import { KitsForm } from "@/components/kits/kits-form";
 import { KitsSidebar } from "@/components/kits/kits-sidebar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { KIT_ITEMS } from "@/data";
+import { holidaysApi, kitsApi, type KitTier } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/__main/kits")({
+    loader: async () => {
+        const [holidays, kits] = await Promise.all([holidaysApi.list(), kitsApi.listAll()]);
+        return { holidays: holidays.items, kits: kits.items };
+    },
     component: RouteComponent,
 });
 
+const TIERS: { value: KitTier; label: string }[] = [
+    { value: "STARTER", label: "Starter Kit" },
+    { value: "PREMIUM", label: "Premium Kit" },
+];
+
 function RouteComponent() {
+    const { holidays, kits } = Route.useLoaderData();
+
     const [createOpen, setCreateOpen] = useState(false);
+    const [selectedHolidayId, setSelectedHolidayId] = useState<string | null>(holidays[0]?.id ?? null);
+    const [selectedTier, setSelectedTier] = useState<KitTier>("STARTER");
+
+    const selectedHoliday = useMemo(() => holidays.find((h) => h.id === selectedHolidayId) ?? null, [holidays, selectedHolidayId]);
+
+    const selectedKit = useMemo(
+        () => kits.find((k) => k.holidayId === selectedHolidayId && k.tier === selectedTier) ?? null,
+        [kits, selectedHolidayId, selectedTier],
+    );
 
     return (
         <>
@@ -22,33 +42,47 @@ function RouteComponent() {
                 <div className="flex flex-col gap-3">
                     <h1 className="text-xl font-semibold">Kits & Pricing</h1>
                     <div className="p-2 bg-muted rounded-full flex">
-                        {["Starter Kit", "Premium Kit"].map((kit, index) => (
-                            <div key={kit} className={cn("px-6 py-2 rounded-full font-medium", index === 0 ? "bg-white shadow-md" : "")}>
-                                {kit}
-                            </div>
-                        ))}
+                        {TIERS.map((tier) => {
+                            const active = tier.value === selectedTier;
+                            return (
+                                <button
+                                    type="button"
+                                    key={tier.value}
+                                    onClick={() => setSelectedTier(tier.value)}
+                                    className={cn(
+                                        "px-6 py-2 rounded-full font-medium transition-colors",
+                                        active ? "bg-white shadow-md" : "text-muted-foreground hover:text-foreground",
+                                    )}
+                                >
+                                    {tier.label}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
                 <Dialog open={createOpen} onOpenChange={setCreateOpen}>
                     <DialogTrigger asChild>
-                        <Button>
+                        <Button disabled={holidays.length === 0}>
                             <Plus className="size-4" />
                             <span>Add New Kit Tier</span>
                         </Button>
                     </DialogTrigger>
-                    {createOpen && <KitsForm onClose={() => setCreateOpen(false)} />}
+                    {createOpen && (
+                        <KitsForm
+                            holidays={holidays}
+                            defaultHolidayId={selectedHolidayId ?? undefined}
+                            defaultTier={selectedTier}
+                            onClose={() => setCreateOpen(false)}
+                        />
+                    )}
                 </Dialog>
             </div>
 
             <main className="flex w-full">
-                {/* Desktop sidebar */}
-                <KitsSidebar />
+                <KitsSidebar holidays={holidays} isLoading={false} selectedHolidayId={selectedHolidayId} onSelect={setSelectedHolidayId} />
 
-                {/* Main content */}
-                <KitsContent items={KIT_ITEMS} onView={(item) => console.log(item)} />
+                <KitsContent kit={selectedKit} holiday={selectedHoliday} holidays={holidays} selectedTier={selectedTier} />
             </main>
         </>
     );
 }
-
-// Route export

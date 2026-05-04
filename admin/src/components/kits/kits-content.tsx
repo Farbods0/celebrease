@@ -297,7 +297,7 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                             Add item
                         </Button>
                     </div>
-                    <div className="p-5">
+                    {/* <div className="p-5">
                         {kit.allowedAddOns.length === 0 ? (
                             <p className="text-sm text-muted-foreground py-6 text-center">
                                 No add-ons linked yet. Add-ons will be wired up once the add-ons module ships.
@@ -316,7 +316,7 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                                 ))}
                             </div>
                         )}
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="pt-2 self-end">

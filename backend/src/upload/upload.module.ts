@@ -4,6 +4,7 @@ import { existsSync, mkdirSync } from "fs";
 import { diskStorage } from "multer";
 import { extname, join } from "path";
 import { UploadController } from "./upload.controller";
+import { UploadService } from "./upload.service";
 
 const uploadDir = join(process.cwd(), "uploads");
 if (!existsSync(uploadDir)) {
@@ -40,5 +41,7 @@ if (!existsSync(uploadDir)) {
         }),
     ],
     controllers: [UploadController],
+    providers: [UploadService],
+    exports: [UploadService],
 })
 export class UploadModule {}

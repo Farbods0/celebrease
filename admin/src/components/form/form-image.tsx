@@ -93,7 +93,7 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
                             setIsDeleting(true);
                             try {
                                 await deleteImage(currentUrl);
-                                field.handleChange(null);
+                                field.handleChange("");
                             } catch (err) {
                                 setUploadError(err instanceof Error ? err.message : "Delete failed");
                             } finally {

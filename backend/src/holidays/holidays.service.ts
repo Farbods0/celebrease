@@ -1,11 +1,15 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { CreateHolidayDto } from "@/holidays/dto/create-holiday.dto";
 import { UpdateHolidayDto } from "@/holidays/dto/update-holiday.dto";
+import { UploadService } from "@/upload/upload.service";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class HolidaysService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly uploadService: UploadService,
+    ) {}
 
     async list() {
         const items = await this.prisma.holiday.findMany({
@@ -55,9 +59,13 @@ export class HolidaysService {
     }
 
     async remove(id: string) {
-        const holiday = await this.prisma.holiday.findUnique({ where: { id }, select: { id: true } });
+        const holiday = await this.prisma.holiday.findUnique({ where: { id }, select: { id: true, image: true } });
         if (!holiday) throw new NotFoundException("Holiday not found");
 
-        return this.prisma.holiday.delete({ where: { id } });
+        const deleted = await this.prisma.holiday.delete({ where: { id } });
+        if (holiday.image) {
+            await this.uploadService.deleteImage(holiday.image);
+        }
+        return deleted;
     }
 }

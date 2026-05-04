@@ -46,7 +46,6 @@ export type ApiKit = {
     limitInventory: boolean;
     items: ApiKitItem[];
     previewItems: ApiKitPreviewItem[];
-    allowedAddOns: ApiKitAddOn[];
     createdAt: string;
     updatedAt: string;
 };

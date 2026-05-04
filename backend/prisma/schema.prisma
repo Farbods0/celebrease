@@ -273,6 +273,7 @@ model Holiday {
     updatedAt   DateTime        @updatedAt
 
     kits         Kit[]
+    addOns       AddOnHoliday[]
     holidaySlots SubscriptionHolidaySlot[]
     orders       Order[]
     cartItems    CartItem[]
@@ -378,11 +379,10 @@ model Kit {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    items         KitItem[]
-    previewItems  KitPreviewItem[]
-    allowedAddOns KitAddOn[]
-    orders        Order[]
-    cartItems     CartItem[]
+    items        KitItem[]
+    previewItems KitPreviewItem[]
+    orders       Order[]
+    cartItems    CartItem[]
 
     @@unique([holidayId, tier])
     @@index([holidayId])
@@ -434,22 +434,21 @@ model AddOn {
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
 
-    kitLinks       KitAddOn[]
+    holidays       AddOnHoliday[]
     orderAddOns    OrderAddOn[]
     cartItemAddOns CartItemAddOn[]
 
     @@map("addon")
 }
 
-// Which add-ons are offered for which kit (admin curates per kit).
-model KitAddOn {
-    kitId   String
-    addOnId String
-    kit     Kit    @relation(fields: [kitId], references: [id], onDelete: Cascade)
-    addOn   AddOn  @relation(fields: [addOnId], references: [id], onDelete: Cascade)
+model AddOnHoliday {
+    addOnId   String
+    holidayId String
+    addOn     AddOn   @relation(fields: [addOnId], references: [id], onDelete: Cascade)
+    holiday   Holiday @relation(fields: [holidayId], references: [id], onDelete: Cascade)
 
-    @@id([kitId, addOnId])
-    @@map("kit_addon")
+    @@id([addOnId, holidayId])
+    @@map("addon_holiday")
 }
 
 // ============================================================

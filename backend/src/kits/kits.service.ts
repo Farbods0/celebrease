@@ -20,11 +20,6 @@ const kitInclude = {
             item: { select: { id: true, sku: true, name: true, image: true } },
         },
     },
-    allowedAddOns: {
-        select: {
-            addOn: { select: { id: true, sku: true, name: true, image: true, price: true, deposit: true, inventory: true, status: true } },
-        },
-    },
 } as const;
 
 @Injectable()

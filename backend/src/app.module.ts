@@ -1,3 +1,4 @@
+import { AddOnsModule } from "@/addons/addons.module";
 import { AppController } from "@/app.controller";
 import { AppService } from "@/app.service";
 import { CommonModule } from "@/common/common.module";
@@ -41,6 +42,7 @@ import { join } from "path";
         HolidaysModule,
         KitsModule,
         InventoryModule,
+        AddOnsModule,
     ],
     controllers: [AppController],
     providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],

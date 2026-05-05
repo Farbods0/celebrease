@@ -7,6 +7,7 @@ import { ConflictException, Injectable, NotFoundException } from "@nestjs/common
 const holidayInclude = {
     kits: {
         select: {
+            id: true,
             sku: true,
             tier: true,
             status: true,
@@ -42,7 +43,7 @@ export class HolidaysService {
     }
 
     async getById(id: string) {
-        const holiday = await this.prisma.holiday.findUnique({ where: { id } });
+        const holiday = await this.prisma.holiday.findUnique({ where: { id }, include: holidayInclude });
         if (!holiday) throw new NotFoundException("Holiday not found");
         return holiday;
     }

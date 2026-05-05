@@ -44,7 +44,7 @@ function kitTierLabel(item: ApiInventoryItem): string {
 }
 
 export function InventoryCard({ item, onView }: InventoryCardProps) {
-    const lowStock = item.units.available <= item.lowStockThreshold && item.lowStockThreshold > 0;
+    const lowStock = item.totalQty <= item.lowStockThreshold && item.lowStockThreshold > 0;
     return (
         <article className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2 flex-wrap">
@@ -62,11 +62,11 @@ export function InventoryCard({ item, onView }: InventoryCardProps) {
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <Field label="Kit Type" value={kitTierLabel(item)} />
                 <Field label="Total Qty" value={item.totalQty} />
-                <Field label="Available" value={item.units.available} tone="available" />
-                <Field label="Reserved" value={item.units.reserved} tone="reserved" />
-                <Field label="Shipped" value={item.units.shipped} />
-                <Field label="Cleaning" value={item.units.cleaning} />
-                <Field label="Repair" value={item.units.repair} tone="repair" />
+                <Field label="Available" value={item.totalQty} tone="available" />
+                <Field label="Reserved" value={0} tone="reserved" />
+                <Field label="Shipped" value={0} />
+                <Field label="Cleaning" value={0} />
+                <Field label="Repair" value={0} tone="repair" />
                 <Field label="Status" value={<StatusBadge status={STATUS_LABEL[item.status]} />} />
             </div>
 

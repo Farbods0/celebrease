@@ -60,19 +60,16 @@ export class AddOnsService {
                 deposit: dto.deposit ?? 0,
                 inventory: dto.inventory ?? 0,
                 status: dto.status ?? "ACTIVE",
-                ...(dto.holidayIds && dto.holidayIds.length
+                ...(dto.holidayIds?.length
                     ? {
                           holidays: {
                               createMany: {
-                                  data: dto.holidayIds.map((holidayId) => ({
-                                      holidayId,
-                                  })),
+                                  data: dto.holidayIds.map((holidayId) => ({ holidayId })),
                               },
                           },
                       }
                     : {}),
             },
-            include: addonInclude,
         });
         return created;
     }
@@ -88,10 +85,16 @@ export class AddOnsService {
             }
         }
 
-        const oldImage = existing.image;
-        const imageChanged = dto.image !== undefined && dto.image !== oldImage;
-
         const updated = await this.prisma.$transaction(async (tx) => {
+            if (dto.holidayIds !== undefined) {
+                await tx.addOnHoliday.deleteMany({ where: { addOnId: id } });
+                if (dto.holidayIds.length) {
+                    await tx.addOnHoliday.createMany({
+                        data: dto.holidayIds.map((holidayId) => ({ addOnId: id, holidayId })),
+                    });
+                }
+            }
+
             return tx.addOn.update({
                 where: { id },
                 data: {
@@ -107,9 +110,6 @@ export class AddOnsService {
             });
         });
 
-        if (imageChanged && oldImage) {
-            await this.uploadService.deleteImage(oldImage).catch(() => undefined);
-        }
         return updated;
     }
 

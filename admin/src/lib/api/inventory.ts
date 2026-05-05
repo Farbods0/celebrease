@@ -3,17 +3,6 @@ import { request } from "./base";
 
 export type InventoryStatus = "ACTIVE" | "LOW_STOCK" | "RETIRED";
 
-export type InventoryUnitCounts = {
-    available: number;
-    reserved: number;
-    shipped: number;
-    cleaning: number;
-    repair: number;
-    retired: number;
-    lost: number;
-    totalUnits: number;
-};
-
 export type InventoryKitItem = {
     id: string;
     qty: number;
@@ -42,7 +31,6 @@ export type ApiInventoryItem = {
     initialStatus: InventoryStatus;
     status: InventoryStatus;
     kitItems: InventoryKitItem[];
-    units: InventoryUnitCounts;
     createdAt: string;
     updatedAt: string;
 };

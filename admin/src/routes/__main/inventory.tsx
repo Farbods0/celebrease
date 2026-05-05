@@ -5,25 +5,19 @@ import { InventoryTable } from "@/components/inventory/inventory-table";
 import InventoryView from "@/components/inventory/inventory-view";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { holidaysApi, inventoryApi, kitsApi, type ApiInventoryItem } from "@/lib/api";
+import { Sheet } from "@/components/ui/sheet";
+import { inventoryApi, type ApiInventoryItem } from "@/lib/api";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, SlidersHorizontal } from "lucide-react";
 import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/__main/inventory")({
-    loader: async () => {
-        const [holidays, kits, inventory] = await Promise.all([
-            holidaysApi.list(),
-            kitsApi.listAll(),
-            inventoryApi.listAll(),
-        ]);
-        return { holidays: holidays.items, kits: kits.items, items: inventory.items };
-    },
+    loader: () => inventoryApi.listAll(),
     component: RouteComponent,
 });
 
 function RouteComponent() {
-    const { holidays, kits, items } = Route.useLoaderData();
+    const { items } = Route.useLoaderData();
 
     const [createOpen, setCreateOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<ApiInventoryItem | null>(null);
@@ -58,7 +52,7 @@ function RouteComponent() {
                 return false;
             }
             if (filters.lowStockOnly) {
-                const lowStock = item.units.available <= item.lowStockThreshold && item.lowStockThreshold > 0;
+                const lowStock = item.totalQty <= item.lowStockThreshold && item.lowStockThreshold > 0;
                 if (!lowStock) return false;
             }
             return true;
@@ -68,7 +62,7 @@ function RouteComponent() {
     return (
         <main className="flex w-full">
             <aside className="hidden md:flex sticky top-18 h-[calc(100vh-4.5rem)] w-80 shrink-0 border-r p-6">
-                <InventoryFilters holidays={holidays} categories={categories} state={filters} onChange={setFilters} />
+                <InventoryFilters categories={categories} state={filters} onChange={setFilters} />
             </aside>
 
             <main className="flex-1 min-w-0 flex flex-col gap-6 p-6">
@@ -86,9 +80,7 @@ function RouteComponent() {
                                 <span>Add Inventory Item</span>
                             </Button>
                         </DialogTrigger>
-                        {createOpen && (
-                            <InventoryForm holidays={holidays} kits={kits} onClose={() => setCreateOpen(false)} />
-                        )}
+                        {createOpen && <InventoryForm onClose={() => setCreateOpen(false)} />}
                     </Dialog>
                 </div>
 
@@ -104,12 +96,12 @@ function RouteComponent() {
                             <DialogHeader>
                                 <DialogTitle>All Filters</DialogTitle>
                             </DialogHeader>
-                            <InventoryFilters holidays={holidays} categories={categories} state={filters} onChange={setFilters} />
+                            <InventoryFilters categories={categories} state={filters} onChange={setFilters} />
                         </DialogContent>
                     </Dialog>
                 </div>
 
-                <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+                <Sheet open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
                     <InventoryTable items={filtered} onView={setSelectedItem} />
 
                     <div className="space-y-4 md:hidden">
@@ -130,17 +122,10 @@ function RouteComponent() {
                             onDeleted={() => setSelectedItem(null)}
                         />
                     ) : null}
-                </Dialog>
+                </Sheet>
 
                 <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
-                    {editing && (
-                        <InventoryForm
-                            item={editing}
-                            holidays={holidays}
-                            kits={kits}
-                            onClose={() => setEditing(null)}
-                        />
-                    )}
+                    {editing && <InventoryForm item={editing} onClose={() => setEditing(null)} />}
                 </Dialog>
             </main>
         </main>

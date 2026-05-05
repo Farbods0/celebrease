@@ -64,7 +64,7 @@ export function InventoryTable({ items, onView }: InventoryTableProps) {
                         </TableRow>
                     ) : (
                         items.map((item) => {
-                            const lowStock = item.units.available <= item.lowStockThreshold && item.lowStockThreshold > 0;
+                            const lowStock = item.totalQty <= item.lowStockThreshold && item.lowStockThreshold > 0;
                             return (
                                 <TableRow key={item.id}>
                                     <TableCell>
@@ -77,15 +77,15 @@ export function InventoryTable({ items, onView }: InventoryTableProps) {
                                     <TableCell>{kitTierLabel(item)}</TableCell>
                                     <TableCell className="font-medium">{item.totalQty}</TableCell>
                                     <TableCell className="font-medium" style={{ color: "oklch(0.55 0.17 150)" }}>
-                                        {item.units.available}
+                                        {item.totalQty}
                                     </TableCell>
                                     <TableCell className="font-medium" style={{ color: "oklch(0.65 0.18 55)" }}>
-                                        {item.units.reserved}
+                                        N/A
                                     </TableCell>
-                                    <TableCell className="font-medium">{item.units.shipped}</TableCell>
-                                    <TableCell className="font-medium">{item.units.cleaning}</TableCell>
+                                    <TableCell className="font-medium">N/A</TableCell>
+                                    <TableCell className="font-medium">N/A</TableCell>
                                     <TableCell className="font-medium" style={{ color: "oklch(0.55 0.22 25)" }}>
-                                        {item.units.repair}
+                                        N/A
                                     </TableCell>
                                     <TableCell>
                                         <StatusBadge status={STATUS_LABEL[item.status]} />

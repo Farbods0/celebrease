@@ -15,6 +15,7 @@ export type ApiHoliday = {
     updatedAt: string;
 } & {
     kits: Array<{
+        id: string;
         sku: string;
         tier: KitTier;
         holidayId: string;

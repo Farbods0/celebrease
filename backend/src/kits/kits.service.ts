@@ -84,7 +84,6 @@ export class KitsService {
                 addOnsEnabled: dto.addOnsEnabled ?? true,
                 limitInventory: dto.limitInventory ?? false,
             },
-            include: kitInclude,
         });
     }
 
@@ -126,7 +125,6 @@ export class KitsService {
                 ...(dto.addOnsEnabled !== undefined && { addOnsEnabled: dto.addOnsEnabled }),
                 ...(dto.limitInventory !== undefined && { limitInventory: dto.limitInventory }),
             },
-            include: kitInclude,
         });
     }
 

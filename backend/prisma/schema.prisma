@@ -34,12 +34,7 @@ model User {
 
     stripeCustomerId String? @unique
 
-    addresses      Address[]
-    subscriptions  Subscription[]
-    orders         Order[]
-    returnsHandled Return[]       @relation("ReturnHandledBy")
-    damageLogged   DamageEvent[]  @relation("DamageLoggedBy")
-    cart           Cart?
+    subscriptions Subscription[]
 
     @@unique([email])
     @@map("user")
@@ -116,29 +111,10 @@ enum KitStatus {
     LOW_STOCK
 }
 
-enum InventoryStatus {
+enum ItemStatus {
     ACTIVE
     LOW_STOCK
     RETIRED
-}
-
-enum InventoryUnitStatus {
-    AVAILABLE
-    RESERVED
-    SHIPPED
-    IN_CLEANING
-    IN_REPAIR
-    RETIRED
-    LOST
-}
-
-enum DamageEventType {
-    BROKEN
-    MISSING_PART
-    LOST_BY_CUSTOMER
-    DAMAGED_BY_CUSTOMER
-    WORN_OUT
-    OTHER
 }
 
 enum AddOnStatus {
@@ -179,86 +155,8 @@ enum HolidaySlotStatus {
     SKIPPED
 }
 
-enum RentalDuration {
-    THIRTY_DAY
-    SIXTY_DAY
-}
-
-enum OrderStatus {
-    PENDING
-    PROCESSING
-    SHIPPED
-    DELIVERED
-    RETURN_REQUESTED
-    RETURNED
-    CANCELLED
-}
-
-enum DepositStatus {
-    PENDING
-    HELD
-    PARTIALLY_REFUNDED
-    REFUNDED
-    FORFEITED
-}
-
-enum DeliveryOption {
-    STANDARD
-    EXPRESS
-}
-
-enum AddressType {
-    SHIPPING
-    BILLING
-}
-
-enum PaymentMethodType {
-    CARD
-}
-
-enum ReturnCondition {
-    EXCELLENT
-    MINOR_SCUFFS
-    MAJOR_DAMAGE
-}
-
-enum RefundDecision {
-    NO_REFUND
-    PARTIAL_REFUND
-    FULL_REFUND
-}
-
 // ============================================================
-// USER PROFILE — addresses, payment methods
-// ============================================================
-
-model Address {
-    id           String      @id @default(cuid())
-    userId       String
-    user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-    type         AddressType @default(SHIPPING)
-    name         String
-    phone        String?
-    streetLine1  String
-    streetLine2  String?
-    city         String
-    state        String?
-    postalCode   String
-    country      String
-    isDefault    Boolean     @default(false)
-    deliveryNote String?
-    createdAt    DateTime    @default(now())
-    updatedAt    DateTime    @updatedAt
-
-    shippedOrders  Order[] @relation("OrderShippingAddress")
-    billingOnOrder Order[] @relation("OrderBillingAddress")
-
-    @@index([userId])
-    @@map("address")
-}
-
-// ============================================================
-// TAXONOMY — holidays
+// HOLIDAY
 // ============================================================
 
 model Holiday {
@@ -275,19 +173,17 @@ model Holiday {
     kits         Kit[]
     addOns       AddOnHoliday[]
     holidaySlots SubscriptionHolidaySlot[]
-    orders       Order[]
-    cartItems    CartItem[]
 
     @@map("holiday")
 }
 
 // ============================================================
-// INVENTORY
+// ITEMS
 // ============================================================
 
-model InventoryItem {
-    id                String          @id @default(cuid())
-    sku               String          @unique
+model Item {
+    id                String     @id @default(cuid())
+    sku               String     @unique
     name              String
     image             String
     description       String?
@@ -295,65 +191,22 @@ model InventoryItem {
     vendorName        String
     vendorEmail       String
     vendorPhone       String
-    costPerUnit       Decimal         @db.Decimal(10, 2)
-    totalQty          Int             @default(0)
-    lowStockThreshold Int             @default(0)
-    initialStatus     InventoryStatus @default(ACTIVE)
-    status            InventoryStatus @default(ACTIVE)
-    createdAt         DateTime        @default(now())
-    updatedAt         DateTime        @updatedAt
+    costPerUnit       Decimal    @db.Decimal(10, 2)
+    totalQty          Int        @default(0)
+    lowStockThreshold Int        @default(0)
+    initialStatus     ItemStatus @default(ACTIVE)
+    status            ItemStatus @default(ACTIVE)
+    createdAt         DateTime   @default(now())
+    updatedAt         DateTime   @updatedAt
 
-    units           InventoryUnit[]
     kitItems        KitItem[]
     kitPreviewItems KitPreviewItem[]
-    orderItems      OrderItem[]
-    damageEvents    DamageEvent[]
 
-    @@map("inventory_item")
-}
-
-// Optional per-physical-unit tracking. Aggregate counts by status are derivable
-// from this table; UI lists like "Available 64 / Reserved 22 / Cleaning 14".
-model InventoryUnit {
-    id                 String              @id @default(cuid())
-    itemId             String
-    item               InventoryItem       @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    serialNumber       String?             @unique
-    status             InventoryUnitStatus @default(AVAILABLE)
-    currentOrderItemId String?
-    currentOrderItem   OrderItem?          @relation(fields: [currentOrderItemId], references: [id])
-    notes              String?
-    retiredAt          DateTime?
-    createdAt          DateTime            @default(now())
-    updatedAt          DateTime            @updatedAt
-
-    damageEvents DamageEvent[]
-
-    @@index([itemId, status])
-    @@map("inventory_unit")
-}
-
-model DamageEvent {
-    id          String          @id @default(cuid())
-    itemId      String
-    item        InventoryItem   @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    unitId      String?
-    unit        InventoryUnit?  @relation(fields: [unitId], references: [id])
-    type        DamageEventType
-    description String
-    occurredAt  DateTime        @default(now())
-    loggedById  String?
-    loggedBy    User?           @relation("DamageLoggedBy", fields: [loggedById], references: [id])
-    returnId    String?
-    return      Return?         @relation(fields: [returnId], references: [id])
-
-    @@index([itemId])
-    @@index([unitId])
-    @@map("damage_event")
+    @@map("item")
 }
 
 // ============================================================
-// KITS + BILL-OF-MATERIALS
+// KITS
 // ============================================================
 
 model Kit {
@@ -381,8 +234,6 @@ model Kit {
 
     items        KitItem[]
     previewItems KitPreviewItem[]
-    orders       Order[]
-    cartItems    CartItem[]
 
     @@unique([holidayId, tier])
     @@index([holidayId])
@@ -390,28 +241,26 @@ model Kit {
     @@map("kit")
 }
 
-// Bill of materials — what physical items make up the kit, and how many.
 model KitItem {
-    id     String        @id @default(cuid())
+    id     String @id @default(cuid())
     kitId  String
-    kit    Kit           @relation(fields: [kitId], references: [id], onDelete: Cascade)
+    kit    Kit    @relation(fields: [kitId], references: [id], onDelete: Cascade)
     itemId String
-    item   InventoryItem @relation(fields: [itemId], references: [id])
-    qty    Int           @default(1)
+    item   Item   @relation(fields: [itemId], references: [id])
+    qty    Int    @default(1)
 
     @@unique([kitId, itemId])
     @@index([itemId])
     @@map("kit_item")
 }
 
-// Subset of items shown on the customer-facing PDP preview.
 model KitPreviewItem {
-    id        String        @id @default(cuid())
+    id        String @id @default(cuid())
     kitId     String
-    kit       Kit           @relation(fields: [kitId], references: [id], onDelete: Cascade)
+    kit       Kit    @relation(fields: [kitId], references: [id], onDelete: Cascade)
     itemId    String
-    item      InventoryItem @relation(fields: [itemId], references: [id])
-    sortOrder Int           @default(0)
+    item      Item   @relation(fields: [itemId], references: [id])
+    sortOrder Int    @default(0)
 
     @@unique([kitId, itemId])
     @@map("kit_preview_item")
@@ -434,9 +283,7 @@ model AddOn {
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
 
-    holidays       AddOnHoliday[]
-    orderAddOns    OrderAddOn[]
-    cartItemAddOns CartItemAddOn[]
+    holidays AddOnHoliday[]
 
     @@map("addon")
 }
@@ -506,14 +353,12 @@ model Subscription {
     updatedAt            DateTime           @updatedAt
 
     holidaySlots SubscriptionHolidaySlot[]
-    orders       Order[]
 
     @@index([userId])
     @@index([status])
     @@map("subscription")
 }
 
-// 3 (or N, based on plan.holidaysPerYear) holiday slots per cycle.
 model SubscriptionHolidaySlot {
     id             String            @id @default(cuid())
     subscriptionId String
@@ -522,193 +367,7 @@ model SubscriptionHolidaySlot {
     holidayId      String?
     holiday        Holiday?          @relation(fields: [holidayId], references: [id])
     status         HolidaySlotStatus @default(PENDING)
-    orderId        String?           @unique
-    order          Order?            @relation(fields: [orderId], references: [id])
 
     @@unique([subscriptionId, slotNumber])
     @@map("subscription_holiday_slot")
-}
-
-// ============================================================
-// CART
-// ============================================================
-
-model Cart {
-    id        String   @id @default(cuid())
-    userId    String   @unique
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    items CartItem[]
-
-    @@map("cart")
-}
-
-model CartItem {
-    id        String          @id @default(cuid())
-    cartId    String
-    cart      Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
-    kitId     String
-    kit       Kit             @relation(fields: [kitId], references: [id])
-    holidayId String
-    holiday   Holiday         @relation(fields: [holidayId], references: [id])
-    duration  RentalDuration  @default(THIRTY_DAY)
-    startDate DateTime
-    endDate   DateTime
-    addOns    CartItemAddOn[]
-    createdAt DateTime        @default(now())
-    updatedAt DateTime        @updatedAt
-
-    @@index([cartId])
-    @@map("cart_item")
-}
-
-model CartItemAddOn {
-    id         String   @id @default(cuid())
-    cartItemId String
-    cartItem   CartItem @relation(fields: [cartItemId], references: [id], onDelete: Cascade)
-    addOnId    String
-    addOn      AddOn    @relation(fields: [addOnId], references: [id])
-    qty        Int      @default(1)
-
-    @@unique([cartItemId, addOnId])
-    @@map("cart_item_addon")
-}
-
-// Reverse relations not yet declared on Kit/Holiday/AddOn — declared above where needed.
-
-// ============================================================
-// ORDERS (rentals)
-// ============================================================
-
-model Order {
-    id             String        @id @default(cuid())
-    orderNumber    String        @unique // human-readable e.g., ORD-00012
-    userId         String
-    user           User          @relation(fields: [userId], references: [id])
-    subscriptionId String?
-    subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
-
-    kitId     String
-    kit       Kit            @relation(fields: [kitId], references: [id])
-    holidayId String
-    holiday   Holiday        @relation(fields: [holidayId], references: [id])
-    duration  RentalDuration @default(THIRTY_DAY)
-
-    status OrderStatus @default(PENDING)
-
-    shippingAddressId String?
-    shippingAddress   Address? @relation("OrderShippingAddress", fields: [shippingAddressId], references: [id])
-    billingAddressId  String?
-    billingAddress    Address? @relation("OrderBillingAddress", fields: [billingAddressId], references: [id])
-
-    deliveryOption DeliveryOption @default(STANDARD)
-    deliveryNote   String?
-
-    rentalPrice   Decimal       @db.Decimal(10, 2)
-    addOnsTotal   Decimal       @default(0) @db.Decimal(10, 2)
-    deliveryFee   Decimal       @default(0) @db.Decimal(10, 2)
-    taxAmount     Decimal       @default(0) @db.Decimal(10, 2)
-    totalAmount   Decimal       @db.Decimal(10, 2)
-    depositAmount Decimal       @db.Decimal(10, 2)
-    depositStatus DepositStatus @default(PENDING)
-    depositRefund Decimal       @default(0) @db.Decimal(10, 2)
-
-    rentalStart      DateTime
-    rentalEnd        DateTime
-    shippedAt        DateTime?
-    deliveredAt      DateTime?
-    expectedReturnAt DateTime?
-    returnedAt       DateTime?
-    cancelledAt      DateTime?
-
-    trackingNumber  String?
-    trackingCarrier String?
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    addOns      OrderAddOn[]
-    items       OrderItem[]
-    return      Return?
-    holidaySlot SubscriptionHolidaySlot?
-
-    @@index([userId])
-    @@index([subscriptionId])
-    @@index([kitId])
-    @@index([status])
-    @@map("order")
-}
-
-// Snapshot of the kit BOM at the time of order — lets each line item be tied
-// to a specific InventoryUnit so admins can see who has what.
-model OrderItem {
-    id              String        @id @default(cuid())
-    orderId         String
-    order           Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
-    inventoryItemId String
-    inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
-    qty             Int           @default(1)
-
-    units InventoryUnit[]
-
-    @@index([orderId])
-    @@map("order_item")
-}
-
-model OrderAddOn {
-    id        String  @id @default(cuid())
-    orderId   String
-    order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-    addOnId   String
-    addOn     AddOn   @relation(fields: [addOnId], references: [id])
-    qty       Int     @default(1)
-    unitPrice Decimal @db.Decimal(10, 2)
-    deposit   Decimal @default(0) @db.Decimal(10, 2)
-
-    @@index([orderId])
-    @@map("order_addon")
-}
-
-// Cross-reference back-ref needed because of CartItem -> InventoryItem (KitItem); already in InventoryItem via kitItems
-
-// Need back-ref on InventoryItem for OrderItem (added implicitly above)
-
-// ============================================================
-// RETURNS + INSPECTION
-// ============================================================
-
-model Return {
-    id             String           @id @default(cuid())
-    returnNumber   String           @unique // RET-00012
-    orderId        String           @unique
-    order          Order            @relation(fields: [orderId], references: [id])
-    dueDate        DateTime?
-    receivedAt     DateTime?
-    inspectedAt    DateTime?
-    inspectedById  String?
-    inspectedBy    User?            @relation("ReturnHandledBy", fields: [inspectedById], references: [id])
-    condition      ReturnCondition?
-    damageNotes    String?
-    refundDecision RefundDecision   @default(NO_REFUND)
-    refundAmount   Decimal          @default(0) @db.Decimal(10, 2)
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
-
-    damageImages ReturnDamageImage[]
-    damageEvents DamageEvent[]
-
-    @@map("return")
-}
-
-model ReturnDamageImage {
-    id       String  @id @default(cuid())
-    returnId String
-    return   Return  @relation(fields: [returnId], references: [id], onDelete: Cascade)
-    url      String
-    caption  String?
-
-    @@index([returnId])
-    @@map("return_damage_image")
 }

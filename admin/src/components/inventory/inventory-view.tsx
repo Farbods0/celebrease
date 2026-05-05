@@ -1,11 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { inventoryApi, type ApiInventoryItem } from "@/lib/api";
-import { useRouter } from "@tanstack/react-router";
-import { Pencil, Trash2 } from "lucide-react";
-import { toast } from "sonner";
+import { type ApiInventoryItem } from "@/lib/api";
+import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 
 const STATUS_LABEL: Record<ApiInventoryItem["status"], string> = {
     ACTIVE: "Active",
@@ -38,59 +34,30 @@ type InventoryViewProps = {
 };
 
 export default function InventoryView({ item, onEdit, onDeleted }: InventoryViewProps) {
-    const router = useRouter();
-    const total = Math.max(item.totalQty, item.units.totalUnits);
-
-    const handleDelete = async () => {
-        if (!window.confirm(`Delete inventory item "${item.name}"? This cannot be undone.`)) return;
-        try {
-            await inventoryApi.remove(item.id);
-            toast.success("Inventory item deleted");
-            await router.invalidate();
-            onDeleted();
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Something went wrong");
-        }
-    };
-
     return (
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-                <div className="flex items-start justify-between gap-3">
-                    <DialogTitle className="capitalize">{item.name}</DialogTitle>
-                    <div className="flex items-center gap-2">
-                        <Button size="sm" variant="outline" onClick={onEdit}>
-                            <Pencil className="size-3.5" />
-                            Edit
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={handleDelete} className="text-destructive hover:text-destructive">
-                            <Trash2 className="size-3.5" />
-                            Delete
-                        </Button>
-                    </div>
-                </div>
-            </DialogHeader>
-
-            <section>
+        <SheetContent>
+            <SheetHeader>
+                <SheetTitle className="capitalize">{item.name}</SheetTitle>
+            </SheetHeader>
+            <section className="px-5">
                 <h3 className="text-sm uppercase font-medium mb-2.5">Inventory</h3>
                 <div className="space-y-2">
                     {[
-                        { label: "Available", count: item.units.available, color: "Available" as const },
-                        { label: "Reserved", count: item.units.reserved, color: "Reserved" as const },
-                        { label: "Shipped", count: item.units.shipped, color: "Shipped" as const },
-                        { label: "In Cleaning", count: item.units.cleaning, color: "Cleaning" as const },
-                        { label: "In Repair", count: item.units.repair, color: "Repair" as const },
+                        { label: "Available", count: item.totalQty, color: "Available" as const },
+                        { label: "Reserved", count: 0, color: "Reserved" as const },
+                        { label: "Shipped", count: 0, color: "Shipped" as const },
+                        { label: "In Cleaning", count: 0, color: "Cleaning" as const },
+                        { label: "In Repair", count: 0, color: "Repair" as const },
                     ].map((row) => (
                         <div key={row.label} className="grid grid-cols-[80px_1fr_24px] items-center justify-between gap-2">
                             <p className="text-sm text-muted-foreground">{row.label}</p>
-                            <Progress status={row.color} value={pct(row.count, total)} />
+                            <Progress status={row.color} value={pct(row.count, row.count)} />
                             <p className="text-sm text-muted-foreground text-right">{row.count}</p>
                         </div>
                     ))}
                 </div>
             </section>
-
-            <section>
+            <section className="px-5">
                 <h3 className="text-sm uppercase font-medium mb-2.5">Item Details</h3>
                 <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                     <Field label="SKU" value={item.sku} />
@@ -111,8 +78,7 @@ export default function InventoryView({ item, onEdit, onDeleted }: InventoryView
                     </div>
                 )}
             </section>
-
-            <section>
+            <section className="px-5">
                 <div className="flex justify-between items-center mb-2.5">
                     <h3 className="text-sm uppercase font-medium">Kit Mapping</h3>
                 </div>
@@ -133,6 +99,6 @@ export default function InventoryView({ item, onEdit, onDeleted }: InventoryView
                     </div>
                 )}
             </section>
-        </DialogContent>
+        </SheetContent>
     );
 }

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
-import { StatusBadge } from "@/components/ui/status-badge";
 import { Switch } from "@/components/ui/switch";
 import { kitsApi, type ApiHoliday, type ApiKit } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -9,6 +8,7 @@ import { Eye, Plus, Save, SquarePen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { KitsForm } from "./kits-form";
+import { KitsItemTable } from "./kits-item-table";
 
 type KitsContentProps = {
     kit: ApiKit | null;
@@ -158,7 +158,7 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                     {/* Kit Overview */}
                     <div className="rounded-xl border bg-white overflow-hidden">
-                        <div className="h-14 px-5 bg-black/4 border-b">
+                        <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
                             <h3 className="text-lg font-semibold">Kit Overview</h3>
                         </div>
                         <div className="p-5 flex flex-col">
@@ -269,21 +269,7 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                                 No items linked yet. Inventory items will be wired up once the inventory module ships.
                             </p>
                         ) : (
-                            <div className="overflow-hidden rounded-lg border divide-y">
-                                {kit.items.map((ki) => (
-                                    <div key={ki.id} className="flex items-center justify-between px-4 py-3 text-sm">
-                                        <div className="flex items-center gap-3">
-                                            <div className="size-8 shrink-0 rounded-md bg-muted" />
-                                            <span className="capitalize">{ki.item.name}</span>
-                                        </div>
-                                        <div className="flex items-center gap-6 text-xs text-muted-foreground">
-                                            <span>Qty {ki.qty}</span>
-                                            <span>{ki.item.sku}</span>
-                                            <StatusBadge status={ki.item.status} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                            <KitsItemTable items={kit.items} onView={(item) => console.log(item)} />
                         )}
                     </div>
                 </div>

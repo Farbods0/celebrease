@@ -1,5 +1,5 @@
-import { CreateInventoryItemDto } from "@/inventory/dto/create-inventory-item.dto";
-import { UpdateInventoryItemDto } from "@/inventory/dto/update-inventory-item.dto";
+import { CreateItemDto } from "@/inventory/dto/create-item.dto";
+import { UpdateItemDto } from "@/inventory/dto/update-item.dto";
 import { InventoryService } from "@/inventory/inventory.service";
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { AllowAnonymous, Roles } from "@thallesp/nestjs-better-auth";
@@ -28,13 +28,13 @@ export class InventoryController {
 
     @Post()
     @Roles(["admin", "superadmin"])
-    create(@Body() dto: CreateInventoryItemDto) {
+    create(@Body() dto: CreateItemDto) {
         return this.inventoryService.create(dto);
     }
 
     @Patch(":id")
     @Roles(["admin", "superadmin"])
-    update(@Param("id") id: string, @Body() dto: UpdateInventoryItemDto) {
+    update(@Param("id") id: string, @Body() dto: UpdateItemDto) {
         return this.inventoryService.update(id, dto);
     }
 

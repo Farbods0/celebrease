@@ -3,7 +3,8 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import type { ApiHoliday, InventoryStatus, KitTier } from "@/lib/api";
+import type { InventoryStatus, KitTier } from "@/lib/api";
+import { getHolidays } from "@/lib/utils";
 import { Search } from "lucide-react";
 
 export type InventoryFilterState = {
@@ -41,13 +42,14 @@ function FilterLegend({ children }: { children: React.ReactNode }) {
 }
 
 type InventoryFiltersProps = {
-    holidays: ApiHoliday[];
     categories: string[];
     state: InventoryFilterState;
     onChange: (next: InventoryFilterState) => void;
 };
 
-export function InventoryFilters({ holidays, categories, state, onChange }: InventoryFiltersProps) {
+export function InventoryFilters({ categories, state, onChange }: InventoryFiltersProps) {
+    const { data: holidays } = getHolidays();
+
     const toggleTier = (tier: "ALL" | KitTier) => {
         const next = new Set(state.tiers);
         if (tier === "ALL") {
@@ -158,11 +160,7 @@ export function InventoryFilters({ holidays, categories, state, onChange }: Inve
                 <Label htmlFor="low-stock" className="text-sm font-medium cursor-pointer">
                     Low Stock Only
                 </Label>
-                <Switch
-                    id="low-stock"
-                    checked={state.lowStockOnly}
-                    onCheckedChange={(v) => onChange({ ...state, lowStockOnly: v })}
-                />
+                <Switch id="low-stock" checked={state.lowStockOnly} onCheckedChange={(v) => onChange({ ...state, lowStockOnly: v })} />
             </div>
         </div>
     );

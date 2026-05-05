@@ -1,5 +1,5 @@
-import { InventoryStatus } from "@/generated/prisma/enums";
-import { KitMappingDto } from "@/inventory/dto/create-inventory-item.dto";
+import { ItemStatus } from "@/generated/prisma/enums";
+import { KitMappingDto } from "@/inventory/dto/create-item.dto";
 import { Type } from "class-transformer";
 import {
     ArrayMaxSize,
@@ -17,7 +17,7 @@ import {
     ValidateNested,
 } from "class-validator";
 
-export class UpdateInventoryItemDto {
+export class UpdateItemDto {
     @IsOptional()
     @IsString()
     @MinLength(2)
@@ -80,8 +80,8 @@ export class UpdateInventoryItemDto {
     lowStockThreshold?: number;
 
     @IsOptional()
-    @IsEnum(InventoryStatus)
-    status?: InventoryStatus;
+    @IsEnum(ItemStatus)
+    status?: ItemStatus;
 
     @IsOptional()
     @IsArray()

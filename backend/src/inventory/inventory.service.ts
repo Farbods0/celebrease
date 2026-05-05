@@ -1,7 +1,6 @@
 import { PrismaService } from "@/common/services/prisma.service";
-import { InventoryUnitStatus } from "@/generated/prisma/enums";
-import { CreateInventoryItemDto } from "@/inventory/dto/create-inventory-item.dto";
-import { UpdateInventoryItemDto } from "@/inventory/dto/update-inventory-item.dto";
+import { CreateItemDto } from "@/inventory/dto/create-item.dto";
+import { UpdateItemDto } from "@/inventory/dto/update-item.dto";
 import { UploadService } from "@/upload/upload.service";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
@@ -23,26 +22,6 @@ const itemInclude = {
     },
 } as const;
 
-const UNIT_STATUS_TO_FIELD: Record<InventoryUnitStatus, string> = {
-    AVAILABLE: "available",
-    RESERVED: "reserved",
-    SHIPPED: "shipped",
-    IN_CLEANING: "cleaning",
-    IN_REPAIR: "repair",
-    RETIRED: "retired",
-    LOST: "lost",
-};
-
-const emptyCounts = () => ({
-    available: 0,
-    reserved: 0,
-    shipped: 0,
-    cleaning: 0,
-    repair: 0,
-    retired: 0,
-    lost: 0,
-});
-
 @Injectable()
 export class InventoryService {
     constructor(
@@ -50,80 +29,35 @@ export class InventoryService {
         private readonly uploadService: UploadService,
     ) {}
 
-    private async unitCountsByItem(itemIds: string[]) {
-        const byItem = new Map<string, ReturnType<typeof emptyCounts>>();
-        for (const id of itemIds) byItem.set(id, emptyCounts());
-        if (!itemIds.length) return byItem;
-        const groups = await this.prisma.inventoryUnit.groupBy({
-            by: ["itemId", "status"],
-            where: { itemId: { in: itemIds } },
-            _count: { _all: true },
-        });
-        for (const g of groups) {
-            const counts = byItem.get(g.itemId);
-            if (!counts) continue;
-            const field = UNIT_STATUS_TO_FIELD[g.status] as keyof ReturnType<typeof emptyCounts>;
-            counts[field] = g._count._all;
-        }
-        return byItem;
-    }
-
-    private attachUnitCounts<T extends { id: string; totalQty: number }>(items: T[], byItem: Map<string, ReturnType<typeof emptyCounts>>) {
-        return items.map((item) => {
-            const counts = byItem.get(item.id) ?? emptyCounts();
-            const totalUnits = Object.values(counts).reduce((a, b) => a + b, 0);
-            const available = totalUnits === 0 ? item.totalQty : counts.available;
-            return { ...item, units: { ...counts, available, totalUnits } };
-        });
-    }
-
     async list() {
-        const items = await this.prisma.inventoryItem.findMany({
+        const items = await this.prisma.item.findMany({
             where: { status: { in: ["ACTIVE", "LOW_STOCK"] } },
             include: itemInclude,
             orderBy: { createdAt: "desc" },
         });
-        const byItem = await this.unitCountsByItem(items.map((i) => i.id));
-        return { items: this.attachUnitCounts(items, byItem) };
+        return { items };
     }
 
     async listAll() {
-        const items = await this.prisma.inventoryItem.findMany({
+        const items = await this.prisma.item.findMany({
             include: itemInclude,
             orderBy: { createdAt: "desc" },
         });
-        const byItem = await this.unitCountsByItem(items.map((i) => i.id));
-        return { items: this.attachUnitCounts(items, byItem) };
+        return { items };
     }
 
     async getById(id: string) {
-        const item = await this.prisma.inventoryItem.findUnique({ where: { id }, include: itemInclude });
+        const item = await this.prisma.item.findUnique({ where: { id }, include: itemInclude });
         if (!item) throw new NotFoundException("Inventory item not found");
-        const byItem = await this.unitCountsByItem([id]);
-        return this.attachUnitCounts([item], byItem)[0];
+
+        return item;
     }
 
-    private async assertKitsExist(kitIds: string[]) {
-        if (!kitIds.length) return;
-        const found = await this.prisma.kit.findMany({
-            where: { id: { in: kitIds } },
-            select: { id: true },
-        });
-        if (found.length !== kitIds.length) {
-            const foundIds = new Set(found.map((k) => k.id));
-            const missing = kitIds.filter((id) => !foundIds.has(id));
-            throw new NotFoundException(`Kits not found: ${missing.join(", ")}`);
-        }
-    }
-
-    async create(dto: CreateInventoryItemDto) {
-        const skuExists = await this.prisma.inventoryItem.findUnique({ where: { sku: dto.sku }, select: { id: true } });
+    async create(dto: CreateItemDto) {
+        const skuExists = await this.prisma.item.findUnique({ where: { sku: dto.sku }, select: { id: true } });
         if (skuExists) throw new ConflictException(`An inventory item with SKU ${dto.sku} already exists`);
 
-        const kitMappings = dto.kits ?? [];
-        await this.assertKitsExist(kitMappings.map((k) => k.kitId));
-
-        return this.prisma.inventoryItem.create({
+        return this.prisma.item.create({
             data: {
                 sku: dto.sku,
                 name: dto.name,
@@ -138,42 +72,41 @@ export class InventoryService {
                 lowStockThreshold: dto.lowStockThreshold ?? 0,
                 initialStatus: dto.initialStatus ?? dto.status ?? "ACTIVE",
                 status: dto.status ?? "ACTIVE",
-                kitItems: kitMappings.length
-                    ? { create: kitMappings.map((m) => ({ kitId: m.kitId, qty: m.qty })) }
-                    : undefined,
+                ...(dto.kits?.length
+                    ? {
+                          kitItems: {
+                              createMany: {
+                                  data: dto.kits.map(({ kitId, qty }) => ({ kitId, qty })),
+                              },
+                          },
+                      }
+                    : {}),
             },
-            include: itemInclude,
         });
     }
 
-    async update(id: string, dto: UpdateInventoryItemDto) {
-        const existing = await this.prisma.inventoryItem.findUnique({ where: { id }, select: { id: true, sku: true, image: true } });
+    async update(id: string, dto: UpdateItemDto) {
+        const existing = await this.prisma.item.findUnique({ where: { id }, select: { id: true, sku: true, image: true } });
         if (!existing) throw new NotFoundException("Inventory item not found");
 
         if (dto.sku && dto.sku !== existing.sku) {
-            const conflict = await this.prisma.inventoryItem.findUnique({ where: { sku: dto.sku }, select: { id: true } });
+            const conflict = await this.prisma.item.findUnique({ where: { sku: dto.sku }, select: { id: true } });
             if (conflict && conflict.id !== id) {
                 throw new ConflictException(`An inventory item with SKU ${dto.sku} already exists`);
             }
         }
-
-        if (dto.kits) {
-            await this.assertKitsExist(dto.kits.map((k) => k.kitId));
-        }
-
-        const oldImage = existing.image;
-        const imageChanged = dto.image !== undefined && dto.image !== oldImage;
 
         const updated = await this.prisma.$transaction(async (tx) => {
             if (dto.kits !== undefined) {
                 await tx.kitItem.deleteMany({ where: { itemId: id } });
                 if (dto.kits.length) {
                     await tx.kitItem.createMany({
-                        data: dto.kits.map((m) => ({ itemId: id, kitId: m.kitId, qty: m.qty })),
+                        data: dto.kits.map(({ kitId, qty }) => ({ itemId: id, kitId, qty })),
                     });
                 }
             }
-            return tx.inventoryItem.update({
+
+            return tx.item.update({
                 where: { id },
                 data: {
                     ...(dto.sku !== undefined && { sku: dto.sku }),
@@ -189,21 +122,17 @@ export class InventoryService {
                     ...(dto.lowStockThreshold !== undefined && { lowStockThreshold: dto.lowStockThreshold }),
                     ...(dto.status !== undefined && { status: dto.status }),
                 },
-                include: itemInclude,
             });
         });
 
-        if (imageChanged && oldImage) {
-            await this.uploadService.deleteImage(oldImage).catch(() => undefined);
-        }
         return updated;
     }
 
     async remove(id: string) {
-        const item = await this.prisma.inventoryItem.findUnique({ where: { id }, select: { id: true, image: true } });
+        const item = await this.prisma.item.findUnique({ where: { id }, select: { id: true, image: true } });
         if (!item) throw new NotFoundException("Inventory item not found");
 
-        const deleted = await this.prisma.inventoryItem.delete({ where: { id } });
+        const deleted = await this.prisma.item.delete({ where: { id } });
         if (item.image) {
             await this.uploadService.deleteImage(item.image).catch(() => undefined);
         }

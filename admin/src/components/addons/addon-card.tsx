@@ -1,6 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
-import type { AddOn } from "@/data";
+import { baseURL, type ApiAddOn } from "@/lib/api";
+
+const STATUS_LABEL: Record<ApiAddOn["status"], string> = {
+    ACTIVE: "Active",
+    HIDDEN: "Hidden",
+};
+
+const fmtMoney = (raw: string | number) => {
+    const n = typeof raw === "string" ? Number(raw) : raw;
+    return Number.isFinite(n) ? `$${n.toFixed(2)}` : "—";
+};
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
     return (
@@ -12,36 +22,49 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 }
 
 type AddOnCardProps = {
-    item: AddOn;
-    onView: (item: AddOn) => void;
+    item: ApiAddOn;
+    onEdit: (item: ApiAddOn) => void;
 };
 
-export function AddOnCard({ item, onView }: AddOnCardProps) {
+export function AddOnCard({ item, onEdit }: AddOnCardProps) {
     return (
         <article className="rounded-xl border border-border bg-card p-4">
-            <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-muted"></div>
-                <h3 className="text-lg font-medium">{item.name}</h3>
+            <div className="flex items-center gap-3">
+                <div className="size-10 shrink-0 rounded-md bg-muted overflow-hidden">
+                    <img
+                        src={`${baseURL}${item.image}`}
+                        alt={item.name}
+                        crossOrigin="anonymous"
+                        className="w-full h-full object-cover rounded-md"
+                    />
+                </div>
+                <div>
+                    <h3 className="font-semibold text-sm leading-none">{item.name}</h3>
+                </div>
             </div>
 
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                <Field label="Price" value={item.price} />
-                <Field label="Deposit" value={item.deposit} />
+                <Field label="Price" value={fmtMoney(item.price)} />
+                <Field label="Deposit" value={fmtMoney(item.deposit)} />
                 <Field label="Inventory" value={item.inventory} />
-                <Field label="Status" value={<StatusBadge status={item.status} />} />
+                <Field label="Status" value={<StatusBadge status={STATUS_LABEL[item.status]} />} />
                 <Field
                     label="Holidays Mapped"
                     value={
-                        <div className="flex flex-wrap gap-1">
-                            {item.holidaysMapped.map((h) => (
-                                <StatusBadge key={h} status={h} />
-                            ))}
-                        </div>
+                        item.holidays.length === 0 ? (
+                            <span className="text-muted-foreground text-xs">—</span>
+                        ) : (
+                            <div className="flex flex-wrap gap-1">
+                                {item.holidays.map(({ holiday }) => (
+                                    <StatusBadge key={holiday.id} status={holiday.name} />
+                                ))}
+                            </div>
+                        )
                     }
                 />
             </div>
-            <Button size="sm" onClick={() => onView(item)} className="mt-4 w-full bg-muted text-foreground hover:bg-muted/80">
-                View
+            <Button size="sm" onClick={() => onEdit(item)} className="mt-4 w-full bg-primary/10 text-primary hover:bg-primary/20">
+                Edit
             </Button>
         </article>
     );

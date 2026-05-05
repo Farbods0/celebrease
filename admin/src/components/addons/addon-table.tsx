@@ -1,13 +1,23 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { AddOn } from "@/data";
+import { baseURL, type ApiAddOn } from "@/lib/api";
 
-type AddOnTableProps = {
-    items: AddOn[];
-    onView: (item: AddOn) => void;
+const STATUS_LABEL: Record<ApiAddOn["status"], string> = {
+    ACTIVE: "Active",
+    HIDDEN: "Hidden",
 };
 
-export function AddOnTable({ items, onView }: AddOnTableProps) {
+const fmtMoney = (raw: string | number) => {
+    const n = typeof raw === "string" ? Number(raw) : raw;
+    return Number.isFinite(n) ? `$${n.toFixed(2)}` : "—";
+};
+
+type AddOnTableProps = {
+    items: ApiAddOn[];
+    onEdit: (item: ApiAddOn) => void;
+};
+
+export function AddOnTable({ items, onEdit }: AddOnTableProps) {
     return (
         <div className="hidden md:block overflow-hidden rounded-lg border p-3">
             <Table>
@@ -23,44 +33,53 @@ export function AddOnTable({ items, onView }: AddOnTableProps) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {items.map((item) => {
-                        return (
-                            <TableRow key={item.name}>
+                    {items.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={7} className="text-center text-muted-foreground py-10">
+                                No add-ons yet.
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        items.map((item) => (
+                            <TableRow key={item.id}>
                                 <TableCell className="flex items-center gap-2">
-                                    <div className="w-8 h-8 rounded-lg bg-white"></div>
+                                    <div className="size-8 shrink-0 rounded-md bg-white overflow-hidden">
+                                        <img
+                                            src={`${baseURL}${item.image}`}
+                                            alt={item.name}
+                                            crossOrigin="anonymous"
+                                            className="w-full h-full object-cover rounded-md"
+                                        />
+                                    </div>
                                     {item.name}
                                 </TableCell>
-                                <TableCell>{item.price}</TableCell>
-                                <TableCell>{item.deposit}</TableCell>
+                                <TableCell>{fmtMoney(item.price)}</TableCell>
+                                <TableCell>{fmtMoney(item.deposit)}</TableCell>
                                 <TableCell className="font-medium">{item.inventory}</TableCell>
                                 <TableCell>
                                     <div className="flex flex-wrap gap-1">
-                                        {item.holidaysMapped.map((h) => (
-                                            <StatusBadge key={h} status={h} />
-                                        ))}
+                                        {item.holidays.length === 0 ? (
+                                            <span className="text-muted-foreground text-xs">—</span>
+                                        ) : (
+                                            item.holidays.map(({ holiday }) => <StatusBadge key={holiday.id} status={holiday.name} />)
+                                        )}
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <StatusBadge status={item.status} />
+                                    <StatusBadge status={STATUS_LABEL[item.status]} />
                                 </TableCell>
-                                <TableCell className="space-x-2">
+                                <TableCell>
                                     <button
                                         type="button"
-                                        className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-border/60 transition-colors"
-                                    >
-                                        Trash
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => onView(item)}
-                                        className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium hover:bg-border/60 transition-colors"
+                                        onClick={() => onEdit(item)}
+                                        className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
                                     >
                                         Edit
                                     </button>
                                 </TableCell>
                             </TableRow>
-                        );
-                    })}
+                        ))
+                    )}
                 </TableBody>
             </Table>
         </div>

@@ -21,7 +21,7 @@ export function KitsItemTable({ items, onView }: { items: ApiKit["items"]; onVie
                     {items.map((item) => (
                         <TableRow key={item.item.sku}>
                             <TableCell className="flex items-center gap-2">
-                                <div className="size-8 shrink-0 rounded-md bg-muted">
+                                <div className="size-8 shrink-0 rounded-md bg-white overflow-hidden">
                                     <img
                                         src={`${baseURL}${item.item.image}`}
                                         alt={item.item.name}

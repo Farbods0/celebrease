@@ -1,18 +1,6 @@
 import { request } from "./base";
-import type { KitTier } from "./kit";
 
 export type AddOnStatus = "ACTIVE" | "HIDDEN";
-
-export type AddOnKitLink = {
-    kitId: string;
-    kit: {
-        id: string;
-        sku: string;
-        tier: KitTier;
-        holidayId: string;
-        holiday: { id: string; name: string };
-    };
-};
 
 export type ApiAddOn = {
     id: string;
@@ -24,9 +12,7 @@ export type ApiAddOn = {
     deposit: string;
     inventory: number;
     status: AddOnStatus;
-    kitLinks: AddOnKitLink[];
-    holidays: { id: string; name: string }[];
-    holidayIds: string[];
+    holidays: { holiday: { id: string; name: string } }[];
     createdAt: string;
     updatedAt: string;
 };

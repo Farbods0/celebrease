@@ -1,3 +1,4 @@
+export * from "./addon";
 export * from "./base";
 export * from "./holiday";
 export * from "./inventory";

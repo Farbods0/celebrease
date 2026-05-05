@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { baseURL, type ApiHoliday } from "@/lib/api";
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
@@ -12,15 +13,14 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 type HolidayCardProps = {
     item: ApiHoliday;
     onEdit: (item: ApiHoliday) => void;
-    onDelete: (id: string) => void;
 };
 
-export function HolidayCard({ item, onEdit, onDelete }: HolidayCardProps) {
+export function HolidayCard({ item, onEdit }: HolidayCardProps) {
     return (
         <div className="flex flex-col rounded-lg border p-4 bg-card text-card-foreground">
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                    <div className="size-10 shrink-0 rounded-md bg-muted">
+                    <div className="size-10 shrink-0 rounded-md bg-muted overflow-hidden">
                         <img
                             src={`${baseURL}${item.image}`}
                             alt={item.name}
@@ -49,22 +49,9 @@ export function HolidayCard({ item, onEdit, onDelete }: HolidayCardProps) {
                 <Field label="Order" value={item.sortOrder} />
             </div>
 
-            <div className="mt-4 flex items-center gap-2">
-                <button
-                    type="button"
-                    onClick={() => onEdit(item)}
-                    className="flex-1 rounded-md bg-primary/10 px-2 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
-                >
-                    Edit
-                </button>
-                <button
-                    type="button"
-                    onClick={() => onDelete(item.id)}
-                    className="flex-1 rounded-md bg-destructive/10 px-2 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/20 transition-colors"
-                >
-                    Delete
-                </button>
-            </div>
+            <Button size="sm" onClick={() => onEdit(item)} className="mt-4 w-full bg-primary/10 text-primary hover:bg-primary/20">
+                Edit
+            </Button>
         </div>
     );
 }

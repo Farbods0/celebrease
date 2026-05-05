@@ -4,10 +4,9 @@ import { baseURL, type ApiHoliday } from "@/lib/api";
 type HolidayTableProps = {
     items: ApiHoliday[];
     onEdit: (item: ApiHoliday) => void;
-    onDelete: (id: string) => void;
 };
 
-export function HolidayTable({ items, onEdit, onDelete }: HolidayTableProps) {
+export function HolidayTable({ items, onEdit }: HolidayTableProps) {
     return (
         <div className="hidden md:block overflow-hidden rounded-lg border p-3">
             <Table>
@@ -32,7 +31,7 @@ export function HolidayTable({ items, onEdit, onDelete }: HolidayTableProps) {
                             <TableRow key={item.id}>
                                 <TableCell className="font-medium">
                                     <div className="flex items-center gap-2">
-                                        <div className="size-8 shrink-0 rounded-md bg-muted">
+                                        <div className="size-8 shrink-0 rounded-md bg-white overflow-hidden">
                                             <img
                                                 src={`${baseURL}${item.image}`}
                                                 alt={item.name}
@@ -58,22 +57,13 @@ export function HolidayTable({ items, onEdit, onDelete }: HolidayTableProps) {
                                     </span>
                                 </TableCell>
                                 <TableCell>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            type="button"
-                                            onClick={() => onEdit(item)}
-                                            className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => onDelete(item.id)}
-                                            className="rounded-md bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive hover:bg-destructive/20 transition-colors"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => onEdit(item)}
+                                        className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
+                                    >
+                                        Edit
+                                    </button>
                                 </TableCell>
                             </TableRow>
                         ))

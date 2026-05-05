@@ -23,9 +23,7 @@ export type ApiPlan = {
 };
 
 export async function getPlans(): Promise<ApiPlan[]> {
-    const res = await fetch(`${baseURL}${apiPrefix}/plan`, {
-        next: { revalidate: 60 },
-    });
+    const res = await fetch(`${baseURL}${apiPrefix}/plan`, { cache: "no-store" });
     if (!res.ok) return [];
     const data = (await res.json()) as { items: ApiPlan[] };
     return data.items;
@@ -73,10 +71,7 @@ export async function getMySubscription(): Promise<ApiSubscription | null> {
     return data ?? null;
 }
 
-export async function createSubscriptionCheckout(args: {
-    planId: string;
-    billingCycle: BillingCycle;
-}): Promise<{ url: string }> {
+export async function createSubscriptionCheckout(args: { planId: string; billingCycle: BillingCycle }): Promise<{ url: string }> {
     const res = await fetch(`${baseURL}${apiPrefix}/subscription/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

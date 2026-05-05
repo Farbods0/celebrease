@@ -32,7 +32,7 @@ export default function HomePage() {
                                 className="bg-white hover:bg-white/80 shadow-lg"
                                 render={<Link href="/catalog">Browse Holidays</Link>}
                             />
-                            <Button className="bg-white hover:bg-white/80 shadow-lg" render={<Link href="/faqs">How It Works</Link>} />
+                            <Button render={<Link href="/faqs">How It Works</Link>} />
                         </div>
                     </div>
                     <div>

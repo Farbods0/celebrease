@@ -27,13 +27,7 @@ const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("en-US", { mon
 
 const pct = (count: number, total: number) => (total > 0 ? Math.round((count / total) * 100) : 0);
 
-type InventoryViewProps = {
-    item: ApiInventoryItem;
-    onEdit: () => void;
-    onDeleted: () => void;
-};
-
-export default function InventoryView({ item, onEdit, onDeleted }: InventoryViewProps) {
+export default function InventoryView({ item }: { item: ApiInventoryItem }) {
     return (
         <SheetContent>
             <SheetHeader>

@@ -28,6 +28,7 @@ function Field({ label, value, tone }: { label: string; value: React.ReactNode; 
 type InventoryCardProps = {
     item: ApiInventoryItem;
     onView: (item: ApiInventoryItem) => void;
+    onEdit: (item: ApiInventoryItem) => void;
 };
 
 function holidayLabel(item: ApiInventoryItem): string {
@@ -43,7 +44,7 @@ function kitTierLabel(item: ApiInventoryItem): string {
     return tiers.map((t) => (t === "STARTER" ? "Starter" : "Premium")).join(", ");
 }
 
-export function InventoryCard({ item, onView }: InventoryCardProps) {
+export function InventoryCard({ item, onView, onEdit }: InventoryCardProps) {
     const lowStock = item.totalQty <= item.lowStockThreshold && item.lowStockThreshold > 0;
     return (
         <article className="rounded-xl border border-border bg-card p-4">
@@ -70,9 +71,14 @@ export function InventoryCard({ item, onView }: InventoryCardProps) {
                 <Field label="Status" value={<StatusBadge status={STATUS_LABEL[item.status]} />} />
             </div>
 
-            <Button size="sm" onClick={() => onView(item)} className="mt-4 w-full bg-muted text-foreground [a]:hover:bg-muted/80">
-                View
-            </Button>
+            <div className="mt-4 flex gap-3">
+                <Button size="sm" onClick={() => onEdit(item)} className="w-full bg-primary/10 text-primary hover:bg-primary/20">
+                    Edit
+                </Button>
+                <Button size="sm" onClick={() => onView(item)} className="w-full bg-muted text-foreground [a]:hover:bg-muted/80">
+                    View
+                </Button>
+            </div>
         </article>
     );
 }

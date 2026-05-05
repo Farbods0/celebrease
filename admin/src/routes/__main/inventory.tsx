@@ -102,26 +102,34 @@ function RouteComponent() {
                 </div>
 
                 <Sheet open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-                    <InventoryTable items={filtered} onView={setSelectedItem} />
+                    <InventoryTable
+                        items={filtered}
+                        onView={setSelectedItem}
+                        onEdit={(item) => {
+                            setEditing(item);
+                            setSelectedItem(null);
+                        }}
+                    />
 
                     <div className="space-y-4 md:hidden">
                         {filtered.length === 0 ? (
                             <p className="text-center text-sm text-muted-foreground py-10">No inventory items found.</p>
                         ) : (
-                            filtered.map((item) => <InventoryCard key={item.id} item={item} onView={setSelectedItem} />)
+                            filtered.map((item) => (
+                                <InventoryCard
+                                    key={item.id}
+                                    item={item}
+                                    onView={setSelectedItem}
+                                    onEdit={(item) => {
+                                        setEditing(item);
+                                        setSelectedItem(null);
+                                    }}
+                                />
+                            ))
                         )}
                     </div>
 
-                    {selectedItem ? (
-                        <InventoryView
-                            item={selectedItem}
-                            onEdit={() => {
-                                setEditing(selectedItem);
-                                setSelectedItem(null);
-                            }}
-                            onDeleted={() => setSelectedItem(null)}
-                        />
-                    ) : null}
+                    {selectedItem ? <InventoryView item={selectedItem} /> : null}
                 </Sheet>
 
                 <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>

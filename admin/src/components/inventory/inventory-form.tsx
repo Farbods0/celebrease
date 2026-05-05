@@ -126,6 +126,11 @@ export function InventoryForm({ item, onClose }: { item?: ApiInventoryItem; onCl
             const next = new Map(prev);
             if (next.has(holiday.id)) {
                 next.delete(holiday.id);
+                setSelectedKits((prevKits) => {
+                    const nextKits = new Map(prevKits);
+                    for (const kit of holiday.kits ?? []) nextKits.delete(kit.id);
+                    return nextKits;
+                });
             } else {
                 next.set(holiday.id, holiday);
             }

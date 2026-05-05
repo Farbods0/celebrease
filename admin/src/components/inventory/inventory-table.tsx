@@ -34,9 +34,10 @@ function kitTierLabel(item: ApiInventoryItem): string {
 type InventoryTableProps = {
     items: ApiInventoryItem[];
     onView: (item: ApiInventoryItem) => void;
+    onEdit: (item: ApiInventoryItem) => void;
 };
 
-export function InventoryTable({ items, onView }: InventoryTableProps) {
+export function InventoryTable({ items, onView, onEdit }: InventoryTableProps) {
     return (
         <div className="hidden md:block overflow-hidden rounded-lg border p-3">
             <Table>
@@ -90,7 +91,14 @@ export function InventoryTable({ items, onView }: InventoryTableProps) {
                                     <TableCell>
                                         <StatusBadge status={STATUS_LABEL[item.status]} />
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="flex items-center gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => onEdit(item)}
+                                            className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
+                                        >
+                                            Edit
+                                        </button>
                                         <button
                                             type="button"
                                             onClick={() => onView(item)}

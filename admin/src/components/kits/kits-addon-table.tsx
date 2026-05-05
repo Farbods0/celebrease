@@ -1,8 +1,13 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { AddOn } from "@/data";
+import { baseURL, type ApiHoliday } from "@/lib/api";
 
-export function KitsAddonTable({ items }: { items: AddOn[]; onView: (item: AddOn) => void }) {
+const STATUS_LABEL: Record<ApiHoliday["addOns"][number]["addOn"]["status"], string> = {
+    ACTIVE: "Active",
+    HIDDEN: "Hidden",
+};
+
+export function KitsAddonTable({ items }: { items: ApiHoliday["addOns"] }) {
     return (
         <div className="overflow-hidden rounded-lg border">
             <Table>
@@ -19,19 +24,28 @@ export function KitsAddonTable({ items }: { items: AddOn[]; onView: (item: AddOn
 
                 <TableBody>
                     {items.map((addon) => (
-                        <TableRow key={addon.name}>
-                            <TableCell className="capitalize">{addon.name}</TableCell>
-                            <TableCell>{addon.price}</TableCell>
-                            <TableCell>{addon.deposit}</TableCell>
-                            <TableCell>{addon.inv}</TableCell>
-                            <TableCell>
-                                <StatusBadge status={addon.status} />
+                        <TableRow key={addon.addOn.id}>
+                            <TableCell className="flex items-center gap-2">
+                                <div className="size-8 shrink-0 rounded-md bg-white overflow-hidden">
+                                    <img
+                                        src={`${baseURL}${addon.addOn.image}`}
+                                        alt={addon.addOn.name}
+                                        crossOrigin="anonymous"
+                                        className="w-full h-full object-cover rounded-md"
+                                    />
+                                </div>
+                                {addon.addOn.name}
                             </TableCell>
-                            <TableCell className="space-x-2">
+                            <TableCell>{addon.addOn.price}</TableCell>
+                            <TableCell>{addon.addOn.deposit}</TableCell>
+                            <TableCell>{addon.addOn.inventory}</TableCell>
+                            <TableCell>
+                                <StatusBadge status={STATUS_LABEL[addon.addOn.status]} />
+                            </TableCell>
+                            <TableCell>
                                 <button className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium">
                                     Trash
                                 </button>
-                                <button className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium">Edit</button>
                             </TableCell>
                         </TableRow>
                     ))}

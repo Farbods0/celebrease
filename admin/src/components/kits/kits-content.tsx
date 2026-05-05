@@ -9,6 +9,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { KitsForm } from "./kits-form";
 import { KitsItemTable } from "./kits-item-table";
+import { KitsAddonTable } from "./kits-addon-table";
 
 type KitsContentProps = {
     kit: ApiKit | null;
@@ -283,26 +284,15 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                             Add item
                         </Button>
                     </div>
-                    {/* <div className="p-5">
-                        {kit.allowedAddOns.length === 0 ? (
+                    <div className="p-5">
+                        {holiday.addOns.length === 0 ? (
                             <p className="text-sm text-muted-foreground py-6 text-center">
                                 No add-ons linked yet. Add-ons will be wired up once the add-ons module ships.
                             </p>
                         ) : (
-                            <div className="overflow-hidden rounded-lg border divide-y">
-                                {kit.allowedAddOns.map(({ addOn }) => (
-                                    <div key={addOn.id} className="flex items-center justify-between px-4 py-3 text-sm">
-                                        <span className="capitalize">{addOn.name}</span>
-                                        <div className="flex items-center gap-6 text-xs text-muted-foreground">
-                                            <span>{fmtMoney(addOn.price)}</span>
-                                            <span>Inv {addOn.inventory}</span>
-                                            <StatusBadge status={addOn.status} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                            <KitsAddonTable items={holiday.addOns} />
                         )}
-                    </div> */}
+                    </div>
                 </div>
 
                 <div className="pt-2 self-end">

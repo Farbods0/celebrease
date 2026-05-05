@@ -2,6 +2,12 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { baseURL, type ApiKit } from "@/lib/api";
 
+const STATUS_LABEL: Record<ApiKit["items"][number]["item"]["status"], string> = {
+    ACTIVE: "Active",
+    LOW_STOCK: "Low Stock",
+    RETIRED: "Retired",
+};
+
 export function KitsItemTable({ items, onView }: { items: ApiKit["items"]; onView: (item: ApiKit["items"][number]["item"]) => void }) {
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -37,7 +43,7 @@ export function KitsItemTable({ items, onView }: { items: ApiKit["items"]; onVie
                             <TableCell className="font-medium">{item.item.category}</TableCell>
 
                             <TableCell>
-                                <StatusBadge status={item.item.status} />
+                                <StatusBadge status={STATUS_LABEL[item.item.status]} />
                             </TableCell>
 
                             <TableCell className="space-x-2">
@@ -47,7 +53,7 @@ export function KitsItemTable({ items, onView }: { items: ApiKit["items"]; onVie
 
                                 <button
                                     onClick={() => onView(item.item)}
-                                    className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium"
+                                    className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
                                 >
                                     Edit
                                 </button>

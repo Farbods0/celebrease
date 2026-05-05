@@ -1,3 +1,4 @@
+import type { AddOnStatus } from "./addon";
 import { request } from "./base";
 import type { KitStatus, KitTier } from "./kit";
 
@@ -23,6 +24,19 @@ export type ApiHoliday = {
         price30Day: number;
         price60Day: number;
         deposit: number;
+    }>;
+} & {
+    addOns: Array<{
+        addOn: {
+            id: string;
+            sku: string;
+            name: string;
+            image: string;
+            price: number;
+            deposit: number;
+            inventory: number;
+            status: AddOnStatus;
+        };
     }>;
 };
 

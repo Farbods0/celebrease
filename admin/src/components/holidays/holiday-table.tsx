@@ -1,3 +1,4 @@
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { baseURL, type ApiHoliday } from "@/lib/api";
 
@@ -45,16 +46,7 @@ export function HolidayTable({ items, onEdit }: HolidayTableProps) {
                                 <TableCell>{item.category.replace("_", " ")}</TableCell>
                                 <TableCell>{item.sortOrder}</TableCell>
                                 <TableCell>
-                                    <span
-                                        className="rounded-md px-2 py-0.5 text-xs font-medium"
-                                        style={
-                                            item.isActive
-                                                ? { backgroundColor: "oklch(0.93 0.08 150)", color: "oklch(0.4 0.14 150)" }
-                                                : { backgroundColor: "oklch(0.93 0.08 25)", color: "oklch(0.45 0.2 25)" }
-                                        }
-                                    >
-                                        {item.isActive ? "Active" : "Hidden"}
-                                    </span>
+                                    <StatusBadge status={item.isActive ? "Active" : "Hidden"} />
                                 </TableCell>
                                 <TableCell>
                                     <button

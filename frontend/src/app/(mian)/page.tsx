@@ -1,12 +1,14 @@
 import { DecorKit, Return, Sustainable } from "@/components/icons";
 import SectionHeader from "@/components/main/section-header";
 import { Button } from "@/components/ui/button";
-import { events } from "@/data";
+import { ApiHoliday, baseURL, getHolidaysByLoves } from "@/lib/api";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 
-export default function HomePage() {
+export default async function HomePage() {
+    const data = await getHolidaysByLoves();
+
     return (
         <div className="min-h-screen font-sans text-gray-900 bg-white">
             {/* --- HERO SECTION --- */}
@@ -140,22 +142,30 @@ export default function HomePage() {
                 <SectionHeader title="Our Loved Celebrations" subtitle="Categories" />
 
                 <div className="flex gap-4 overflow-x-auto">
-                    {events.map((event, index) => (
-                        <div key={index} className="relative min-w-76 md:min-w-96 lg:min-w-116 aspect-4/5 rounded-md overflow-hidden">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {data.items.map((holiday) => (
+                        <Link
+                            key={holiday.id}
+                            href={`/catalog/${holiday.id}`}
+                            className="relative min-w-76 md:min-w-96 lg:min-w-116 aspect-4/5 rounded-md overflow-hidden"
+                        >
                             <img
-                                src={event.image}
-                                alt={event.title}
+                                src={`${baseURL}${holiday.image}`}
+                                alt={holiday.name}
+                                crossOrigin="anonymous"
                                 className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
                             <div className="absolute bottom-0 left-0 p-6 text-white space-y-2">
-                                <h3 className="font-semibold text-xl lg:text-2xl">{event.title}</h3>
-                                <p className="text-base lg:text-lg">
-                                    From $45 - <span className="text-white/60">3-5 Days</span>
-                                </p>
+                                <h3 className="font-semibold text-xl lg:text-2xl">{holiday.name}</h3>
+                                {getLowestPrice(holiday.kits) !== null ? (
+                                    <p className="text-base lg:text-lg">
+                                        From ${getLowestPrice(holiday.kits)} - <span className="text-white/60">30 Days</span>
+                                    </p>
+                                ) : (
+                                    <p className="text-base lg:text-lg text-white/60">Coming Soon</p>
+                                )}
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </section>
@@ -220,3 +230,9 @@ export default function HomePage() {
         </div>
     );
 }
+
+const getLowestPrice = (kits: ApiHoliday["kits"]) => {
+    if (!kits || kits.length === 0) return null;
+
+    return Math.min(...kits.map((kit) => Number(kit.price30Day)));
+};

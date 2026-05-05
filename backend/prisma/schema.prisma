@@ -35,6 +35,7 @@ model User {
     stripeCustomerId String? @unique
 
     subscriptions Subscription[]
+    holidayLoves  HolidayLove[]
 
     @@unique([email])
     @@map("user")
@@ -173,8 +174,21 @@ model Holiday {
     kits         Kit[]
     addOns       AddOnHoliday[]
     holidaySlots SubscriptionHolidaySlot[]
+    loves        HolidayLove[]
 
     @@map("holiday")
+}
+
+model HolidayLove {
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    holidayId String
+    holiday   Holiday  @relation(fields: [holidayId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+
+    @@id([userId, holidayId])
+    @@index([holidayId])
+    @@map("holiday_love")
 }
 
 // ============================================================
@@ -242,7 +256,6 @@ model Kit {
 }
 
 model KitItem {
-    id     String @id @default(cuid())
     kitId  String
     kit    Kit    @relation(fields: [kitId], references: [id], onDelete: Cascade)
     itemId String
@@ -255,7 +268,6 @@ model KitItem {
 }
 
 model KitPreviewItem {
-    id        String @id @default(cuid())
     kitId     String
     kit       Kit    @relation(fields: [kitId], references: [id], onDelete: Cascade)
     itemId    String

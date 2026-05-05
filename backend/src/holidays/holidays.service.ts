@@ -59,6 +59,17 @@ export class HolidaysService {
         return { items };
     }
 
+    async listByLoves() {
+        const items = await this.prisma.holiday.findMany({
+            where: { isActive: true },
+            orderBy: {
+                loves: { _count: "desc" },
+            },
+            include: holidayInclude,
+        });
+        return { items };
+    }
+
     async getById(id: string) {
         const holiday = await this.prisma.holiday.findUnique({
             where: { id },
@@ -167,5 +178,35 @@ export class HolidaysService {
         return this.prisma.addOnHoliday.delete({
             where: { addOnId_holidayId: { addOnId, holidayId } },
         });
+    }
+
+    async listMyLoves(userId: string) {
+        const loves = await this.prisma.holidayLove.findMany({
+            where: { userId },
+            select: { holidayId: true },
+        });
+        return { holidayIds: loves.map((l) => l.holidayId) };
+    }
+
+    async love(holidayId: string, userId: string) {
+        const holiday = await this.prisma.holiday.findUnique({ where: { id: holidayId }, select: { id: true } });
+        if (!holiday) throw new NotFoundException("Holiday not found");
+
+        await this.prisma.holidayLove.upsert({
+            where: { userId_holidayId: { userId, holidayId } },
+            create: { userId, holidayId },
+            update: {},
+        });
+        const count = await this.prisma.holidayLove.count({ where: { holidayId } });
+        return { loved: true, loveCount: count };
+    }
+
+    async unlove(holidayId: string, userId: string) {
+        const holiday = await this.prisma.holiday.findUnique({ where: { id: holidayId }, select: { id: true } });
+        if (!holiday) throw new NotFoundException("Holiday not found");
+
+        await this.prisma.holidayLove.deleteMany({ where: { userId, holidayId } });
+        const count = await this.prisma.holidayLove.count({ where: { holidayId } });
+        return { loved: false, loveCount: count };
     }
 }

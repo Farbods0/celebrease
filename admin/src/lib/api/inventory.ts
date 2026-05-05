@@ -4,7 +4,6 @@ import { request } from "./base";
 export type InventoryStatus = "ACTIVE" | "LOW_STOCK" | "RETIRED";
 
 export type InventoryKitItem = {
-    id: string;
     qty: number;
     kit: {
         id: string;

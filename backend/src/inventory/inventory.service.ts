@@ -7,7 +7,6 @@ import { ConflictException, Injectable, NotFoundException } from "@nestjs/common
 const itemInclude = {
     kitItems: {
         select: {
-            id: true,
             qty: true,
             kit: {
                 select: {

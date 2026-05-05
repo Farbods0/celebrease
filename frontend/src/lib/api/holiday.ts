@@ -77,3 +77,43 @@ export async function getHolidayById(id: string): Promise<{ holiday: ApiHoliday 
     const data = await res.json();
     return data;
 }
+
+export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/loves`, { cache: "no-store" });
+    if (!res.ok) {
+        return { items: [] };
+    }
+
+    const data = await res.json();
+    return data;
+}
+
+export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/loves`, {
+        credentials: "include",
+        cache: "no-store",
+    });
+
+    if (!res.ok) return { holidayIds: [] };
+    return res.json();
+}
+
+export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
+        method: "POST",
+        credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Failed to love holiday");
+    return res.json();
+}
+
+export async function unloveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
+        method: "DELETE",
+        credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Failed to unlove holiday");
+    return res.json();
+}

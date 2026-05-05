@@ -233,7 +233,7 @@ export function KitsContent({ kit, holiday, holidays, inventory, addOns, selecte
                                 <div className="flex flex-col gap-3">
                                     {kit.previewItems.map((pi) => (
                                         <div
-                                            key={pi.id}
+                                            key={pi.item.id}
                                             className="flex h-11.5 items-center justify-between rounded-lg border bg-muted/40 pl-3 pr-4 py-2.5"
                                         >
                                             <span className="text-sm capitalize">{pi.item.name}</span>

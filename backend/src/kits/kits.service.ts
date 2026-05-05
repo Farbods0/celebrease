@@ -8,7 +8,6 @@ const kitInclude = {
     holiday: { select: { id: true, name: true, category: true, image: true } },
     items: {
         select: {
-            id: true,
             qty: true,
             item: { select: { id: true, sku: true, name: true, image: true, category: true, status: true } },
         },
@@ -16,7 +15,6 @@ const kitInclude = {
     previewItems: {
         orderBy: { sortOrder: "asc" as const },
         select: {
-            id: true,
             sortOrder: true,
             item: { select: { id: true, sku: true, name: true, image: true } },
         },
@@ -144,7 +142,7 @@ export class KitsService {
 
         const exists = await this.prisma.kitItem.findUnique({
             where: { kitId_itemId: { kitId, itemId: dto.itemId } },
-            select: { id: true },
+            select: { itemId: true },
         });
         if (exists) throw new ConflictException("This item is already in the kit");
 
@@ -153,10 +151,16 @@ export class KitsService {
         });
     }
 
-    async removeItem(kitId: string, kitItemId: string) {
-        const kitItem = await this.prisma.kitItem.findUnique({ where: { id: kitItemId }, select: { id: true, kitId: true } });
-        if (!kitItem || kitItem.kitId !== kitId) throw new NotFoundException("Kit item not found");
-        return this.prisma.kitItem.delete({ where: { id: kitItemId } });
+    async removeItem(kitId: string, itemId: string) {
+        const kitItem = await this.prisma.kitItem.findUnique({
+            where: { kitId_itemId: { kitId, itemId } },
+            select: { itemId: true },
+        });
+        if (!kitItem) throw new NotFoundException("Kit item not found");
+
+        return this.prisma.kitItem.delete({
+            where: { kitId_itemId: { kitId, itemId } },
+        });
     }
 
     async addPreviewItem(kitId: string, dto: AddKitPreviewItemDto) {
@@ -168,7 +172,7 @@ export class KitsService {
 
         const exists = await this.prisma.kitPreviewItem.findUnique({
             where: { kitId_itemId: { kitId, itemId: dto.itemId } },
-            select: { id: true },
+            select: { itemId: true },
         });
         if (exists) throw new ConflictException("This item is already in the preview");
 
@@ -183,12 +187,15 @@ export class KitsService {
         });
     }
 
-    async removePreviewItem(kitId: string, previewItemId: string) {
+    async removePreviewItem(kitId: string, itemId: string) {
         const previewItem = await this.prisma.kitPreviewItem.findUnique({
-            where: { id: previewItemId },
-            select: { id: true, kitId: true },
+            where: { kitId_itemId: { kitId, itemId } },
+            select: { itemId: true },
         });
-        if (!previewItem || previewItem.kitId !== kitId) throw new NotFoundException("Preview item not found");
-        return this.prisma.kitPreviewItem.delete({ where: { id: previewItemId } });
+        if (!previewItem) throw new NotFoundException("Preview item not found");
+
+        return this.prisma.kitPreviewItem.delete({
+            where: { kitId_itemId: { kitId, itemId } },
+        });
     }
 }

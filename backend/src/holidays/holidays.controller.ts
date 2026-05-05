@@ -3,7 +3,7 @@ import { AddHolidayAddOnDto } from "@/holidays/dto/holiday-addon.dto";
 import { UpdateHolidayDto } from "@/holidays/dto/update-holiday.dto";
 import { HolidaysService } from "@/holidays/holidays.service";
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { AllowAnonymous, Roles } from "@thallesp/nestjs-better-auth";
+import { AllowAnonymous, Roles, Session, type UserSession } from "@thallesp/nestjs-better-auth";
 
 @Controller("holidays")
 export class HolidaysController {
@@ -19,6 +19,17 @@ export class HolidaysController {
     @Roles(["admin", "superadmin"])
     listAll() {
         return this.holidaysService.listAll();
+    }
+
+    @Get("loves")
+    @AllowAnonymous()
+    listByLoves() {
+        return this.holidaysService.listByLoves();
+    }
+
+    @Get("me/loves")
+    listMyLoves(@Session() session: UserSession) {
+        return this.holidaysService.listMyLoves(session.user.id);
     }
 
     @Get(":id")
@@ -55,5 +66,15 @@ export class HolidaysController {
     @Roles(["admin", "superadmin"])
     removeAddOn(@Param("id") id: string, @Param("addOnId") addOnId: string) {
         return this.holidaysService.removeAddOn(id, addOnId);
+    }
+
+    @Post(":id/love")
+    love(@Param("id") id: string, @Session() session: UserSession) {
+        return this.holidaysService.love(id, session.user.id);
+    }
+
+    @Delete(":id/love")
+    unlove(@Param("id") id: string, @Session() session: UserSession) {
+        return this.holidaysService.unlove(id, session.user.id);
     }
 }

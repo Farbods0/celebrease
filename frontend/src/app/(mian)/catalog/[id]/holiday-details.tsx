@@ -11,12 +11,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ApiHoliday, HolidayCategory, KitTier } from "@/lib/api";
-import { baseURL } from "@/lib/api/upload";
+import { ApiHoliday, baseURL, HolidayCategory, KitTier } from "@/lib/api";
+import { auth } from "@/lib/auth";
+import { useLovesStore } from "@/lib/loves-store";
 import { cn } from "@/lib/utils";
-import { Heart, Plus, Share03Icon, Tick } from "@hugeicons/core-free-icons";
+import { Heart, Plus, Tick } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const categoryLabel: Record<HolidayCategory, string> = {
@@ -41,6 +43,19 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
     const [selectedKitId, setSelectedKitId] = useState<string | null>(holiday.kits[0]?.id ?? null);
     const [rentalWindow, setRentalWindow] = useState<"standard" | "extended">("standard");
     const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
+
+    const { data: session } = auth.useSession();
+    const router = useRouter();
+    const loved = useLovesStore((s) => s.loved.has(holiday.id));
+    const toggleLove = useLovesStore((s) => s.toggle);
+
+    const onToggleLove = () => {
+        if (!session?.user) {
+            router.push("/signin");
+            return;
+        }
+        toggleLove(holiday.id);
+    };
 
     const selectedKit = holiday.kits.find((k) => k.id === selectedKitId) ?? null;
 
@@ -86,16 +101,15 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                     </BreadcrumbList>
                 </Breadcrumb>
                 {/* Top bar */}
-                <div className="hidden sm:flex gap-5">
-                    <button className="flex items-center gap-2">
-                        <HugeiconsIcon size={20} icon={Share03Icon} />
-                        <span className="underline">Share</span>
-                    </button>
-                    <button className="flex items-center gap-2">
-                        <HugeiconsIcon size={20} icon={Heart} />
-                        <span className="underline">Save</span>
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    onClick={onToggleLove}
+                    aria-pressed={loved}
+                    className={cn("hidden sm:flex items-center gap-2", loved && "text-rose-500")}
+                >
+                    <HugeiconsIcon size={20} icon={Heart} fill={loved ? "currentColor" : "none"} />
+                    <span className="underline">{loved ? "Saved" : "Save"}</span>
+                </button>
             </div>
             {/* Gallery */}
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 grid-rows-3 md:grid-rows-2 gap-1 h-auto md:h-112 rounded-2xl overflow-hidden">
@@ -121,16 +135,15 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                         <div className="w-max bg-primary/10 text-primary border border-primary/30 rounded-full px-4 py-1.5">
                             {categoryLabel[holiday.category]}
                         </div>
-                        <div className="flex gap-5 sm:hidden">
-                            <button className="flex items-center gap-2">
-                                <HugeiconsIcon size={20} icon={Share03Icon} />
-                                <span className="underline">Share</span>
-                            </button>
-                            <button className="flex items-center gap-2">
-                                <HugeiconsIcon size={20} icon={Heart} />
-                                <span className="underline">Save</span>
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            onClick={onToggleLove}
+                            aria-pressed={loved}
+                            className={cn("flex sm:hidden items-center gap-2", loved && "text-rose-500")}
+                        >
+                            <HugeiconsIcon size={20} icon={Heart} fill={loved ? "currentColor" : "none"} />
+                            <span className="underline">{loved ? "Saved" : "Save"}</span>
+                        </button>
                     </div>
 
                     <h3 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold">{holiday.name}</h3>

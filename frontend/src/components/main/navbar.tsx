@@ -10,6 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
+import { useHydrateLoves } from "@/lib/loves-store";
 import { ArrowDown01Icon, LoginCircle02Icon, Logout01Icon, Menu01Icon, Search } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
@@ -26,6 +27,8 @@ const navLinks = [
 export default function Navbar() {
     const { data } = auth.useSession();
     const router = useRouter();
+
+    useHydrateLoves(!!data?.user);
 
     return (
         <nav className="absolute w-full border-b">

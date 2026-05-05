@@ -25,7 +25,7 @@ export function KitsItemTable({ items, onView }: { items: ApiKit["items"]; onVie
 
                 <TableBody>
                     {items.map((item) => (
-                        <TableRow key={item.item.sku}>
+                        <TableRow key={item.item.id}>
                             <TableCell className="flex items-center gap-2">
                                 <div className="size-8 shrink-0 rounded-md bg-white overflow-hidden">
                                     <img

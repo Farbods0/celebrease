@@ -2,10 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { baseURL, type ApiHoliday, type HolidayCategory } from "@/lib/api";
-import { toNumber } from "@/lib/utils";
+import { auth } from "@/lib/auth";
+import { useLovesStore } from "@/lib/loves-store";
+import { cn, toNumber } from "@/lib/utils";
 import { ArrowRight02Icon, Heart } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const CATEGORY_LABEL: Record<HolidayCategory, string> = {
     TRADITIONAL: "Traditional",
@@ -38,6 +41,21 @@ function tierPrice(holiday: ApiHoliday, tier: "STARTER" | "PREMIUM"): string {
 }
 
 export function HolidayCard({ holiday }: { holiday: ApiHoliday }) {
+    const { data } = auth.useSession();
+    const router = useRouter();
+    const loved = useLovesStore((s) => s.loved.has(holiday.id));
+    const toggle = useLovesStore((s) => s.toggle);
+
+    const onToggleLove = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!data?.user) {
+            router.push("/signin");
+            return;
+        }
+        toggle(holiday.id);
+    };
+
     return (
         <div key={holiday.id} className="group border rounded-2xl overflow-hidden flex flex-col">
             <div className="relative">
@@ -46,9 +64,18 @@ export function HolidayCard({ holiday }: { holiday: ApiHoliday }) {
                 <div className="absolute top-4 left-4 bg-white px-4 py-1 rounded-full text-sm font-medium">
                     {CATEGORY_LABEL[holiday.category]}
                 </div>
-                <div className="absolute top-4 right-4 bg-white/30 text-white border backdrop-blur p-1.75 rounded-full cursor-pointer hover:scale-105 transition">
-                    <HugeiconsIcon size={20} icon={Heart} />
-                </div>
+                <button
+                    type="button"
+                    onClick={onToggleLove}
+                    aria-label={loved ? "Remove from favorites" : "Add to favorites"}
+                    aria-pressed={loved}
+                    className={cn(
+                        "absolute top-4 right-4 border backdrop-blur p-1.75 rounded-full cursor-pointer hover:scale-105 transition",
+                        loved ? "bg-rose-500 text-white border-rose-500" : "bg-white/30 text-white",
+                    )}
+                >
+                    <HugeiconsIcon size={20} icon={Heart} fill={loved ? "currentColor" : "none"} />
+                </button>
             </div>
 
             <div className="p-5 flex-1 flex flex-col gap-4">

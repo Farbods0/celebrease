@@ -4,13 +4,11 @@ export type KitTier = "STARTER" | "PREMIUM";
 export type KitStatus = "DRAFT" | "ACTIVE" | "HIDDEN" | "LOW_STOCK";
 
 export type ApiKitItem = {
-    id: string;
     qty: number;
     item: { id: string; sku: string; name: string; image: string; category: string | null; status: string };
 };
 
 export type ApiKitPreviewItem = {
-    id: string;
     sortOrder: number;
     item: { id: string; sku: string; name: string; image: string };
 };
@@ -90,8 +88,8 @@ export const kitsApi = {
             method: "POST",
             body: JSON.stringify(payload),
         }),
-    removeItem: (kitId: string, kitItemId: string) =>
-        request<{ id: string }>(`/kits/${kitId}/items/${kitItemId}`, {
+    removeItem: (kitId: string, itemId: string) =>
+        request<{ id: string }>(`/kits/${kitId}/items/${itemId}`, {
             method: "DELETE",
         }),
     addPreviewItem: (kitId: string, payload: { itemId: string }) =>
@@ -99,8 +97,8 @@ export const kitsApi = {
             method: "POST",
             body: JSON.stringify(payload),
         }),
-    removePreviewItem: (kitId: string, previewItemId: string) =>
-        request<{ id: string }>(`/kits/${kitId}/preview-items/${previewItemId}`, {
+    removePreviewItem: (kitId: string, itemId: string) =>
+        request<{ id: string }>(`/kits/${kitId}/preview-items/${itemId}`, {
             method: "DELETE",
         }),
 };

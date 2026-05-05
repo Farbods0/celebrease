@@ -29,7 +29,7 @@ export class UsersService {
         const skip = (page - 1) * limit;
 
         const where = {
-            ...(session.user.role !== "superadmin" ? { role: "user" } : {}),
+            ...(session.user.role === "superadmin" ? { role: { in: ["user", "admin"] } } : { role: "user" }),
             ...(search
                 ? {
                       OR: [

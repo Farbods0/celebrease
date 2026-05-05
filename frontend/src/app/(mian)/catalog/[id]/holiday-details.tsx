@@ -11,41 +11,50 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { events } from "@/data";
-import { ApiHoliday } from "@/lib/api";
+import { ApiHoliday, HolidayCategory, KitTier } from "@/lib/api";
+import { baseURL } from "@/lib/api/upload";
 import { cn } from "@/lib/utils";
 import { Heart, Plus, Share03Icon, Tick } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { useState } from "react";
 
-const kitItems = [
-    { id: 1, emoji: "🧦", name: "Velvet Stockings (4)", sub: "Luxury fabric", bg: "bg-purple-900" },
-    { id: 2, emoji: "🌿", name: "Garland (2)", sub: "Manila — flammable", bg: "bg-green-900" },
-    { id: 3, emoji: "🎄", name: "Felt Ornament Kit", sub: "Cedar decorative set", bg: "bg-slate-700" },
-    { id: 4, emoji: "🌲", name: "Tree Skirt", sub: "Arctic platin", bg: "bg-emerald-900" },
-    { id: 5, emoji: "🏃", name: "Table Runner", sub: "Christmas styling", bg: "bg-amber-900" },
-    { id: 6, emoji: "🕯️", name: "LED Candles", sub: "Flameless electric", bg: "bg-indigo-900" },
-];
+const categoryLabel: Record<HolidayCategory, string> = {
+    TRADITIONAL: "Traditional",
+    CULTURAL: "Cultural",
+    EVENT_BASED: "Event Based",
+};
 
-const addons = [
-    { id: "tree", name: "6-foot Pre-lit Tree", sub: "Warm LED lights, easy setup", price: 45, strike: true },
-    { id: "lights", name: "Extra Lights", sub: "Premium quality add-on", price: 25, strike: false },
-    { id: "runner", name: "Table Runner Set", sub: "Premium quality add-on", price: 30, strike: false },
-    { id: "wreath", name: "Wreath Collection", sub: "Premium quality add-on", price: 35, strike: false },
-];
+const tierLabel: Record<KitTier, string> = {
+    STARTER: "Starter Kit",
+    PREMIUM: "Premium Kit",
+    ULTIMATE: "Ultimate Kit",
+};
+
+const tierTagline: Record<KitTier, string> = {
+    STARTER: "Best for minimal setups",
+    PREMIUM: "Full décor experience",
+    ULTIMATE: "The complete celebration",
+};
 
 export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
-    const [kit, setKit] = useState("premium");
-    const [rentalWindow, setRentalWindow] = useState("standard");
-    const [selectedAddons, setSelectedAddons] = useState(new Set(["tree"]));
+    const [selectedKitId, setSelectedKitId] = useState<string | null>(holiday.kits[0]?.id ?? null);
+    const [rentalWindow, setRentalWindow] = useState<"standard" | "extended">("standard");
+    const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
 
-    const kitPrice = kit === "premium" ? 89 : 59;
-    const extendedFee = rentalWindow === "extended" ? 10 : 12;
-    const deposit = 50;
+    const selectedKit = holiday.kits.find((k) => k.id === selectedKitId) ?? null;
+
+    const price30 = selectedKit ? Number(selectedKit.price30Day) : 0;
+    const price60 = selectedKit ? Number(selectedKit.price60Day) : 0;
+    const deposit = selectedKit ? Number(selectedKit.deposit) : 0;
+    const extendedDelta = Math.max(0, price60 - price30);
+
+    const kitPrice = price30;
+    const extendedFee = rentalWindow === "extended" ? extendedDelta : 0;
+
     const addonTotal = [...selectedAddons].reduce((sum, id) => {
-        const a = addons.find((x) => x.id === id);
-        return sum + (a ? a.price : 0);
+        const a = holiday.addOns.find((x) => x.addOn.id === id);
+        return sum + (a ? Number(a.addOn.price) : 0);
     }, 0);
     const total = kitPrice + extendedFee + deposit + addonTotal;
 
@@ -68,11 +77,11 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+                            <BreadcrumbLink href="/catalog">Catalog</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+                            <BreadcrumbPage>{holiday.name}</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
@@ -90,11 +99,12 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
             </div>
             {/* Gallery */}
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 grid-rows-3 md:grid-rows-2 gap-1 h-auto md:h-112 rounded-2xl overflow-hidden">
-                {events.slice(0, 5).map((event, index) => (
+                {[holiday.image, holiday.image, holiday.image, holiday.image, holiday.image].map((image, index) => (
                     <img
-                        key={event.id}
-                        src={event.image}
-                        alt={event.title}
+                        key={index}
+                        src={`${baseURL}${image}`}
+                        alt={holiday.name}
+                        crossOrigin="anonymous"
                         className={cn(
                             "w-full h-48 md:h-full object-cover bg-muted",
                             index === 0 ? "col-span-2 row-span-1 md:row-span-2" : "",
@@ -109,7 +119,7 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                     {/* Tag + Title */}
                     <div className="flex justify-between items-center">
                         <div className="w-max bg-primary/10 text-primary border border-primary/30 rounded-full px-4 py-1.5">
-                            Traditional
+                            {categoryLabel[holiday.category]}
                         </div>
                         <div className="flex gap-5 sm:hidden">
                             <button className="flex items-center gap-2">
@@ -123,55 +133,49 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                         </div>
                     </div>
 
-                    <h3 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold">Christmas Décor Kit</h3>
-                    <p className="mt-1">Celebrate with candled décor — beautifully delivered.</p>
+                    <h3 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold">{holiday.name}</h3>
+                    {holiday.description ? <p className="mt-1">{holiday.description}</p> : null}
                     <div className="mt-4 flex items-center gap-2">
                         <span className="text-amber-400 tracking-widest">★★★★★</span>
                         <span className="text-stone-400">4.5 (52 Reviews)</span>
                     </div>
 
                     {/* Choose Kit */}
-                    <div className="mt-6">
-                        <p className="text-sm font-medium uppercase mb-2">Choose your kit</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {/* Basic */}
-                            <button
-                                onClick={() => setKit("basic")}
-                                className={`relative text-left rounded-2xl border p-4 space-y-2 transition-all ${
-                                    kit === "basic"
-                                        ? "bg-linear-to-r from-primary/10 to-secondary/10 border-primary"
-                                        : "bg-transparent hover:bg-linear-to-r hover:from-primary/10 hover:to-secondary/10"
-                                }`}
-                            >
-                                <p className="font-semibold">Basic Kit</p>
-                                <p className="text-2xl bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary font-semibold">
-                                    $59
-                                </p>
-                                <p className="text-sm text-muted-foreground">Best for minimal setups</p>
-                                <p className="text-xs text-muted-foreground">Includes 8 core décor pieces</p>
-                            </button>
-
-                            {/* Premium */}
-                            <button
-                                onClick={() => setKit("premium")}
-                                className={`relative text-left rounded-2xl border p-4 space-y-2 transition-all ${
-                                    kit === "premium"
-                                        ? "bg-linear-to-r from-primary/10 to-secondary/10 border-primary"
-                                        : "bg-transparent hover:bg-linear-to-r hover:from-primary/10 hover:to-secondary/10"
-                                }`}
-                            >
-                                <div className="absolute top-4 right-4 px-4 py-0.5 bg-linear-to-r from-primary to-secondary rounded-full w-fit">
-                                    <span className="text-sm text-white font-medium uppercase">Most Popular</span>
-                                </div>
-                                <p className="font-semibold">Premium Kit</p>
-                                <p className="text-2xl bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary font-semibold">
-                                    $89
-                                </p>
-                                <p className="text-sm text-muted-foreground">Full décor experience</p>
-                                <p className="text-xs text-muted-foreground">Includes 20+ premium classics</p>
-                            </button>
+                    {holiday.kits.length > 0 && (
+                        <div className="mt-6">
+                            <p className="text-sm font-medium uppercase mb-2">Choose your kit</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {holiday.kits.map((k) => {
+                                    const active = selectedKitId === k.id;
+                                    const isPopular = k.tier === "PREMIUM";
+                                    const itemCount = k.items.reduce((sum, i) => sum + i.qty, 0);
+                                    return (
+                                        <button
+                                            key={k.id}
+                                            onClick={() => setSelectedKitId(k.id)}
+                                            className={`relative text-left rounded-2xl border p-4 space-y-2 transition-all ${
+                                                active
+                                                    ? "bg-linear-to-r from-primary/10 to-secondary/10 border-primary"
+                                                    : "bg-transparent hover:bg-linear-to-r hover:from-primary/10 hover:to-secondary/10"
+                                            }`}
+                                        >
+                                            {isPopular && (
+                                                <div className="absolute top-4 right-4 px-4 py-0.5 bg-linear-to-r from-primary to-secondary rounded-full w-fit">
+                                                    <span className="text-sm text-white font-medium uppercase">Most Popular</span>
+                                                </div>
+                                            )}
+                                            <p className="font-semibold">{tierLabel[k.tier]}</p>
+                                            <p className="text-2xl bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary font-semibold">
+                                                ${Number(k.price30Day)}
+                                            </p>
+                                            <p className="text-sm text-muted-foreground">{tierTagline[k.tier]}</p>
+                                            <p className="text-xs text-muted-foreground">Includes {itemCount} décor pieces</p>
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Rental Window */}
                     <div className="mt-6">
@@ -180,7 +184,7 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                             <button
                                 onClick={() => setRentalWindow("standard")}
                                 className={`relative rounded-2xl border p-4 space-y-1 transition-all ${
-                                    kit === "standard" ? "bg-primary/10 border-primary" : "bg-transparent hover:bg-primary/10"
+                                    rentalWindow === "standard" ? "bg-primary/10 border-primary" : "bg-transparent hover:bg-primary/10"
                                 }`}
                             >
                                 <p className="font-medium">Standard</p> <p className="text-sm">30 Days</p>
@@ -191,7 +195,8 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                                     rentalWindow === "extended" ? "bg-primary/10 border-primary" : "bg-transparent hover:bg-primary/10"
                                 }`}
                             >
-                                <p className="font-medium">Extended</p> <p className="text-sm">60 Days (+$10)</p>
+                                <p className="font-medium">Extended</p>{" "}
+                                <p className="text-sm">60 Days {extendedDelta > 0 ? `(+$${extendedDelta})` : ""}</p>
                             </button>
                         </div>
                     </div>
@@ -201,7 +206,7 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                         <p className="text-sm font-medium uppercase mb-2">Select your dates</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <Input type="date" />
-                            <Input type="date" />
+                            <Input type="date" disabled />
                         </div>
                         <p className="text-sm text-emerald-600 flex items-center gap-1 mt-2">
                             <HugeiconsIcon size={16} icon={Tick} />
@@ -209,51 +214,69 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                         </p>
                     </div>
 
-                    <Separator className="mt-6" />
-
                     {/* Add-ons */}
-                    <div className="mt-6">
-                        <p className="text-sm font-medium uppercase mb-2">Add-Ons</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {addons.map((addon) => {
-                                const active = selectedAddons.has(addon.id);
-                                return (
-                                    <button
-                                        key={addon.id}
-                                        onClick={() => toggleAddon(addon.id)}
-                                        className={`relative text-left rounded-2xl border p-4 transition-all ${
-                                            active ? "border-emerald-300 bg-emerald-50" : "border-border bg-background hover:bg-muted/40"
-                                        }`}
-                                    >
-                                        <div className="absolute top-4 right-4 p-1.5 bg-muted rounded-full">
-                                            <HugeiconsIcon size={20} icon={Plus} />
-                                        </div>
-                                        <p className="font-medium text-foreground">{addon.name}</p>
-                                        <p className="mt-1 text-sm text-muted-foreground">{addon.sub}</p>
-                                        <p className="mt-3 text-lg text-emerald-600 font-semibold">$59</p>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
+                    {holiday.addOns.length > 0 && (
+                        <>
+                            <Separator className="mt-6" />
+                            <div className="mt-6">
+                                <p className="text-sm font-medium uppercase mb-2">Add-Ons</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {holiday.addOns.map(({ addOn }) => {
+                                        const active = selectedAddons.has(addOn.id);
+                                        return (
+                                            <button
+                                                key={addOn.id}
+                                                onClick={() => toggleAddon(addOn.id)}
+                                                className={`relative text-left rounded-2xl border p-4 transition-all ${
+                                                    active
+                                                        ? "border-emerald-300 bg-emerald-50"
+                                                        : "border-border bg-background hover:bg-muted/40"
+                                                }`}
+                                            >
+                                                <div
+                                                    className={`absolute top-4 right-4 p-1.5 rounded-full ${
+                                                        active ? "bg-emerald-500 text-white" : "bg-muted"
+                                                    }`}
+                                                >
+                                                    <HugeiconsIcon size={20} icon={active ? Tick : Plus} />
+                                                </div>
+                                                <p className="font-medium text-foreground pr-10">{addOn.name}</p>
+                                                <p className="mt-1 text-sm text-muted-foreground">{addOn.sku}</p>
+                                                <p className="mt-3 text-lg text-emerald-600 font-semibold">${Number(addOn.price)}</p>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
                 {/* Right Column — Order Card */}
                 <div className="lg:sticky lg:top-6">
                     <div className="bg-white rounded-2xl border p-4 shadow-lg space-y-4">
                         <div className="space-y-3">
                             <p className="text-xl lg:text-2xl font-semibold">What&apos;s Inside Your Kit</p>
-                            {kitItems.map((item) => (
-                                <div key={item.id} className="p-2 rounded-md border flex items-center gap-3">
-                                    <div className={`w-10 h-10 rounded-lg ${item.bg} flex items-center justify-center text-lg shrink-0`}>
-                                        {item.emoji}
+                            {selectedKit && selectedKit.items.length > 0 ? (
+                                selectedKit.items.map(({ qty, item }) => (
+                                    <div key={item.id} className="p-2 rounded-md border flex items-center gap-3">
+                                        <img
+                                            src={`${baseURL}${item.image}`}
+                                            alt={item.name}
+                                            crossOrigin="anonymous"
+                                            className="w-10 h-10 rounded-lg object-cover bg-muted shrink-0"
+                                        />
+                                        <div className="flex-1 min-w-0 space-y-0.5">
+                                            <p className="text-sm font-semibold truncate">
+                                                {item.name} ({qty})
+                                            </p>
+                                            <p className="text-xs text-muted-foreground truncate">{item.category}</p>
+                                        </div>
+                                        <span className="text-muted-foreground">↗</span>
                                     </div>
-                                    <div className="flex-1 min-w-0 space-y-0.5">
-                                        <p className="text-sm font-semibold truncate">{item.name}</p>
-                                        <p className="text-xs text-muted-foreground">{item.sub}</p>
-                                    </div>
-                                    <span className="text-muted-foreground">↗</span>
-                                </div>
-                            ))}
+                                ))
+                            ) : (
+                                <p className="text-sm text-muted-foreground">Select a kit to see what&apos;s included.</p>
+                            )}
                             <p className="text-sm text-muted-foreground">Items may vary slightly based on availability and season</p>
                         </div>
                         <Separator />

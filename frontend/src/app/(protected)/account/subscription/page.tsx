@@ -30,7 +30,9 @@ export default async function SubscriptionStatusPage({ searchParams }: Props) {
                         </p>
                         <div className="flex gap-3 pt-2">
                             <Link href="/account">
-                                <Button variant="black">Back to my account</Button>
+                                <Button variant="black" size="sm">
+                                    Back to my account
+                                </Button>
                             </Link>
                         </div>
                     </div>
@@ -42,7 +44,9 @@ export default async function SubscriptionStatusPage({ searchParams }: Props) {
                         </p>
                         <div className="flex gap-3 pt-2">
                             <Link href="/subscription">
-                                <Button variant="black">View plans</Button>
+                                <Button variant="black" size="sm">
+                                    View plans
+                                </Button>
                             </Link>
                         </div>
                     </div>

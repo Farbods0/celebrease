@@ -4,6 +4,20 @@ export const apiPrefix = "/api/v1";
 export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
 export type KitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
 export type KitStatus = "DRAFT" | "ACTIVE" | "HIDDEN" | "LOW_STOCK";
+export type ItemStatus = "ACTIVE" | "LOW_STOCK" | "RETIRED";
+export type AddOnStatus = "ACTIVE" | "INACTIVE";
+
+export type ApiKitItem = {
+    qty: number;
+    item: {
+        id: string;
+        sku: string;
+        name: string;
+        image: string;
+        category: string;
+        status: string;
+    };
+};
 
 export type ApiHolidayKit = {
     id: string;
@@ -14,6 +28,20 @@ export type ApiHolidayKit = {
     price30Day: string;
     price60Day: string;
     deposit: string;
+    items: Array<ApiKitItem>;
+};
+
+export type ApiHolidayAddOn = {
+    addOn: {
+        id: string;
+        sku: string;
+        name: string;
+        image: string;
+        price: number;
+        deposit: number;
+        inventory: number;
+        status: AddOnStatus;
+    };
 };
 
 export type ApiHoliday = {
@@ -24,14 +52,28 @@ export type ApiHoliday = {
     description: string | null;
     sortOrder: number;
     isActive: boolean;
-    kits: ApiHolidayKit[];
     createdAt: string;
     updatedAt: string;
+    kits: Array<ApiHolidayKit>;
+    addOns: Array<ApiHolidayAddOn>;
 };
 
-export async function getHolidays(): Promise<ApiHoliday[]> {
+export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { cache: "no-store" });
-    if (!res.ok) return [];
-    const data = (await res.json()) as { items: ApiHoliday[] };
-    return data.items;
+    if (!res.ok) {
+        return { items: [] };
+    }
+
+    const data = await res.json();
+    return data;
+}
+
+export async function getHolidayById(id: string): Promise<{ holiday: ApiHoliday | null; holidays: ApiHoliday[] }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
+    if (!res.ok) {
+        return { holiday: null, holidays: [] };
+    }
+
+    const data = await res.json();
+    return data;
 }

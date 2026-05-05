@@ -1,9 +1,9 @@
 import PageHeader from "@/components/main/page-header";
 import { getHolidays } from "@/lib/api";
-import { CatalogGrid } from "./catalog-grid";
+import { HolidayGrid } from "./holiday-grid";
 
 export default async function CatalogPage() {
-    const holidays = await getHolidays();
+    const data = await getHolidays();
 
     return (
         <>
@@ -15,7 +15,7 @@ export default async function CatalogPage() {
                     </>
                 }
             />
-            <CatalogGrid holidays={holidays} />
+            <HolidayGrid holidays={data.items} />
         </>
     );
 }

@@ -59,9 +59,46 @@ export class HolidaysService {
     }
 
     async getById(id: string) {
-        const holiday = await this.prisma.holiday.findUnique({ where: { id }, include: holidayInclude });
+        const holiday = await this.prisma.holiday.findUnique({
+            where: { id },
+            include: {
+                kits: {
+                    select: {
+                        ...holidayInclude.kits.select,
+                        items: {
+                            select: {
+                                qty: true,
+                                item: {
+                                    select: {
+                                        id: true,
+                                        sku: true,
+                                        name: true,
+                                        image: true,
+                                        category: true,
+                                        status: true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                addOns: holidayInclude.addOns,
+            },
+        });
         if (!holiday) throw new NotFoundException("Holiday not found");
-        return holiday;
+
+        const holidays = await this.prisma.holiday.findMany({
+            where: {
+                isActive: true,
+                id: { not: id },
+                OR: [{ sortOrder: { gt: holiday.sortOrder } }, { sortOrder: holiday.sortOrder, createdAt: { gt: holiday.createdAt } }],
+            },
+            orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+            take: 4,
+            include: holidayInclude,
+        });
+
+        return { holiday, holidays };
     }
 
     async create(dto: CreateHolidayDto) {

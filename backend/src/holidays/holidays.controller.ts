@@ -21,7 +21,7 @@ export class HolidaysController {
     }
 
     @Get(":id")
-    @Roles(["admin", "superadmin"])
+    @AllowAnonymous()
     get(@Param("id") id: string) {
         return this.holidaysService.getById(id);
     }

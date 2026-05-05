@@ -85,4 +85,22 @@ export const kitsApi = {
         request<{ id: string }>(`/kits/${id}`, {
             method: "DELETE",
         }),
+    addItem: (kitId: string, payload: { itemId: string; qty?: number }) =>
+        request<{ id: string }>(`/kits/${kitId}/items`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+        }),
+    removeItem: (kitId: string, kitItemId: string) =>
+        request<{ id: string }>(`/kits/${kitId}/items/${kitItemId}`, {
+            method: "DELETE",
+        }),
+    addPreviewItem: (kitId: string, payload: { itemId: string }) =>
+        request<{ id: string }>(`/kits/${kitId}/preview-items`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+        }),
+    removePreviewItem: (kitId: string, previewItemId: string) =>
+        request<{ id: string }>(`/kits/${kitId}/preview-items/${previewItemId}`, {
+            method: "DELETE",
+        }),
 };

@@ -3,7 +3,7 @@ import { KitsForm } from "@/components/kits/kits-form";
 import { KitsSidebar } from "@/components/kits/kits-sidebar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { holidaysApi, kitsApi, type KitTier } from "@/lib/api";
+import { addOnsApi, holidaysApi, inventoryApi, kitsApi, type KitTier } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
@@ -11,8 +11,13 @@ import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/__main/kits")({
     loader: async () => {
-        const [holidays, kits] = await Promise.all([holidaysApi.list(), kitsApi.listAll()]);
-        return { holidays: holidays.items, kits: kits.items };
+        const [holidays, kits, inventory, addOns] = await Promise.all([
+            holidaysApi.list(),
+            kitsApi.listAll(),
+            inventoryApi.listAll(),
+            addOnsApi.listAll(),
+        ]);
+        return { holidays: holidays.items, kits: kits.items, inventory: inventory.items, addOns: addOns.items };
     },
     component: RouteComponent,
 });
@@ -23,7 +28,7 @@ const TIERS: { value: KitTier; label: string }[] = [
 ];
 
 function RouteComponent() {
-    const { holidays, kits } = Route.useLoaderData();
+    const { holidays, kits, inventory, addOns } = Route.useLoaderData();
 
     const [createOpen, setCreateOpen] = useState(false);
     const [selectedHolidayId, setSelectedHolidayId] = useState<string | null>(holidays[0]?.id ?? null);
@@ -81,7 +86,14 @@ function RouteComponent() {
             <main className="flex w-full">
                 <KitsSidebar holidays={holidays} isLoading={false} selectedHolidayId={selectedHolidayId} onSelect={setSelectedHolidayId} />
 
-                <KitsContent kit={selectedKit} holiday={selectedHoliday} holidays={holidays} selectedTier={selectedTier} />
+                <KitsContent
+                    kit={selectedKit}
+                    holiday={selectedHoliday}
+                    holidays={holidays}
+                    inventory={inventory}
+                    addOns={addOns}
+                    selectedTier={selectedTier}
+                />
             </main>
         </>
     );

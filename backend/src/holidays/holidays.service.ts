@@ -1,5 +1,6 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { CreateHolidayDto } from "@/holidays/dto/create-holiday.dto";
+import { AddHolidayAddOnDto } from "@/holidays/dto/holiday-addon.dto";
 import { UpdateHolidayDto } from "@/holidays/dto/update-holiday.dto";
 import { UploadService } from "@/upload/upload.service";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
@@ -136,5 +137,35 @@ export class HolidaysService {
             await this.uploadService.deleteImage(holiday.image);
         }
         return deleted;
+    }
+
+    async addAddOn(holidayId: string, dto: AddHolidayAddOnDto) {
+        const holiday = await this.prisma.holiday.findUnique({ where: { id: holidayId }, select: { id: true } });
+        if (!holiday) throw new NotFoundException("Holiday not found");
+
+        const addOn = await this.prisma.addOn.findUnique({ where: { id: dto.addOnId }, select: { id: true } });
+        if (!addOn) throw new NotFoundException("Add-on not found");
+
+        const exists = await this.prisma.addOnHoliday.findUnique({
+            where: { addOnId_holidayId: { addOnId: dto.addOnId, holidayId } },
+            select: { addOnId: true },
+        });
+        if (exists) throw new ConflictException("This add-on is already linked to the holiday");
+
+        return this.prisma.addOnHoliday.create({
+            data: { addOnId: dto.addOnId, holidayId },
+        });
+    }
+
+    async removeAddOn(holidayId: string, addOnId: string) {
+        const link = await this.prisma.addOnHoliday.findUnique({
+            where: { addOnId_holidayId: { addOnId, holidayId } },
+            select: { addOnId: true },
+        });
+        if (!link) throw new NotFoundException("Add-on link not found");
+
+        return this.prisma.addOnHoliday.delete({
+            where: { addOnId_holidayId: { addOnId, holidayId } },
+        });
     }
 }

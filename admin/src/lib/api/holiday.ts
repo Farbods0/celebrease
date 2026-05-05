@@ -69,4 +69,13 @@ export const holidaysApi = {
         request<{ id: string }>(`/holidays/${id}`, {
             method: "DELETE",
         }),
+    addAddOn: (holidayId: string, payload: { addOnId: string }) =>
+        request<{ addOnId: string; holidayId: string }>(`/holidays/${holidayId}/addons`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+        }),
+    removeAddOn: (holidayId: string, addOnId: string) =>
+        request<{ addOnId: string; holidayId: string }>(`/holidays/${holidayId}/addons/${addOnId}`, {
+            method: "DELETE",
+        }),
 };

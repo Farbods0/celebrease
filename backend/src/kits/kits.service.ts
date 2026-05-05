@@ -1,5 +1,6 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { CreateKitDto } from "@/kits/dto/create-kit.dto";
+import { AddKitItemDto, AddKitPreviewItemDto } from "@/kits/dto/kit-item.dto";
 import { UpdateKitDto } from "@/kits/dto/update-kit.dto";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
@@ -132,5 +133,62 @@ export class KitsService {
         const kit = await this.prisma.kit.findUnique({ where: { id }, select: { id: true } });
         if (!kit) throw new NotFoundException("Kit not found");
         return this.prisma.kit.delete({ where: { id } });
+    }
+
+    async addItem(kitId: string, dto: AddKitItemDto) {
+        const kit = await this.prisma.kit.findUnique({ where: { id: kitId }, select: { id: true } });
+        if (!kit) throw new NotFoundException("Kit not found");
+
+        const item = await this.prisma.item.findUnique({ where: { id: dto.itemId }, select: { id: true } });
+        if (!item) throw new NotFoundException("Inventory item not found");
+
+        const exists = await this.prisma.kitItem.findUnique({
+            where: { kitId_itemId: { kitId, itemId: dto.itemId } },
+            select: { id: true },
+        });
+        if (exists) throw new ConflictException("This item is already in the kit");
+
+        return this.prisma.kitItem.create({
+            data: { kitId, itemId: dto.itemId, qty: dto.qty ?? 1 },
+        });
+    }
+
+    async removeItem(kitId: string, kitItemId: string) {
+        const kitItem = await this.prisma.kitItem.findUnique({ where: { id: kitItemId }, select: { id: true, kitId: true } });
+        if (!kitItem || kitItem.kitId !== kitId) throw new NotFoundException("Kit item not found");
+        return this.prisma.kitItem.delete({ where: { id: kitItemId } });
+    }
+
+    async addPreviewItem(kitId: string, dto: AddKitPreviewItemDto) {
+        const kit = await this.prisma.kit.findUnique({ where: { id: kitId }, select: { id: true } });
+        if (!kit) throw new NotFoundException("Kit not found");
+
+        const item = await this.prisma.item.findUnique({ where: { id: dto.itemId }, select: { id: true } });
+        if (!item) throw new NotFoundException("Inventory item not found");
+
+        const exists = await this.prisma.kitPreviewItem.findUnique({
+            where: { kitId_itemId: { kitId, itemId: dto.itemId } },
+            select: { id: true },
+        });
+        if (exists) throw new ConflictException("This item is already in the preview");
+
+        const last = await this.prisma.kitPreviewItem.findFirst({
+            where: { kitId },
+            orderBy: { sortOrder: "desc" },
+            select: { sortOrder: true },
+        });
+
+        return this.prisma.kitPreviewItem.create({
+            data: { kitId, itemId: dto.itemId, sortOrder: (last?.sortOrder ?? -1) + 1 },
+        });
+    }
+
+    async removePreviewItem(kitId: string, previewItemId: string) {
+        const previewItem = await this.prisma.kitPreviewItem.findUnique({
+            where: { id: previewItemId },
+            select: { id: true, kitId: true },
+        });
+        if (!previewItem || previewItem.kitId !== kitId) throw new NotFoundException("Preview item not found");
+        return this.prisma.kitPreviewItem.delete({ where: { id: previewItemId } });
     }
 }

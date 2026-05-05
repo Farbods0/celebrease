@@ -1,4 +1,5 @@
 import { CreateHolidayDto } from "@/holidays/dto/create-holiday.dto";
+import { AddHolidayAddOnDto } from "@/holidays/dto/holiday-addon.dto";
 import { UpdateHolidayDto } from "@/holidays/dto/update-holiday.dto";
 import { HolidaysService } from "@/holidays/holidays.service";
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
@@ -42,5 +43,17 @@ export class HolidaysController {
     @Roles(["admin", "superadmin"])
     remove(@Param("id") id: string) {
         return this.holidaysService.remove(id);
+    }
+
+    @Post(":id/addons")
+    @Roles(["admin", "superadmin"])
+    addAddOn(@Param("id") id: string, @Body() dto: AddHolidayAddOnDto) {
+        return this.holidaysService.addAddOn(id, dto);
+    }
+
+    @Delete(":id/addons/:addOnId")
+    @Roles(["admin", "superadmin"])
+    removeAddOn(@Param("id") id: string, @Param("addOnId") addOnId: string) {
+        return this.holidaysService.removeAddOn(id, addOnId);
     }
 }

@@ -1,4 +1,5 @@
 import { CreateKitDto } from "@/kits/dto/create-kit.dto";
+import { AddKitItemDto, AddKitPreviewItemDto } from "@/kits/dto/kit-item.dto";
 import { UpdateKitDto } from "@/kits/dto/update-kit.dto";
 import { KitsService } from "@/kits/kits.service";
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
@@ -42,5 +43,29 @@ export class KitsController {
     @Roles(["admin", "superadmin"])
     remove(@Param("id") id: string) {
         return this.kitsService.remove(id);
+    }
+
+    @Post(":id/items")
+    @Roles(["admin", "superadmin"])
+    addItem(@Param("id") id: string, @Body() dto: AddKitItemDto) {
+        return this.kitsService.addItem(id, dto);
+    }
+
+    @Delete(":id/items/:kitItemId")
+    @Roles(["admin", "superadmin"])
+    removeItem(@Param("id") id: string, @Param("kitItemId") kitItemId: string) {
+        return this.kitsService.removeItem(id, kitItemId);
+    }
+
+    @Post(":id/preview-items")
+    @Roles(["admin", "superadmin"])
+    addPreviewItem(@Param("id") id: string, @Body() dto: AddKitPreviewItemDto) {
+        return this.kitsService.addPreviewItem(id, dto);
+    }
+
+    @Delete(":id/preview-items/:previewItemId")
+    @Roles(["admin", "superadmin"])
+    removePreviewItem(@Param("id") id: string, @Param("previewItemId") previewItemId: string) {
+        return this.kitsService.removePreviewItem(id, previewItemId);
     }
 }

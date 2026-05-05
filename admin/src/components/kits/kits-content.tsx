@@ -1,20 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { kitsApi, type ApiHoliday, type ApiKit } from "@/lib/api";
+import { holidaysApi, kitsApi, type ApiAddOn, type ApiHoliday, type ApiInventoryItem, type ApiKit } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@tanstack/react-router";
-import { Eye, Plus, Save, SquarePen, Trash2 } from "lucide-react";
+import { Eye, Plus, Save, SquarePen } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { KitsAddItemDialog } from "./kits-add-item-dialog";
+import { KitsAddonTable } from "./kits-addon-table";
 import { KitsForm } from "./kits-form";
 import { KitsItemTable } from "./kits-item-table";
-import { KitsAddonTable } from "./kits-addon-table";
+
+type AddTarget = "kit-item" | "preview-item" | "holiday-addon";
 
 type KitsContentProps = {
     kit: ApiKit | null;
     holiday: ApiHoliday | null;
     holidays: ApiHoliday[];
+    inventory: ApiInventoryItem[];
+    addOns: ApiAddOn[];
     selectedTier: "STARTER" | "PREMIUM";
 };
 
@@ -43,10 +48,11 @@ const STATUS_COLOR: Record<ApiKit["status"], string> = {
     LOW_STOCK: "text-amber-500",
 };
 
-export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsContentProps) {
+export function KitsContent({ kit, holiday, holidays, inventory, addOns, selectedTier }: KitsContentProps) {
     const router = useRouter();
     const [editOpen, setEditOpen] = useState(false);
     const [savingToggles, setSavingToggles] = useState(false);
+    const [addTarget, setAddTarget] = useState<AddTarget | null>(null);
 
     if (!holiday) {
         return <main className="w-full p-10 text-center text-muted-foreground">Select a holiday from the sidebar to view its kits.</main>;
@@ -94,17 +100,6 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
         }
     };
 
-    const handleDelete = async () => {
-        if (!window.confirm("Delete this kit? Items, preview items, and add-on links will be removed.")) return;
-        try {
-            await kitsApi.remove(kit.id);
-            toast.success("Kit deleted");
-            await router.invalidate();
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Something went wrong");
-        }
-    };
-
     const overviewRows = [
         { label: "Kit SKU", value: kit.sku },
         { label: "Kit Tier", value: kit.tier === "STARTER" ? "Starter Kit" : "Premium Kit" },
@@ -140,10 +135,6 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" onClick={handleDelete} className="text-destructive hover:text-destructive">
-                            <Trash2 className="size-4" />
-                            Delete
-                        </Button>
                         <Button variant="ghost" size="sm" disabled>
                             <Eye className="size-4" />
                             Preview PDP
@@ -194,10 +185,10 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                                                     <span>{row.duration}</span>
                                                     <span className="opacity-40">Days</span>
                                                 </div>
-                                                <div className="flex items-center justify-center rounded-md border h-7.5 px-2.5 font-medium">
+                                                <div className="flex items-center rounded-md border h-7.5 px-2.5 font-medium">
                                                     {row.price}
                                                 </div>
-                                                <div className="flex items-center justify-center rounded-md border h-7.5 px-2.5 font-medium">
+                                                <div className="flex items-center rounded-md border h-7.5 px-2.5 font-medium">
                                                     {row.deposit}
                                                 </div>
                                             </div>
@@ -229,7 +220,7 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                     <div className="rounded-xl border bg-white overflow-hidden">
                         <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
                             <h3 className="text-lg font-semibold">PDP Preview Items</h3>
-                            <Button variant="black" size="sm" disabled>
+                            <Button variant="black" size="sm" onClick={() => setAddTarget("preview-item")}>
                                 <Plus className="size-4" />
                                 Add item
                             </Button>
@@ -259,7 +250,7 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                 <div className="rounded-xl border bg-white overflow-hidden">
                     <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
                         <h3 className="text-lg font-semibold">Full Kit Contents</h3>
-                        <Button variant="black" size="sm" disabled>
+                        <Button variant="black" size="sm" onClick={() => setAddTarget("kit-item")}>
                             <Plus className="size-4" />
                             Add item
                         </Button>
@@ -279,7 +270,7 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
                 <div className="rounded-xl border bg-white overflow-hidden">
                     <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
                         <h3 className="text-lg font-semibold">Holiday-Specific Add-Ons</h3>
-                        <Button variant="black" size="sm" disabled>
+                        <Button variant="black" size="sm" onClick={() => setAddTarget("holiday-addon")}>
                             <Plus className="size-4" />
                             Add item
                         </Button>
@@ -305,6 +296,52 @@ export function KitsContent({ kit, holiday, holidays, selectedTier }: KitsConten
 
             <Dialog open={editOpen} onOpenChange={setEditOpen}>
                 {editOpen && <KitsForm kit={kit} holidays={holidays} onClose={() => setEditOpen(false)} />}
+            </Dialog>
+
+            <Dialog open={addTarget !== null} onOpenChange={(open) => !open && setAddTarget(null)}>
+                {addTarget === "kit-item" && (
+                    <KitsAddItemDialog
+                        title="Add Item to Kit"
+                        options={inventory.map((i) => ({ id: i.id, label: i.name, sublabel: i.sku }))}
+                        excludeIds={kit.items.map((ki) => ki.item.id)}
+                        withQty
+                        submitLabel="Add to kit"
+                        onSubmit={async ({ id, qty }) => {
+                            await kitsApi.addItem(kit.id, { itemId: id, qty });
+                            toast.success("Item added to kit");
+                            await router.invalidate();
+                        }}
+                        onClose={() => setAddTarget(null)}
+                    />
+                )}
+                {addTarget === "preview-item" && (
+                    <KitsAddItemDialog
+                        title="Add PDP Preview Item"
+                        options={inventory.map((i) => ({ id: i.id, label: i.name, sublabel: i.sku }))}
+                        excludeIds={kit.previewItems.map((pi) => pi.item.id)}
+                        submitLabel="Add to preview"
+                        onSubmit={async ({ id }) => {
+                            await kitsApi.addPreviewItem(kit.id, { itemId: id });
+                            toast.success("Preview item added");
+                            await router.invalidate();
+                        }}
+                        onClose={() => setAddTarget(null)}
+                    />
+                )}
+                {addTarget === "holiday-addon" && (
+                    <KitsAddItemDialog
+                        title={`Add Add-On to ${holiday.name}`}
+                        options={addOns.map((a) => ({ id: a.id, label: a.name, sublabel: a.sku ?? undefined }))}
+                        excludeIds={holiday.addOns.map((h) => h.addOn.id)}
+                        submitLabel="Link add-on"
+                        onSubmit={async ({ id }) => {
+                            await holidaysApi.addAddOn(holiday.id, { addOnId: id });
+                            toast.success("Add-on linked");
+                            await router.invalidate();
+                        }}
+                        onClose={() => setAddTarget(null)}
+                    />
+                )}
             </Dialog>
         </>
     );

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { holidaysApi, kitsApi, type ApiAddOn, type ApiHoliday, type ApiInventoryItem, type ApiKit } from "@/lib/api";
+import { holidaysApi, kitsApi, type ApiAddOn, type ApiHolidayWithAddOns, type ApiInventoryItem, type ApiKit } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@tanstack/react-router";
 import { Eye, Plus, Save, SquarePen } from "lucide-react";
@@ -16,8 +16,8 @@ type AddTarget = "kit-item" | "preview-item" | "holiday-addon";
 
 type KitsContentProps = {
     kit: ApiKit | null;
-    holiday: ApiHoliday | null;
-    holidays: ApiHoliday[];
+    holiday: ApiHolidayWithAddOns | null;
+    holidays: ApiHolidayWithAddOns[];
     inventory: ApiInventoryItem[];
     addOns: ApiAddOn[];
     selectedTier: "STARTER" | "PREMIUM";

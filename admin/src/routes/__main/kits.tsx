@@ -12,7 +12,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/__main/kits")({
     loader: async () => {
         const [holidays, kits, inventory, addOns] = await Promise.all([
-            holidaysApi.list(),
+            holidaysApi.list({ addon: true }),
             kitsApi.listAll(),
             inventoryApi.listAll(),
             addOnsApi.listAll(),

@@ -1,13 +1,13 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { baseURL, type ApiHoliday } from "@/lib/api";
+import { baseURL, type ApiHolidayWithAddOns } from "@/lib/api";
 
-const STATUS_LABEL: Record<ApiHoliday["addOns"][number]["addOn"]["status"], string> = {
+const STATUS_LABEL: Record<ApiHolidayWithAddOns["addOns"][number]["addOn"]["status"], string> = {
     ACTIVE: "Active",
     HIDDEN: "Hidden",
 };
 
-export function KitsAddonTable({ items }: { items: ApiHoliday["addOns"] }) {
+export function KitsAddonTable({ items }: { items: ApiHolidayWithAddOns["addOns"] }) {
     return (
         <div className="overflow-hidden rounded-lg border">
             <Table>

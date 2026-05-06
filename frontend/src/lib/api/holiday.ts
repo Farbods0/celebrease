@@ -1,5 +1,5 @@
-export const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
-export const apiPrefix = "/api/v1";
+const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+const apiPrefix = "/api/v1";
 
 export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
 export type KitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
@@ -50,7 +50,6 @@ export type ApiHoliday = {
     createdAt: string;
     updatedAt: string;
     kits: Array<ApiHolidayKit>;
-    addOns: Array<ApiHolidayAddOn>;
 };
 
 export type ApiHolidayDetail = {

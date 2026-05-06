@@ -2,7 +2,7 @@ import { CreateHolidayDto } from "@/holidays/dto/create-holiday.dto";
 import { AddHolidayAddOnDto } from "@/holidays/dto/holiday-addon.dto";
 import { UpdateHolidayDto } from "@/holidays/dto/update-holiday.dto";
 import { HolidaysService } from "@/holidays/holidays.service";
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { AllowAnonymous, Roles, Session, type UserSession } from "@thallesp/nestjs-better-auth";
 
 @Controller("holidays")
@@ -11,8 +11,8 @@ export class HolidaysController {
 
     @Get()
     @AllowAnonymous()
-    list() {
-        return this.holidaysService.list();
+    list(@Query() query: Record<string, string | undefined>) {
+        return this.holidaysService.list(query);
     }
 
     @Get("admin")

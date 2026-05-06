@@ -5,18 +5,20 @@ import { UpdateHolidayDto } from "@/holidays/dto/update-holiday.dto";
 import { UploadService } from "@/upload/upload.service";
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
-const holidayInclude = {
+const holidayKitInclude = {
     kits: {
         select: {
             id: true,
             sku: true,
             tier: true,
-            status: true,
             price30Day: true,
             price60Day: true,
             deposit: true,
         },
     },
+};
+
+const holidayAddOnInclude = {
     addOns: {
         select: {
             addOn: {
@@ -78,11 +80,15 @@ export class HolidaysService {
         private readonly uploadService: UploadService,
     ) {}
 
-    async list() {
+    async list(query: Record<string, string | undefined>) {
+        const addon = query?.addon === "true";
         const items = await this.prisma.holiday.findMany({
             where: { isActive: true },
             orderBy: { sortOrder: "asc" },
-            include: holidayInclude,
+            include: {
+                ...holidayKitInclude,
+                ...(addon ? holidayAddOnInclude : {}),
+            },
         });
         return { items };
     }
@@ -90,7 +96,7 @@ export class HolidaysService {
     async listAll() {
         const items = await this.prisma.holiday.findMany({
             orderBy: { sortOrder: "asc" },
-            include: holidayInclude,
+            include: holidayKitInclude,
         });
         return { items };
     }
@@ -101,7 +107,7 @@ export class HolidaysService {
             orderBy: {
                 loves: { _count: "desc" },
             },
-            include: holidayInclude,
+            include: holidayKitInclude,
         });
         return { items };
     }
@@ -129,7 +135,7 @@ export class HolidaysService {
                 },
                 orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
                 take: 4,
-                include: holidayInclude,
+                include: holidayKitInclude,
             }),
         ]);
 

@@ -1,10 +1,19 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { Order } from "@/data";
+import {
+    formatAddOnsSummary,
+    formatDuration,
+    formatMoney,
+    formatOrderStatus,
+    formatShipDate,
+    formatTier,
+    totalDeposit,
+    type ApiOrder,
+} from "@/lib/api";
 
 type OrderTableProps = {
-    items: Order[];
-    onView: (item: Order) => void;
+    items: ApiOrder[];
+    onView: (item: ApiOrder) => void;
 };
 
 export function OrderTable({ items, onView }: OrderTableProps) {
@@ -27,23 +36,29 @@ export function OrderTable({ items, onView }: OrderTableProps) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {items.map((item, i) => {
-                        return (
-                            <TableRow key={i}>
-                                <TableCell className="font-medium text-muted-foreground">{item.orderId}</TableCell>
-                                <TableCell className="font-medium">{item.customer}</TableCell>
+                    {items.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={11} className="text-center text-sm text-muted-foreground py-10">
+                                No orders found
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        items.map((item) => (
+                            <TableRow key={item.id}>
+                                <TableCell className="font-medium text-muted-foreground">{item.orderNumber}</TableCell>
+                                <TableCell className="font-medium">{item.user.name}</TableCell>
                                 <TableCell>
-                                    <StatusBadge status={item.holiday} />
+                                    <StatusBadge status={item.holiday.name} />
                                 </TableCell>
-                                <TableCell>{item.kitType}</TableCell>
-                                <TableCell>{item.duration}</TableCell>
-                                <TableCell className="text-muted-foreground">{item.addOns}</TableCell>
+                                <TableCell>{formatTier(item.kit.tier)}</TableCell>
+                                <TableCell>{formatDuration(item.duration)}</TableCell>
+                                <TableCell className="text-muted-foreground">{formatAddOnsSummary(item)}</TableCell>
                                 <TableCell>
-                                    <StatusBadge status={item.status} />
+                                    <StatusBadge status={formatOrderStatus(item.status)} />
                                 </TableCell>
-                                <TableCell>{item.shipDate}</TableCell>
-                                <TableCell>{item.deposit}</TableCell>
-                                <TableCell className="font-medium">{item.total}</TableCell>
+                                <TableCell>{formatShipDate(item)}</TableCell>
+                                <TableCell>{formatMoney(totalDeposit(item))}</TableCell>
+                                <TableCell className="font-medium">{formatMoney(item.total)}</TableCell>
                                 <TableCell>
                                     <button
                                         type="button"
@@ -54,8 +69,8 @@ export function OrderTable({ items, onView }: OrderTableProps) {
                                     </button>
                                 </TableCell>
                             </TableRow>
-                        );
-                    })}
+                        ))
+                    )}
                 </TableBody>
             </Table>
         </div>

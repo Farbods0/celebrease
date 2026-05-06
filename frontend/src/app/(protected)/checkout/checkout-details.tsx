@@ -5,20 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ApiAddress, ApiCart } from "@/lib/api";
 import { LockPasswordIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useState } from "react";
 
-export default function CheckoutDetails() {
+export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; address: ApiAddress | null }) {
     const form = useAppForm({
         defaultValues: {
-            fullName: "",
-            address: "",
-            apartment: "",
-            city: "",
-            state: "",
-            zip: "",
-            country: "United States",
+            fullName: address?.name ?? "",
+            address: address?.streetLine1 ?? "",
+            apartment: address?.streetLine2 ?? "",
+            city: address?.city ?? "",
+            state: address?.state ?? "",
+            zip: address?.postalCode ?? "",
+            country: address?.country ?? "",
 
             deliveryDate: "",
             deliveryType: "standard",

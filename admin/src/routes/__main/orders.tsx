@@ -2,35 +2,37 @@ import { OrderCard } from "@/components/orders/order-card";
 import { OrderTable } from "@/components/orders/order-table";
 import { OrderView } from "@/components/orders/order-view";
 import { Dialog } from "@/components/ui/dialog";
-import { ORDERS, type Order } from "@/data";
+import { ordersApi, type ApiOrder } from "@/lib/api";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/__main/orders")({
+    loader: () => ordersApi.list(),
     component: RouteComponent,
 });
 
 function RouteComponent() {
-    const items = ORDERS;
-    const [selectedItem, setSelectedItem] = useState<Order | null>(null);
+    const data = Route.useLoaderData();
+    const [selectedItem, setSelectedItem] = useState<ApiOrder | null>(null);
+
+    const items = data.items;
 
     return (
         <main className="mx-auto w-full max-w-384 flex flex-col gap-6 p-6">
-            {/* Header */}
             <div>
                 <h1 className="text-xl font-semibold">Orders</h1>
                 <p className="mt-1.5 text-sm text-muted-foreground">Track rental, shipment, deposits, and return statuses</p>
             </div>
 
             <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-                {/* Desktop table */}
                 <OrderTable items={items} onView={setSelectedItem} />
 
-                {/* Mobile cards */}
                 <div className="space-y-4 md:hidden">
-                    {items.map((item, index) => (
-                        <OrderCard key={index} item={item} onView={setSelectedItem} />
-                    ))}
+                    {items.length === 0 ? (
+                        <p className="text-center text-sm text-muted-foreground py-10">No orders found</p>
+                    ) : (
+                        items.map((item) => <OrderCard key={item.id} item={item} onView={setSelectedItem} />)
+                    )}
                 </div>
 
                 {selectedItem && <OrderView item={selectedItem} />}

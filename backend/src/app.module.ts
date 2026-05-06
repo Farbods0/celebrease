@@ -1,4 +1,5 @@
 import { AddOnsModule } from "@/addons/addons.module";
+import { AddressesModule } from "@/addresses/addresses.module";
 import { AppController } from "@/app.controller";
 import { AppService } from "@/app.service";
 import { CartModule } from "@/cart/cart.module";
@@ -7,6 +8,7 @@ import { config } from "@/config/env.config";
 import { HolidaysModule } from "@/holidays/holidays.module";
 import { InventoryModule } from "@/inventory/inventory.module";
 import { KitsModule } from "@/kits/kits.module";
+import { OrdersModule } from "@/orders/orders.module";
 import { PlansModule } from "@/plans/plans.module";
 import { StripeModule } from "@/stripe/stripe.module";
 import { SubscriptionsModule } from "@/subscriptions/subscriptions.module";
@@ -38,7 +40,9 @@ import { join } from "path";
         StripeModule,
         UploadModule,
         UsersModule,
+        AddressesModule,
         PlansModule,
+        OrdersModule,
         SubscriptionsModule,
         HolidaysModule,
         KitsModule,

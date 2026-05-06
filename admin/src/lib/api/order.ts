@@ -1,0 +1,151 @@
+import { request, toQuery, type Paginated } from "./base";
+import type { HolidayCategory } from "./holiday";
+
+export type Duration = "THIRTY_DAY" | "SIXTY_DAY";
+export type OrderStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "RESERVED" | "CANCELLED" | "COMPLETED";
+export type PaymentStatus = "PENDING" | "PAID" | "FAILED";
+
+// Backend supports STARTER | PREMIUM | ULTIMATE; admin's KitTier currently narrows to two,
+// so for orders we keep the wider union to be safe regardless of the kit tier on the order.
+export type OrderKitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
+
+export type ApiOrderUser = {
+    id: string;
+    name: string;
+    email: string;
+};
+
+export type ApiOrderKit = {
+    id: string;
+    sku: string;
+    tier: OrderKitTier;
+};
+
+export type ApiOrderHoliday = {
+    id: string;
+    name: string;
+    image: string;
+    category: HolidayCategory;
+};
+
+export type ApiOrderItem = {
+    qty: number;
+    item: { id: string; sku: string; name: string; image: string; category: string | null };
+};
+
+export type ApiOrderAddOn = {
+    qty: number;
+    price: string;
+    deposit: string;
+    addOn: { id: string; sku: string | null; name: string; image: string };
+};
+
+export type ApiOrder = {
+    id: string;
+    orderNumber: string;
+    userId: string;
+    user: ApiOrderUser;
+    kitId: string;
+    kit: ApiOrderKit;
+    holidayId: string;
+    holiday: ApiOrderHoliday;
+    duration: Duration;
+    startDate: string;
+    endDate: string;
+    rentalFee: string;
+    extendedFee: string;
+    kitDeposit: string;
+    addOnsFee: string;
+    addOnDeposit: string;
+    total: string;
+    tax: string;
+    shippingFee: string;
+    status: OrderStatus;
+    paymentStatus: PaymentStatus;
+    paidAt: string | null;
+    stripePaymentIntentId: string | null;
+    stripeChargeId: string | null;
+    shippedAt: string | null;
+    deliveredAt: string | null;
+    cancelledAt: string | null;
+    completedAt: string | null;
+    createdAt: string;
+    updatedAt: string;
+    items: ApiOrderItem[];
+    addOns: ApiOrderAddOn[];
+};
+
+export type ListOrdersParams = {
+    page?: number;
+    limit?: number;
+    search?: string;
+};
+
+export const ordersApi = {
+    list: (params: ListOrdersParams = {}) => request<Paginated<ApiOrder>>(`/order/admin${toQuery(params)}`),
+    get: (id: string) => request<ApiOrder>(`/order/admin/${id}`),
+};
+
+const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
+    PENDING: "Pending",
+    SHIPPED: "Shipped",
+    DELIVERED: "Delivered",
+    RESERVED: "Reserved",
+    CANCELLED: "Cancelled",
+    COMPLETED: "Completed",
+};
+
+const PAYMENT_STATUS_LABEL: Record<PaymentStatus, string> = {
+    PENDING: "Pending",
+    PAID: "Paid",
+    FAILED: "Failed",
+};
+
+const DURATION_LABEL: Record<Duration, string> = {
+    THIRTY_DAY: "30 Days",
+    SIXTY_DAY: "60 Days",
+};
+
+const TIER_LABEL: Record<OrderKitTier, string> = {
+    STARTER: "Starter",
+    PREMIUM: "Premium",
+    ULTIMATE: "Ultimate",
+};
+
+export function formatOrderStatus(status: OrderStatus) {
+    return ORDER_STATUS_LABEL[status];
+}
+
+export function formatPaymentStatus(status: PaymentStatus) {
+    return PAYMENT_STATUS_LABEL[status];
+}
+
+export function formatDuration(duration: Duration) {
+    return DURATION_LABEL[duration];
+}
+
+export function formatTier(tier: OrderKitTier) {
+    return TIER_LABEL[tier];
+}
+
+export function formatMoney(value: string | number | null | undefined) {
+    if (value === null || value === undefined) return "—";
+    const n = typeof value === "string" ? Number.parseFloat(value) : value;
+    if (Number.isNaN(n)) return "—";
+    return `$${n.toFixed(2)}`;
+}
+
+export function formatShipDate(order: ApiOrder) {
+    const value = order.shippedAt ?? order.startDate;
+    if (!value) return "—";
+    return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
+export function formatAddOnsSummary(order: ApiOrder) {
+    if (!order.addOns.length) return "—";
+    return order.addOns.map((a) => a.addOn.name).join(", ");
+}
+
+export function totalDeposit(order: ApiOrder) {
+    return Number.parseFloat(order.kitDeposit) + Number.parseFloat(order.addOnDeposit);
+}

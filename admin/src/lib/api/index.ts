@@ -3,6 +3,7 @@ export * from "./base";
 export * from "./holiday";
 export * from "./inventory";
 export * from "./kit";
+export * from "./order";
 export * from "./plan";
 export * from "./subscription";
 export * from "./upload";

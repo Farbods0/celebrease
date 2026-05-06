@@ -1,3 +1,4 @@
+import { OrdersService } from "@/orders/orders.service";
 import { type StripeCheckoutSession, type StripeEvent, type StripeSubscription, StripeService } from "@/stripe/stripe.service";
 import { SubscriptionsService } from "@/subscriptions/subscriptions.service";
 import { BadRequestException, Controller, Headers, HttpCode, Logger, Post, Req } from "@nestjs/common";
@@ -11,6 +12,7 @@ export class StripeWebhookController {
     constructor(
         private readonly stripe: StripeService,
         private readonly subs: SubscriptionsService,
+        private readonly orders: OrdersService,
     ) {}
 
     @Post("/webhook")
@@ -32,9 +34,16 @@ export class StripeWebhookController {
 
         try {
             switch (event.type) {
-                case "checkout.session.completed":
-                    await this.subs.onCheckoutCompleted(event.data.object as StripeCheckoutSession);
+                case "checkout.session.completed": {
+                    const session = event.data.object as StripeCheckoutSession;
+                    const kind = session.metadata?.kind;
+                    if (kind === "order") {
+                        await this.orders.onCheckoutCompleted(session);
+                    } else {
+                        await this.subs.onCheckoutCompleted(session);
+                    }
                     break;
+                }
                 case "customer.subscription.updated":
                     await this.subs.onSubscriptionUpdated(event.data.object as StripeSubscription);
                     break;

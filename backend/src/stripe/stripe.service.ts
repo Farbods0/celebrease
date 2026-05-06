@@ -51,9 +51,47 @@ export class StripeService {
             success_url: this.config.getOrThrow<string>("stripe.successUrl"),
             cancel_url: this.config.getOrThrow<string>("stripe.cancelUrl"),
             metadata: {
+                kind: "subscription",
                 userId: args.userId,
                 planId: args.planId,
                 billingCycle: args.billingCycle,
+            },
+        });
+    }
+
+    createOrderCheckoutSession(args: {
+        customerId: string;
+        userId: string;
+        orderIds: string[];
+        lineItems: { name: string; description?: string; unitAmountCents: number; quantity: number }[];
+    }) {
+        return this.client.checkout.sessions.create({
+            mode: "payment",
+            customer: args.customerId,
+            line_items: args.lineItems.map((li) => ({
+                quantity: li.quantity,
+                price_data: {
+                    currency: "usd",
+                    unit_amount: li.unitAmountCents,
+                    product_data: {
+                        name: li.name,
+                        ...(li.description ? { description: li.description } : {}),
+                    },
+                },
+            })),
+            payment_intent_data: {
+                metadata: {
+                    kind: "order",
+                    userId: args.userId,
+                    orderIds: args.orderIds.join(","),
+                },
+            },
+            success_url: this.config.getOrThrow<string>("stripe.successUrl"),
+            cancel_url: this.config.getOrThrow<string>("stripe.cancelUrl"),
+            metadata: {
+                kind: "order",
+                userId: args.userId,
+                orderIds: args.orderIds.join(","),
             },
         });
     }

@@ -11,15 +11,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ApiHolidayAddOn, ApiHolidayDetail, ApiHolidayKit, baseURL, HolidayCategory, KitTier } from "@/lib/api";
+import { addToCart, ApiHolidayAddOn, ApiHolidayDetail, ApiHolidayKit, baseURL, HolidayCategory, KitTier } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { useLovesStore } from "@/lib/loves-store";
 import { cn } from "@/lib/utils";
 import { Heart, Plus, Tick } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const categoryLabel: Record<HolidayCategory, string> = {
     TRADITIONAL: "Traditional",
@@ -45,10 +45,24 @@ type HolidayDetailsProps = {
     addOns: ApiHolidayAddOn[];
 };
 
+function todayIso(): string {
+    return new Date().toISOString().slice(0, 10);
+}
+
+function addDaysIso(start: string, days: number): string {
+    if (!start) return "";
+    const d = new Date(`${start}T00:00:00`);
+    if (Number.isNaN(d.getTime())) return "";
+    d.setDate(d.getDate() + days);
+    return d.toISOString().slice(0, 10);
+}
+
 export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
     const [selectedKitId, setSelectedKitId] = useState<string | null>(kits[0]?.id ?? null);
     const [rentalWindow, setRentalWindow] = useState<"standard" | "extended">("standard");
     const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
+    const [startDate, setStartDate] = useState<string>(todayIso());
+    const [submitting, setSubmitting] = useState(false);
 
     const { data: session } = auth.useSession();
     const router = useRouter();
@@ -67,17 +81,25 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
 
     const price30 = selectedKit ? Number(selectedKit.price30Day) : 0;
     const price60 = selectedKit ? Number(selectedKit.price60Day) : 0;
-    const deposit = selectedKit ? Number(selectedKit.deposit) : 0;
+    const kitDeposit = selectedKit ? Number(selectedKit.deposit) : 0;
     const extendedDelta = Math.max(0, price60 - price30);
 
     const kitPrice = price30;
     const extendedFee = rentalWindow === "extended" ? extendedDelta : 0;
+    const rentalDays = rentalWindow === "extended" ? 60 : 30;
+    const endDate = addDaysIso(startDate, rentalDays);
+
+    const addOnDeposit = [...selectedAddons].reduce((sum, id) => {
+        const a = addOns.find((x) => x.addOn.id === id);
+        return sum + (a ? Number(a.addOn.deposit) : 0);
+    }, 0);
 
     const addonTotal = [...selectedAddons].reduce((sum, id) => {
         const a = addOns.find((x) => x.addOn.id === id);
         return sum + (a ? Number(a.addOn.price) : 0);
     }, 0);
-    const total = kitPrice + extendedFee + deposit + addonTotal;
+
+    const total = kitPrice + extendedFee + (kitDeposit + addOnDeposit) + addonTotal;
 
     const toggleAddon = (id: string) => {
         setSelectedAddons((prev) => {
@@ -85,6 +107,38 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
             next.has(id) ? next.delete(id) : next.add(id);
             return next;
         });
+    };
+
+    const handleAddToCart = async (next: "/cart" | "/checkout") => {
+        if (!session?.user) {
+            router.push("/signin");
+            return;
+        }
+        if (!selectedKit) {
+            toast.error("Select a kit first");
+            return;
+        }
+        if (!startDate || !endDate) {
+            toast.error("Pick a valid start date");
+            return;
+        }
+        setSubmitting(true);
+        try {
+            await addToCart({
+                holidayId: holiday.id,
+                kitId: selectedKit.id,
+                duration: rentalWindow === "extended" ? "SIXTY_DAY" : "THIRTY_DAY",
+                startDate,
+                endDate,
+                addOns: [...selectedAddons].map((addOnId) => ({ addOnId, qty: 1 })),
+            });
+            toast.success("Added to cart");
+            router.push(next);
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to add to cart");
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -224,8 +278,13 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                     <div className="mt-6">
                         <p className="text-sm font-medium uppercase mb-2">Select your dates</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <Input type="date" />
-                            <Input type="date" disabled />
+                            <Input
+                                type="date"
+                                value={startDate}
+                                min={todayIso()}
+                                onChange={(e) => setStartDate(e.target.value)}
+                            />
+                            <Input type="date" value={endDate} disabled readOnly />
                         </div>
                         <p className="text-sm text-emerald-600 flex items-center gap-1 mt-2">
                             <HugeiconsIcon size={16} icon={Tick} />
@@ -311,7 +370,7 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                             </div>
                             <div className="flex justify-between text-sm text-muted-foreground">
                                 <span>Deposit (Refundable)</span>
-                                <span>${deposit}</span>
+                                <span>${kitDeposit + addOnDeposit}</span>
                             </div>
                             <div className="flex justify-between text-sm text-muted-foreground">
                                 <span>Add-ons</span>
@@ -324,8 +383,20 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                         </div>
 
                         <div className="grid gap-2">
-                            <Button variant="black" render={<Link href="/checkout">🛒 Purchase Now</Link>} />
-                            <Button variant="outline" render={<Link href="/cart">+ Add to Cart</Link>} />
+                            <Button
+                                variant="black"
+                                disabled={submitting || !selectedKit}
+                                onClick={() => handleAddToCart("/checkout")}
+                            >
+                                🛒 Purchase Now
+                            </Button>
+                            <Button
+                                variant="outline"
+                                disabled={submitting || !selectedKit}
+                                onClick={() => handleAddToCart("/cart")}
+                            >
+                                + Add to Cart
+                            </Button>
                         </div>
                     </div>
                 </div>

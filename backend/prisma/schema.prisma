@@ -36,6 +36,7 @@ model User {
 
     subscriptions Subscription[]
     holidayLoves  HolidayLove[]
+    carts         Cart[]
 
     @@unique([email])
     @@map("user")
@@ -175,6 +176,7 @@ model Holiday {
     addOns       AddOnHoliday[]
     holidaySlots SubscriptionHolidaySlot[]
     loves        HolidayLove[]
+    carts        Cart[]
 
     @@map("holiday")
 }
@@ -215,6 +217,7 @@ model Item {
 
     kitItems        KitItem[]
     kitPreviewItems KitPreviewItem[]
+    cartItems       CartItem[]
 
     @@map("item")
 }
@@ -248,6 +251,7 @@ model Kit {
 
     items        KitItem[]
     previewItems KitPreviewItem[]
+    carts        Cart[]
 
     @@unique([holidayId, tier])
     @@index([holidayId])
@@ -295,7 +299,8 @@ model AddOn {
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
 
-    holidays AddOnHoliday[]
+    holidays   AddOnHoliday[]
+    cartAddOns CartAddOn[]
 
     @@map("addon")
 }
@@ -382,4 +387,63 @@ model SubscriptionHolidaySlot {
 
     @@unique([subscriptionId, slotNumber])
     @@map("subscription_holiday_slot")
+}
+
+// ============================================================
+// CART
+// ============================================================
+
+enum Duration {
+    THIRTY_DAY
+    SIXTY_DAY
+}
+
+model Cart {
+    id           String   @id @default(cuid())
+    userId       String
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    kitId        String
+    kit          Kit      @relation(fields: [kitId], references: [id])
+    holidayId    String
+    holiday      Holiday  @relation(fields: [holidayId], references: [id])
+    duration     Duration @default(THIRTY_DAY)
+    startDate    DateTime
+    endDate      DateTime
+    rentalFee    Decimal  @db.Decimal(10, 2) // Rental Fee
+    extendedFee  Decimal  @db.Decimal(10, 2) // Extended Fee if 60 days
+    kitDeposit   Decimal  @db.Decimal(10, 2) // Kit Deposit (Refundable)
+    addOnsFee    Decimal  @db.Decimal(10, 2) // Add-ons Fee
+    addOnDeposit Decimal  @db.Decimal(10, 2) // Add-ons Deposit (Refundable)
+    total        Decimal  @db.Decimal(10, 2) // Total
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+
+    items  CartItem[]
+    addOns CartAddOn[]
+
+    @@map("cart")
+}
+
+model CartItem {
+    cartId String
+    cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    itemId String
+    item   Item   @relation(fields: [itemId], references: [id])
+    qty    Int    @default(1)
+
+    @@unique([cartId, itemId])
+    @@map("cart_item")
+}
+
+model CartAddOn {
+    cartId  String
+    cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+    addOnId String
+    addOn   AddOn   @relation(fields: [addOnId], references: [id])
+    qty     Int     @default(1)
+    price   Decimal @db.Decimal(10, 2)
+    deposit Decimal @db.Decimal(10, 2)
+
+    @@unique([cartId, addOnId])
+    @@map("cart_addon")
 }

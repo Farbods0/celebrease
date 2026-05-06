@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ApiHoliday, baseURL, HolidayCategory, KitTier } from "@/lib/api";
+import { ApiHolidayAddOn, ApiHolidayDetail, ApiHolidayKit, baseURL, HolidayCategory, KitTier } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { useLovesStore } from "@/lib/loves-store";
 import { cn } from "@/lib/utils";
@@ -39,8 +39,14 @@ const tierTagline: Record<KitTier, string> = {
     ULTIMATE: "The complete celebration",
 };
 
-export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
-    const [selectedKitId, setSelectedKitId] = useState<string | null>(holiday.kits[0]?.id ?? null);
+type HolidayDetailsProps = {
+    holiday: ApiHolidayDetail;
+    kits: ApiHolidayKit[];
+    addOns: ApiHolidayAddOn[];
+};
+
+export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
+    const [selectedKitId, setSelectedKitId] = useState<string | null>(kits[0]?.id ?? null);
     const [rentalWindow, setRentalWindow] = useState<"standard" | "extended">("standard");
     const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
 
@@ -57,7 +63,7 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
         toggleLove(holiday.id);
     };
 
-    const selectedKit = holiday.kits.find((k) => k.id === selectedKitId) ?? null;
+    const selectedKit = kits.find((k) => k.id === selectedKitId) ?? null;
 
     const price30 = selectedKit ? Number(selectedKit.price30Day) : 0;
     const price60 = selectedKit ? Number(selectedKit.price60Day) : 0;
@@ -68,7 +74,7 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
     const extendedFee = rentalWindow === "extended" ? extendedDelta : 0;
 
     const addonTotal = [...selectedAddons].reduce((sum, id) => {
-        const a = holiday.addOns.find((x) => x.addOn.id === id);
+        const a = addOns.find((x) => x.addOn.id === id);
         return sum + (a ? Number(a.addOn.price) : 0);
     }, 0);
     const total = kitPrice + extendedFee + deposit + addonTotal;
@@ -154,11 +160,11 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                     </div>
 
                     {/* Choose Kit */}
-                    {holiday.kits.length > 0 && (
+                    {kits.length > 0 && (
                         <div className="mt-6">
                             <p className="text-sm font-medium uppercase mb-2">Choose your kit</p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {holiday.kits.map((k) => {
+                                {kits.map((k) => {
                                     const active = selectedKitId === k.id;
                                     const isPopular = k.tier === "PREMIUM";
                                     const itemCount = k.items.reduce((sum, i) => sum + i.qty, 0);
@@ -228,13 +234,13 @@ export function HolidayDetails({ holiday }: { holiday: ApiHoliday }) {
                     </div>
 
                     {/* Add-ons */}
-                    {holiday.addOns.length > 0 && (
+                    {addOns.length > 0 && (
                         <>
                             <Separator className="mt-6" />
                             <div className="mt-6">
                                 <p className="text-sm font-medium uppercase mb-2">Add-Ons</p>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {holiday.addOns.map(({ addOn }) => {
+                                    {addOns.map(({ addOn }) => {
                                         const active = selectedAddons.has(addOn.id);
                                         return (
                                             <button

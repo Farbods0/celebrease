@@ -10,7 +10,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
 
     return (
         <>
-            {!data?.holiday ? (
+            {!data.holiday ? (
                 <section className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
                     <div className="bg-destructive/5 rounded-2xl border border-destructive/10 p-6 space-y-2">
                         <h2 className="text-lg lg:text-xl font-semibold">Oops! No Holiday Found</h2>
@@ -25,15 +25,15 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
                     </div>
                 </section>
             ) : (
-                <HolidayDetails holiday={data.holiday} />
+                <HolidayDetails holiday={data.holiday} kits={data.kits} addOns={data.addOns} />
             )}
             {/* You Might Also Like */}
             {data.holidays.length && (
                 <section className="container mx-auto px-6 pb-8 md:pb-10 lg:pb-12">
                     <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold">You Might Also Like</h3>
                     <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                        {data.holidays.map((holiday) => (
-                            <HolidayCard key={holiday.id} holiday={holiday} />
+                        {data.holidays.map((h) => (
+                            <HolidayCard key={h.id} holiday={h} />
                         ))}
                     </div>
                 </section>

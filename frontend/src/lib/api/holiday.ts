@@ -15,7 +15,6 @@ export type ApiKitItem = {
         name: string;
         image: string;
         category: string;
-        status: string;
     };
 };
 
@@ -23,8 +22,6 @@ export type ApiHolidayKit = {
     id: string;
     sku: string;
     tier: KitTier;
-    holidayId: string;
-    status: KitStatus;
     price30Day: string;
     price60Day: string;
     deposit: string;
@@ -39,8 +36,6 @@ export type ApiHolidayAddOn = {
         image: string;
         price: number;
         deposit: number;
-        inventory: number;
-        status: AddOnStatus;
     };
 };
 
@@ -58,6 +53,18 @@ export type ApiHoliday = {
     addOns: Array<ApiHolidayAddOn>;
 };
 
+export type ApiHolidayDetail = {
+    id: string;
+    name: string;
+    image: string;
+    category: HolidayCategory;
+    description: string | null;
+    sortOrder: number;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+};
+
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { cache: "no-store" });
     if (!res.ok) {
@@ -68,10 +75,12 @@ export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
     return data;
 }
 
-export async function getHolidayById(id: string): Promise<{ holiday: ApiHoliday | null; holidays: ApiHoliday[] }> {
+export async function getHolidayById(
+    id: string,
+): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
     if (!res.ok) {
-        return { holiday: null, holidays: [] };
+        return { holiday: null, kits: [], addOns: [], holidays: [] };
     }
 
     const data = await res.json();

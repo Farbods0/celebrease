@@ -150,10 +150,7 @@ export class OrdersService {
 
         const shippingFee = SHIPPING_FEES[dto.deliveryOption];
 
-        const taxableSubtotal = carts.reduce(
-            (acc, c) => acc.plus(c.rentalFee).plus(c.extendedFee).plus(c.addOnsFee),
-            ZERO,
-        );
+        const taxableSubtotal = carts.reduce((acc, c) => acc.plus(c.rentalFee).plus(c.extendedFee).plus(c.addOnsFee), ZERO);
         const totalTax = taxableSubtotal.times(TAX_RATE);
 
         const carryoverShipping = shippingFee;
@@ -283,7 +280,7 @@ export class OrdersService {
         if (paymentIntentId) {
             try {
                 const pi = await this.stripe.client.paymentIntents.retrieve(paymentIntentId);
-                chargeId = typeof pi.latest_charge === "string" ? pi.latest_charge : pi.latest_charge?.id ?? null;
+                chargeId = typeof pi.latest_charge === "string" ? pi.latest_charge : (pi.latest_charge?.id ?? null);
             } catch (err) {
                 this.logger.warn(`Failed to retrieve PaymentIntent ${paymentIntentId}: ${(err as Error).message}`);
             }
@@ -308,7 +305,7 @@ export class OrdersService {
                     data: {
                         paymentStatus: "PAID" as PaymentStatus,
                         paidAt: now,
-                        stripePaymentIntentId: i === 0 ? paymentIntentId ?? null : null,
+                        stripePaymentIntentId: i === 0 ? (paymentIntentId ?? null) : null,
                         stripeChargeId: chargeId,
                     },
                 });

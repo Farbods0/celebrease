@@ -1,20 +1,26 @@
 import { UpsertAddressDto } from "@/addresses/dto/upsert-address.dto";
 import { PrismaService } from "@/common/services/prisma.service";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class AddressesService {
     constructor(private readonly prisma: PrismaService) {}
 
-    getMine(userId: string) {
-        return this.prisma.address.findUnique({ where: { userId } });
+    async getMine(userId: string) {
+        const address = await this.prisma.address.findUnique({ where: { userId } });
+        if (!address) throw new NotFoundException("Address not found");
+
+        return address;
     }
 
-    upsertMine(userId: string, dto: UpsertAddressDto) {
-        return this.prisma.address.upsert({
+    async upsertMine(userId: string, dto: UpsertAddressDto) {
+        const address = await this.prisma.address.upsert({
             where: { userId },
             create: { userId, ...dto },
             update: dto,
         });
+        if (!address) throw new NotFoundException("Failed to save address");
+
+        return address;
     }
 }

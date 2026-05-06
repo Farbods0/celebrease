@@ -55,7 +55,7 @@ export async function getMyAddress(): Promise<ApiAddress | null> {
     }
 
     const data = await res.json();
-    return data ?? null;
+    return data;
 }
 
 export async function upsertMyAddress(payload: UpsertAddressPayload): Promise<ApiAddress> {
@@ -70,5 +70,5 @@ export async function upsertMyAddress(payload: UpsertAddressPayload): Promise<Ap
     }
 
     const data = await res.json();
-    return data ?? null;
+    return data;
 }

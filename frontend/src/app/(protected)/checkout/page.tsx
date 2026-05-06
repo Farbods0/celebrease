@@ -33,9 +33,7 @@ export default async function CheckoutPage() {
                     <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">Checkout</h3>
                     <p className="text-muted-foreground">Almost done! Confirm your details and reserve your kits.</p>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_384px] gap-6 items-start">
-                    <CheckoutDetails carts={carts.items} address={address} />
-                </div>
+                <CheckoutDetails carts={carts.items} address={address} />
             </div>
         </main>
     );

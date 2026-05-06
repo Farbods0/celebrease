@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
-export default function LoadingComp() {
+export default function HolidayLoading() {
     return (
         <section className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
             <Skeleton className="h-6 w-56" />

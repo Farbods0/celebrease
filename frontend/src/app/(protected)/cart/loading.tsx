@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function CartPage() {
+export default function CartLoading() {
     return (
         <main className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_384px] gap-6 items-start">

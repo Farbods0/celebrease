@@ -278,12 +278,7 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                     <div className="mt-6">
                         <p className="text-sm font-medium uppercase mb-2">Select your dates</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <Input
-                                type="date"
-                                value={startDate}
-                                min={todayIso()}
-                                onChange={(e) => setStartDate(e.target.value)}
-                            />
+                            <Input type="date" value={startDate} min={todayIso()} onChange={(e) => setStartDate(e.target.value)} />
                             <Input type="date" value={endDate} disabled readOnly />
                         </div>
                         <p className="text-sm text-emerald-600 flex items-center gap-1 mt-2">
@@ -383,18 +378,10 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                         </div>
 
                         <div className="grid gap-2">
-                            <Button
-                                variant="black"
-                                disabled={submitting || !selectedKit}
-                                onClick={() => handleAddToCart("/checkout")}
-                            >
+                            <Button variant="black" onClick={() => handleAddToCart("/checkout")} disabled={submitting || !selectedKit}>
                                 🛒 Purchase Now
                             </Button>
-                            <Button
-                                variant="outline"
-                                disabled={submitting || !selectedKit}
-                                onClick={() => handleAddToCart("/cart")}
-                            >
+                            <Button variant="outline" onClick={() => handleAddToCart("/cart")} disabled={submitting || !selectedKit}>
                                 + Add to Cart
                             </Button>
                         </div>

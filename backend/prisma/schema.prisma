@@ -34,9 +34,11 @@ model User {
 
     stripeCustomerId String? @unique
 
+    address       Address?
     subscriptions Subscription[]
     holidayLoves  HolidayLove[]
     carts         Cart[]
+    orders        Order[]
 
     @@unique([email])
     @@map("user")
@@ -88,6 +90,29 @@ model Verification {
 
     @@index([identifier])
     @@map("verification")
+}
+
+// ============================================================
+// ADDRESS
+// ============================================================
+
+model Address {
+    id          String   @id @default(cuid())
+    userId      String   @unique
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    name        String
+    phone       String
+    streetLine1 String
+    streetLine2 String?
+    city        String
+    state       String
+    postalCode  String
+    country     String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@index([userId])
+    @@map("address")
 }
 
 // ============================================================
@@ -177,6 +202,7 @@ model Holiday {
     holidaySlots SubscriptionHolidaySlot[]
     loves        HolidayLove[]
     carts        Cart[]
+    orders       Order[]
 
     @@map("holiday")
 }
@@ -218,6 +244,7 @@ model Item {
     kitItems        KitItem[]
     kitPreviewItems KitPreviewItem[]
     cartItems       CartItem[]
+    orderItems      OrderItem[]
 
     @@map("item")
 }
@@ -252,6 +279,7 @@ model Kit {
     items        KitItem[]
     previewItems KitPreviewItem[]
     carts        Cart[]
+    orders       Order[]
 
     @@unique([holidayId, tier])
     @@index([holidayId])
@@ -299,8 +327,9 @@ model AddOn {
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @updatedAt
 
-    holidays   AddOnHoliday[]
-    cartAddOns CartAddOn[]
+    holidays    AddOnHoliday[]
+    cartAddOns  CartAddOn[]
+    orderAddOns OrderAddOn[]
 
     @@map("addon")
 }
@@ -370,6 +399,7 @@ model Subscription {
     updatedAt            DateTime           @updatedAt
 
     holidaySlots SubscriptionHolidaySlot[]
+    orders       Order[]
 
     @@index([userId])
     @@index([status])
@@ -384,6 +414,7 @@ model SubscriptionHolidaySlot {
     holidayId      String?
     holiday        Holiday?          @relation(fields: [holidayId], references: [id])
     status         HolidaySlotStatus @default(PENDING)
+    order          Order?
 
     @@unique([subscriptionId, slotNumber])
     @@map("subscription_holiday_slot")
@@ -446,4 +477,101 @@ model CartAddOn {
 
     @@unique([cartId, addOnId])
     @@map("cart_addon")
+}
+
+// ============================================================
+// ORDERS
+// ============================================================
+
+enum OrderStatus {
+    PENDING
+    SHIPPED
+    DELIVERED
+    RESERVED
+    CANCELLED
+    COMPLETED
+}
+
+enum PaymentStatus {
+    PENDING
+    PAID
+    FAILED
+}
+
+model Order {
+    id             String                   @id @default(cuid())
+    orderNumber    String                   @unique // Human-readable: ORD-20260506-XXXX
+    userId         String
+    user           User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    subscriptionId String?
+    subscription   Subscription?            @relation(fields: [subscriptionId], references: [id])
+    holidaySlotId  String?                  @unique
+    holidaySlot    SubscriptionHolidaySlot? @relation(fields: [holidaySlotId], references: [id])
+    kitId          String
+    kit            Kit                      @relation(fields: [kitId], references: [id])
+    holidayId      String
+    holiday        Holiday                  @relation(fields: [holidayId], references: [id])
+
+    duration  Duration @default(THIRTY_DAY)
+    startDate DateTime
+    endDate   DateTime
+
+    // Pricing
+    rentalFee    Decimal @db.Decimal(10, 2)
+    extendedFee  Decimal @db.Decimal(10, 2)
+    kitDeposit   Decimal @db.Decimal(10, 2)
+    addOnsFee    Decimal @db.Decimal(10, 2)
+    addOnDeposit Decimal @db.Decimal(10, 2)
+    total        Decimal @db.Decimal(10, 2)
+    tax          Decimal @db.Decimal(10, 2)
+    shippingFee  Decimal @db.Decimal(10, 2)
+
+    // Status
+    status        OrderStatus   @default(PENDING)
+    paymentStatus PaymentStatus @default(PENDING)
+
+    // Payment
+    paidAt                DateTime?
+    stripePaymentIntentId String?   @unique
+    stripeChargeId        String?
+
+    // Timestamps
+    shippedAt   DateTime?
+    deliveredAt DateTime?
+    cancelledAt DateTime?
+    completedAt DateTime?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    items  OrderItem[]
+    addOns OrderAddOn[]
+
+    @@index([userId])
+    @@index([status])
+    @@index([orderNumber])
+    @@map("order")
+}
+
+model OrderItem {
+    orderId String
+    order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    itemId  String
+    item    Item   @relation(fields: [itemId], references: [id])
+    qty     Int    @default(1)
+
+    @@unique([orderId, itemId])
+    @@map("order_item")
+}
+
+model OrderAddOn {
+    orderId String
+    order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    addOnId String
+    addOn   AddOn   @relation(fields: [addOnId], references: [id])
+    qty     Int     @default(1)
+    price   Decimal @db.Decimal(10, 2)
+    deposit Decimal @db.Decimal(10, 2)
+
+    @@unique([orderId, addOnId])
+    @@map("order_addon")
 }

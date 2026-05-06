@@ -55,7 +55,7 @@ async function readError(res: Response, fallback: string): Promise<string> {
     return `${fallback}: ${res.statusText}`;
 }
 
-async function serverCookieHeader(): Promise<string | undefined> {
+async function serverCookie(): Promise<string | undefined> {
     if (typeof window !== "undefined") return undefined;
     const { cookies } = await import("next/headers");
     return (await cookies()).toString();
@@ -63,8 +63,10 @@ async function serverCookieHeader(): Promise<string | undefined> {
 
 export async function getMyCarts(): Promise<{ items: ApiCart[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/cart`, {
-        credentials: "include",
         cache: "no-store",
+        headers: {
+            Cookie: await serverCookie(),
+        },
     });
     if (!res.ok) {
         return { items: [] };

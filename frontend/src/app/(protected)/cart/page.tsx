@@ -10,7 +10,7 @@ export default async function CartPage() {
 
     if (!data.items.length) {
         return (
-            <main className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
+            <main className="flex-1 container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
                 <div className="bg-muted rounded-2xl border p-6 space-y-2">
                     <h2 className="text-lg lg:text-xl font-semibold">Oops! Your cart is empty</h2>
                     <p className="text-sm lg:text-base text-muted-foreground">

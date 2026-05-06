@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsIn, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class ListOrdersDto {
     @Type(() => Number)
@@ -18,4 +18,9 @@ export class ListOrdersDto {
     @IsString()
     @IsOptional()
     search?: string;
+
+    @IsString()
+    @IsOptional()
+    @IsIn(["active", "recent"])
+    filter?: "active" | "recent";
 }

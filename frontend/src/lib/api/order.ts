@@ -14,6 +14,64 @@ export type CreateCheckoutResponse = {
     orderIds: string[];
 };
 
+export type ApiOrder = {
+    id: string;
+    orderNumber: string;
+    userId: string;
+    duration: string;
+    startDate: string;
+    endDate: string;
+    rentalFee: string;
+    extendedFee: string;
+    kitDeposit: string;
+    addOnsFee: string;
+    addOnDeposit: string;
+    total: string;
+    tax: string;
+    shippingFee: string;
+    status: "PENDING" | "SHIPPED" | "DELIVERED" | "RESERVED" | "CANCELLED" | "COMPLETED";
+    paymentStatus: string;
+    createdAt: string;
+    updatedAt: string;
+    kit: {
+        id: string;
+        sku: string;
+        tier: string;
+    };
+    holiday: {
+        id: string;
+        name: string;
+        image: string;
+        category: string;
+    };
+    items: {
+        qty: number;
+        item: {
+            id: string;
+            sku: string;
+            name: string;
+            image: string;
+            category: string;
+        };
+    }[];
+    addOns: {
+        qty: number;
+        price: string;
+        deposit: string;
+        addOn: {
+            id: string;
+            sku: string;
+            name: string;
+            image: string;
+        };
+    }[];
+};
+
+export type ListOrdersResponse = {
+    items: ApiOrder[];
+    total: number;
+};
+
 async function readError(res: Response, fallback: string): Promise<string> {
     try {
         const body = await res.json();
@@ -34,5 +92,34 @@ export async function createOrderCheckout(payload: CreateCheckoutPayload): Promi
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to start checkout"));
     }
-    return res.json();
+
+    const data = await res.json();
+    return data;
+}
+
+async function serverCookie(): Promise<string | undefined> {
+    if (typeof window !== "undefined") return undefined;
+    const { cookies } = await import("next/headers");
+    return (await cookies()).toString();
+}
+
+export async function listMyOrders(params?: { filter?: "active" | "recent"; page?: number; limit?: number }): Promise<ListOrdersResponse> {
+    const cookie = await serverCookie();
+    const url = new URL(`${baseURL}${apiPrefix}/order/me`);
+    if (params?.filter) url.searchParams.set("filter", params.filter);
+    if (params?.page) url.searchParams.set("page", params.page.toString());
+    if (params?.limit) url.searchParams.set("limit", params.limit.toString());
+
+    const res = await fetch(url.toString(), {
+        cache: "no-store",
+        headers: {
+            ...(cookie && { Cookie: cookie }),
+        },
+    });
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to fetch orders"));
+    }
+
+    const data = await res.json();
+    return data;
 }

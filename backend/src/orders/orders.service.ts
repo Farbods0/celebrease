@@ -70,18 +70,25 @@ export class OrdersService {
     ) {}
 
     async listMine(userId: string, query: ListOrdersDto) {
-        const { page, limit } = query;
+        const { page, limit, filter } = query;
         const skip = (page - 1) * limit;
+
+        const where: Prisma.OrderWhereInput = { userId };
+        if (filter === "active") {
+            where.status = { in: ["PENDING", "SHIPPED", "DELIVERED", "RESERVED"] };
+        } else if (filter === "recent") {
+            where.status = { in: ["COMPLETED", "CANCELLED"] };
+        }
 
         const [items, total] = await this.prisma.$transaction([
             this.prisma.order.findMany({
-                where: { userId },
+                where,
                 include: orderInclude,
                 orderBy: { createdAt: "desc" },
                 skip,
                 take: limit,
             }),
-            this.prisma.order.count({ where: { userId } }),
+            this.prisma.order.count({ where }),
         ]);
 
         return { items, total };

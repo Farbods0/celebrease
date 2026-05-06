@@ -101,9 +101,12 @@ export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
         credentials: "include",
         cache: "no-store",
     });
+    if (!res.ok) {
+        return { holidayIds: [] };
+    }
 
-    if (!res.ok) return { holidayIds: [] };
-    return res.json();
+    const data = await res.json();
+    return data;
 }
 
 export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
@@ -111,9 +114,12 @@ export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCou
         method: "POST",
         credentials: "include",
     });
+    if (!res.ok) {
+        throw new Error("Failed to love holiday");
+    }
 
-    if (!res.ok) throw new Error("Failed to love holiday");
-    return res.json();
+    const data = await res.json();
+    return data;
 }
 
 export async function unloveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
@@ -121,7 +127,10 @@ export async function unloveHoliday(id: string): Promise<{ loved: boolean; loveC
         method: "DELETE",
         credentials: "include",
     });
+    if (!res.ok) {
+        throw new Error("Failed to unlove holiday");
+    }
 
-    if (!res.ok) throw new Error("Failed to unlove holiday");
-    return res.json();
+    const data = await res.json();
+    return data;
 }

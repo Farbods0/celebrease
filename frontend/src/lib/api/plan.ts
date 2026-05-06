@@ -66,9 +66,12 @@ export async function getMySubscription(): Promise<ApiSubscription | null> {
         credentials: "include",
         cache: "no-store",
     });
-    if (!res.ok) return null;
-    const data = (await res.json()) as ApiSubscription | null;
-    return data ?? null;
+    if (!res.ok) {
+        return null;
+    }
+
+    const data = await res.json();
+    return data;
 }
 
 export async function createSubscriptionCheckout(args: { planId: string; billingCycle: BillingCycle }): Promise<{ url: string }> {

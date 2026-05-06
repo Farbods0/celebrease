@@ -44,10 +44,11 @@ async function serverCookie(): Promise<string | undefined> {
 }
 
 export async function getMyAddress(): Promise<ApiAddress | null> {
+    const cookie = await serverCookie();
     const res = await fetch(`${baseURL}${apiPrefix}/address/me`, {
         cache: "no-store",
         headers: {
-            Cookie: await serverCookie(),
+            ...(cookie && { Cookie: cookie }),
         },
     });
     if (!res.ok) {

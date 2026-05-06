@@ -1,12 +1,20 @@
 import AddressDialog from "@/components/account/address-dialog";
 import SubscriptionCard from "@/components/account/subscription-card";
 import { Button } from "@/components/ui/button";
-import { getMyAddress, getMyPaymentMethod } from "@/lib/api";
+import { getMyAddress, getMyPaymentMethod, listMyOrders } from "@/lib/api";
 import { CalendarIcon, LinkSquare02Icon, PackageIcon, Upload01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 export default async function AccountPage() {
-    const [address, paymentMethod] = await Promise.all([getMyAddress(), getMyPaymentMethod()]);
+    const [address, paymentMethod, activeOrdersRes, recentOrdersRes] = await Promise.all([
+        getMyAddress(),
+        getMyPaymentMethod(),
+        listMyOrders({ filter: "active", limit: 5 }),
+        listMyOrders({ filter: "recent", limit: 10 }),
+    ]);
+
+    const activeOrders = activeOrdersRes?.items || [];
+    const recentOrders = recentOrdersRes?.items || [];
 
     return (
         <main className="mt-20 bg-muted">
@@ -18,50 +26,53 @@ export default async function AccountPage() {
                 </div>
 
                 {/* Active Rentals */}
-                <div className="bg-white rounded-2xl border p-5 space-y-4">
-                    <div className="flex items-center gap-3">
-                        <div className="size-12 lg:size-14 rounded-full border flex justify-center items-center">
-                            <HugeiconsIcon icon={PackageIcon} />
-                        </div>
-                        <div className="space-y-1">
-                            <h2 className="text-lg lg:text-xl font-medium">Your Active Rental</h2>
-                            <span className="text-sm lg:text-base text-muted-foreground">Currently in use</span>
-                        </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {["Christmas Premium Kit", "New Year’s Eve Kit"].map((title, i) => (
-                            <div key={i} className="bg-muted rounded-xl border p-4 flex flex-col gap-4">
-                                <div className="flex justify-between">
-                                    <div className="space-y-1">
-                                        <h3 className="text-lg lg:text-xl font-semibold">{title}</h3>
-                                        <p className="text-sm lg:text-base flex items-center gap-2">
-                                            <HugeiconsIcon icon={CalendarIcon} size={16} />
-                                            Dec 2 – Jan 1, 2025
-                                        </p>
-                                    </div>
-                                    <div className="space-y-1">
-                                        <p className="text-sm text-muted-foreground">Deposit Held</p>
-                                        <h3 className="text-lg lg:text-xl font-semibold">$100</h3>
-                                    </div>
-                                </div>
-
-                                <div className="grid sm:grid-cols-2 gap-2">
-                                    <Button variant="black">
-                                        <HugeiconsIcon icon={LinkSquare02Icon} />
-                                        Track Package
-                                    </Button>
-                                    <Button variant="outline">
-                                        <HugeiconsIcon icon={Upload01Icon} />
-                                        Return Label
-                                    </Button>
-                                    <Button variant="outline">Extend Rental</Button>
-                                    <Button variant="outline">Mark Returned</Button>
-                                </div>
+                {activeOrders.length > 0 && (
+                    <div className="bg-white rounded-2xl border p-5 space-y-4">
+                        <div className="flex items-center gap-3">
+                            <div className="size-12 lg:size-14 rounded-full border flex justify-center items-center">
+                                <HugeiconsIcon icon={PackageIcon} />
                             </div>
-                        ))}
+                            <div className="space-y-1">
+                                <h2 className="text-lg lg:text-xl font-medium">Your Active Rental{activeOrders.length > 1 ? "s" : ""}</h2>
+                                <span className="text-sm lg:text-base text-muted-foreground">Currently in use</span>
+                            </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {activeOrders.map((order) => (
+                                <div key={order.id} className="bg-muted rounded-xl border p-4 flex flex-col gap-4">
+                                    <div className="flex justify-between">
+                                        <div className="space-y-1">
+                                            <h3 className="text-lg lg:text-xl font-semibold capitalize">{order.holiday.name} {order.kit.tier.toLowerCase()} Kit</h3>
+                                            <p className="text-sm lg:text-base flex items-center gap-2">
+                                                <HugeiconsIcon icon={CalendarIcon} size={16} />
+                                                {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(order.startDate))} –{" "}
+                                                {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(order.endDate))}
+                                            </p>
+                                        </div>
+                                        <div className="space-y-1 text-right">
+                                            <p className="text-sm text-muted-foreground">Deposit Held</p>
+                                            <h3 className="text-lg lg:text-xl font-semibold">${Number(order.kitDeposit) + Number(order.addOnDeposit)}</h3>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid sm:grid-cols-2 gap-2">
+                                        <Button variant="black">
+                                            <HugeiconsIcon icon={LinkSquare02Icon} />
+                                            Track Package
+                                        </Button>
+                                        <Button variant="outline">
+                                            <HugeiconsIcon icon={Upload01Icon} />
+                                            Return Label
+                                        </Button>
+                                        <Button variant="outline">Extend Rental</Button>
+                                        <Button variant="outline">Mark Returned</Button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Middle Section */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -108,53 +119,45 @@ export default async function AccountPage() {
                 </div>
 
                 {/* Recent Rentals */}
-                <div className="lg:col-span-2 bg-white rounded-2xl border p-5 flex flex-col gap-4">
-                    <h3 className="text-lg lg:text-xl font-semibold">Recent Rentals</h3>
+                {recentOrders.length > 0 && (
+                    <div className="bg-white rounded-2xl border p-5 flex flex-col gap-4">
+                        <h3 className="text-lg lg:text-xl font-semibold">Recent Rentals</h3>
 
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {[
-                            {
-                                title: "Thanksgiving 2024",
-                                type: "Starter Kit",
-                                status: "Returned",
-                                statusStyle: "bg-green-100 text-green-600",
-                            },
-                            {
-                                title: "Diwali 2024",
-                                type: "Premium Kit",
-                                status: "Late Fee Applied",
-                                statusStyle: "bg-orange-100 text-orange-600",
-                            },
-                        ].map((item, i) => (
-                            <div key={i} className="rounded-xl border p-4 flex flex-col justify-between gap-4">
-                                {/* Top */}
-                                <div className="flex items-start justify-between">
-                                    <div className="size-10 rounded-full border flex items-center justify-center">
-                                        <HugeiconsIcon icon={PackageIcon} size={18} />
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {recentOrders.map((order) => (
+                                <div key={order.id} className="rounded-xl border p-4 flex flex-col justify-between gap-4">
+                                    {/* Top */}
+                                    <div className="flex items-start justify-between">
+                                        <div className="size-10 rounded-full border flex items-center justify-center">
+                                            <HugeiconsIcon icon={PackageIcon} size={18} />
+                                        </div>
+
+                                        <button className="text-muted-foreground">
+                                            <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
+                                        </button>
                                     </div>
 
-                                    <button className="text-muted-foreground">
-                                        <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
-                                    </button>
-                                </div>
+                                    {/* Content */}
+                                    <div>
+                                        <h4 className="font-medium">{order.holiday.name}</h4>
+                                        <p className="text-sm text-muted-foreground capitalize">{order.kit.tier.toLowerCase()} Kit</p>
 
-                                {/* Content */}
-                                <div>
-                                    <h4 className="font-medium">{item.title}</h4>
-                                    <p className="text-sm text-muted-foreground">{item.type}</p>
-
-                                    <div className="mt-3 flex items-center gap-2">
-                                        <p className="text-sm flex items-center gap-1 text-muted-foreground">
-                                            <HugeiconsIcon icon={CalendarIcon} size={14} />
-                                            Dec 2 – Jan 1, 2025
-                                        </p>
-                                        <span className={`text-xs px-2 py-1 rounded-full ${item.statusStyle}`}>{item.status}</span>
+                                        <div className="mt-3 flex items-center gap-2">
+                                            <p className="text-sm flex items-center gap-1 text-muted-foreground">
+                                                <HugeiconsIcon icon={CalendarIcon} size={14} />
+                                                {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(order.startDate))} –{" "}
+                                                {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(order.endDate))}
+                                            </p>
+                                            <span className={`text-xs px-2 py-1 rounded-full ${order.status === "COMPLETED" ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-600"}`}>
+                                                {order.status === "COMPLETED" ? "Returned" : order.status}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Add-ons / Extend
                 <div className="rounded-2xl border p-5 flex flex-col gap-4 bg-white">

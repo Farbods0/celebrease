@@ -15,10 +15,11 @@ async function serverCookie(): Promise<string | undefined> {
 }
 
 export async function getMyPaymentMethod(): Promise<ApiPaymentMethod | null> {
+    const cookie = await serverCookie();
     const res = await fetch(`${baseURL}${apiPrefix}/subscription/payment-method`, {
         cache: "no-store",
         headers: {
-            Cookie: await serverCookie(),
+            ...(cookie && { Cookie: cookie }),
         },
     });
     if (!res.ok) {

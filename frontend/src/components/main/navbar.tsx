@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
 import { useHydrateLoves } from "@/lib/loves-store";
-import { ArrowDown01Icon, LoginCircle02Icon, Logout01Icon, Menu01Icon, Search } from "@hugeicons/core-free-icons";
+import { ArrowDown01Icon, LoginCircle02Icon, Logout01Icon, Menu01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -65,47 +65,48 @@ export default function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-3 md:gap-5">
-                    <HugeiconsIcon icon={Search} className="hidden md:inline-block" />
-                    <Link href="/cart" aria-label="Cart">
-                        <ShoppingBasket />
-                    </Link>
                     {data?.user ? (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger
-                                render={
-                                    <Button className="group bg-white hover:bg-white/80 shadow-lg">
-                                        <UserCircle />
-                                        <span className="hidden sm:inline">Account</span>
-                                        <HugeiconsIcon
-                                            icon={ArrowDown01Icon}
-                                            className="transition-transform group-data-popup-open:rotate-180"
-                                        />
-                                    </Button>
-                                }
-                            />
-                            <DropdownMenuContent align="end" className="w-48">
-                                <DropdownMenuItem
+                        <>
+                            <Link href="/cart" aria-label="Cart">
+                                <ShoppingBasket />
+                            </Link>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger
                                     render={
-                                        <Link href="/account">
+                                        <Button className="group bg-white hover:bg-white/80 shadow-lg">
                                             <UserCircle />
-                                            Account
-                                        </Link>
+                                            <span className="hidden sm:inline">Account</span>
+                                            <HugeiconsIcon
+                                                icon={ArrowDown01Icon}
+                                                className="transition-transform group-data-popup-open:rotate-180"
+                                            />
+                                        </Button>
                                     }
                                 />
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem
-                                    variant="destructive"
-                                    onClick={async () =>
-                                        await auth.signOut({
-                                            fetchOptions: { onSuccess: () => router.push("/") },
-                                        })
-                                    }
-                                >
-                                    <HugeiconsIcon icon={Logout01Icon} />
-                                    Sign out
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                                <DropdownMenuContent align="end" className="w-48">
+                                    <DropdownMenuItem
+                                        render={
+                                            <Link href="/account">
+                                                <UserCircle />
+                                                Account
+                                            </Link>
+                                        }
+                                    />
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                        variant="destructive"
+                                        onClick={async () =>
+                                            await auth.signOut({
+                                                fetchOptions: { onSuccess: () => router.push("/") },
+                                            })
+                                        }
+                                    >
+                                        <HugeiconsIcon icon={Logout01Icon} />
+                                        Sign out
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </>
                     ) : (
                         <Link href="/signin">
                             <Button className="bg-white hover:bg-white/80 shadow-lg">

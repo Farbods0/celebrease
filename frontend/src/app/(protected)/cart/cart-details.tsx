@@ -163,7 +163,7 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
 
                 <hr className="border-t border-dashed" />
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                     <div className="flex justify-between font-medium text-[#D97706]">
                         <span>Refundable Deposit</span>
                         <span className="tabular-nums tracking-tight">{fmtMoney(totals.deposit)}</span>

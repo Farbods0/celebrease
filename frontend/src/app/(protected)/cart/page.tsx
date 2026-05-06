@@ -11,10 +11,18 @@ export default async function CartPage() {
     if (!data.items.length) {
         return (
             <main className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
-                <div className="max-w-lg mx-auto text-center space-y-4 py-16">
-                    <h3 className="text-2xl md:text-3xl font-semibold">Your cart is empty</h3>
-                    <p className="text-muted-foreground">Browse the catalog to find a kit for your next celebration.</p>
-                    <Button render={<Link href="/catalog">Browse catalog</Link>} />
+                <div className="bg-muted rounded-2xl border p-6 space-y-2">
+                    <h2 className="text-lg lg:text-xl font-semibold">Oops! Your cart is empty</h2>
+                    <p className="text-sm lg:text-base text-muted-foreground">
+                        Browse the catalog to find a kit for your next celebration.
+                    </p>
+                    <div className="flex gap-3 pt-2">
+                        <Link href="/catalog">
+                            <Button variant="black" size="sm">
+                                Back to Catalog
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </main>
         );

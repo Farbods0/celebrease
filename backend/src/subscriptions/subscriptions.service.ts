@@ -61,6 +61,31 @@ export class SubscriptionsService {
         return sub ?? null;
     }
 
+    async getPaymentMethod(session: UserSession) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: session.user.id },
+            select: { stripeCustomerId: true },
+        });
+
+        if (!user?.stripeCustomerId) throw new BadRequestException("User not found");
+
+        const methods = await this.stripe.client.paymentMethods.list({
+            customer: user.stripeCustomerId,
+            type: "card",
+            limit: 1,
+        });
+
+        if (methods.data.length === 0) throw new BadRequestException("No payment method found");
+
+        const card = methods.data[0].card;
+        return {
+            brand: card?.brand,
+            last4: card?.last4,
+            expMonth: card?.exp_month,
+            expYear: card?.exp_year,
+        };
+    }
+
     async listAll() {
         const items = await this.prisma.subscription.findMany({
             include: adminSubscriptionInclude,

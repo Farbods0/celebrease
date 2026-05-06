@@ -1,9 +1,12 @@
 import SubscriptionCard from "@/components/account/subscription-card";
 import { Button } from "@/components/ui/button";
+import { getMyAddress, getMyPaymentMethod } from "@/lib/api";
 import { CalendarIcon, LinkSquare02Icon, PackageIcon, PencilEdit02Icon, Upload01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-export default function AccountPage() {
+export default async function AccountPage() {
+    const [address, paymentMethod] = await Promise.all([getMyAddress(), getMyPaymentMethod()]);
+
     return (
         <main className="mt-20 bg-muted">
             <div className="container mx-auto px-6 py-8 md:py-10 lg:py-12 space-y-6">
@@ -67,14 +70,22 @@ export default function AccountPage() {
                     <div className="bg-white rounded-2xl border p-5 flex flex-col gap-4">
                         <h3 className="text-lg lg:text-xl font-semibold">Shipping Address</h3>
                         <p className="flex-1 text-sm lg:text-base">
-                            123 Maple Street, Suite 4
-                            <br />
-                            <span className="text-muted-foreground">Austin, TX</span>
+                            {address ? (
+                                <>
+                                    {address.streetLine1} {address.streetLine2 ? `, ${address.streetLine2}` : ""}
+                                    <br />
+                                    <span className="text-muted-foreground">
+                                        {address.city}, {address.state} {address.postalCode}
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="text-muted-foreground italic">No shipping address provided yet.</span>
+                            )}
                         </p>
 
                         <button className="text-sm text-blue-600 mr-auto flex items-center gap-1.5">
                             <HugeiconsIcon icon={PencilEdit02Icon} size={14} />
-                            Edit Address
+                            {address ? "Edit Address" : "Add Address"}
                         </button>
                     </div>
 
@@ -82,15 +93,19 @@ export default function AccountPage() {
                     <div className="bg-white rounded-2xl border p-5 flex flex-col gap-4">
                         <h3 className="text-lg lg:text-xl font-semibold">Payment Method</h3>
                         <p className="flex-1 text-sm lg:text-base">
-                            Visa ending •••• 3142
-                            <br />
-                            <span className="text-muted-foreground">Expires 08/27</span>
+                            {paymentMethod ? (
+                                <>
+                                    <span className="capitalize">{paymentMethod.brand}</span> ending •••• {paymentMethod.last4}
+                                    <br />
+                                    <span className="text-muted-foreground">
+                                        Expires {paymentMethod.expMonth?.toString().padStart(2, "0")}/
+                                        {paymentMethod.expYear?.toString().slice(2)}
+                                    </span>
+                                </>
+                            ) : (
+                                <span className="text-muted-foreground italic">No payment method attached.</span>
+                            )}
                         </p>
-
-                        <button className="text-sm text-blue-600 mr-auto flex items-center gap-1.5">
-                            <HugeiconsIcon icon={PencilEdit02Icon} size={14} />
-                            Update Card
-                        </button>
                     </div>
                 </div>
 

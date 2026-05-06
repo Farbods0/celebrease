@@ -12,6 +12,11 @@ export class SubscriptionsController {
         return this.subscriptions.getMine(session);
     }
 
+    @Get("/payment-method")
+    getPaymentMethod(@Session() session: UserSession) {
+        return this.subscriptions.getPaymentMethod(session);
+    }
+
     @Get("/admin")
     @Roles(["admin", "superadmin"])
     listAll() {

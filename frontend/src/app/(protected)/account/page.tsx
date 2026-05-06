@@ -1,7 +1,8 @@
+import AddressDialog from "@/components/account/address-dialog";
 import SubscriptionCard from "@/components/account/subscription-card";
 import { Button } from "@/components/ui/button";
 import { getMyAddress, getMyPaymentMethod } from "@/lib/api";
-import { CalendarIcon, LinkSquare02Icon, PackageIcon, PencilEdit02Icon, Upload01Icon } from "@hugeicons/core-free-icons";
+import { CalendarIcon, LinkSquare02Icon, PackageIcon, Upload01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 export default async function AccountPage() {
@@ -83,10 +84,7 @@ export default async function AccountPage() {
                             )}
                         </p>
 
-                        <button className="text-sm text-blue-600 mr-auto flex items-center gap-1.5">
-                            <HugeiconsIcon icon={PencilEdit02Icon} size={14} />
-                            {address ? "Edit Address" : "Add Address"}
-                        </button>
+                        <AddressDialog address={address} />
                     </div>
 
                     {/* Payment */}
@@ -109,83 +107,80 @@ export default async function AccountPage() {
                     </div>
                 </div>
 
-                {/* Bottom Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    {/* Recent Rentals */}
-                    <div className="lg:col-span-2 bg-white rounded-2xl border p-5 flex flex-col gap-4">
-                        <h3 className="text-lg lg:text-xl font-semibold">Recent Rentals</h3>
+                {/* Recent Rentals */}
+                <div className="lg:col-span-2 bg-white rounded-2xl border p-5 flex flex-col gap-4">
+                    <h3 className="text-lg lg:text-xl font-semibold">Recent Rentals</h3>
 
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {[
-                                {
-                                    title: "Thanksgiving 2024",
-                                    type: "Starter Kit",
-                                    status: "Returned",
-                                    statusStyle: "bg-green-100 text-green-600",
-                                },
-                                {
-                                    title: "Diwali 2024",
-                                    type: "Premium Kit",
-                                    status: "Late Fee Applied",
-                                    statusStyle: "bg-orange-100 text-orange-600",
-                                },
-                            ].map((item, i) => (
-                                <div key={i} className="rounded-xl border p-4 flex flex-col justify-between gap-4">
-                                    {/* Top */}
-                                    <div className="flex items-start justify-between">
-                                        <div className="size-10 rounded-full border flex items-center justify-center">
-                                            <HugeiconsIcon icon={PackageIcon} size={18} />
-                                        </div>
-
-                                        <button className="text-muted-foreground">
-                                            <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
-                                        </button>
+                    <div className="grid md:grid-cols-2 gap-4">
+                        {[
+                            {
+                                title: "Thanksgiving 2024",
+                                type: "Starter Kit",
+                                status: "Returned",
+                                statusStyle: "bg-green-100 text-green-600",
+                            },
+                            {
+                                title: "Diwali 2024",
+                                type: "Premium Kit",
+                                status: "Late Fee Applied",
+                                statusStyle: "bg-orange-100 text-orange-600",
+                            },
+                        ].map((item, i) => (
+                            <div key={i} className="rounded-xl border p-4 flex flex-col justify-between gap-4">
+                                {/* Top */}
+                                <div className="flex items-start justify-between">
+                                    <div className="size-10 rounded-full border flex items-center justify-center">
+                                        <HugeiconsIcon icon={PackageIcon} size={18} />
                                     </div>
 
-                                    {/* Content */}
-                                    <div>
-                                        <h4 className="font-medium">{item.title}</h4>
-                                        <p className="text-sm text-muted-foreground">{item.type}</p>
+                                    <button className="text-muted-foreground">
+                                        <HugeiconsIcon icon={LinkSquare02Icon} size={16} />
+                                    </button>
+                                </div>
 
-                                        <div className="mt-3 flex items-center gap-2">
-                                            <p className="text-sm flex items-center gap-1 text-muted-foreground">
-                                                <HugeiconsIcon icon={CalendarIcon} size={14} />
-                                                Dec 2 – Jan 1, 2025
-                                            </p>
-                                            <span className={`text-xs px-2 py-1 rounded-full ${item.statusStyle}`}>{item.status}</span>
-                                        </div>
+                                {/* Content */}
+                                <div>
+                                    <h4 className="font-medium">{item.title}</h4>
+                                    <p className="text-sm text-muted-foreground">{item.type}</p>
+
+                                    <div className="mt-3 flex items-center gap-2">
+                                        <p className="text-sm flex items-center gap-1 text-muted-foreground">
+                                            <HugeiconsIcon icon={CalendarIcon} size={14} />
+                                            Dec 2 – Jan 1, 2025
+                                        </p>
+                                        <span className={`text-xs px-2 py-1 rounded-full ${item.statusStyle}`}>{item.status}</span>
                                     </div>
                                 </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Add-ons / Extend
+                <div className="rounded-2xl border p-5 flex flex-col gap-4 bg-white">
+                    <div className="space-y-2">
+                        <h3 className="font-medium">Previous Add-ons</h3>
+                        <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-1">
+                            <li>Extra Lights</li>
+                            <li>Table Runner</li>
+                        </ul>
+                    </div>
+                    <hr />
+                    <div className="space-y-2">
+                        <h3 className="font-medium">Extend Your Rental</h3>
+                        <div className="flex gap-2">
+                            {["+3 days", "+7 days", "+14 days"].map((item, i) => (
+                                <button key={i} className="flex-1 text-sm border rounded-lg py-2 hover:bg-muted transition">
+                                    {item}
+                                </button>
                             ))}
                         </div>
                     </div>
 
-                    {/* Add-ons / Extend */}
-                    <div className="rounded-2xl border p-5 flex flex-col gap-4 bg-white">
-                        <div className="space-y-2">
-                            <h3 className="font-medium">Previous Add-ons</h3>
-                            <ul className="text-sm text-muted-foreground list-disc pl-4 space-y-1">
-                                <li>Extra Lights</li>
-                                <li>Table Runner</li>
-                            </ul>
-                        </div>
-                        <hr />
-                        <div className="space-y-2">
-                            <h3 className="font-medium">Extend Your Rental</h3>
-                            <div className="flex gap-2">
-                                {["+3 days", "+7 days", "+14 days"].map((item, i) => (
-                                    <button key={i} className="flex-1 text-sm border rounded-lg py-2 hover:bg-muted transition">
-                                        {item}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <Button variant="black" className="mt-2">
-                            Request Extension
-                        </Button>
-                    </div>
-                </div>
+                    <Button variant="black" className="mt-2">
+                        Request Extension
+                    </Button>
+                </div> */}
             </div>
         </main>
     );

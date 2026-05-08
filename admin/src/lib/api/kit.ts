@@ -13,19 +13,6 @@ export type ApiKitPreviewItem = {
     item: { id: string; sku: string; name: string; image: string };
 };
 
-export type ApiKitAddOn = {
-    addOn: {
-        id: string;
-        sku: string | null;
-        name: string;
-        image: string;
-        price: string;
-        deposit: string;
-        inventory: number;
-        status: "ACTIVE" | "HIDDEN";
-    };
-};
-
 export type ApiKit = {
     id: string;
     sku: string;

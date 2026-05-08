@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { holidaysApi, kitsApi, type ApiAddOn, type ApiHolidayWithAddOns, type ApiInventoryItem, type ApiKit } from "@/lib/api";
+import { holidaysApi, kitsApi, type ApiAddOn, type ApiHolidayWithAddOns, type ApiItem, type ApiKit } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@tanstack/react-router";
 import { Eye, Plus, Save, SquarePen } from "lucide-react";
@@ -18,7 +18,7 @@ type KitsContentProps = {
     kit: ApiKit | null;
     holiday: ApiHolidayWithAddOns | null;
     holidays: ApiHolidayWithAddOns[];
-    inventory: ApiInventoryItem[];
+    items: ApiItem[];
     addOns: ApiAddOn[];
     selectedTier: "STARTER" | "PREMIUM";
 };
@@ -48,7 +48,7 @@ const STATUS_COLOR: Record<ApiKit["status"], string> = {
     LOW_STOCK: "text-amber-500",
 };
 
-export function KitsContent({ kit, holiday, holidays, inventory, addOns, selectedTier }: KitsContentProps) {
+export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTier }: KitsContentProps) {
     const router = useRouter();
     const [editOpen, setEditOpen] = useState(false);
     const [savingToggles, setSavingToggles] = useState(false);
@@ -302,7 +302,7 @@ export function KitsContent({ kit, holiday, holidays, inventory, addOns, selecte
                 {addTarget === "kit-item" && (
                     <KitsAddItemDialog
                         title="Add Item to Kit"
-                        options={inventory.map((i) => ({ id: i.id, label: i.name, sublabel: i.sku }))}
+                        options={items.map((i) => ({ id: i.id, label: i.name, sublabel: i.sku }))}
                         excludeIds={kit.items.map((ki) => ki.item.id)}
                         withQty
                         submitLabel="Add to kit"
@@ -317,7 +317,7 @@ export function KitsContent({ kit, holiday, holidays, inventory, addOns, selecte
                 {addTarget === "preview-item" && (
                     <KitsAddItemDialog
                         title="Add PDP Preview Item"
-                        options={inventory.map((i) => ({ id: i.id, label: i.name, sublabel: i.sku }))}
+                        options={items.map((i) => ({ id: i.id, label: i.name, sublabel: i.sku }))}
                         excludeIds={kit.previewItems.map((pi) => pi.item.id)}
                         submitLabel="Add to preview"
                         onSubmit={async ({ id }) => {

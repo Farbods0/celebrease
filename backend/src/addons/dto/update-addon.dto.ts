@@ -52,7 +52,7 @@ export class UpdateAddOnDto {
     @Type(() => Number)
     @IsInt()
     @Min(0)
-    inventory?: number;
+    totalQty?: number;
 
     @IsOptional()
     @IsBoolean()

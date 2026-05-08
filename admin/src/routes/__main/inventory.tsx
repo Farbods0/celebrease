@@ -6,7 +6,7 @@ import InventoryView from "@/components/inventory/inventory-view";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet } from "@/components/ui/sheet";
-import { inventoryApi, type ApiInventoryItem } from "@/lib/api";
+import { inventoryApi, type ApiItem } from "@/lib/api";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, SlidersHorizontal } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -20,8 +20,8 @@ function RouteComponent() {
     const { items } = Route.useLoaderData();
 
     const [createOpen, setCreateOpen] = useState(false);
-    const [selectedItem, setSelectedItem] = useState<ApiInventoryItem | null>(null);
-    const [editing, setEditing] = useState<ApiInventoryItem | null>(null);
+    const [selectedItem, setSelectedItem] = useState<ApiItem | null>(null);
+    const [editing, setEditing] = useState<ApiItem | null>(null);
     const [filters, setFilters] = useState<InventoryFilterState>(initialFilterState);
 
     const categories = useMemo(() => {
@@ -52,7 +52,7 @@ function RouteComponent() {
                 return false;
             }
             if (filters.lowStockOnly) {
-                const lowStock = item.totalQty <= item.lowStockThreshold && item.lowStockThreshold > 0;
+                const lowStock = (item.inventory?.availableQty ?? 0) <= item.lowStockThreshold && item.lowStockThreshold > 0;
                 if (!lowStock) return false;
             }
             return true;

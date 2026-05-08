@@ -31,11 +31,11 @@ export default function InventoryView({ item }: { item: ApiItem }) {
                 <h3 className="text-sm uppercase font-medium mb-2.5">Inventory</h3>
                 <div className="space-y-2">
                     {[
-                        { label: "Available", count: item.totalQty, color: "Available" as const },
-                        { label: "Reserved", count: 0, color: "Reserved" as const },
-                        { label: "Shipped", count: 0, color: "Shipped" as const },
-                        { label: "In Cleaning", count: 0, color: "Cleaning" as const },
-                        { label: "In Repair", count: 0, color: "Repair" as const },
+                        { label: "Available", count: item?.inventory?.availableQty ?? 0, color: "Available" as const },
+                        { label: "Reserved", count: item?.inventory?.reservedQty ?? 0, color: "Reserved" as const },
+                        { label: "Shipped", count: item?.inventory?.shippedQty ?? 0, color: "Shipped" as const },
+                        { label: "In Cleaning", count: item?.inventory?.cleaningQty ?? 0, color: "Cleaning" as const },
+                        { label: "In Repair", count: item?.inventory?.repairQty ?? 0, color: "Repair" as const },
                     ].map((row) => (
                         <div key={row.label} className="grid grid-cols-[80px_1fr_24px] items-center justify-between gap-2">
                             <p className="text-sm text-muted-foreground">{row.label}</p>
@@ -51,7 +51,7 @@ export default function InventoryView({ item }: { item: ApiItem }) {
                     <Field label="SKU" value={item.sku} />
                     <Field label="Category" value={item.category ?? "—"} />
                     <Field label="Cost per unit" value={fmtMoney(item.costPerUnit)} />
-                    <Field label="Total Qty" value={item.totalQty} />
+                    <Field label="Total Qty" value={item?.inventory?.totalQty ?? "N/A"} />
                     <Field label="Low-stock at" value={item.lowStockThreshold} />
                     <Field label="Status" value={<StatusBadge status={formatItemStatus(item.status)} />} />
                     <Field label="Vendor" value={item.vendorName} />

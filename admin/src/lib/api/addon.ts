@@ -8,9 +8,17 @@ export type ApiAddOn = {
     description: string | null;
     price: string;
     deposit: string;
-    inventory: number;
     isActive: boolean;
     holidays: { holiday: { id: string; name: string } }[];
+    inventory: {
+        totalQty: number;
+        availableQty: number;
+        reservedQty: number;
+        shippedQty: number;
+        cleaningQty: number;
+        repairQty: number;
+        lostQty: number;
+    } | null;
     createdAt: string;
     updatedAt: string;
 };
@@ -22,7 +30,7 @@ export type CreateAddOnPayload = {
     description?: string;
     price: number;
     deposit?: number;
-    inventory?: number;
+    totalQty?: number;
     isActive?: boolean;
     holidayIds?: string[];
 };

@@ -50,7 +50,7 @@ export function AddOnTable({ items, onEdit }: AddOnTableProps) {
                                 </TableCell>
                                 <TableCell>{fmtMoney(item.price)}</TableCell>
                                 <TableCell>{fmtMoney(item.deposit)}</TableCell>
-                                <TableCell className="font-medium">{item.inventory}</TableCell>
+                                <TableCell className="font-medium">{item?.inventory?.availableQty ?? "N/A"}</TableCell>
                                 <TableCell>
                                     <div className="flex flex-wrap gap-1">
                                         {item.holidays.length === 0 ? (

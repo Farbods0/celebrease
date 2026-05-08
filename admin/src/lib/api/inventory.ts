@@ -25,10 +25,18 @@ export type ApiItem = {
     vendorEmail: string;
     vendorPhone: string;
     costPerUnit: string;
-    totalQty: number;
     lowStockThreshold: number;
     status: ItemStatus;
     kitItems: ItemKit[];
+    inventory: {
+        totalQty: number;
+        availableQty: number;
+        reservedQty: number;
+        shippedQty: number;
+        cleaningQty: number;
+        repairQty: number;
+        lostQty: number;
+    } | null;
     createdAt: string;
     updatedAt: string;
 };

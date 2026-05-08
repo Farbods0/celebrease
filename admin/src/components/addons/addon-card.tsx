@@ -41,7 +41,7 @@ export function AddOnCard({ item, onEdit }: AddOnCardProps) {
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <Field label="Price" value={fmtMoney(item.price)} />
                 <Field label="Deposit" value={fmtMoney(item.deposit)} />
-                <Field label="Inventory" value={item.inventory} />
+                <Field label="Inventory" value={item?.inventory?.availableQty ?? "N/A"} />
                 <Field label="Status" value={<StatusBadge status={item.isActive ? "Active" : "Hidden"} />} />
                 <Field
                     label="Holidays Mapped"

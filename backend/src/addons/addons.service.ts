@@ -12,6 +12,17 @@ const addonInclude = {
             },
         },
     },
+    inventory: {
+        select: {
+            totalQty: true,
+            availableQty: true,
+            reservedQty: true,
+            shippedQty: true,
+            cleaningQty: true,
+            repairQty: true,
+            lostQty: true,
+        },
+    },
 };
 
 @Injectable()
@@ -58,7 +69,6 @@ export class AddOnsService {
                 description: dto.description,
                 price: dto.price,
                 deposit: dto.deposit ?? 0,
-                inventory: dto.inventory ?? 0,
                 isActive: dto.isActive,
                 ...(dto.holidayIds?.length
                     ? {
@@ -69,13 +79,22 @@ export class AddOnsService {
                           },
                       }
                     : {}),
+                inventory: {
+                    create: {
+                        totalQty: dto.totalQty,
+                        availableQty: dto.totalQty,
+                    },
+                },
             },
         });
         return created;
     }
 
     async update(id: string, dto: UpdateAddOnDto) {
-        const existing = await this.prisma.addOn.findUnique({ where: { id }, select: { id: true, sku: true, image: true } });
+        const existing = await this.prisma.addOn.findUnique({
+            where: { id },
+            select: { id: true, sku: true, image: true, inventory: { select: { availableQty: true } } },
+        });
         if (!existing) throw new NotFoundException("Add-on not found");
 
         if (dto.sku && dto.sku !== existing.sku) {
@@ -84,6 +103,8 @@ export class AddOnsService {
                 throw new ConflictException(`An add-on with SKU ${dto.sku} already exists`);
             }
         }
+
+        const diffQty = dto?.totalQty && existing.inventory ? dto.totalQty - existing.inventory.availableQty : 0;
 
         const updated = await this.prisma.$transaction(async (tx) => {
             if (dto.holidayIds !== undefined) {
@@ -104,8 +125,17 @@ export class AddOnsService {
                     ...(dto.description !== undefined && { description: dto.description }),
                     ...(dto.price !== undefined && { price: dto.price }),
                     ...(dto.deposit !== undefined && { deposit: dto.deposit }),
-                    ...(dto.inventory !== undefined && { inventory: dto.inventory }),
                     ...(dto.isActive !== undefined && { isActive: dto.isActive }),
+                    ...(diffQty !== 0
+                        ? {
+                              inventory: {
+                                  update: {
+                                      totalQty: { increment: diffQty },
+                                      availableQty: { increment: diffQty },
+                                  },
+                              },
+                          }
+                        : {}),
                 },
             });
         });

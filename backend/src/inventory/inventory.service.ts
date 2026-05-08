@@ -19,6 +19,17 @@ const itemInclude = {
             },
         },
     },
+    inventory: {
+        select: {
+            totalQty: true,
+            availableQty: true,
+            reservedQty: true,
+            shippedQty: true,
+            cleaningQty: true,
+            repairQty: true,
+            lostQty: true,
+        },
+    },
 } as const;
 
 @Injectable()
@@ -67,7 +78,6 @@ export class InventoryService {
                 vendorEmail: dto.vendorEmail,
                 vendorPhone: dto.vendorPhone,
                 costPerUnit: dto.costPerUnit,
-                totalQty: dto.totalQty,
                 lowStockThreshold: dto.lowStockThreshold ?? 0,
                 status: dto.status ?? "ACTIVE",
                 ...(dto.kits?.length
@@ -79,12 +89,21 @@ export class InventoryService {
                           },
                       }
                     : {}),
+                inventory: {
+                    create: {
+                        totalQty: dto.totalQty,
+                        availableQty: dto.totalQty,
+                    },
+                },
             },
         });
     }
 
     async update(id: string, dto: UpdateItemDto) {
-        const existing = await this.prisma.item.findUnique({ where: { id }, select: { id: true, sku: true, image: true } });
+        const existing = await this.prisma.item.findUnique({
+            where: { id },
+            select: { id: true, sku: true, image: true, inventory: { select: { availableQty: true } } },
+        });
         if (!existing) throw new NotFoundException("Inventory item not found");
 
         if (dto.sku && dto.sku !== existing.sku) {
@@ -93,6 +112,8 @@ export class InventoryService {
                 throw new ConflictException(`An inventory item with SKU ${dto.sku} already exists`);
             }
         }
+
+        const diffQty = dto?.totalQty && existing.inventory ? dto.totalQty - existing.inventory.availableQty : 0;
 
         const updated = await this.prisma.$transaction(async (tx) => {
             if (dto.kits !== undefined) {
@@ -116,9 +137,18 @@ export class InventoryService {
                     ...(dto.vendorEmail !== undefined && { vendorEmail: dto.vendorEmail }),
                     ...(dto.vendorPhone !== undefined && { vendorPhone: dto.vendorPhone }),
                     ...(dto.costPerUnit !== undefined && { costPerUnit: dto.costPerUnit }),
-                    ...(dto.totalQty !== undefined && { totalQty: dto.totalQty }),
                     ...(dto.lowStockThreshold !== undefined && { lowStockThreshold: dto.lowStockThreshold }),
                     ...(dto.status !== undefined && { status: dto.status }),
+                    ...(diffQty !== 0
+                        ? {
+                              inventory: {
+                                  update: {
+                                      totalQty: { increment: diffQty },
+                                      availableQty: { increment: diffQty },
+                                  },
+                              },
+                          }
+                        : {}),
                 },
             });
         });

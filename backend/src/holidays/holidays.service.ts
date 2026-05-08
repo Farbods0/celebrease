@@ -29,8 +29,13 @@ const holidayAddOnInclude = {
                     image: true,
                     price: true,
                     deposit: true,
-                    inventory: true,
                     isActive: true,
+                    inventory: {
+                        select: {
+                            totalQty: true,
+                            availableQty: true,
+                        },
+                    },
                 },
             },
         },

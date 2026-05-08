@@ -39,7 +39,7 @@ function kitTierLabel(item: ApiItem): string {
 }
 
 export function InventoryCard({ item, onView, onEdit }: InventoryCardProps) {
-    const lowStock = item.totalQty <= item.lowStockThreshold && item.lowStockThreshold > 0;
+    const lowStock = (item?.inventory?.availableQty ?? 0) <= item.lowStockThreshold && item.lowStockThreshold > 0;
     return (
         <article className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2 flex-wrap">
@@ -56,12 +56,12 @@ export function InventoryCard({ item, onView, onEdit }: InventoryCardProps) {
 
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <Field label="Kit Type" value={kitTierLabel(item)} />
-                <Field label="Total Qty" value={item.totalQty} />
-                <Field label="Available" value={item.totalQty} tone="available" />
-                <Field label="Reserved" value={0} tone="reserved" />
-                <Field label="Shipped" value={0} />
-                <Field label="Cleaning" value={0} />
-                <Field label="Repair" value={0} tone="repair" />
+                <Field label="Total Qty" value={item?.inventory?.totalQty ?? "N/A"} />
+                <Field label="Available" value={item?.inventory?.availableQty ?? "N/A"} tone="available" />
+                <Field label="Reserved" value={item?.inventory?.reservedQty ?? "N/A"} tone="reserved" />
+                <Field label="Shipped" value={item?.inventory?.shippedQty ?? "N/A"} />
+                <Field label="Cleaning" value={item?.inventory?.cleaningQty ?? "N/A"} />
+                <Field label="Repair" value={item?.inventory?.repairQty ?? "N/A"} tone="repair" />
                 <Field label="Status" value={<StatusBadge status={formatItemStatus(item.status)} />} />
             </div>
 

@@ -215,6 +215,35 @@ model HolidayLove {
 }
 
 // ============================================================
+// INVENTORY
+// ============================================================
+
+model Inventory {
+    id String @id @default(cuid())
+
+    // The exact physical counts
+    totalQty     Int @default(0) // Total owned
+    availableQty Int @default(0) // Ready in warehouse
+    reservedQty  Int @default(0) // Allocated to a pending/paid order
+    shippedQty   Int @default(0) // Out with a customer
+    cleaningQty  Int @default(0) // Returned, needs cleaning
+    repairQty    Int @default(0) // Returned, needs repair
+    lostQty      Int @default(0) // Permanently lost/damaged
+
+    // Relation to Item (Optional)
+    itemId String? @unique
+    item   Item?   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+    // Relation to AddOn (Optional)
+    addOnId String? @unique
+    addOn   AddOn?  @relation(fields: [addOnId], references: [id], onDelete: Cascade)
+
+    updatedAt DateTime @updatedAt
+
+    @@map("inventory")
+}
+
+// ============================================================
 // ITEMS
 // ============================================================
 
@@ -229,7 +258,6 @@ model Item {
     vendorEmail       String
     vendorPhone       String
     costPerUnit       Decimal    @db.Decimal(10, 2)
-    totalQty          Int        @default(0)
     lowStockThreshold Int        @default(0)
     status            ItemStatus @default(ACTIVE)
     createdAt         DateTime   @default(now())
@@ -237,6 +265,7 @@ model Item {
 
     kitItems        KitItem[]
     kitPreviewItems KitPreviewItem[]
+    inventory       Inventory?
     cartItems       CartItem[]
     orderItems      OrderItem[]
 
@@ -316,12 +345,12 @@ model AddOn {
     description String?
     price       Decimal  @db.Decimal(10, 2)
     deposit     Decimal  @default(0) @db.Decimal(10, 2)
-    inventory   Int      @default(0)
     isActive    Boolean  @default(true)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
     holidays    AddOnHoliday[]
+    inventory   Inventory?
     cartAddOns  CartAddOn[]
     orderAddOns OrderAddOn[]
 

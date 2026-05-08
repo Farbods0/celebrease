@@ -59,7 +59,7 @@ export function InventoryTable({ items, onView, onEdit }: InventoryTableProps) {
                         </TableRow>
                     ) : (
                         items.map((item) => {
-                            const lowStock = item.totalQty <= item.lowStockThreshold && item.lowStockThreshold > 0;
+                            const lowStock = (item?.inventory?.availableQty ?? 0) <= item.lowStockThreshold && item.lowStockThreshold > 0;
                             return (
                                 <TableRow key={item.id}>
                                     <TableCell>
@@ -70,17 +70,17 @@ export function InventoryTable({ items, onView, onEdit }: InventoryTableProps) {
                                     </TableCell>
                                     <TableCell>{holidayLabel(item)}</TableCell>
                                     <TableCell>{kitTierLabel(item)}</TableCell>
-                                    <TableCell className="font-medium">{item.totalQty}</TableCell>
+                                    <TableCell className="font-medium">{item?.inventory?.totalQty ?? "N/A"}</TableCell>
                                     <TableCell className="font-medium" style={{ color: "oklch(0.55 0.17 150)" }}>
-                                        {item.totalQty}
+                                        {item?.inventory?.availableQty ?? "N/A"}
                                     </TableCell>
                                     <TableCell className="font-medium" style={{ color: "oklch(0.65 0.18 55)" }}>
-                                        N/A
+                                        {item?.inventory?.reservedQty ?? "N/A"}
                                     </TableCell>
-                                    <TableCell className="font-medium">N/A</TableCell>
-                                    <TableCell className="font-medium">N/A</TableCell>
+                                    <TableCell className="font-medium">{item?.inventory?.shippedQty ?? "N/A"}</TableCell>
+                                    <TableCell className="font-medium">{item?.inventory?.cleaningQty ?? "N/A"}</TableCell>
                                     <TableCell className="font-medium" style={{ color: "oklch(0.55 0.22 25)" }}>
-                                        N/A
+                                        {item?.inventory?.repairQty ?? "N/A"}
                                     </TableCell>
                                     <TableCell>
                                         <StatusBadge status={formatItemStatus(item.status)} />

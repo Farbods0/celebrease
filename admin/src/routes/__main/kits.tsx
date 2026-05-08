@@ -11,13 +11,13 @@ import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/__main/kits")({
     loader: async () => {
-        const [holidays, kits, inventory, addOns] = await Promise.all([
+        const [holidays, kits, items, addOns] = await Promise.all([
             holidaysApi.list({ addon: true }),
             kitsApi.listAll(),
             inventoryApi.listAll(),
             addOnsApi.listAll(),
         ]);
-        return { holidays: holidays.items, kits: kits.items, inventory: inventory.items, addOns: addOns.items };
+        return { holidays: holidays.items, kits: kits.items, items: items.items, addOns: addOns.items };
     },
     component: RouteComponent,
 });
@@ -28,7 +28,7 @@ const TIERS: { value: KitTier; label: string }[] = [
 ];
 
 function RouteComponent() {
-    const { holidays, kits, inventory, addOns } = Route.useLoaderData();
+    const { holidays, kits, items, addOns } = Route.useLoaderData();
 
     const [createOpen, setCreateOpen] = useState(false);
     const [selectedHolidayId, setSelectedHolidayId] = useState<string | null>(holidays[0]?.id ?? null);
@@ -90,7 +90,7 @@ function RouteComponent() {
                     kit={selectedKit}
                     holiday={selectedHoliday}
                     holidays={holidays}
-                    inventory={inventory}
+                    items={items}
                     addOns={addOns}
                     selectedTier={selectedTier}
                 />

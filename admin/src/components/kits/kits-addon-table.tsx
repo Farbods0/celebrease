@@ -33,7 +33,7 @@ export function KitsAddonTable({ items }: { items: ApiHolidayWithAddOns["addOns"
                             </TableCell>
                             <TableCell>{addon.addOn.price}</TableCell>
                             <TableCell>{addon.addOn.deposit}</TableCell>
-                            <TableCell>{addon.addOn.inventory}</TableCell>
+                            <TableCell>{addon.addOn.inventory?.availableQty ?? "N/A"}</TableCell>
                             <TableCell>
                                 <StatusBadge status={addon.addOn.isActive ? "Active" : "Hidden"} />
                             </TableCell>

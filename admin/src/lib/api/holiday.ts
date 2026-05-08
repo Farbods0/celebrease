@@ -32,8 +32,11 @@ export type ApiHolidayWithAddOns = ApiHoliday & {
             image: string;
             price: number;
             deposit: number;
-            inventory: number;
             isActive: boolean;
+            inventory: {
+                totalQty: number;
+                availableQty: number;
+            };
         };
     }>;
 };

@@ -30,7 +30,7 @@ const formSchema = z.object({
     description: z.string().max(1000),
     price: numericString("Price", { allowZero: true }),
     deposit: numericString("Deposit", { allowZero: true }),
-    inventory: numericString("Inventory", { allowZero: true, integer: true }),
+    totalQty: numericString("Total Quantity", { allowZero: true, integer: true }),
     isActive: z.boolean(),
 });
 
@@ -51,7 +51,7 @@ export function AddonForm({ item, onClose }: { item?: ApiAddOn; onClose: () => v
             description: item?.description ?? "",
             price: item ? String(item.price) : "",
             deposit: item ? String(item.deposit) : "0",
-            inventory: item ? String(item.inventory) : "0",
+            totalQty: item?.inventory ? String(item.inventory.availableQty) : "0",
             isActive: item?.isActive ?? true,
         },
         validators: { onChange: formSchema },
@@ -64,7 +64,7 @@ export function AddonForm({ item, onClose }: { item?: ApiAddOn; onClose: () => v
                     description: value.description || undefined,
                     price: Number(value.price),
                     deposit: Number(value.deposit),
-                    inventory: Number(value.inventory),
+                    totalQty: Number(value.totalQty),
                     isActive: value.isActive,
                     holidayIds: Array.from(selectedHolidayIds),
                 };
@@ -129,8 +129,8 @@ export function AddonForm({ item, onClose }: { item?: ApiAddOn; onClose: () => v
                     <form.AppField name="deposit">
                         {(field) => <field.FormInput label="Deposit" placeholder="e.g., 100" type="number" />}
                     </form.AppField>
-                    <form.AppField name="inventory">
-                        {(field) => <field.FormInput label="Inventory" placeholder="e.g., 50" type="number" />}
+                    <form.AppField name="totalQty">
+                        {(field) => <field.FormInput label="Total Quantity" placeholder="e.g., 50" type="number" />}
                     </form.AppField>
                 </div>
 

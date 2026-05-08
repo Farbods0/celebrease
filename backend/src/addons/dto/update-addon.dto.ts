@@ -1,9 +1,8 @@
-import { AddOnStatus } from "@/generated/prisma/enums";
 import { Type } from "class-transformer";
 import {
     ArrayMaxSize,
     IsArray,
-    IsEnum,
+    IsBoolean,
     IsInt,
     IsNotEmpty,
     IsNumber,
@@ -56,8 +55,8 @@ export class UpdateAddOnDto {
     inventory?: number;
 
     @IsOptional()
-    @IsEnum(AddOnStatus)
-    status?: AddOnStatus;
+    @IsBoolean()
+    isActive?: boolean;
 
     @IsOptional()
     @IsArray()

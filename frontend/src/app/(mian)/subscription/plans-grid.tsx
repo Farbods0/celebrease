@@ -136,7 +136,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                             <div
                                 key={plan.id}
                                 className={cn(
-                                    "p-1 h-max rounded-2xl shadow-lg",
+                                    "p-1 h-max rounded-2xl shadow-lg hover:scale-[1.015] transition-all duration-300",
                                     highlight ? "bg-linear-to-r from-primary to-secondary" : "bg-white",
                                 )}
                             >
@@ -172,8 +172,8 @@ export default function PlansGrid({ plans }: PlansGridProps) {
 
                                     <Button
                                         variant="black"
-                                        disabled={subLoading || isCurrentPlan || pendingPlanId !== null}
                                         onClick={() => handleSubscribe(plan.id)}
+                                        disabled={subLoading || isCurrentPlan || pendingPlanId !== null}
                                     >
                                         {buttonLabel}
                                         <HugeiconsIcon icon={ArrowRight02Icon} />

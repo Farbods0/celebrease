@@ -1,7 +1,5 @@
 import { request } from "./base";
 
-export type AddOnStatus = "ACTIVE" | "HIDDEN";
-
 export type ApiAddOn = {
     id: string;
     sku: string | null;
@@ -11,7 +9,7 @@ export type ApiAddOn = {
     price: string;
     deposit: string;
     inventory: number;
-    status: AddOnStatus;
+    isActive: boolean;
     holidays: { holiday: { id: string; name: string } }[];
     createdAt: string;
     updatedAt: string;
@@ -25,7 +23,7 @@ export type CreateAddOnPayload = {
     price: number;
     deposit?: number;
     inventory?: number;
-    status?: AddOnStatus;
+    isActive?: boolean;
     holidayIds?: string[];
 };
 

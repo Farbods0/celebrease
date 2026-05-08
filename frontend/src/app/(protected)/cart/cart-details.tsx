@@ -221,7 +221,12 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
                 </div>
 
                 <div className="pt-2 grid">
-                    <Button variant="black" disabled={!allAgreed} render={<Link href="/checkout">Proceed to Checkout</Link>} />
+                    <Button
+                        variant="black"
+                        nativeButton={false}
+                        disabled={!allAgreed}
+                        render={<Link href="/checkout">Proceed to Checkout</Link>}
+                    />
                 </div>
 
                 <div className="flex justify-center items-center gap-2 text-sm text-center text-muted-foreground">

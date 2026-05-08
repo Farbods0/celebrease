@@ -23,7 +23,7 @@ export class AddOnsService {
 
     async list() {
         const items = await this.prisma.addOn.findMany({
-            where: { status: "ACTIVE" },
+            where: { isActive: true },
             include: addonInclude,
             orderBy: { createdAt: "desc" },
         });
@@ -59,7 +59,7 @@ export class AddOnsService {
                 price: dto.price,
                 deposit: dto.deposit ?? 0,
                 inventory: dto.inventory ?? 0,
-                status: dto.status ?? "ACTIVE",
+                isActive: dto.isActive,
                 ...(dto.holidayIds?.length
                     ? {
                           holidays: {
@@ -105,7 +105,7 @@ export class AddOnsService {
                     ...(dto.price !== undefined && { price: dto.price }),
                     ...(dto.deposit !== undefined && { deposit: dto.deposit }),
                     ...(dto.inventory !== undefined && { inventory: dto.inventory }),
-                    ...(dto.status !== undefined && { status: dto.status }),
+                    ...(dto.isActive !== undefined && { isActive: dto.isActive }),
                 },
             });
         });

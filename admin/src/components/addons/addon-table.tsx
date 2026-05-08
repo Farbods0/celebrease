@@ -2,11 +2,6 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { baseURL, type ApiAddOn } from "@/lib/api";
 
-const STATUS_LABEL: Record<ApiAddOn["status"], string> = {
-    ACTIVE: "Active",
-    HIDDEN: "Hidden",
-};
-
 const fmtMoney = (raw: string | number) => {
     const n = typeof raw === "string" ? Number(raw) : raw;
     return Number.isFinite(n) ? `$${n.toFixed(2)}` : "—";
@@ -66,7 +61,7 @@ export function AddOnTable({ items, onEdit }: AddOnTableProps) {
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <StatusBadge status={STATUS_LABEL[item.status]} />
+                                    <StatusBadge status={item.isActive ? "Active" : "Hidden"} />
                                 </TableCell>
                                 <TableCell>
                                     <button

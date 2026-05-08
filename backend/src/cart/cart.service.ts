@@ -59,14 +59,14 @@ export class CartService {
         const addOnRecords = requestedAddOns.length
             ? await this.prisma.addOn.findMany({
                   where: { id: { in: requestedAddOns.map((a) => a.addOnId) } },
-                  select: { id: true, price: true, deposit: true, status: true },
+                  select: { id: true, price: true, deposit: true, isActive: true },
               })
             : [];
 
         if (addOnRecords.length !== requestedAddOns.length) {
             throw new NotFoundException("One or more add-ons not found");
         }
-        const inactive = addOnRecords.find((a) => a.status !== "ACTIVE");
+        const inactive = addOnRecords.find((a) => !a.isActive);
         if (inactive) throw new BadRequestException("One or more add-ons are not available");
 
         const addOnById = new Map(addOnRecords.map((a) => [a.id, a]));

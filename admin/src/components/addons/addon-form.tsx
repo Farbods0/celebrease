@@ -2,17 +2,14 @@ import { useAppForm } from "@/components/form/form-context";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
 import { addOnsApi, type ApiAddOn } from "@/lib/api";
 import { getHolidays } from "@/lib/utils";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import * as z from "zod";
-
-const STATUS_OPTIONS = [
-    { value: "ACTIVE", label: "Active" },
-    { value: "HIDDEN", label: "Hidden" },
-];
 
 const numericString = (label: string, opts: { allowZero?: boolean; integer?: boolean } = {}) =>
     z.string().refine(
@@ -34,7 +31,7 @@ const formSchema = z.object({
     price: numericString("Price", { allowZero: true }),
     deposit: numericString("Deposit", { allowZero: true }),
     inventory: numericString("Inventory", { allowZero: true, integer: true }),
-    status: z.enum(["ACTIVE", "HIDDEN"]),
+    isActive: z.boolean(),
 });
 
 export function AddonForm({ item, onClose }: { item?: ApiAddOn; onClose: () => void }) {
@@ -55,7 +52,7 @@ export function AddonForm({ item, onClose }: { item?: ApiAddOn; onClose: () => v
             price: item ? String(item.price) : "",
             deposit: item ? String(item.deposit) : "0",
             inventory: item ? String(item.inventory) : "0",
-            status: item?.status ?? "ACTIVE",
+            isActive: item?.isActive ?? true,
         },
         validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
@@ -68,7 +65,7 @@ export function AddonForm({ item, onClose }: { item?: ApiAddOn; onClose: () => v
                     price: Number(value.price),
                     deposit: Number(value.deposit),
                     inventory: Number(value.inventory),
-                    status: value.status,
+                    isActive: value.isActive,
                     holidayIds: Array.from(selectedHolidayIds),
                 };
 
@@ -165,9 +162,15 @@ export function AddonForm({ item, onClose }: { item?: ApiAddOn; onClose: () => v
                     </div>
                 )}
 
-                <p className="text-xs text-muted-foreground uppercase tracking-wide">Visibility</p>
-                <form.AppField name="status">
-                    {(field) => <field.FormSelect label="Status" placeholder="Select status" options={STATUS_OPTIONS} />}
+                <form.AppField name="isActive">
+                    {(field) => (
+                        <Field orientation="horizontal">
+                            <FieldContent>
+                                <FieldLabel htmlFor={field.name}>Visible to customers</FieldLabel>
+                            </FieldContent>
+                            <Switch id={field.name} checked={field.state.value} onCheckedChange={field.handleChange} />
+                        </Field>
+                    )}
                 </form.AppField>
 
                 <div className="flex justify-between gap-4">

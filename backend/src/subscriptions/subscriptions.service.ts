@@ -9,7 +9,7 @@ const subscriptionInclude = {
     plan: { select: { id: true, code: true, name: true, holidaysPerYear: true } },
     holidaySlots: {
         orderBy: { slotNumber: "asc" as const },
-        select: { id: true, slotNumber: true, status: true, holidayId: true, orderId: true },
+        select: { id: true, slotNumber: true, status: true, holidayId: true },
     },
 } as const;
 

@@ -1,13 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
-import type { ApiInventoryItem } from "@/lib/api";
+import { formatItemStatus, type ApiItem } from "@/lib/api";
 import { AlertTriangle } from "lucide-react";
-
-const STATUS_LABEL: Record<ApiInventoryItem["status"], string> = {
-    ACTIVE: "Active",
-    LOW_STOCK: "Low Stock",
-    RETIRED: "Retired",
-};
 
 function Field({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "available" | "reserved" | "repair" }) {
     let valueColor: string | undefined;
@@ -26,19 +20,19 @@ function Field({ label, value, tone }: { label: string; value: React.ReactNode; 
 }
 
 type InventoryCardProps = {
-    item: ApiInventoryItem;
-    onView: (item: ApiInventoryItem) => void;
-    onEdit: (item: ApiInventoryItem) => void;
+    item: ApiItem;
+    onView: (item: ApiItem) => void;
+    onEdit: (item: ApiItem) => void;
 };
 
-function holidayLabel(item: ApiInventoryItem): string {
+function holidayLabel(item: ApiItem): string {
     const names = Array.from(new Set(item.kitItems.map((ki) => ki.kit.holiday.name)));
     if (names.length === 0) return "—";
     if (names.length === 1) return names[0];
     return `${names[0]} +${names.length - 1}`;
 }
 
-function kitTierLabel(item: ApiInventoryItem): string {
+function kitTierLabel(item: ApiItem): string {
     const tiers = Array.from(new Set(item.kitItems.map((ki) => ki.kit.tier)));
     if (tiers.length === 0) return "—";
     return tiers.map((t) => (t === "STARTER" ? "Starter" : "Premium")).join(", ");
@@ -68,7 +62,7 @@ export function InventoryCard({ item, onView, onEdit }: InventoryCardProps) {
                 <Field label="Shipped" value={0} />
                 <Field label="Cleaning" value={0} />
                 <Field label="Repair" value={0} tone="repair" />
-                <Field label="Status" value={<StatusBadge status={STATUS_LABEL[item.status]} />} />
+                <Field label="Status" value={<StatusBadge status={formatItemStatus(item.status)} />} />
             </div>
 
             <div className="mt-4 flex gap-3">

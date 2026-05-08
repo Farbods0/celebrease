@@ -113,4 +113,151 @@ export class UsersService {
 
         return user;
     }
+
+    async listCustomers(query: ListUsersDto) {
+        const { page, limit, search } = query;
+        const skip = (page - 1) * limit;
+
+        const where = {
+            role: "user",
+            ...(search
+                ? {
+                      OR: [
+                          { name: { contains: search, mode: "insensitive" as const } },
+                          { email: { contains: search, mode: "insensitive" as const } },
+                      ],
+                  }
+                : {}),
+        };
+
+        const [users, total] = await this.prisma.$transaction([
+            this.prisma.user.findMany({
+                where,
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    image: true,
+                    phone: true,
+                    region: true,
+                    banned: true,
+                    createdAt: true,
+                    address: {
+                        select: {
+                            country: true,
+                        },
+                    },
+                    orders: {
+                        select: { status: true, kitDeposit: true, addOnDeposit: true },
+                    },
+                    subscriptions: {
+                        where: { status: { in: ["ACTIVE", "PAUSED"] } },
+                        select: { id: true },
+                        take: 1,
+                    },
+                },
+                orderBy: { createdAt: "desc" },
+                skip,
+                take: limit,
+            }),
+            this.prisma.user.count({ where }),
+        ]);
+
+        const items = users.map((u) => {
+            const orderCount = u.orders.length;
+            const completedCount = u.orders.filter((o) => o.status === "COMPLETED").length;
+            const depositsHeld = u.orders
+                .filter((o) => o.status !== "COMPLETED" && o.status !== "CANCELLED")
+                .reduce((sum, o) => sum + Number(o.kitDeposit) + Number(o.addOnDeposit), 0);
+
+            return {
+                id: u.id,
+                name: u.name,
+                email: u.email,
+                image: u.image,
+                phone: u.phone,
+                region: u.region ?? u.address?.country,
+                banned: u.banned,
+                createdAt: u.createdAt,
+                orderCount,
+                completedCount,
+                hasActiveSubscription: u.subscriptions.length > 0,
+                depositsHeld,
+            };
+        });
+
+        return { items, total };
+    }
+
+    async getCustomerById(id: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                image: true,
+                phone: true,
+                region: true,
+                banned: true,
+                createdAt: true,
+                updatedAt: true,
+                address: true,
+                subscriptions: {
+                    orderBy: { createdAt: "desc" as const },
+                    take: 1,
+                    select: {
+                        id: true,
+                        status: true,
+                        billingCycle: true,
+                        startedAt: true,
+                        nextBillingAt: true,
+                        plan: { select: { id: true, code: true, name: true } },
+                    },
+                },
+                orders: {
+                    orderBy: { createdAt: "desc" as const },
+                    select: {
+                        id: true,
+                        orderNumber: true,
+                        status: true,
+                        total: true,
+                        kitDeposit: true,
+                        addOnDeposit: true,
+                        createdAt: true,
+                        holiday: { select: { id: true, name: true } },
+                        kit: { select: { id: true, tier: true } },
+                    },
+                },
+            },
+        });
+
+        if (!user) throw new NotFoundException("Customer not found");
+
+        const orders = user.orders;
+        const orderCount = orders.length;
+        const completedCount = orders.filter((o) => o.status === "COMPLETED").length;
+        const depositsHeld = orders
+            .filter((o) => o.status !== "COMPLETED" && o.status !== "CANCELLED")
+            .reduce((sum, o) => sum + Number(o.kitDeposit) + Number(o.addOnDeposit), 0);
+
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            phone: user.phone,
+            region: user.region ?? user.address?.country,
+            banned: user.banned,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+            orderCount,
+            completedCount,
+            hasActiveSubscription: (user.subscriptions[0]?.status === "ACTIVE" || user.subscriptions[0]?.status === "PAUSED") ?? false,
+            depositsHeld,
+            address: user.address,
+            subscription: user.subscriptions[0] ?? null,
+            recentOrders: orders.slice(0, 10),
+        };
+    }
 }

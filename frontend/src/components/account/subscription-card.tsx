@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { getMySubscription, type ApiSubscription } from "@/lib/api";
 import { StarIcon } from "@hugeicons/core-free-icons";
@@ -114,14 +113,6 @@ export default function SubscriptionCard() {
                     <p className="text-sm text-muted-foreground">Current Cycle</p>
                     <h3 className="text-lg lg:text-xl font-semibold">{formatYear(sub.cycleStart)}</h3>
                 </div>
-            </div>
-
-            <div className="flex flex-wrap gap-4 text-sm text-blue-600">
-                <button>{sub.status === "PAUSED" ? "Resume Subscription" : "Pause Subscription"}</button>
-                <Separator orientation="vertical" />
-                <button>View Billing History</button>
-                <Separator orientation="vertical" />
-                <button>Update Payment</button>
             </div>
         </div>
     );

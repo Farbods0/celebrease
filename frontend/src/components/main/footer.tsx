@@ -17,7 +17,6 @@ export default function Footer() {
                         <div className="flex flex-col gap-4">
                             <Link href="/">Home</Link>
                             <Link href="/about">About Us</Link>
-                            <Link href="/projects">Projects</Link>
                             <Link href="/blog">Blog</Link>
                             <Link href="/contact">Contact</Link>
                         </div>
@@ -27,11 +26,9 @@ export default function Footer() {
                     <div className="flex flex-col gap-5">
                         <h3 className="font-semibold text-lg">Shop</h3>
                         <div className="flex flex-col gap-4">
-                            <Link href="/holidays">Traditional Holidays</Link>
-
-                            <Link href="/cultural">Cultural Celebrations</Link>
-
-                            <Link href="/events">Event-Based Moments</Link>
+                            <Link href="/catalog?category=TRADITIONAL">Traditional Holidays</Link>
+                            <Link href="/catalog?category=CULTURAL">Cultural Celebrations</Link>
+                            <Link href="/catalog?category=EVENT_BASED">Event-Based Moments</Link>
                         </div>
                     </div>
 
@@ -39,7 +36,7 @@ export default function Footer() {
                     <div className="flex flex-col gap-5">
                         <h3 className="font-semibold text-lg">About</h3>
                         <div className="flex flex-col gap-4">
-                            <Link href="/how-it-works">How It Works</Link>
+                            <Link href="/faqs">How It Works</Link>
                             <Link href="/sustainability">Sustainability</Link>
                             <Link href="/inspiration">Blog / Inspiration</Link>
                         </div>

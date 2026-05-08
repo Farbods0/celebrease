@@ -62,7 +62,7 @@ export function FormImage({ label, disabled, accept = "image/png,image/jpeg,imag
                 <button
                     type="button"
                     onClick={() => inputRef.current?.click()}
-                    className="flex w-full flex-col items-center justify-center rounded-md border border-dashed px-6 py-8 text-center disabled:cursor-not-allowed disabled:opacity-60"
+                    className="flex w-full flex-col items-center justify-center rounded-md border border-dashed px-6 py-8 text-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
                     disabled={disabled || isUploading}
                 >
                     <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">

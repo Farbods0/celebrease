@@ -3,7 +3,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/in
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import type { InventoryStatus, KitTier } from "@/lib/api";
+import type { ItemStatus, KitTier } from "@/lib/api";
 import { getHolidays } from "@/lib/utils";
 import { Search } from "lucide-react";
 
@@ -11,7 +11,7 @@ export type InventoryFilterState = {
     search: string;
     holidayId: string; // "all" or holiday id
     tiers: Set<"ALL" | KitTier>;
-    statuses: Set<InventoryStatus>;
+    statuses: Set<ItemStatus>;
     category: string; // "all" or category name
     lowStockOnly: boolean;
 };
@@ -31,10 +31,10 @@ const TIERS: { value: "ALL" | KitTier; label: string }[] = [
     { value: "PREMIUM", label: "Premium" },
 ];
 
-const STATUSES: { value: InventoryStatus; label: string }[] = [
+const STATUSES: { value: ItemStatus; label: string }[] = [
     { value: "ACTIVE", label: "Active" },
+    { value: "HIDDEN", label: "Hidden" },
     { value: "LOW_STOCK", label: "Low Stock" },
-    { value: "RETIRED", label: "Retired" },
 ];
 
 function FilterLegend({ children }: { children: React.ReactNode }) {
@@ -63,7 +63,7 @@ export function InventoryFilters({ categories, state, onChange }: InventoryFilte
         onChange({ ...state, tiers: next });
     };
 
-    const toggleStatus = (s: InventoryStatus) => {
+    const toggleStatus = (s: ItemStatus) => {
         const next = new Set(state.statuses);
         if (next.has(s)) next.delete(s);
         else next.add(s);

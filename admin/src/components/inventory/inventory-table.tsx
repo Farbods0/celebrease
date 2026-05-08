@@ -1,6 +1,6 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { ApiInventoryItem } from "@/lib/api";
+import { formatItemStatus, type ApiItem } from "@/lib/api";
 import { AlertTriangle } from "lucide-react";
 
 function LowStockChip() {
@@ -12,29 +12,23 @@ function LowStockChip() {
     );
 }
 
-const STATUS_LABEL: Record<ApiInventoryItem["status"], string> = {
-    ACTIVE: "Active",
-    LOW_STOCK: "Low Stock",
-    RETIRED: "Retired",
-};
-
-function holidayLabel(item: ApiInventoryItem): string {
+function holidayLabel(item: ApiItem): string {
     const names = Array.from(new Set(item.kitItems.map((ki) => ki.kit.holiday.name)));
     if (names.length === 0) return "—";
     if (names.length === 1) return names[0];
     return `${names[0]} +${names.length - 1}`;
 }
 
-function kitTierLabel(item: ApiInventoryItem): string {
+function kitTierLabel(item: ApiItem): string {
     const tiers = Array.from(new Set(item.kitItems.map((ki) => ki.kit.tier)));
     if (tiers.length === 0) return "—";
     return tiers.map((t) => (t === "STARTER" ? "Starter" : "Premium")).join(", ");
 }
 
 type InventoryTableProps = {
-    items: ApiInventoryItem[];
-    onView: (item: ApiInventoryItem) => void;
-    onEdit: (item: ApiInventoryItem) => void;
+    items: ApiItem[];
+    onView: (item: ApiItem) => void;
+    onEdit: (item: ApiItem) => void;
 };
 
 export function InventoryTable({ items, onView, onEdit }: InventoryTableProps) {
@@ -89,7 +83,7 @@ export function InventoryTable({ items, onView, onEdit }: InventoryTableProps) {
                                         N/A
                                     </TableCell>
                                     <TableCell>
-                                        <StatusBadge status={STATUS_LABEL[item.status]} />
+                                        <StatusBadge status={formatItemStatus(item.status)} />
                                     </TableCell>
                                     <TableCell className="flex items-center gap-2">
                                         <button

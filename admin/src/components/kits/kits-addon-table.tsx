@@ -2,11 +2,6 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { baseURL, type ApiHolidayWithAddOns } from "@/lib/api";
 
-const STATUS_LABEL: Record<ApiHolidayWithAddOns["addOns"][number]["addOn"]["status"], string> = {
-    ACTIVE: "Active",
-    HIDDEN: "Hidden",
-};
-
 export function KitsAddonTable({ items }: { items: ApiHolidayWithAddOns["addOns"] }) {
     return (
         <div className="overflow-hidden rounded-lg border">
@@ -40,7 +35,7 @@ export function KitsAddonTable({ items }: { items: ApiHolidayWithAddOns["addOns"
                             <TableCell>{addon.addOn.deposit}</TableCell>
                             <TableCell>{addon.addOn.inventory}</TableCell>
                             <TableCell>
-                                <StatusBadge status={STATUS_LABEL[addon.addOn.status]} />
+                                <StatusBadge status={addon.addOn.isActive ? "Active" : "Hidden"} />
                             </TableCell>
                             <TableCell>
                                 <button className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium">

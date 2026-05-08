@@ -140,13 +140,8 @@ enum KitStatus {
 
 enum ItemStatus {
     ACTIVE
-    LOW_STOCK
-    RETIRED
-}
-
-enum AddOnStatus {
-    ACTIVE
     HIDDEN
+    LOW_STOCK
 }
 
 enum PlanCode {
@@ -236,7 +231,6 @@ model Item {
     costPerUnit       Decimal    @db.Decimal(10, 2)
     totalQty          Int        @default(0)
     lowStockThreshold Int        @default(0)
-    initialStatus     ItemStatus @default(ACTIVE)
     status            ItemStatus @default(ACTIVE)
     createdAt         DateTime   @default(now())
     updatedAt         DateTime   @updatedAt
@@ -315,17 +309,17 @@ model KitPreviewItem {
 // ============================================================
 
 model AddOn {
-    id          String      @id @default(cuid())
-    sku         String?     @unique
+    id          String   @id @default(cuid())
+    sku         String?  @unique
     name        String
     image       String
     description String?
-    price       Decimal     @db.Decimal(10, 2)
-    deposit     Decimal     @default(0) @db.Decimal(10, 2)
-    inventory   Int         @default(0)
-    status      AddOnStatus @default(ACTIVE)
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
+    price       Decimal  @db.Decimal(10, 2)
+    deposit     Decimal  @default(0) @db.Decimal(10, 2)
+    inventory   Int      @default(0)
+    isActive    Boolean  @default(true)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
     holidays    AddOnHoliday[]
     cartAddOns  CartAddOn[]

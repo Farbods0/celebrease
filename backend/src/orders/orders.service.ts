@@ -37,7 +37,15 @@ const orderInclude = {
 
 const adminOrderInclude = {
     ...orderInclude,
-    user: { select: { id: true, name: true, email: true } },
+    user: {
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+            address: { select: { phone: true } },
+        },
+    },
 } as const;
 
 const cartCheckoutInclude = {

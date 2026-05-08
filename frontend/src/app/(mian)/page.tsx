@@ -31,10 +31,11 @@ export default async function HomePage() {
                         </p>
                         <div className="mt-5 md:mt-6 flex justify-center gap-4">
                             <Button
+                                nativeButton={false}
                                 className="bg-white hover:bg-white/80 shadow-lg"
                                 render={<Link href="/catalog">Browse Holidays</Link>}
                             />
-                            <Button render={<Link href="/faqs">How It Works</Link>} />
+                            <Button nativeButton={false} render={<Link href="/faqs">How It Works</Link>} />
                         </div>
                     </div>
                     <div>
@@ -91,6 +92,7 @@ export default async function HomePage() {
                     </div>
                     <Button
                         variant="black"
+                        nativeButton={false}
                         render={
                             <Link href="/subscription">
                                 Join Now

@@ -97,29 +97,12 @@ export async function createOrderCheckout(payload: CreateCheckoutPayload): Promi
     return data;
 }
 
-async function serverCookie(): Promise<string | undefined> {
-    if (typeof window !== "undefined") return undefined;
-    const { cookies } = await import("next/headers");
-    return (await cookies()).toString();
-}
-
 export async function listMyOrders(params?: { filter?: "active" | "recent"; page?: number; limit?: number }): Promise<ListOrdersResponse> {
-    const cookie = await serverCookie();
     const url = new URL(`${baseURL}${apiPrefix}/order/me`);
     if (params?.filter) url.searchParams.set("filter", params.filter);
     if (params?.page) url.searchParams.set("page", params.page.toString());
     if (params?.limit) url.searchParams.set("limit", params.limit.toString());
 
-    const res = await fetch(url.toString(), {
-        cache: "no-store",
-        headers: {
-            ...(cookie && { Cookie: cookie }),
-        },
-    });
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to fetch orders"));
-    }
-
-    const data = await res.json();
-    return data;
+    const res = await fetch(url.toString(), { credentials: "include" });
+    return res.json();
 }

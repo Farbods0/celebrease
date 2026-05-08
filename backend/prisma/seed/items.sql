@@ -5,7 +5,7 @@ INSERT INTO item (
   id, sku, name, image, description, category,
   "vendorName", "vendorEmail", "vendorPhone",
   "costPerUnit", "totalQty", "lowStockThreshold",
-  "initialStatus", status, "createdAt", "updatedAt"
+  status, "createdAt", "updatedAt"
 ) VALUES
 
 -- ── Universal / Multi-holiday ──────────────────────────────
@@ -14,42 +14,42 @@ INSERT INTO item (
  'Warm white LED string lights, 10 m, 100 micro-LEDs. Battery-operated.',
  'Lighting',
  'Bright Decor Co.', 'orders@brightdecor.com', '(555) 100-0001',
- 8.50, 500, 50, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 8.50, 500, 50, 'ACTIVE', NOW(), NOW()),
 
 ('item-premium-ornament', 'ORN-PREM-SET',    'Premium Ornament Set',
  '/uploads/inventory/1777963542006-641340743.png',
  'Set of 12 shatterproof ornaments in assorted metallic finishes.',
  'Ornaments',
  'Ornate House', 'sales@ornatehouse.com', '(555) 100-0002',
- 12.00, 400, 40, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 12.00, 400, 40, 'ACTIVE', NOW(), NOW()),
 
 ('item-led-candle',       'LED-CANDLE-SET',  'LED Candle Set',
  '/uploads/inventory/1777963542006-641340743.png',
  'Set of 3 flameless LED pillar candles with timer function.',
  'Lighting',
  'GlowCraft', 'orders@glowcraft.com', '(555) 100-0003',
- 10.00, 350, 35, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 10.00, 350, 35, 'ACTIVE', NOW(), NOW()),
 
 ('item-confetti-champ',   'CONF-CHAMP',      'Champagne Glitter Confetti',
  '/uploads/inventory/1777963542006-641340743.png',
  'Biodegradable champagne-colored glitter confetti, 200 g bag.',
  'Accents',
  'Party Sparkle', 'info@partysparkle.com', '(555) 100-0004',
- 3.50, 600, 60, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 3.50, 600, 60, 'ACTIVE', NOW(), NOW()),
 
 ('item-balloon-arch',     'BALLOON-ARCH',    'Balloon Arch Kit',
  '/uploads/inventory/1777963542006-641340743.png',
  'DIY balloon arch with 120 balloons in mixed sizes and a flexible frame.',
  'Accents',
  'Party Sparkle', 'info@partysparkle.com', '(555) 100-0005',
- 9.00, 300, 30, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 9.00, 300, 30, 'ACTIVE', NOW(), NOW()),
 
 ('item-pastel-balloon',   'BALLOON-PASTEL',  'Pastel Balloon Set',
  '/uploads/inventory/1777963542006-641340743.png',
  'Pack of 50 pastel-colored latex balloons, assorted shades.',
  'Accents',
  'Party Sparkle', 'info@partysparkle.com', '(555) 100-0006',
- 4.00, 450, 45, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 4.00, 450, 45, 'ACTIVE', NOW(), NOW()),
 
 -- ── New Year's ─────────────────────────────────────────────
 ('item-gold-star-center', 'CTR-GOLD-STAR',   'Gold Star Centerpiece',
@@ -57,7 +57,7 @@ INSERT INTO item (
  'Metallic gold star centerpiece, 30 cm tall. Perfect for table settings.',
  'Tabletop Décor',
  'Ornate House', 'sales@ornatehouse.com', '(555) 100-0007',
- 7.50, 250, 25, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 7.50, 250, 25, 'ACTIVE', NOW(), NOW()),
 
 -- ── Ramadan / Eid ──────────────────────────────────────────
 ('item-lantern-gold',     'LANT-GOLD-SET',   'Lantern Set – Gold',
@@ -65,14 +65,14 @@ INSERT INTO item (
  'Set of 3 gold-finish metal lanterns in small, medium, and large.',
  'Lighting',
  'Luxe Lanterns', 'orders@luxelanterns.com', '(555) 100-0008',
- 15.00, 200, 20, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 15.00, 200, 20, 'ACTIVE', NOW(), NOW()),
 
 ('item-crescent-orn',     'ORN-CRESCENT',    'Crescent Moon Ornament',
  '/uploads/inventory/1777963542006-641340743.png',
  'Elegant crescent moon ornament with gold-foil detail, 15 cm.',
  'Ornaments',
  'Luxe Lanterns', 'orders@luxelanterns.com', '(555) 100-0009',
- 6.00, 300, 30, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 6.00, 300, 30, 'ACTIVE', NOW(), NOW()),
 
 -- ── Diwali ─────────────────────────────────────────────────
 ('item-rangoli-mat',      'RANG-MAT-SET',    'Rangoli Mat Set',
@@ -80,14 +80,14 @@ INSERT INTO item (
  'Set of 4 vibrant rangoli floor mats, each 30 cm diameter.',
  'Tabletop Décor',
  'Festival Fabrics', 'contact@festivalfabrics.com', '(555) 100-0010',
- 9.00, 280, 28, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 9.00, 280, 28, 'ACTIVE', NOW(), NOW()),
 
 ('item-diya-candle',      'DIYA-CANDLE-SET', 'Diya Candle Set',
  '/uploads/inventory/1777963542006-641340743.png',
  'Set of 8 traditional clay diyas with colorful paint and tea lights.',
  'Lighting',
  'Festival Fabrics', 'contact@festivalfabrics.com', '(555) 100-0011',
- 7.00, 320, 32, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 7.00, 320, 32, 'ACTIVE', NOW(), NOW()),
 
 -- ── Birthdays ──────────────────────────────────────────────
 ('item-party-hat',        'HAT-PARTY-SET',   'Party Hat Set',
@@ -95,7 +95,7 @@ INSERT INTO item (
  'Pack of 8 celebratory party hats with elastic chin straps.',
  'Tabletop Décor',
  'Party Sparkle', 'info@partysparkle.com', '(555) 100-0012',
- 5.00, 400, 40, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 5.00, 400, 40, 'ACTIVE', NOW(), NOW()),
 
 -- ── Valentine's Day ────────────────────────────────────────
 ('item-heart-ornament',   'ORN-HEART-SET',   'Heart Ornament Set',
@@ -103,14 +103,14 @@ INSERT INTO item (
  'Set of 6 velvet-textured heart ornaments in red and pink.',
  'Ornaments',
  'Ornate House', 'sales@ornatehouse.com', '(555) 100-0013',
- 8.00, 260, 26, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 8.00, 260, 26, 'ACTIVE', NOW(), NOW()),
 
 ('item-rose-petal',       'PETAL-ROSE',      'Rose Petal Scatter',
  '/uploads/inventory/1777963542006-641340743.png',
  'Pack of 200 faux rose petals in deep red, perfect for table scattering.',
  'Accents',
  'Bloom Decor', 'hello@bloomdecor.com', '(555) 100-0014',
- 4.50, 500, 50, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 4.50, 500, 50, 'ACTIVE', NOW(), NOW()),
 
 -- ── Nowruz ─────────────────────────────────────────────────
 ('item-nowruz-runner',    'RUNR-NOWRUZ',     'Nowruz Table Runner',
@@ -118,14 +118,14 @@ INSERT INTO item (
  'Embroidered table runner with traditional Nowruz motifs, 180 × 30 cm.',
  'Tabletop Décor',
  'Festival Fabrics', 'contact@festivalfabrics.com', '(555) 100-0015',
- 11.00, 180, 18, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 11.00, 180, 18, 'ACTIVE', NOW(), NOW()),
 
 ('item-hyacinth-holder',  'HOLD-HYACINTH',   'Hyacinth Candle Holder',
  '/uploads/inventory/1777963542006-641340743.png',
  'Ceramic candle holder inspired by hyacinth motifs, fits standard tea-lights.',
  'Tabletop Décor',
  'GlowCraft', 'orders@glowcraft.com', '(555) 100-0016',
- 8.00, 220, 22, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 8.00, 220, 22, 'ACTIVE', NOW(), NOW()),
 
 -- ── Baby Showers ───────────────────────────────────────────
 ('item-baby-bottle-ctr',  'CTR-BABY-BOTTLE', 'Baby Bottle Centerpiece',
@@ -133,7 +133,7 @@ INSERT INTO item (
  'Adorable baby bottle-shaped centerpiece, 25 cm, pastel finish.',
  'Tabletop Décor',
  'Little Celebrations', 'orders@littlecelebrations.com', '(555) 100-0017',
- 9.50, 200, 20, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 9.50, 200, 20, 'ACTIVE', NOW(), NOW()),
 
 -- ── Easter ─────────────────────────────────────────────────
 ('item-pastel-egg-orn',   'ORN-PASTEL-EGG',  'Pastel Egg Ornaments',
@@ -141,14 +141,14 @@ INSERT INTO item (
  'Set of 8 pastel egg ornaments with satin ribbon hangers.',
  'Ornaments',
  'Ornate House', 'sales@ornatehouse.com', '(555) 100-0018',
- 7.00, 300, 30, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 7.00, 300, 30, 'ACTIVE', NOW(), NOW()),
 
 ('item-bunny-figurine',   'FIG-BUNNY-SET',   'Bunny Figurine Set',
  '/uploads/inventory/1777963542006-641340743.png',
  'Set of 3 ceramic bunny figurines in white, pink, and lavender.',
  'Tabletop Décor',
  'Little Celebrations', 'orders@littlecelebrations.com', '(555) 100-0019',
- 10.00, 180, 18, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 10.00, 180, 18, 'ACTIVE', NOW(), NOW()),
 
 -- ── Engagement Parties ─────────────────────────────────────
 ('item-ring-box-ctr',     'CTR-RING-BOX',    'Ring Box Centerpiece',
@@ -156,7 +156,7 @@ INSERT INTO item (
  'Elegant ring-box centerpiece with velvet lining, 20 cm.',
  'Tabletop Décor',
  'Ornate House', 'sales@ornatehouse.com', '(555) 100-0020',
- 11.00, 160, 16, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 11.00, 160, 16, 'ACTIVE', NOW(), NOW()),
 
 -- ── Halloween ──────────────────────────────────────────────
 ('item-spider-web',       'KIT-SPIDER-WEB',  'Spider Web Kit',
@@ -164,14 +164,14 @@ INSERT INTO item (
  'Stretchable spider web decoration with 6 plastic spiders, covers 4 m².',
  'Accents',
  'Spooky Supply', 'orders@spookysupply.com', '(555) 100-0021',
- 5.50, 350, 35, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 5.50, 350, 35, 'ACTIVE', NOW(), NOW()),
 
 ('item-pumpkin-lantern',  'LANT-PUMPKIN',    'Pumpkin Lantern Set',
  '/uploads/inventory/1777963542006-641340743.png',
  'Set of 3 LED pumpkin lanterns with flickering effect, assorted sizes.',
  'Lighting',
  'Spooky Supply', 'orders@spookysupply.com', '(555) 100-0022',
- 12.00, 250, 25, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 12.00, 250, 25, 'ACTIVE', NOW(), NOW()),
 
 -- ── Hanukkah ───────────────────────────────────────────────
 ('item-menorah-candle',   'MENORAH-CANDLE',  'Menorah Candle Set',
@@ -179,14 +179,14 @@ INSERT INTO item (
  'Set of 44 hand-dipped menorah candles in blue and white.',
  'Lighting',
  'GlowCraft', 'orders@glowcraft.com', '(555) 100-0023',
- 6.50, 280, 28, 'ACTIVE', 'ACTIVE', NOW(), NOW()),
+ 6.50, 280, 28, 'ACTIVE', NOW(), NOW()),
 
 ('item-star-david-orn',   'ORN-STAR-DAVID',  'Star of David Ornament',
  '/uploads/inventory/1777963542006-641340743.png',
  'Set of 4 blue and silver Star of David ornaments, 10 cm each.',
  'Ornaments',
  'Ornate House', 'sales@ornatehouse.com', '(555) 100-0024',
- 7.50, 240, 24, 'ACTIVE', 'ACTIVE', NOW(), NOW());
+ 7.50, 240, 24, 'ACTIVE', NOW(), NOW());
 
 
 -- ============================================================

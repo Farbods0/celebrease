@@ -1,11 +1,11 @@
 INSERT INTO "addon"
-("id", "name", "image", "price", "deposit", "inventory", "status", "createdAt", "updatedAt")
+("id", "name", "image", "price", "deposit", "inventory", "isActive", "createdAt", "updatedAt")
 VALUES
-    ('addon-001', 'Christmas Tree (6ft)',    '/uploads/addons/christmas-tree.png',    59.00, 100.00,  42, 'ACTIVE', NOW(), NOW()),
-    ('addon-002', 'Extra Lights Kit',        '/uploads/addons/extra-lights-kit.png',  12.00,   0.00, 110, 'ACTIVE', NOW(), NOW()),
-    ('addon-003', 'Metallic Table Runner',   '/uploads/addons/metallic-runner.png',    8.00,   0.00,  34, 'ACTIVE', NOW(), NOW()),
-    ('addon-004', 'Balloon Arch Deluxe',     '/uploads/addons/balloon-arch.png',      29.00,   0.00,  76, 'ACTIVE', NOW(), NOW()),
-    ('addon-005', 'Wreath (Premium Floral)', '/uploads/addons/wreath-floral.png',     19.00,  25.00,  20, 'HIDDEN', NOW(), NOW())
+    ('addon-001', 'Christmas Tree (6ft)',    '/uploads/addons/christmas-tree.png',    59.00, 100.00,  42, true, NOW(), NOW()),
+    ('addon-002', 'Extra Lights Kit',        '/uploads/addons/extra-lights-kit.png',  12.00,   0.00, 110, true, NOW(), NOW()),
+    ('addon-003', 'Metallic Table Runner',   '/uploads/addons/metallic-runner.png',    8.00,   0.00,  34, true, NOW(), NOW()),
+    ('addon-004', 'Balloon Arch Deluxe',     '/uploads/addons/balloon-arch.png',      29.00,   0.00,  76, true, NOW(), NOW()),
+    ('addon-005', 'Wreath (Premium Floral)', '/uploads/addons/wreath-floral.png',     19.00,  25.00,  20, false, NOW(), NOW())
 ON CONFLICT ("id") DO NOTHING;
 
 -- Insert seed data into "addon_holiday"

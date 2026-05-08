@@ -69,7 +69,6 @@ export class InventoryService {
                 costPerUnit: dto.costPerUnit,
                 totalQty: dto.totalQty,
                 lowStockThreshold: dto.lowStockThreshold ?? 0,
-                initialStatus: dto.initialStatus ?? dto.status ?? "ACTIVE",
                 status: dto.status ?? "ACTIVE",
                 ...(dto.kits?.length
                     ? {

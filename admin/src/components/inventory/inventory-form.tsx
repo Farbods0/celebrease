@@ -2,7 +2,7 @@ import { useAppForm } from "@/components/form/form-context";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { inventoryApi, type ApiHoliday, type ApiInventoryItem } from "@/lib/api";
+import { inventoryApi, type ApiHoliday, type ApiItem } from "@/lib/api";
 import { getHolidays } from "@/lib/utils";
 import { useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
@@ -11,8 +11,8 @@ import * as z from "zod";
 
 const STATUS_OPTIONS = [
     { value: "ACTIVE", label: "Active" },
+    { value: "HIDDEN", label: "Hidden" },
     { value: "LOW_STOCK", label: "Low Stock" },
-    { value: "RETIRED", label: "Retired" },
 ];
 
 const numericString = (label: string, opts: { allowZero?: boolean; integer?: boolean } = {}) =>
@@ -39,7 +39,7 @@ const formSchema = z.object({
     costPerUnit: numericString("Cost per unit", { allowZero: true }),
     totalQty: numericString("Total quantity", { allowZero: true, integer: true }),
     lowStockThreshold: z.string().refine((v) => v === "" || (Number.isInteger(Number(v)) && Number(v) >= 0), "Must be 0 or greater"),
-    status: z.enum(["ACTIVE", "LOW_STOCK", "RETIRED"]),
+    status: z.enum(["ACTIVE", "HIDDEN", "LOW_STOCK"]),
 });
 
 function StepBar({ step }: { step: 1 | 2 }) {
@@ -51,7 +51,7 @@ function StepBar({ step }: { step: 1 | 2 }) {
     );
 }
 
-export function InventoryForm({ item, onClose }: { item?: ApiInventoryItem; onClose: () => void }) {
+export function InventoryForm({ item, onClose }: { item?: ApiItem; onClose: () => void }) {
     const router = useRouter();
     const isEdit = !!item;
     const [step, setStep] = useState<1 | 2>(1);
@@ -110,7 +110,7 @@ export function InventoryForm({ item, onClose }: { item?: ApiInventoryItem; onCl
                     await inventoryApi.update(item.id, payload);
                     toast.success("Inventory item updated");
                 } else {
-                    await inventoryApi.create({ ...payload, initialStatus: value.status });
+                    await inventoryApi.create(payload);
                     toast.success("Inventory item created");
                 }
                 await router.invalidate();

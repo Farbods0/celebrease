@@ -1,9 +1,9 @@
-import type { KitTier } from "./kit";
 import { request } from "./base";
+import type { KitTier } from "./kit";
 
-export type InventoryStatus = "ACTIVE" | "LOW_STOCK" | "RETIRED";
+export type ItemStatus = "ACTIVE" | "HIDDEN" | "LOW_STOCK";
 
-export type InventoryKitItem = {
+export type ItemKit = {
     qty: number;
     kit: {
         id: string;
@@ -14,7 +14,7 @@ export type InventoryKitItem = {
     };
 };
 
-export type ApiInventoryItem = {
+export type ApiItem = {
     id: string;
     sku: string;
     name: string;
@@ -27,16 +27,15 @@ export type ApiInventoryItem = {
     costPerUnit: string;
     totalQty: number;
     lowStockThreshold: number;
-    initialStatus: InventoryStatus;
-    status: InventoryStatus;
-    kitItems: InventoryKitItem[];
+    status: ItemStatus;
+    kitItems: ItemKit[];
     createdAt: string;
     updatedAt: string;
 };
 
 export type KitMappingPayload = { kitId: string; qty: number };
 
-export type CreateInventoryItemPayload = {
+export type CreateItemPayload = {
     sku: string;
     name: string;
     image: string;
@@ -48,23 +47,22 @@ export type CreateInventoryItemPayload = {
     costPerUnit: number;
     totalQty: number;
     lowStockThreshold?: number;
-    initialStatus?: InventoryStatus;
-    status?: InventoryStatus;
+    status?: ItemStatus;
     kits?: KitMappingPayload[];
 };
 
-export type UpdateInventoryItemPayload = Partial<Omit<CreateInventoryItemPayload, "initialStatus">>;
+export type UpdateItemPayload = Partial<CreateItemPayload>;
 
 export const inventoryApi = {
-    listAll: () => request<{ items: ApiInventoryItem[] }>(`/inventory/admin`),
-    get: (id: string) => request<ApiInventoryItem>(`/inventory/${id}`),
-    create: (payload: CreateInventoryItemPayload) =>
-        request<ApiInventoryItem>(`/inventory`, {
+    listAll: () => request<{ items: ApiItem[] }>(`/inventory/admin`),
+    get: (id: string) => request<ApiItem>(`/inventory/${id}`),
+    create: (payload: CreateItemPayload) =>
+        request<ApiItem>(`/inventory`, {
             method: "POST",
             body: JSON.stringify(payload),
         }),
-    update: (id: string, payload: UpdateInventoryItemPayload) =>
-        request<ApiInventoryItem>(`/inventory/${id}`, {
+    update: (id: string, payload: UpdateItemPayload) =>
+        request<ApiItem>(`/inventory/${id}`, {
             method: "PATCH",
             body: JSON.stringify(payload),
         }),
@@ -73,3 +71,13 @@ export const inventoryApi = {
             method: "DELETE",
         }),
 };
+
+const ITEM_STATUS_LABEL: Record<ApiItem["status"], string> = {
+    ACTIVE: "Active",
+    HIDDEN: "Hidden",
+    LOW_STOCK: "Low Stock",
+};
+
+export function formatItemStatus(status: ApiItem["status"]) {
+    return ITEM_STATUS_LABEL[status];
+}

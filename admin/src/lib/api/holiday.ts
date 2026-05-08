@@ -1,4 +1,3 @@
-import type { AddOnStatus } from "./addon";
 import { request } from "./base";
 import type { KitTier } from "./kit";
 
@@ -34,7 +33,7 @@ export type ApiHolidayWithAddOns = ApiHoliday & {
             price: number;
             deposit: number;
             inventory: number;
-            status: AddOnStatus;
+            isActive: boolean;
         };
     }>;
 };

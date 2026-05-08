@@ -55,26 +55,9 @@ async function readError(res: Response, fallback: string): Promise<string> {
     return `${fallback}: ${res.statusText}`;
 }
 
-async function serverCookie(): Promise<string | undefined> {
-    if (typeof window !== "undefined") return undefined;
-    const { cookies } = await import("next/headers");
-    return (await cookies()).toString();
-}
-
 export async function getMyCarts(): Promise<{ items: ApiCart[] }> {
-    const cookie = await serverCookie();
-    const res = await fetch(`${baseURL}${apiPrefix}/cart`, {
-        cache: "no-store",
-        headers: {
-            ...(cookie && { Cookie: cookie }),
-        },
-    });
-    if (!res.ok) {
-        return { items: [] };
-    }
-
-    const data = await res.json();
-    return data;
+    const res = await fetch(`${baseURL}${apiPrefix}/cart`, { credentials: "include" });
+    return res.json();
 }
 
 export async function addToCart(payload: AddToCartPayload): Promise<ApiCart> {

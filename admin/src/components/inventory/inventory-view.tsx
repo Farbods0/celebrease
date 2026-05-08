@@ -1,13 +1,7 @@
 import { Progress } from "@/components/ui/progress";
+import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { type ApiInventoryItem } from "@/lib/api";
-import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
-
-const STATUS_LABEL: Record<ApiInventoryItem["status"], string> = {
-    ACTIVE: "Active",
-    LOW_STOCK: "Low Stock",
-    RETIRED: "Retired",
-};
+import { formatItemStatus, type ApiItem } from "@/lib/api";
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
     return (
@@ -27,7 +21,7 @@ const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("en-US", { mon
 
 const pct = (count: number, total: number) => (total > 0 ? Math.round((count / total) * 100) : 0);
 
-export default function InventoryView({ item }: { item: ApiInventoryItem }) {
+export default function InventoryView({ item }: { item: ApiItem }) {
     return (
         <SheetContent>
             <SheetHeader>
@@ -59,7 +53,7 @@ export default function InventoryView({ item }: { item: ApiInventoryItem }) {
                     <Field label="Cost per unit" value={fmtMoney(item.costPerUnit)} />
                     <Field label="Total Qty" value={item.totalQty} />
                     <Field label="Low-stock at" value={item.lowStockThreshold} />
-                    <Field label="Status" value={<StatusBadge status={STATUS_LABEL[item.status]} />} />
+                    <Field label="Status" value={<StatusBadge status={formatItemStatus(item.status)} />} />
                     <Field label="Vendor" value={item.vendorName} />
                     <Field label="Vendor email" value={item.vendorEmail} />
                     <Field label="Vendor phone" value={item.vendorPhone} />
@@ -81,7 +75,7 @@ export default function InventoryView({ item }: { item: ApiInventoryItem }) {
                 ) : (
                     <div className="space-y-2">
                         {item.kitItems.map((ki) => (
-                            <div key={ki.id} className="flex items-center justify-between border p-2 rounded-lg">
+                            <div key={ki.kit.id} className="flex items-center justify-between border p-2 rounded-lg">
                                 <p className="capitalize">
                                     {ki.kit.holiday.name} {ki.kit.tier === "STARTER" ? "Starter" : "Premium"} Kit
                                 </p>

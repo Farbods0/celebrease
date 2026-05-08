@@ -1,4 +1,6 @@
 const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
+    Yes: { bg: "rgba(0, 196, 88, 0.12)", color: "rgb(0, 139, 63)" },
+    No: { bg: "rgba(211, 0, 4, 0.12)", color: "rgb(211, 0, 4)" },
     Active: { bg: "rgba(0, 196, 88, 0.12)", color: "rgb(0, 139, 63)" },
     Hidden: { bg: "rgba(212, 108, 10, 0.12)", color: "rgb(212, 108, 10)" },
     Delivered: { bg: "rgba(0, 196, 88, 0.12)", color: "rgb(0, 139, 63)" },

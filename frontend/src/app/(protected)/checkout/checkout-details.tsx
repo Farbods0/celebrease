@@ -1,7 +1,6 @@
 "use client";
 
 import { useAppForm } from "@/components/form/form-context";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -9,8 +8,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { ApiAddress, ApiCart, DeliveryOption, KitTier, createOrderCheckout, upsertMyAddress } from "@/lib/api";
 import { LockPasswordIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const checkoutSchema = z.object({
+    name: z.string().min(2, "Enter your full name"),
+    phone: z.string().min(10, "Enter a valid phone number"),
+    address: z.string().min(5, "Enter your street address"),
+    apartment: z.string(),
+    city: z.string().min(2, "Enter your city"),
+    state: z.string().min(2, "Enter your state"),
+    zip: z.string().min(4, "Enter your ZIP code"),
+    country: z.string().min(2, "Enter your country"),
+});
 
 const tierLabel: Record<KitTier, string> = {
     STARTER: "Starter Kit",
@@ -45,42 +56,41 @@ export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; 
             zip: address?.postalCode ?? "",
             country: address?.country ?? "",
         },
+        validators: {
+            onChange: checkoutSchema,
+        },
         onSubmit: async ({ value }) => {
             if (!agreed1 || !agreed2 || !agreed3) {
                 toast.error("Please agree to all terms and conditions to proceed.");
                 return;
             }
 
-            startTransition(async () => {
-                try {
-                    await upsertMyAddress({
-                        name: value.name,
-                        phone: value.phone,
-                        streetLine1: value.address,
-                        streetLine2: value.apartment || undefined,
-                        city: value.city,
-                        state: value.state,
-                        postalCode: value.zip,
-                        country: value.country,
-                    });
+            try {
+                await upsertMyAddress({
+                    name: value.name,
+                    phone: value.phone,
+                    streetLine1: value.address,
+                    streetLine2: value.apartment || undefined,
+                    city: value.city,
+                    state: value.state,
+                    postalCode: value.zip,
+                    country: value.country,
+                });
 
-                    const res = await createOrderCheckout({
-                        cartIds: carts.map((c) => c.id),
-                        deliveryOption: deliveryType,
-                        deliveryNotes: deliveryNotes || undefined,
-                    });
+                const res = await createOrderCheckout({
+                    cartIds: carts.map((c) => c.id),
+                    deliveryOption: deliveryType,
+                    deliveryNotes: deliveryNotes || undefined,
+                });
 
-                    if (res.url) {
-                        window.location.href = res.url;
-                    }
-                } catch (error: any) {
-                    toast.error(error.message || "Failed to initiate checkout.");
+                if (res.url) {
+                    window.location.href = res.url;
                 }
-            });
+            } catch (error: any) {
+                toast.error(error.message || "Failed to initiate checkout.");
+            }
         },
     });
-
-    const [isPending, startTransition] = useTransition();
 
     // Checkbox states
     const [agreed1, setAgreed1] = useState(false);
@@ -288,9 +298,9 @@ export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; 
                 </div>
 
                 <div className="pt-2 grid">
-                    <Button variant="black" form="checkout-form" disabled={isPending} type="submit">
-                        {isPending ? "Processing..." : "Proceed to Checkout"}
-                    </Button>
+                    <form.AppForm>
+                        <form.FormSubmit label="Proceed to Checkout" />
+                    </form.AppForm>
                 </div>
 
                 <div className="flex justify-center items-center gap-2 text-sm text-center text-muted-foreground">

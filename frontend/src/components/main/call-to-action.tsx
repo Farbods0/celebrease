@@ -24,7 +24,7 @@ export default function CallToAction() {
                 </div>
                 <div className="space-y-2">
                     <div className="h-14 pl-6 pr-1.75 bg-white/20 text-white/60 rounded-full flex items-center">
-                        <input type="text" placeholder="Enter your email" className="flex-1" />
+                        <input type="text" placeholder="Enter your email" className="flex-1 outline-none" />
                         <button className="bg-white text-black px-6 py-2.25 rounded-full font-semibold flex items-center gap-2">
                             Subscribe
                         </button>

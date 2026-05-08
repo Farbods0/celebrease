@@ -69,7 +69,7 @@ export function VerificationForm({ user, type }: { user: string; type: "signup" 
                 <Button variant="outline" onClick={handleResendEmail} disabled={resendDisabled || loading}>
                     {loading ? "Sending..." : resendDisabled && countdown > 0 ? `Resend in ${countdown}s` : "Resend Email"}
                 </Button>
-                <Button variant="black" render={<Link href="/signin">Back to Sign In</Link>} />
+                <Button variant="black" nativeButton={false} render={<Link href="/signin">Back to Sign In</Link>} />
             </div>
         </>
     );

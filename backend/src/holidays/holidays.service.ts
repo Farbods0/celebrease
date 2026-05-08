@@ -30,7 +30,7 @@ const holidayAddOnInclude = {
                     price: true,
                     deposit: true,
                     inventory: true,
-                    status: true,
+                    isActive: true,
                 },
             },
         },

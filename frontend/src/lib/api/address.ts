@@ -37,26 +37,9 @@ async function readError(res: Response, fallback: string): Promise<string> {
     return `${fallback}: ${res.statusText}`;
 }
 
-async function serverCookie(): Promise<string | undefined> {
-    if (typeof window !== "undefined") return undefined;
-    const { cookies } = await import("next/headers");
-    return (await cookies()).toString();
-}
-
 export async function getMyAddress(): Promise<ApiAddress | null> {
-    const cookie = await serverCookie();
-    const res = await fetch(`${baseURL}${apiPrefix}/address/me`, {
-        cache: "no-store",
-        headers: {
-            ...(cookie && { Cookie: cookie }),
-        },
-    });
-    if (!res.ok) {
-        return null;
-    }
-
-    const data = await res.json();
-    return data;
+    const res = await fetch(`${baseURL}${apiPrefix}/address/me`, { credentials: "include" });
+    return res.json();
 }
 
 export async function upsertMyAddress(payload: UpsertAddressPayload): Promise<ApiAddress> {

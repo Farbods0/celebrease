@@ -1,9 +1,13 @@
 import PageHeader from "@/components/main/page-header";
-import { getHolidays } from "@/lib/api";
+import { HolidayCategory } from "@/lib/api";
 import { HolidayGrid } from "./holiday-grid";
 
-export default async function CatalogPage() {
-    const data = await getHolidays();
+type CatalogPageProps = {
+    searchParams: Promise<{ category?: HolidayCategory | ""; search?: string }>;
+};
+
+export default async function CatalogPage(props: CatalogPageProps) {
+    const searchParams = await props.searchParams;
 
     return (
         <>
@@ -15,7 +19,7 @@ export default async function CatalogPage() {
                     </>
                 }
             />
-            <HolidayGrid holidays={data.items} />
+            <HolidayGrid searchParams={searchParams} />
         </>
     );
 }

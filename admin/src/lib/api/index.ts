@@ -1,5 +1,6 @@
 export * from "./addon";
 export * from "./base";
+export * from "./customer";
 export * from "./holiday";
 export * from "./inventory";
 export * from "./kit";

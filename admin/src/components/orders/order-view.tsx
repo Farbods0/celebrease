@@ -9,6 +9,7 @@ import {
     StepperTrigger,
 } from "@/components/reui/stepper";
 import { Button } from "@/components/ui/button";
+import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { StatusBadge } from "@/components/ui/status-badge";
 import {
@@ -21,7 +22,7 @@ import {
     type OrderStatus,
 } from "@/lib/api";
 import { CheckIcon, LoaderCircleIcon } from "lucide-react";
-import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import moment from "moment";
 
 const TIMELINE_STATUSES: OrderStatus[] = ["PENDING", "RESERVED", "SHIPPED", "DELIVERED", "COMPLETED"];
 
@@ -37,21 +38,27 @@ const TIMELINE_LABELS: Record<OrderStatus, string> = {
 function timelineDescription(order: ApiOrder, status: OrderStatus): string {
     switch (status) {
         case "PENDING":
-            return formatDate(order.createdAt);
+            return moment(order.createdAt).format("MMM D, YYYY");
         case "SHIPPED":
-            return order.shippedAt ? formatDate(order.shippedAt) : "Pending";
+            return order.shippedAt ? moment(order.shippedAt).format("MMM D, YYYY") : "Pending";
         case "DELIVERED":
-            return order.deliveredAt ? formatDate(order.deliveredAt) : "Pending";
+            return order.deliveredAt ? moment(order.deliveredAt).format("MMM D, YYYY") : "Pending";
         case "COMPLETED":
-            return order.completedAt ? formatDate(order.completedAt) : "Pending";
+            return order.completedAt ? moment(order.completedAt).format("MMM D, YYYY") : "Pending";
         default:
             return "Pending";
     }
 }
 
-function formatDate(value: string | null) {
-    if (!value) return "—";
-    return new Date(value).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+function formatRange(start: string, end: string) {
+    const s = moment(start);
+    const e = moment(end);
+
+    if (s.year() === e.year()) {
+        return `${s.format("MMM D")} - ${e.format("MMM D, YYYY")}`;
+    }
+
+    return `${s.format("MMM D, YYYY")} - ${e.format("MMM D, YYYY")}`;
 }
 
 function currentStep(order: ApiOrder) {
@@ -82,11 +89,11 @@ export function OrderView({ item }: { item: ApiOrder }) {
                     <Field label="Order #" value={item.orderNumber} />
                     <Field label="Customer" value={item.user.name} />
                     <Field label="Email" value={item.user.email} />
+                    <Field label="Phone" value={item.user.phone ?? item.user.address?.phone ?? "—"} />
                     <Field label="Holiday" value={item.holiday.name} />
-                    <Field label="Kit Type" value={formatTier(item.kit.tier)} />
+                    <Field label="Kit" value={formatTier(item.kit.tier)} />
                     <Field label="Duration" value={formatDuration(item.duration)} />
-                    <Field label="Start" value={formatDate(item.startDate)} />
-                    <Field label="End" value={formatDate(item.endDate)} />
+                    <Field label="Period" value={formatRange(item.startDate, item.endDate)} />
                     <Field label="Status" value={<StatusBadge status={formatOrderStatus(item.status)} />} />
                 </div>
             </section>

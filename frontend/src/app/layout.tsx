@@ -1,3 +1,4 @@
+import Provider from "@/app/provider";
 import Footer from "@/components/main/footer";
 import Navbar from "@/components/main/navbar";
 import { Toaster } from "@/components/ui/sonner";
@@ -26,10 +27,12 @@ export default function RootLayout({
     return (
         <html lang="en" className={`${geist.variable} ${playfairDisplay.variable}`}>
             <body className="min-h-screen flex flex-col">
-                <Navbar />
-                {children}
-                <Footer />
-                <Toaster />
+                <Provider>
+                    <Navbar />
+                    {children}
+                    <Footer />
+                    <Toaster />
+                </Provider>
             </body>
         </html>
     );

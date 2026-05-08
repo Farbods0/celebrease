@@ -9,6 +9,18 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const addressSchema = z.object({
+    name: z.string().min(2, "Enter your full name"),
+    phone: z.string().min(10, "Enter a valid phone number"),
+    address: z.string().min(5, "Enter your street address"),
+    apartment: z.string(),
+    city: z.string().min(2, "Enter your city"),
+    state: z.string().min(2, "Enter your state"),
+    zip: z.string().min(4, "Enter your ZIP code"),
+    country: z.string().min(2, "Enter your country"),
+});
 
 export default function AddressDialog({ address }: { address: ApiAddress | null }) {
     const [open, setOpen] = useState(false);
@@ -25,6 +37,9 @@ export default function AddressDialog({ address }: { address: ApiAddress | null 
             state: address?.state ?? "",
             zip: address?.postalCode ?? "",
             country: address?.country ?? "",
+        },
+        validators: {
+            onChange: addressSchema,
         },
         onSubmit: async ({ value }) => {
             startTransition(async () => {

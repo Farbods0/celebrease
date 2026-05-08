@@ -57,7 +57,7 @@ export function HolidayCard({ holiday }: { holiday: ApiHoliday }) {
     };
 
     return (
-        <div key={holiday.id} className="group border rounded-2xl overflow-hidden flex flex-col">
+        <Link href={`/catalog/${holiday.id}`} className="group border rounded-2xl overflow-hidden flex flex-col">
             <div className="relative">
                 <img src={`${baseURL}${holiday.image}`} alt={holiday.name} crossOrigin="anonymous" className="h-64 w-full object-cover" />
                 <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
@@ -97,15 +97,11 @@ export function HolidayCard({ holiday }: { holiday: ApiHoliday }) {
                     </div>
                 </div>
 
-                <Button
-                    render={
-                        <Link href={`/catalog/${holiday.id}`}>
-                            View Kits
-                            <HugeiconsIcon icon={ArrowRight02Icon} />
-                        </Link>
-                    }
-                />
+                <Button>
+                    View Kits
+                    <HugeiconsIcon icon={ArrowRight02Icon} />
+                </Button>
             </div>
-        </div>
+        </Link>
     );
 }

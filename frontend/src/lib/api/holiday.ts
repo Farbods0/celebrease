@@ -5,7 +5,6 @@ export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
 export type KitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
 export type KitStatus = "DRAFT" | "ACTIVE" | "HIDDEN" | "LOW_STOCK";
 export type ItemStatus = "ACTIVE" | "LOW_STOCK" | "RETIRED";
-export type AddOnStatus = "ACTIVE" | "INACTIVE";
 
 export type ApiKitItem = {
     qty: number;
@@ -65,13 +64,8 @@ export type ApiHolidayDetail = {
 };
 
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { cache: "no-store" });
-    if (!res.ok) {
-        return { items: [] };
-    }
-
-    const data = await res.json();
-    return data;
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { credentials: "include" });
+    return res.json();
 }
 
 export async function getHolidayById(
@@ -99,7 +93,6 @@ export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
 export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/loves`, {
         credentials: "include",
-        cache: "no-store",
     });
     if (!res.ok) {
         return { holidayIds: [] };

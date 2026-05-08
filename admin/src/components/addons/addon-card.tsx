@@ -2,11 +2,6 @@ import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { baseURL, type ApiAddOn } from "@/lib/api";
 
-const STATUS_LABEL: Record<ApiAddOn["status"], string> = {
-    ACTIVE: "Active",
-    HIDDEN: "Hidden",
-};
-
 const fmtMoney = (raw: string | number) => {
     const n = typeof raw === "string" ? Number(raw) : raw;
     return Number.isFinite(n) ? `$${n.toFixed(2)}` : "—";
@@ -47,7 +42,7 @@ export function AddOnCard({ item, onEdit }: AddOnCardProps) {
                 <Field label="Price" value={fmtMoney(item.price)} />
                 <Field label="Deposit" value={fmtMoney(item.deposit)} />
                 <Field label="Inventory" value={item.inventory} />
-                <Field label="Status" value={<StatusBadge status={STATUS_LABEL[item.status]} />} />
+                <Field label="Status" value={<StatusBadge status={item.isActive ? "Active" : "Hidden"} />} />
                 <Field
                     label="Holidays Mapped"
                     value={

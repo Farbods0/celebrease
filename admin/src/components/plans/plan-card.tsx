@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/status-badge";
 import type { ApiPlan } from "@/lib/api";
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
@@ -30,16 +31,7 @@ export function PlanCard({ item, onEdit }: PlanCardProps) {
                     <h3 className="text-lg font-medium">{item.name}</h3>
                     <p className="font-mono text-xs text-muted-foreground">{item.code}</p>
                 </div>
-                <span
-                    className="rounded-md px-2 py-0.5 text-xs font-medium"
-                    style={
-                        item.isActive
-                            ? { backgroundColor: "oklch(0.93 0.08 150)", color: "oklch(0.4 0.14 150)" }
-                            : { backgroundColor: "oklch(0.93 0.08 25)", color: "oklch(0.45 0.2 25)" }
-                    }
-                >
-                    {item.isActive ? "Active" : "Hidden"}
-                </span>
+                <StatusBadge status={item.isActive ? "Active" : "Hidden"} />
             </div>
             <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <Field label="Monthly" value={formatMoney(item.monthlyPrice)} />

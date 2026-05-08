@@ -83,10 +83,6 @@ export class CreateItemDto {
 
     @IsOptional()
     @IsEnum(ItemStatus)
-    initialStatus?: ItemStatus;
-
-    @IsOptional()
-    @IsEnum(ItemStatus)
     status?: ItemStatus;
 
     @IsOptional()

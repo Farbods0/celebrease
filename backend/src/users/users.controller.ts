@@ -11,6 +11,16 @@ import { Roles, Session } from "@thallesp/nestjs-better-auth";
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
+    @Get("customer")
+    listCustomers(@Query() query: ListUsersDto) {
+        return this.usersService.listCustomers(query);
+    }
+
+    @Get("customer/:id")
+    getCustomer(@Param("id") id: string) {
+        return this.usersService.getCustomerById(id);
+    }
+
     @Get()
     list(@Query() query: ListUsersDto, @Session() session: UserSession) {
         return this.usersService.list(query, session);

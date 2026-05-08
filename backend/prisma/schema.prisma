@@ -529,6 +529,10 @@ model Order {
     stripePaymentIntentId String?   @unique
     stripeChargeId        String?
 
+    // Tracking
+    trackingNumber String?
+    trackingUrl    String?
+
     // Timestamps
     shippedAt   DateTime?
     deliveredAt DateTime?

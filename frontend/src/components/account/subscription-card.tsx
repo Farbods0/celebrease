@@ -79,22 +79,15 @@ export default function SubscriptionCard() {
 
     return (
         <div className="md:col-span-2 bg-primary/10 rounded-2xl border border-primary/20 p-5 flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="size-12 lg:size-14 rounded-full bg-linear-to-br from-primary to-secondary text-white hidden sm:flex justify-center items-center">
-                        <HugeiconsIcon icon={StarIcon} />
-                    </div>
-                    <div className="space-y-1">
-                        <h3 className={`text-lg lg:text-xl font-semibold ${status.tone}`}>{status.label}</h3>
-                        <p className="text-sm text-muted-foreground">
-                            {sub.plan.name} — {sub.plan.holidaysPerYear} holidays per year ({sub.billingCycle.toLowerCase()})
-                        </p>
-                    </div>
+            <div className="flex items-center gap-3">
+                <div className="size-12 lg:size-14 rounded-full bg-linear-to-br from-primary to-secondary text-white hidden sm:flex justify-center items-center">
+                    <HugeiconsIcon icon={StarIcon} />
                 </div>
-
                 <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Deposit Held</p>
-                    <h3 className="text-lg lg:text-xl font-semibold">$100</h3>
+                    <h3 className={`text-lg lg:text-xl font-semibold ${status.tone}`}>{status.label}</h3>
+                    <p className="text-sm text-muted-foreground">
+                        {sub.plan.name} — {sub.plan.holidaysPerYear} holidays per year ({sub.billingCycle.toLowerCase()})
+                    </p>
                 </div>
             </div>
 

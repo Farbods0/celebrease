@@ -3,6 +3,7 @@ import { Prisma } from "@/generated/prisma/client";
 import { OrderStatus, PaymentStatus } from "@/generated/prisma/enums";
 import { CreateCheckoutDto, DeliveryOption } from "@/orders/dto/create-checkout.dto";
 import { ListOrdersDto } from "@/orders/dto/list-orders.dto";
+import { UpdateOrderStatusDto } from "@/orders/dto/update-order-status.dto";
 import { type StripeCheckoutSession, StripeService } from "@/stripe/stripe.service";
 import { BadRequestException, ForbiddenException, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
@@ -68,6 +69,20 @@ function generateOrderNumber(): string {
     return `ORD-${yyyy}${mm}${dd}-${suffix}`;
 }
 
+/**
+ * Valid admin status transitions:
+ *   PENDING  → RESERVED | CANCELLED
+ *   RESERVED → SHIPPED  | CANCELLED
+ *   SHIPPED  → DELIVERED | CANCELLED
+ *   DELIVERED → COMPLETED
+ */
+const ALLOWED_TRANSITIONS: Record<string, string[]> = {
+    PENDING: ["RESERVED", "CANCELLED"],
+    RESERVED: ["SHIPPED", "CANCELLED"],
+    SHIPPED: ["DELIVERED", "CANCELLED"],
+    DELIVERED: ["COMPLETED"],
+};
+
 @Injectable()
 export class OrdersService {
     private readonly logger = new Logger(OrdersService.name);
@@ -77,6 +92,7 @@ export class OrdersService {
         private readonly stripe: StripeService,
     ) {}
 
+    // ─── User: list my orders ───────────────────────────────────────────
     async listMine(userId: string, query: ListOrdersDto) {
         const { page, limit, filter } = query;
         const skip = (page - 1) * limit;
@@ -102,6 +118,7 @@ export class OrdersService {
         return { items, total };
     }
 
+    // ─── User: get single order ─────────────────────────────────────────
     async getMine(userId: string, id: string) {
         const order = await this.prisma.order.findUnique({ where: { id }, include: orderInclude });
         if (!order) throw new NotFoundException("Order not found");
@@ -109,6 +126,90 @@ export class OrdersService {
         return order;
     }
 
+    // ─── User: cancel own order (only if PENDING payment) ───────────────
+    async cancelMine(userId: string, id: string) {
+        const order = await this.prisma.order.findUnique({
+            where: { id },
+            select: { id: true, userId: true, status: true, paymentStatus: true },
+        });
+        if (!order) throw new NotFoundException("Order not found");
+        if (order.userId !== userId) throw new ForbiddenException("Not your order");
+
+        if (order.status === ("CANCELLED" as OrderStatus)) {
+            throw new BadRequestException("Order is already cancelled");
+        }
+
+        // Users can only cancel if payment is still pending
+        if (order.paymentStatus !== ("PENDING" as PaymentStatus)) {
+            throw new BadRequestException("Cannot cancel a paid order. Please contact support.");
+        }
+
+        const updated = await this.prisma.order.update({
+            where: { id },
+            data: {
+                status: "CANCELLED" as OrderStatus,
+                cancelledAt: new Date(),
+            },
+            include: orderInclude,
+        });
+
+        return updated;
+    }
+
+    // ─── User: retry payment for a pending-payment order ────────────────
+    async retryPayment(userId: string, id: string) {
+        const order = await this.prisma.order.findUnique({
+            where: { id },
+            include: {
+                kit: { select: { tier: true } },
+                holiday: { select: { name: true } },
+            },
+        });
+        if (!order) throw new NotFoundException("Order not found");
+        if (order.userId !== userId) throw new ForbiddenException("Not your order");
+
+        if (order.paymentStatus !== ("PENDING" as PaymentStatus)) {
+            throw new BadRequestException("Payment is not pending");
+        }
+        if (order.status === ("CANCELLED" as OrderStatus)) {
+            throw new BadRequestException("Order has been cancelled");
+        }
+
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: { id: true, name: true, email: true, stripeCustomerId: true },
+        });
+        if (!user) throw new NotFoundException("User not found");
+
+        const customerId = await this.stripe.ensureCustomer({
+            userId: user.id,
+            email: user.email,
+            name: user.name,
+            existingId: user.stripeCustomerId,
+        });
+        if (customerId !== user.stripeCustomerId) {
+            await this.prisma.user.update({ where: { id: user.id }, data: { stripeCustomerId: customerId } });
+        }
+
+        const kitName = `${order.holiday.name} ${order.kit.tier} Kit`;
+        const checkout = await this.stripe.createOrderCheckoutSession({
+            customerId,
+            userId,
+            orderIds: [order.id],
+            lineItems: [
+                {
+                    name: kitName,
+                    description: `Order ${order.orderNumber}`,
+                    unitAmountCents: decimalToCents(order.total),
+                    quantity: 1,
+                },
+            ],
+        });
+
+        return { url: checkout.url };
+    }
+
+    // ─── Admin: list all orders ─────────────────────────────────────────
     async listAll(query: ListOrdersDto) {
         const { page, limit, search } = query;
         const skip = (page - 1) * limit;
@@ -137,12 +238,66 @@ export class OrdersService {
         return { items, total };
     }
 
+    // ─── Admin: get single order ────────────────────────────────────────
     async getById(id: string) {
         const order = await this.prisma.order.findUnique({ where: { id }, include: adminOrderInclude });
         if (!order) throw new NotFoundException("Order not found");
         return order;
     }
 
+    // ─── Admin: update order status ─────────────────────────────────────
+    async updateStatus(id: string, dto: UpdateOrderStatusDto) {
+        const order = await this.prisma.order.findUnique({
+            where: { id },
+            select: { id: true, status: true, paymentStatus: true },
+        });
+        if (!order) throw new NotFoundException("Order not found");
+
+        const allowed = ALLOWED_TRANSITIONS[order.status] ?? [];
+        if (!allowed.includes(dto.status)) {
+            throw new BadRequestException(
+                `Cannot transition from ${order.status} to ${dto.status}. Allowed: ${allowed.join(", ") || "none"}`,
+            );
+        }
+
+        // For shipping/delivering/completing — payment must be PAID (except cancellation)
+        if (dto.status !== "CANCELLED" && order.paymentStatus !== ("PAID" as PaymentStatus)) {
+            throw new BadRequestException("Cannot advance order status until payment is confirmed");
+        }
+
+        const now = new Date();
+        const data: Prisma.OrderUpdateInput = {
+            status: dto.status as OrderStatus,
+        };
+
+        switch (dto.status) {
+            case "SHIPPED":
+                data.shippedAt = now;
+                if (dto.trackingNumber) data.trackingNumber = dto.trackingNumber;
+                if (dto.trackingUrl) data.trackingUrl = dto.trackingUrl;
+                break;
+            case "DELIVERED":
+                data.deliveredAt = now;
+                break;
+            case "COMPLETED":
+                data.completedAt = now;
+                break;
+            case "CANCELLED":
+                data.cancelledAt = now;
+                break;
+        }
+
+        const updated = await this.prisma.order.update({
+            where: { id },
+            data,
+            include: adminOrderInclude,
+        });
+
+        this.logger.log(`Order ${updated.orderNumber} transitioned to ${dto.status} by admin`);
+        return updated;
+    }
+
+    // ─── Checkout: create orders from cart ───────────────────────────────
     async createCheckout(dto: CreateCheckoutDto, session: UserSession) {
         const userId = session.user.id;
 
@@ -275,6 +430,7 @@ export class OrdersService {
         return { url: checkout.url, orderIds: created.map((o) => o.id) };
     }
 
+    // ─── Stripe webhook: checkout completed ─────────────────────────────
     async onCheckoutCompleted(session: StripeCheckoutSession) {
         const orderIdsRaw = session.metadata?.orderIds;
         const userId = session.metadata?.userId;

@@ -10,6 +10,8 @@ import {
 } from "@/components/reui/stepper";
 import { Button } from "@/components/ui/button";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { StatusBadge } from "@/components/ui/status-badge";
 import {
@@ -18,11 +20,15 @@ import {
     formatOrderStatus,
     formatPaymentStatus,
     formatTier,
+    getNextActions,
+    ordersApi,
     type ApiOrder,
     type OrderStatus,
 } from "@/lib/api";
 import { CheckIcon, LoaderCircleIcon } from "lucide-react";
 import moment from "moment";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const TIMELINE_STATUSES: OrderStatus[] = ["PENDING", "RESERVED", "SHIPPED", "DELIVERED", "COMPLETED"];
 
@@ -38,13 +44,15 @@ const TIMELINE_LABELS: Record<OrderStatus, string> = {
 function timelineDescription(order: ApiOrder, status: OrderStatus): string {
     switch (status) {
         case "PENDING":
-            return moment(order.createdAt).format("MMM D, YYYY");
+            return moment(order.createdAt).format("MMM DD, YYYY");
+        case "RESERVED":
+            return order.paidAt ? moment(order.paidAt).format("MMM DD, YYYY") : "Pending";
         case "SHIPPED":
-            return order.shippedAt ? moment(order.shippedAt).format("MMM D, YYYY") : "Pending";
+            return order.shippedAt ? moment(order.shippedAt).format("MMM DD, YYYY") : "Pending";
         case "DELIVERED":
-            return order.deliveredAt ? moment(order.deliveredAt).format("MMM D, YYYY") : "Pending";
+            return order.deliveredAt ? moment(order.deliveredAt).format("MMM DD, YYYY") : "Pending";
         case "COMPLETED":
-            return order.completedAt ? moment(order.completedAt).format("MMM D, YYYY") : "Pending";
+            return order.completedAt ? moment(order.completedAt).format("MMM DD, YYYY") : "Pending";
         default:
             return "Pending";
     }
@@ -55,10 +63,10 @@ function formatRange(start: string, end: string) {
     const e = moment(end);
 
     if (s.year() === e.year()) {
-        return `${s.format("MMM D")} - ${e.format("MMM D, YYYY")}`;
+        return `${s.format("MMM DD")} - ${e.format("MMM DD, YYYY")}`;
     }
 
-    return `${s.format("MMM D, YYYY")} - ${e.format("MMM D, YYYY")}`;
+    return `${s.format("MMM DD, YYYY")} - ${e.format("MMM DD, YYYY")}`;
 }
 
 function currentStep(order: ApiOrder) {
@@ -76,7 +84,55 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
     );
 }
 
-export function OrderView({ item }: { item: ApiOrder }) {
+const ACTION_LABELS: Record<OrderStatus, { label: string; variant: "default" | "outline" | "destructive" }> = {
+    RESERVED: { label: "Mark Reserved", variant: "default" },
+    SHIPPED: { label: "Mark Shipped", variant: "default" },
+    DELIVERED: { label: "Mark Delivered", variant: "default" },
+    COMPLETED: { label: "Mark Completed", variant: "default" },
+    CANCELLED: { label: "Cancel Order", variant: "destructive" },
+    PENDING: { label: "Pending", variant: "outline" },
+};
+
+export function OrderView({
+    item,
+    onUpdated,
+}: {
+    item: ApiOrder;
+    onUpdated?: (updated: ApiOrder) => void;
+}) {
+    const [loading, setLoading] = useState<string | null>(null);
+    const [showShipForm, setShowShipForm] = useState(false);
+    const [trackingNumber, setTrackingNumber] = useState("");
+    const [trackingUrl, setTrackingUrl] = useState("");
+
+    const nextActions = getNextActions(item);
+
+    async function handleStatusChange(status: OrderStatus) {
+        // If shipping, show the tracking form first
+        if (status === "SHIPPED" && !showShipForm) {
+            setShowShipForm(true);
+            return;
+        }
+
+        setLoading(status);
+        try {
+            const updated = await ordersApi.updateStatus(item.id, {
+                status,
+                ...(status === "SHIPPED" && trackingNumber ? { trackingNumber } : {}),
+                ...(status === "SHIPPED" && trackingUrl ? { trackingUrl } : {}),
+            });
+            toast.success(`Order ${updated.orderNumber} marked as ${formatOrderStatus(status)}`);
+            onUpdated?.(updated);
+            setShowShipForm(false);
+            setTrackingNumber("");
+            setTrackingUrl("");
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Failed to update order");
+        } finally {
+            setLoading(null);
+        }
+    }
+
     return (
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
@@ -132,6 +188,30 @@ export function OrderView({ item }: { item: ApiOrder }) {
                 </div>
             </section>
 
+            {item.trackingNumber && (
+                <section>
+                    <h3 className="text-sm uppercase font-medium mb-2.5">Tracking</h3>
+                    <div className="grid grid-cols-2 gap-2">
+                        <Field label="Tracking #" value={item.trackingNumber} />
+                        {item.trackingUrl && (
+                            <Field
+                                label="Tracking Link"
+                                value={
+                                    <a
+                                        href={item.trackingUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:underline text-sm"
+                                    >
+                                        View →
+                                    </a>
+                                }
+                            />
+                        )}
+                    </div>
+                </section>
+            )}
+
             <section>
                 <h3 className="text-sm uppercase font-medium mb-2.5">Shipment Timeline</h3>
                 <div className="flex items-center justify-center">
@@ -180,13 +260,73 @@ export function OrderView({ item }: { item: ApiOrder }) {
                 </div>
             </section>
 
-            <Separator />
-            <section>
-                <div className="grid grid-cols-2 gap-3">
-                    <Button>Mark as Delivered</Button>
-                    <Button variant="outline">Download Shipping Label</Button>
-                </div>
-            </section>
+            {item.status === "CANCELLED" && (
+                <>
+                    <Separator />
+                    <section>
+                        <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-center">
+                            <p className="text-sm font-medium text-red-700">
+                                Order cancelled{item.cancelledAt ? ` on ${moment(item.cancelledAt).format("MMM DD, YYYY")}` : ""}
+                            </p>
+                        </div>
+                    </section>
+                </>
+            )}
+
+            {nextActions.length > 0 && (
+                <>
+                    <Separator />
+                    <section>
+                        {showShipForm && (
+                            <div className="space-y-3 mb-4 p-3 border rounded-lg bg-muted/50">
+                                <h4 className="text-sm font-medium">Shipping Details (optional)</h4>
+                                <div className="space-y-1.5">
+                                    <Label htmlFor="trackingNumber" className="text-xs">
+                                        Tracking Number
+                                    </Label>
+                                    <Input
+                                        id="trackingNumber"
+                                        placeholder="e.g. 1Z999AA10123456784"
+                                        value={trackingNumber}
+                                        onChange={(e) => setTrackingNumber(e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label htmlFor="trackingUrl" className="text-xs">
+                                        Tracking URL
+                                    </Label>
+                                    <Input
+                                        id="trackingUrl"
+                                        placeholder="https://track.example.com/..."
+                                        value={trackingUrl}
+                                        onChange={(e) => setTrackingUrl(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-2 gap-3">
+                            {nextActions.map((status) => {
+                                const config = ACTION_LABELS[status];
+                                return (
+                                    <Button
+                                        key={status}
+                                        variant={config.variant}
+                                        disabled={!!loading}
+                                        onClick={() => handleStatusChange(status)}
+                                    >
+                                        {loading === status
+                                            ? "Updating..."
+                                            : showShipForm && status === "SHIPPED"
+                                              ? "Confirm & Ship"
+                                              : config.label}
+                                    </Button>
+                                );
+                            })}
+                        </div>
+                    </section>
+                </>
+            )}
         </DialogContent>
     );
 }

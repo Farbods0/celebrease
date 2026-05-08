@@ -1,10 +1,187 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { listMyOrders } from "@/lib/api";
-import { CalendarIcon, LinkSquare02Icon, PackageIcon, Upload01Icon } from "@hugeicons/core-free-icons";
+import type { ApiOrder } from "@/lib/api";
+import { cancelMyOrder, listMyOrders, retryOrderPayment } from "@/lib/api";
+import { cn } from "@/lib/utils";
+import {
+    CalendarIcon,
+    Cancel01Icon,
+    CreditCardIcon,
+    LinkSquare02Icon,
+    PackageIcon,
+    Tick01Icon,
+    Upload01Icon,
+} from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import moment from "moment";
+import { toast } from "sonner";
+
+function formatRange(start: string, end: string) {
+    const s = moment(start);
+    const e = moment(end);
+
+    if (s.year() === e.year()) {
+        return `${s.format("MMM DD")} - ${e.format("MMM DD, YYYY")}`;
+    }
+
+    return `${s.format("MMM DD, YYYY")} - ${e.format("MMM DD, YYYY")}`;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function StatusBadge({ status, paymentStatus }: { status: ApiOrder["status"]; paymentStatus: ApiOrder["paymentStatus"] }) {
+    if (status === "CANCELLED") {
+        return (
+            <span className="max-w-fit inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                Cancelled
+            </span>
+        );
+    }
+
+    if (paymentStatus === "PENDING") {
+        return (
+            <span className="max-w-fit inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                Payment Pending
+            </span>
+        );
+    }
+
+    const labels: Record<string, { label: string; className: string }> = {
+        PENDING: { label: "Processing", className: "bg-blue-100 text-blue-700" },
+        RESERVED: { label: "Reserved", className: "bg-violet-100 text-violet-700" },
+        SHIPPED: { label: "Shipped", className: "bg-sky-100 text-sky-700" },
+        DELIVERED: { label: "Delivered", className: "bg-emerald-100 text-emerald-700" },
+        COMPLETED: { label: "Completed", className: "bg-green-100 text-green-700" },
+    };
+
+    const info = labels[status] ?? { label: status, className: "bg-gray-100 text-gray-700" };
+
+    return (
+        <span className={cn("max-w-fit inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium", info.className)}>
+            {info.label}
+        </span>
+    );
+}
+
+function OrderActions({ order }: { order: ApiOrder }) {
+    const queryClient = useQueryClient();
+
+    const cancelMutation = useMutation({
+        mutationFn: () => cancelMyOrder(order.id),
+        onSuccess: () => {
+            toast.success("Order cancelled successfully");
+            queryClient.invalidateQueries({ queryKey: ["active-orders"] });
+        },
+        onError: (err) => toast.error(err.message),
+    });
+
+    const retryMutation = useMutation({
+        mutationFn: () => retryOrderPayment(order.id),
+        onSuccess: (data) => {
+            if (data.url) {
+                window.location.href = data.url;
+            }
+        },
+        onError: (err) => toast.error(err.message),
+    });
+
+    const isPending = cancelMutation.isPending || retryMutation.isPending;
+
+    // Payment pending — show Pay Now + Cancel
+    if (order.paymentStatus === "PENDING" && order.status !== "CANCELLED") {
+        return (
+            <>
+                <Button variant="black" onClick={() => retryMutation.mutate()} disabled={isPending}>
+                    <HugeiconsIcon icon={CreditCardIcon} />
+                    {retryMutation.isPending ? "Redirecting..." : "Pay Now"}
+                </Button>
+                <Button
+                    variant="outline"
+                    onClick={() => cancelMutation.mutate()}
+                    className="text-red-600 border-red-200 hover:bg-red-50"
+                    disabled={isPending}
+                >
+                    <HugeiconsIcon icon={Cancel01Icon} />
+                    {cancelMutation.isPending ? "Cancelling..." : "Cancel Order"}
+                </Button>
+            </>
+        );
+    }
+
+    // Shipped — Track Package + Return Label
+    if (order.status === "SHIPPED") {
+        return (
+            <>
+                {order.trackingUrl ? (
+                    <Button
+                        variant="black"
+                        nativeButton={false}
+                        render={
+                            <a href={order.trackingUrl} target="_blank" rel="noopener noreferrer">
+                                <HugeiconsIcon icon={LinkSquare02Icon} />
+                                Track Package
+                            </a>
+                        }
+                    />
+                ) : (
+                    <Button variant="black" disabled>
+                        <HugeiconsIcon icon={LinkSquare02Icon} />
+                        Awaiting Tracking
+                    </Button>
+                )}
+                <Button variant="outline">
+                    <HugeiconsIcon icon={Upload01Icon} />
+                    Return Label
+                </Button>
+            </>
+        );
+    }
+
+    // Delivered — show Return Label
+    if (order.status === "DELIVERED") {
+        return (
+            <>
+                <Button variant="outline">
+                    <HugeiconsIcon icon={Tick01Icon} />
+                    Delivered
+                </Button>
+                <Button variant="outline">
+                    <HugeiconsIcon icon={Upload01Icon} />
+                    Return Label
+                </Button>
+            </>
+        );
+    }
+
+    // Reserved (paid, waiting to ship)
+    if (order.status === "RESERVED") {
+        return (
+            <Button variant="outline" disabled>
+                <HugeiconsIcon icon={PackageIcon} />
+                Preparing Shipment
+            </Button>
+        );
+    }
+
+    // Completed
+    if (order.status === "COMPLETED") {
+        return (
+            <Button variant="outline" disabled>
+                <HugeiconsIcon icon={Tick01Icon} />
+                Rental Complete
+            </Button>
+        );
+    }
+
+    // Paid but still PENDING status (processing)
+    return (
+        <Button variant="outline" disabled>
+            <HugeiconsIcon icon={PackageIcon} />
+            Processing
+        </Button>
+    );
+}
 
 export default function ActiveRentals() {
     const { data, isLoading, isError } = useQuery({
@@ -72,15 +249,7 @@ export default function ActiveRentals() {
                                 </h3>
                                 <p className="text-sm lg:text-base flex items-center gap-2">
                                     <HugeiconsIcon icon={CalendarIcon} size={16} />
-                                    {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(
-                                        new Date(order.startDate),
-                                    )}{" "}
-                                    –{" "}
-                                    {new Intl.DateTimeFormat("en-US", {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                    }).format(new Date(order.endDate))}
+                                    {formatRange(order.startDate, order.endDate)}
                                 </p>
                             </div>
                             <div className="space-y-1 text-right">
@@ -92,16 +261,7 @@ export default function ActiveRentals() {
                         </div>
 
                         <div className="grid sm:grid-cols-2 gap-2">
-                            <Button variant="black">
-                                <HugeiconsIcon icon={LinkSquare02Icon} />
-                                Track Package
-                            </Button>
-                            <Button variant="outline">
-                                <HugeiconsIcon icon={Upload01Icon} />
-                                Return Label
-                            </Button>
-                            <Button variant="outline">Extend Rental</Button>
-                            <Button variant="outline">Mark Returned</Button>
+                            <OrderActions order={order} />
                         </div>
                     </div>
                 ))}

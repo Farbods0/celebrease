@@ -64,6 +64,8 @@ export type ApiOrder = {
     shippingFee: string;
     status: OrderStatus;
     paymentStatus: PaymentStatus;
+    trackingNumber: string | null;
+    trackingUrl: string | null;
     paidAt: string | null;
     stripePaymentIntentId: string | null;
     stripeChargeId: string | null;
@@ -83,9 +85,20 @@ export type ListOrdersParams = {
     search?: string;
 };
 
+export type UpdateOrderStatusPayload = {
+    status: OrderStatus;
+    trackingNumber?: string;
+    trackingUrl?: string;
+};
+
 export const ordersApi = {
     list: (params: ListOrdersParams = {}) => request<Paginated<ApiOrder>>(`/order/admin${toQuery(params)}`),
     get: (id: string) => request<ApiOrder>(`/order/admin/${id}`),
+    updateStatus: (id: string, payload: UpdateOrderStatusPayload) =>
+        request<ApiOrder>(`/order/admin/${id}/status`, {
+            method: "PATCH",
+            body: JSON.stringify(payload),
+        }),
 };
 
 const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
@@ -150,4 +163,25 @@ export function formatAddOnsSummary(order: ApiOrder) {
 
 export function totalDeposit(order: ApiOrder) {
     return Number.parseFloat(order.kitDeposit) + Number.parseFloat(order.addOnDeposit);
+}
+
+/**
+ * Returns the next valid status transition(s) for an order.
+ */
+const ALLOWED_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
+    PENDING: ["RESERVED", "CANCELLED"],
+    RESERVED: ["SHIPPED", "CANCELLED"],
+    SHIPPED: ["DELIVERED", "CANCELLED"],
+    DELIVERED: ["COMPLETED"],
+    COMPLETED: [],
+    CANCELLED: [],
+};
+
+export function getNextActions(order: ApiOrder): OrderStatus[] {
+    // Don't allow status changes if payment isn't confirmed (except cancel)
+    if (order.paymentStatus !== "PAID") {
+        const transitions = ALLOWED_TRANSITIONS[order.status] ?? [];
+        return transitions.filter((s) => s === "CANCELLED");
+    }
+    return ALLOWED_TRANSITIONS[order.status] ?? [];
 }

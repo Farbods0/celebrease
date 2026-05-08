@@ -12,10 +12,21 @@ export const Route = createFileRoute("/__main/orders")({
 });
 
 function RouteComponent() {
-    const data = Route.useLoaderData();
+    const initialData = Route.useLoaderData();
+    const [data, setData] = useState(initialData);
     const [selectedItem, setSelectedItem] = useState<ApiOrder | null>(null);
 
     const items = data.items;
+
+    function handleOrderUpdated(updated: ApiOrder) {
+        // Update the order in the local list
+        setData((prev) => ({
+            ...prev,
+            items: prev.items.map((o) => (o.id === updated.id ? updated : o)),
+        }));
+        // Also update the selected item so the dialog reflects changes
+        setSelectedItem(updated);
+    }
 
     return (
         <main className="mx-auto w-full max-w-384 flex flex-col gap-6 p-6">
@@ -35,7 +46,7 @@ function RouteComponent() {
                     )}
                 </div>
 
-                {selectedItem && <OrderView item={selectedItem} />}
+                {selectedItem && <OrderView item={selectedItem} onUpdated={handleOrderUpdated} />}
             </Dialog>
         </main>
     );

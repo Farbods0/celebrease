@@ -14,6 +14,9 @@ export type CreateCheckoutResponse = {
     orderIds: string[];
 };
 
+export type OrderStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "RESERVED" | "CANCELLED" | "COMPLETED";
+export type PaymentStatus = "PENDING" | "PAID" | "FAILED";
+
 export type ApiOrder = {
     id: string;
     orderNumber: string;
@@ -29,8 +32,14 @@ export type ApiOrder = {
     total: string;
     tax: string;
     shippingFee: string;
-    status: "PENDING" | "SHIPPED" | "DELIVERED" | "RESERVED" | "CANCELLED" | "COMPLETED";
-    paymentStatus: string;
+    status: OrderStatus;
+    paymentStatus: PaymentStatus;
+    trackingNumber: string | null;
+    trackingUrl: string | null;
+    shippedAt: string | null;
+    deliveredAt: string | null;
+    completedAt: string | null;
+    cancelledAt: string | null;
     createdAt: string;
     updatedAt: string;
     kit: {
@@ -104,5 +113,27 @@ export async function listMyOrders(params?: { filter?: "active" | "recent"; page
     if (params?.limit) url.searchParams.set("limit", params.limit.toString());
 
     const res = await fetch(url.toString(), { credentials: "include" });
+    return res.json();
+}
+
+export async function cancelMyOrder(orderId: string): Promise<ApiOrder> {
+    const res = await fetch(`${baseURL}${apiPrefix}/order/me/${orderId}/cancel`, {
+        method: "PATCH",
+        credentials: "include",
+    });
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to cancel order"));
+    }
+    return res.json();
+}
+
+export async function retryOrderPayment(orderId: string): Promise<{ url: string }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/order/me/${orderId}/retry-payment`, {
+        method: "POST",
+        credentials: "include",
+    });
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to retry payment"));
+    }
     return res.json();
 }

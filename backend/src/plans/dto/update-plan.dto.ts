@@ -54,6 +54,18 @@ export class UpdatePlanDto {
     sortOrder?: number;
 
     @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    @Min(0)
+    kitDiscount?: number;
+
+    @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    @Min(0)
+    addOnDiscount?: number;
+
+    @IsOptional()
     @IsArray()
     @ArrayMinSize(1)
     @ArrayMaxSize(20)

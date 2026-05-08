@@ -26,6 +26,12 @@ const formSchema = z.object({
     monthlyPrice: z.string().refine((v) => v !== "" && !Number.isNaN(Number(v)) && Number(v) >= 0, "Enter a valid monthly price"),
     yearlyPrice: z.string().refine((v) => v === "" || (!Number.isNaN(Number(v)) && Number(v) >= 0), "Enter a valid yearly price"),
     holidaysPerYear: z.string().refine((v) => Number.isInteger(Number(v)) && Number(v) >= 1, "Must be at least 1"),
+    kitDiscount: z
+        .string()
+        .refine((v) => v === "" || (Number.isInteger(Number(v)) && Number(v) >= 0 && Number(v) <= 100), "Must be between 0 and 100"),
+    addOnDiscount: z
+        .string()
+        .refine((v) => v === "" || (Number.isInteger(Number(v)) && Number(v) >= 0 && Number(v) <= 100), "Must be between 0 and 100"),
     sortOrder: z.string().refine((v) => Number.isInteger(Number(v)) && Number(v) >= 0, "Must be 0 or greater"),
     isActive: z.boolean(),
 });
@@ -48,6 +54,8 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
             monthlyPrice: plan?.monthlyPrice ?? "",
             yearlyPrice: plan?.yearlyPrice ?? "",
             holidaysPerYear: String(plan?.holidaysPerYear ?? 3),
+            kitDiscount: String(plan?.kitDiscount ?? 0),
+            addOnDiscount: String(plan?.addOnDiscount ?? 0),
             sortOrder: String(plan?.sortOrder ?? 0),
             isActive: plan?.isActive ?? true,
         },
@@ -68,6 +76,8 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                         monthlyPrice: Number(value.monthlyPrice),
                         yearlyPrice: value.yearlyPrice ? Number(value.yearlyPrice) : undefined,
                         holidaysPerYear: Number(value.holidaysPerYear),
+                        kitDiscount: Number(value.kitDiscount),
+                        addOnDiscount: Number(value.addOnDiscount),
                         isActive: value.isActive,
                         sortOrder: Number(value.sortOrder),
                         features: cleaned,
@@ -81,6 +91,8 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                         monthlyPrice: Number(value.monthlyPrice),
                         yearlyPrice: value.yearlyPrice ? Number(value.yearlyPrice) : undefined,
                         holidaysPerYear: Number(value.holidaysPerYear),
+                        kitDiscount: Number(value.kitDiscount),
+                        addOnDiscount: Number(value.addOnDiscount),
                         isActive: value.isActive,
                         sortOrder: Number(value.sortOrder),
                         features: cleaned,
@@ -142,6 +154,15 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                 <div className="grid grid-cols-2 gap-3">
                     <form.AppField name="holidaysPerYear">
                         {(field) => <field.FormInput type="number" label="Holidays / Year" placeholder="3" />}
+                    </form.AppField>
+                    <form.AppField name="kitDiscount">
+                        {(field) => <field.FormInput type="number" label="Kit Discount (%)" placeholder="10" />}
+                    </form.AppField>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                    <form.AppField name="addOnDiscount">
+                        {(field) => <field.FormInput type="number" label="Add-On Discount (%)" placeholder="10" />}
                     </form.AppField>
                     <form.AppField name="sortOrder">
                         {(field) => <field.FormInput type="number" label="Sort Order" placeholder="0" />}

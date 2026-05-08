@@ -108,9 +108,6 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                         </button>
                     ))}
                 </div>
-                <div className="px-4 py-1.5 bg-white shadow-lg rounded-full w-fit">
-                    <span className="font-semibold">Save 10%</span>
-                </div>
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6 mt-8">

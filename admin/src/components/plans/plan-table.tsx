@@ -25,6 +25,8 @@ export function PlanTable({ items, onEdit }: PlanTableProps) {
                         <TableHead>Monthly</TableHead>
                         <TableHead>Yearly</TableHead>
                         <TableHead>Holidays/Yr</TableHead>
+                        <TableHead>Kit Disc.</TableHead>
+                        <TableHead>Add-On Disc.</TableHead>
                         <TableHead>Features</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Actions</TableHead>
@@ -33,7 +35,7 @@ export function PlanTable({ items, onEdit }: PlanTableProps) {
                 <TableBody>
                     {items.length === 0 ? (
                         <TableRow>
-                            <TableCell colSpan={8} className="py-10 text-center text-sm text-muted-foreground">
+                            <TableCell colSpan={10} className="py-10 text-center text-sm text-muted-foreground">
                                 No plans found
                             </TableCell>
                         </TableRow>
@@ -45,6 +47,8 @@ export function PlanTable({ items, onEdit }: PlanTableProps) {
                                 <TableCell>{formatMoney(item.monthlyPrice)}</TableCell>
                                 <TableCell>{formatMoney(item.yearlyPrice)}</TableCell>
                                 <TableCell>{item.holidaysPerYear}</TableCell>
+                                <TableCell>{item.kitDiscount + "%"}</TableCell>
+                                <TableCell>{item.addOnDiscount + "%"}</TableCell>
                                 <TableCell className="text-muted-foreground">{item.features.length}</TableCell>
                                 <TableCell>
                                     <StatusBadge status={item.isActive ? "Active" : "Hidden"} />

@@ -37,6 +37,8 @@ export function PlanCard({ item, onEdit }: PlanCardProps) {
                 <Field label="Monthly" value={formatMoney(item.monthlyPrice)} />
                 <Field label="Yearly" value={formatMoney(item.yearlyPrice)} />
                 <Field label="Holidays/Yr" value={item.holidaysPerYear} />
+                <Field label="Kit Disc." value={item.kitDiscount + "%"} />
+                <Field label="Add-On Disc." value={item.addOnDiscount + "%"} />
                 <Field label="Features" value={item.features.length} />
             </div>
             <Button size="sm" onClick={() => onEdit(item)} className="mt-4 w-full bg-primary/10 text-primary hover:bg-primary/20">

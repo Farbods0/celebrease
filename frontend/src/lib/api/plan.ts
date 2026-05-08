@@ -17,6 +17,8 @@ export type ApiPlan = {
     monthlyPrice: string;
     yearlyPrice: string | null;
     holidaysPerYear: number;
+    kitDiscount: number;
+    addOnDiscount: number;
     isActive: boolean;
     sortOrder: number;
     features: ApiPlanFeature[];

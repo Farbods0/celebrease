@@ -1,6 +1,6 @@
 import PageHeader from "@/components/main/page-header";
 import SectionHeader from "@/components/main/section-header";
-import { getPlans } from "@/lib/api";
+import { ApiPlan, getPlans } from "@/lib/api";
 import { CheckmarkCircle03Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import PlansGrid from "./plans-grid";
@@ -96,15 +96,37 @@ export default async function SubscriptionPage() {
                             </tr>
                         </thead>
                         <tbody className="divide-y">
-                            {[
-                                { feature: "Kits Per Year", sub: "3", one: "1" },
-                                { feature: "Savings", sub: "Up to 20%", one: "—" },
-                                { feature: "Add-On Discount", sub: "10-25%", one: "—" },
-                                { feature: "Pause / Skip", sub: true, one: false },
-                                { feature: "Refundable Deposit", sub: true, one: true },
-                                { feature: "Availability Priority", sub: true, one: false },
-                                { feature: "Early Access To New Holidays", sub: true, one: false },
-                            ].map((row, i) => (
+                            {(() => {
+                                const { holidaysPerYear, kitDiscount, addOnDiscount } = getRangesOrValues(plans, [
+                                    "holidaysPerYear",
+                                    "kitDiscount",
+                                    "addOnDiscount",
+                                ]);
+
+                                return [
+                                    {
+                                        feature: "Kits Per Year",
+                                        sub: Array.isArray(holidaysPerYear) ? `Up to ${holidaysPerYear[1]}` : holidaysPerYear,
+                                        one: "1",
+                                    },
+                                    {
+                                        feature: "Savings",
+                                        sub: Array.isArray(kitDiscount) ? `${kitDiscount[0]}-${kitDiscount[1]}%` : `${kitDiscount}%`,
+                                        one: "—",
+                                    },
+                                    {
+                                        feature: "Add-On Discount",
+                                        sub: Array.isArray(addOnDiscount)
+                                            ? `${addOnDiscount[0]}-${addOnDiscount[1]}%`
+                                            : `${addOnDiscount}%`,
+                                        one: "—",
+                                    },
+                                    { feature: "Pause / Skip", sub: true, one: false },
+                                    { feature: "Refundable Deposit", sub: true, one: true },
+                                    { feature: "Availability Priority", sub: true, one: false },
+                                    { feature: "Early Access To New Holidays", sub: true, one: false },
+                                ];
+                            })().map((row, i) => (
                                 <tr key={i} className="hover:bg-muted/50 transition-colors">
                                     <td className="px-4 py-3 font-medium">{row.feature}</td>
                                     <td className="px-4 py-3">
@@ -133,4 +155,32 @@ export default async function SubscriptionPage() {
             </section>
         </>
     );
+}
+
+function getRangesOrValues<K extends keyof ApiPlan>(
+    plans: ApiPlan[],
+    keys: K[],
+): {
+    [P in K]: ApiPlan[P] | [ApiPlan[P], ApiPlan[P]];
+} {
+    const result = {} as {
+        [P in K]: ApiPlan[P] | [ApiPlan[P], ApiPlan[P]];
+    };
+
+    for (const key of keys) {
+        const values = plans.map((plan) => plan[key]);
+
+        const uniqueValues = [...new Set(values)];
+
+        if (uniqueValues.length === 1) {
+            result[key] = uniqueValues[0];
+            continue;
+        }
+
+        const sorted = [...uniqueValues].sort((a, b) => Number(a) - Number(b));
+
+        result[key] = [sorted[0], sorted[sorted.length - 1]];
+    }
+
+    return result;
 }

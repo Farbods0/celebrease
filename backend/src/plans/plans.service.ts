@@ -50,6 +50,8 @@ export class PlansService {
                 monthlyPrice: dto.monthlyPrice,
                 yearlyPrice: dto.yearlyPrice,
                 holidaysPerYear: dto.holidaysPerYear ?? 3,
+                kitDiscount: dto.kitDiscount ?? 0,
+                addOnDiscount: dto.addOnDiscount ?? 0,
                 isActive: dto.isActive ?? true,
                 sortOrder: dto.sortOrder ?? 0,
                 features: {
@@ -80,6 +82,8 @@ export class PlansService {
                     ...(dto.monthlyPrice !== undefined && { monthlyPrice: dto.monthlyPrice }),
                     ...(dto.yearlyPrice !== undefined && { yearlyPrice: dto.yearlyPrice }),
                     ...(dto.holidaysPerYear !== undefined && { holidaysPerYear: dto.holidaysPerYear }),
+                    ...(dto.kitDiscount !== undefined && { kitDiscount: dto.kitDiscount }),
+                    ...(dto.addOnDiscount !== undefined && { addOnDiscount: dto.addOnDiscount }),
                     ...(dto.isActive !== undefined && { isActive: dto.isActive }),
                     ...(dto.sortOrder !== undefined && { sortOrder: dto.sortOrder }),
                 },

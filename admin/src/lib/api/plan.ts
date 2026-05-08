@@ -16,6 +16,8 @@ export type ApiPlan = {
     monthlyPrice: string;
     yearlyPrice: string | null;
     holidaysPerYear: number;
+    kitDiscount: number;
+    addOnDiscount: number;
     isActive: boolean;
     sortOrder: number;
     features: ApiPlanFeature[];
@@ -30,6 +32,8 @@ export type CreatePlanPayload = {
     monthlyPrice: number;
     yearlyPrice?: number;
     holidaysPerYear?: number;
+    kitDiscount?: number;
+    addOnDiscount?: number;
     isActive?: boolean;
     sortOrder?: number;
     features: string[];
@@ -41,6 +45,8 @@ export type UpdatePlanPayload = {
     monthlyPrice?: number;
     yearlyPrice?: number;
     holidaysPerYear?: number;
+    kitDiscount?: number;
+    addOnDiscount?: number;
     isActive?: boolean;
     sortOrder?: number;
     features?: string[];

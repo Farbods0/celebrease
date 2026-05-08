@@ -57,6 +57,18 @@ export class CreatePlanDto {
     @Min(0)
     sortOrder?: number = 0;
 
+    @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    @Min(0)
+    kitDiscount?: number = 0;
+
+    @IsOptional()
+    @Type(() => Number)
+    @IsInt()
+    @Min(0)
+    addOnDiscount?: number = 0;
+
     @IsArray()
     @ArrayMinSize(1)
     @ArrayMaxSize(20)

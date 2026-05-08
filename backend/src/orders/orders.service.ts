@@ -378,6 +378,8 @@ export class OrdersService {
                         kitDeposit: cart.kitDeposit,
                         addOnsFee: cart.addOnsFee,
                         addOnDeposit: cart.addOnDeposit,
+                        kitDiscount: 0, // TODO: apply discount based on plan
+                        addOnDiscount: 0, // TODO: apply discount based on plan
                         total: orderTotal,
                         tax: orderTax,
                         shippingFee: orderShipping,

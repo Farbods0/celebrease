@@ -379,6 +379,8 @@ model Plan {
     monthlyPrice         Decimal  @db.Decimal(10, 2)
     yearlyPrice          Decimal? @db.Decimal(10, 2)
     holidaysPerYear      Int      @default(3)
+    kitDiscount          Int      @default(0)
+    addOnDiscount        Int      @default(0)
     isActive             Boolean  @default(true)
     sortOrder            Int      @default(0)
     stripePriceMonthlyId String?  @unique
@@ -540,14 +542,16 @@ model Order {
     endDate   DateTime
 
     // Pricing
-    rentalFee    Decimal @db.Decimal(10, 2)
-    extendedFee  Decimal @db.Decimal(10, 2)
-    kitDeposit   Decimal @db.Decimal(10, 2)
-    addOnsFee    Decimal @db.Decimal(10, 2)
-    addOnDeposit Decimal @db.Decimal(10, 2)
-    total        Decimal @db.Decimal(10, 2)
-    tax          Decimal @db.Decimal(10, 2)
-    shippingFee  Decimal @db.Decimal(10, 2)
+    rentalFee     Decimal @db.Decimal(10, 2)
+    extendedFee   Decimal @db.Decimal(10, 2)
+    kitDeposit    Decimal @db.Decimal(10, 2)
+    addOnsFee     Decimal @db.Decimal(10, 2)
+    addOnDeposit  Decimal @db.Decimal(10, 2)
+    kitDiscount   Decimal @db.Decimal(10, 2)
+    addOnDiscount Decimal @db.Decimal(10, 2)
+    total         Decimal @db.Decimal(10, 2)
+    tax           Decimal @db.Decimal(10, 2)
+    shippingFee   Decimal @db.Decimal(10, 2)
 
     // Status
     status        OrderStatus   @default(PENDING)

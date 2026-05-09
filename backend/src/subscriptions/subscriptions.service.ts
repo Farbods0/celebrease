@@ -6,7 +6,9 @@ import { BadRequestException, ConflictException, Injectable, Logger, NotFoundExc
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 
 const subscriptionInclude = {
-    plan: { select: { id: true, code: true, name: true, holidaysPerYear: true } },
+    plan: {
+        select: { id: true, code: true, name: true, holidaysPerYear: true, kitDiscount: true, addOnDiscount: true },
+    },
     holidaySlots: {
         orderBy: { slotNumber: "asc" as const },
         select: { id: true, slotNumber: true, status: true, holidayId: true },

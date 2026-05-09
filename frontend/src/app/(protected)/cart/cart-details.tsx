@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ApiCart, baseURL, KitTier, removeFromCart } from "@/lib/api";
-import { LockPasswordIcon, Trash } from "@hugeicons/core-free-icons";
+import { ApiCart, ApiSubscription, baseURL, KitTier, removeFromCart } from "@/lib/api";
+import { LockPasswordIcon, Tick, Trash } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -30,7 +30,18 @@ function fmtMoney(value: string | number): string {
     return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
-export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] }) {
+type PricedCart = {
+    cart: ApiCart;
+    rentalBase: number;
+    addOnBase: number;
+    rentalDiscount: number;
+    addOnDiscount: number;
+    deposit: number;
+    discountedTotal: number;
+    slotIndex: number | null; // 1-based slot # consumed, or null
+};
+
+export default function CartDetails({ carts: initialCarts, subscription }: { carts: ApiCart[]; subscription: ApiSubscription | null }) {
     const [carts, setCarts] = useState<ApiCart[]>(initialCarts);
     const [removingId, setRemovingId] = useState<string | null>(null);
     const [agreed1, setAgreed1] = useState(false);
@@ -51,22 +62,49 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
         }
     };
 
-    const totals = carts.reduce(
-        (acc, c) => {
-            acc.rental += Number(c.rentalFee) + Number(c.extendedFee);
-            acc.addOns += Number(c.addOnsFee);
-            acc.deposit += Number(c.kitDeposit) + Number(c.addOnDeposit);
-            acc.lineTotal += Number(c.total);
+    const availableSlots = subscription?.holidaySlots.filter((s) => s.status === "PENDING") ?? [];
+    const kitDiscountPct = subscription ? subscription.plan.kitDiscount / 100 : 0;
+    const addOnDiscountPct = subscription ? subscription.plan.addOnDiscount / 100 : 0;
+
+    const priced: PricedCart[] = carts.map((cart, idx) => {
+        const rentalBase = Number(cart.rentalFee) + Number(cart.extendedFee);
+        const addOnBase = Number(cart.addOnsFee);
+        const deposit = Number(cart.kitDeposit) + Number(cart.addOnDeposit);
+        const slotIndex = idx < availableSlots.length ? availableSlots[idx].slotNumber : null;
+        const rentalDiscount = slotIndex !== null ? rentalBase * kitDiscountPct : 0;
+        const addOnDiscount = slotIndex !== null ? addOnBase * addOnDiscountPct : 0;
+        const discountedTotal = rentalBase - rentalDiscount + addOnBase - addOnDiscount + deposit;
+        return { cart, rentalBase, addOnBase, rentalDiscount, addOnDiscount, deposit, discountedTotal, slotIndex };
+    });
+
+    const totals = priced.reduce(
+        (acc, p) => {
+            acc.rentalGross += p.rentalBase;
+            acc.rentalDiscount += p.rentalDiscount;
+            acc.addOnsGross += p.addOnBase;
+            acc.addOnDiscount += p.addOnDiscount;
+            acc.deposit += p.deposit;
+            acc.discountedSubtotal += p.discountedTotal;
             return acc;
         },
-        { rental: 0, addOns: 0, deposit: 0, lineTotal: 0 },
+        { rentalGross: 0, rentalDiscount: 0, addOnsGross: 0, addOnDiscount: 0, deposit: 0, discountedSubtotal: 0 },
     );
 
+    const totalDiscount = totals.rentalDiscount + totals.addOnDiscount;
     const taxRate = 0.08;
-    const shipping = carts.length > 0 ? 15 : 0;
-    const taxes = (totals.rental + totals.addOns) * taxRate;
-    const dueToday = totals.lineTotal + taxes + shipping;
+    const shipping = carts.length > 0 && !subscription ? 15 : 0;
+    const taxableAfterDiscount = totals.rentalGross - totals.rentalDiscount + totals.addOnsGross - totals.addOnDiscount;
+    const taxes = taxableAfterDiscount * taxRate;
+    const dueToday = totals.discountedSubtotal + taxes + shipping;
     const allAgreed = agreed1 && agreed2 && agreed3;
+
+    // Estimate savings if non-subscriber bought a Premium-tier sub (20% kits, 20% add-ons) — purely UI hint.
+    const upsellRentalRate = 0.2;
+    const upsellAddOnRate = 0.2;
+    const eligibleCount = Math.min(carts.length, 3);
+    const eligibleRental = priced.slice(0, eligibleCount).reduce((a, p) => a + p.rentalBase, 0);
+    const eligibleAddOns = priced.slice(0, eligibleCount).reduce((a, p) => a + p.addOnBase, 0);
+    const potentialSavings = eligibleRental * upsellRentalRate + eligibleAddOns * upsellAddOnRate;
 
     return (
         <>
@@ -74,7 +112,41 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
             <div className="flex flex-col gap-6">
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">Your Cart</h3>
 
-                {carts.map((cart) => (
+                {subscription && (
+                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm flex items-start gap-3">
+                        <HugeiconsIcon icon={Tick} size={20} className="text-emerald-600 mt-0.5" />
+                        <div>
+                            <p className="font-medium text-emerald-900">
+                                {subscription.plan.name} subscriber pricing applied
+                            </p>
+                            <p className="text-emerald-800 mt-0.5">
+                                {availableSlots.length} of {subscription.plan.holidaysPerYear} holiday slots remaining this cycle
+                                {subscription.plan.kitDiscount > 0 && ` · ${subscription.plan.kitDiscount}% off kits`}
+                                {subscription.plan.addOnDiscount > 0 && ` · ${subscription.plan.addOnDiscount}% off add-ons`}
+                                .
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {!subscription && potentialSavings > 0 && (
+                    <Link
+                        href="/subscription"
+                        className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm flex items-start gap-3 hover:bg-amber-100 transition"
+                    >
+                        <HugeiconsIcon icon={Tick} size={20} className="text-amber-700 mt-0.5" />
+                        <div>
+                            <p className="font-medium text-amber-900">
+                                Save up to {fmtMoney(potentialSavings)} with a subscription
+                            </p>
+                            <p className="text-amber-800 mt-0.5">
+                                Subscribers get up to 20% off kits and add-ons. Explore plans &rarr;
+                            </p>
+                        </div>
+                    </Link>
+                )}
+
+                {priced.map(({ cart, rentalDiscount, addOnDiscount, discountedTotal, slotIndex }) => (
                     <div key={cart.id} className="border rounded-2xl p-5 flex flex-col md:flex-row gap-4 relative">
                         <Button
                             size="icon-sm"
@@ -100,6 +172,16 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
                                     {tierLabel[cart.kit.tier]} &middot; {formatRange(cart.startDate, cart.endDate)} &middot;{" "}
                                     {cart.duration === "SIXTY_DAY" ? "60 days" : "30 days"}
                                 </p>
+                                {slotIndex !== null && subscription && (
+                                    <p className="text-xs text-emerald-700 font-medium mt-1">
+                                        Uses subscription slot {slotIndex} of {subscription.plan.holidaysPerYear}
+                                    </p>
+                                )}
+                                {slotIndex === null && subscription && availableSlots.length === 0 && (
+                                    <p className="text-xs text-muted-foreground mt-1">
+                                        No slots remaining — billed at full price
+                                    </p>
+                                )}
                             </div>
 
                             {cart.addOns.length > 0 && (
@@ -119,7 +201,23 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
                                 </div>
                             )}
 
-                            <div className="mt-4 flex justify-end text-2xl font-semibold">{fmtMoney(cart.total)}</div>
+                            <div className="mt-4 flex flex-col items-end">
+                                {rentalDiscount + addOnDiscount > 0 ? (
+                                    <>
+                                        <span className="text-sm text-muted-foreground line-through">
+                                            {fmtMoney(Number(cart.total))}
+                                        </span>
+                                        <span className="text-2xl font-semibold text-emerald-700">
+                                            {fmtMoney(discountedTotal)}
+                                        </span>
+                                        <span className="text-xs text-emerald-700">
+                                            You save {fmtMoney(rentalDiscount + addOnDiscount)}
+                                        </span>
+                                    </>
+                                ) : (
+                                    <span className="text-2xl font-semibold">{fmtMoney(Number(cart.total))}</span>
+                                )}
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -129,7 +227,7 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
             <div className="bg-white rounded-2xl p-5 shadow-2xl space-y-4">
                 <h2 className="text-xl lg:text-2xl font-semibold">Order Summary</h2>
 
-                {carts.map((cart, idx) => (
+                {priced.map(({ cart, rentalBase, rentalDiscount, addOnDiscount }, idx) => (
                     <div key={cart.id}>
                         <h4 className="font-medium">{cart.holiday.name}</h4>
                         <p className="text-sm text-muted-foreground mt-1">
@@ -138,16 +236,26 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
                         <div className="mt-3 space-y-1 text-muted-foreground">
                             <div className="text-sm flex justify-between text-foreground">
                                 <span>Rental</span>
-                                <span className="font-medium tabular-nums tracking-tight">
-                                    {fmtMoney(Number(cart.rentalFee) + Number(cart.extendedFee))}
-                                </span>
+                                <span className="font-medium tabular-nums tracking-tight">{fmtMoney(rentalBase)}</span>
                             </div>
+                            {rentalDiscount > 0 && (
+                                <div className="text-xs flex justify-between text-emerald-700">
+                                    <span>Subscriber discount ({subscription!.plan.kitDiscount}%)</span>
+                                    <span className="font-medium tabular-nums tracking-tight">-{fmtMoney(rentalDiscount)}</span>
+                                </div>
+                            )}
                             {cart.addOns.length > 0 && (
                                 <div className="text-xs flex justify-between">
                                     <span>
                                         {cart.addOns.length} Add-on{cart.addOns.length === 1 ? "" : "s"}
                                     </span>
                                     <span className="font-medium tabular-nums tracking-tight">{fmtMoney(cart.addOnsFee)}</span>
+                                </div>
+                            )}
+                            {addOnDiscount > 0 && (
+                                <div className="text-xs flex justify-between text-emerald-700">
+                                    <span>Add-on discount ({subscription!.plan.addOnDiscount}%)</span>
+                                    <span className="font-medium tabular-nums tracking-tight">-{fmtMoney(addOnDiscount)}</span>
                                 </div>
                             )}
                             <div className="text-xs flex justify-between">
@@ -164,6 +272,12 @@ export default function CartDetails({ carts: initialCarts }: { carts: ApiCart[] 
                 <hr className="border-t border-dashed" />
 
                 <div className="space-y-1">
+                    {totalDiscount > 0 && (
+                        <div className="flex justify-between font-medium text-emerald-700">
+                            <span>Subscriber savings</span>
+                            <span className="tabular-nums tracking-tight">-{fmtMoney(totalDiscount)}</span>
+                        </div>
+                    )}
                     <div className="flex justify-between font-medium text-[#D97706]">
                         <span>Refundable Deposit</span>
                         <span className="tabular-nums tracking-tight">{fmtMoney(totals.deposit)}</span>

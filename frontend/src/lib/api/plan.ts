@@ -46,7 +46,14 @@ export type ApiSubscriptionHolidaySlot = {
 
 export type ApiSubscription = {
     id: string;
-    plan: { id: string; code: PlanCode; name: string; holidaysPerYear: number };
+    plan: {
+        id: string;
+        code: PlanCode;
+        name: string;
+        holidaysPerYear: number;
+        kitDiscount: number;
+        addOnDiscount: number;
+    };
     status: SubscriptionStatus;
     billingCycle: BillingCycle;
     cycleStart: string | null;

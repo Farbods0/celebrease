@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getMyAddress, getMyCarts } from "@/lib/api";
+import { getMyAddress, getMyCarts, getMySubscription } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import CheckoutDetails from "./checkout-details";
@@ -26,8 +26,14 @@ export default function CheckoutPage() {
         queryFn: () => getMyAddress(),
     });
 
+    const { data: subscription } = useQuery({
+        queryKey: ["subscription", "me"],
+        queryFn: () => getMySubscription(),
+    });
+
     const isLoading = cartsLoading || addressLoading;
     const isError = cartsError || addressError;
+    const activeSubscription = subscription?.status === "ACTIVE" ? subscription : null;
 
     if (isLoading) {
         return (
@@ -84,7 +90,7 @@ export default function CheckoutPage() {
                     <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">Checkout</h3>
                     <p className="text-muted-foreground">Almost done! Confirm your details and reserve your kits.</p>
                 </div>
-                <CheckoutDetails carts={carts.items} address={address ?? null} />
+                <CheckoutDetails carts={carts.items} address={address ?? null} subscription={activeSubscription} />
             </div>
         </main>
     );

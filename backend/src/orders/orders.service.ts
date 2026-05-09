@@ -1,6 +1,6 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { Prisma } from "@/generated/prisma/client";
-import { OrderStatus, PaymentStatus } from "@/generated/prisma/enums";
+import { HolidaySlotStatus, OrderStatus, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/enums";
 import { CreateCheckoutDto, DeliveryOption } from "@/orders/dto/create-checkout.dto";
 import { ListOrdersDto } from "@/orders/dto/list-orders.dto";
 import { UpdateOrderStatusDto } from "@/orders/dto/update-order-status.dto";
@@ -318,9 +318,42 @@ export class OrdersService {
             throw new NotFoundException("One or more cart items not found");
         }
 
-        const shippingFee = SHIPPING_FEES[dto.deliveryOption];
+        // Find active subscription + available slots so we can apply the per-plan discount.
+        const subscription = await this.prisma.subscription.findFirst({
+            where: { userId, status: "ACTIVE" as SubscriptionStatus },
+            include: {
+                plan: { select: { kitDiscount: true, addOnDiscount: true } },
+                holidaySlots: {
+                    where: { status: "PENDING" as HolidaySlotStatus },
+                    orderBy: { slotNumber: "asc" },
+                    select: { id: true },
+                },
+            },
+            orderBy: { createdAt: "desc" },
+        });
+        const availableSlots = subscription?.holidaySlots ?? [];
+        const kitDiscountPct = subscription ? new Prisma.Decimal(subscription.plan.kitDiscount).div(100) : ZERO;
+        const addOnDiscountPct = subscription ? new Prisma.Decimal(subscription.plan.addOnDiscount).div(100) : ZERO;
 
-        const taxableSubtotal = carts.reduce((acc, c) => acc.plus(c.rentalFee).plus(c.extendedFee).plus(c.addOnsFee), ZERO);
+        const shippingFee = subscription ? ZERO : SHIPPING_FEES[dto.deliveryOption];
+
+        // Compute per-cart discounts up front so taxable subtotal reflects the discounted prices.
+        type Priced = {
+            rentalDiscount: Prisma.Decimal;
+            addOnDiscount: Prisma.Decimal;
+            taxableAfterDiscount: Prisma.Decimal;
+            slotId: string | null;
+        };
+        const priced: Priced[] = carts.map((cart, idx) => {
+            const slotId = idx < availableSlots.length ? availableSlots[idx].id : null;
+            const rentalBase = cart.rentalFee.plus(cart.extendedFee);
+            const rentalDiscount = slotId ? rentalBase.times(kitDiscountPct) : ZERO;
+            const addOnDiscount = slotId ? cart.addOnsFee.times(addOnDiscountPct) : ZERO;
+            const taxable = rentalBase.minus(rentalDiscount).plus(cart.addOnsFee.minus(addOnDiscount));
+            return { rentalDiscount, addOnDiscount, taxableAfterDiscount: taxable, slotId };
+        });
+
+        const taxableSubtotal = priced.reduce((acc, p) => acc.plus(p.taxableAfterDiscount), ZERO);
         const totalTax = taxableSubtotal.times(TAX_RATE);
 
         const carryoverShipping = shippingFee;
@@ -341,6 +374,7 @@ export class OrdersService {
 
             for (let i = 0; i < carts.length; i++) {
                 const cart = carts[i];
+                const p = priced[i];
 
                 // Distribute tax/shipping across orders: first order takes any remainder so totals stay exact.
                 const isLast = i === carts.length - 1;
@@ -349,8 +383,10 @@ export class OrdersService {
 
                 const cartSubtotal = cart.rentalFee
                     .plus(cart.extendedFee)
-                    .plus(cart.kitDeposit)
+                    .minus(p.rentalDiscount)
                     .plus(cart.addOnsFee)
+                    .minus(p.addOnDiscount)
+                    .plus(cart.kitDeposit)
                     .plus(cart.addOnDeposit);
                 const orderTotal = cartSubtotal.plus(orderTax).plus(orderShipping);
 
@@ -368,6 +404,12 @@ export class OrdersService {
                     data: {
                         orderNumber,
                         userId,
+                        ...(p.slotId
+                            ? {
+                                  subscriptionId: subscription!.id,
+                                  holidaySlotId: p.slotId,
+                              }
+                            : {}),
                         kitId: cart.kitId,
                         holidayId: cart.holidayId,
                         duration: cart.duration,
@@ -378,8 +420,8 @@ export class OrdersService {
                         kitDeposit: cart.kitDeposit,
                         addOnsFee: cart.addOnsFee,
                         addOnDeposit: cart.addOnDeposit,
-                        kitDiscount: 0, // TODO: apply discount based on plan
-                        addOnDiscount: 0, // TODO: apply discount based on plan
+                        kitDiscount: p.rentalDiscount,
+                        addOnDiscount: p.addOnDiscount,
                         total: orderTotal,
                         tax: orderTax,
                         shippingFee: orderShipping,
@@ -401,6 +443,16 @@ export class OrdersService {
                     },
                     include: { kit: { select: { tier: true } }, holiday: { select: { name: true } } },
                 });
+
+                if (p.slotId) {
+                    await tx.subscriptionHolidaySlot.update({
+                        where: { id: p.slotId },
+                        data: {
+                            status: "SELECTED" as HolidaySlotStatus,
+                            holidayId: cart.holidayId,
+                        },
+                    });
+                }
 
                 orders.push({
                     id: order.id,

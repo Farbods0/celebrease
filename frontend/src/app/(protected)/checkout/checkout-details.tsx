@@ -5,9 +5,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { ApiAddress, ApiCart, DeliveryOption, KitTier, createOrderCheckout, upsertMyAddress } from "@/lib/api";
-import { LockPasswordIcon } from "@hugeicons/core-free-icons";
+import { ApiAddress, ApiCart, ApiSubscription, DeliveryOption, KitTier, createOrderCheckout, upsertMyAddress } from "@/lib/api";
+import { LockPasswordIcon, Tick } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -44,7 +45,15 @@ function fmtMoney(value: string | number): string {
     return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
-export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; address: ApiAddress | null }) {
+export default function CheckoutDetails({
+    carts,
+    address,
+    subscription,
+}: {
+    carts: ApiCart[];
+    address: ApiAddress | null;
+    subscription: ApiSubscription | null;
+}) {
     const form = useAppForm({
         defaultValues: {
             name: address?.name ?? "",
@@ -97,25 +106,51 @@ export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; 
     const [agreed2, setAgreed2] = useState(false);
     const [agreed3, setAgreed3] = useState(false);
 
-    const [deliveryType, setDeliveryType] = useState<DeliveryOption>("STANDARD");
+    const [deliveryType, setDeliveryType] = useState<DeliveryOption>(subscription ? "EXPRESS" : "STANDARD");
     const [deliveryNotes, setDeliveryNotes] = useState("");
 
-    const shippingFee = deliveryType === "STANDARD" ? 15.0 : 25.0;
+    const shippingFee = subscription ? 0 : deliveryType === "STANDARD" ? 15.0 : 25.0;
 
-    const totals = carts.reduce(
-        (acc, c) => {
-            acc.rental += Number(c.rentalFee) + Number(c.extendedFee);
-            acc.addOns += Number(c.addOnsFee);
-            acc.deposit += Number(c.kitDeposit) + Number(c.addOnDeposit);
-            acc.lineTotal += Number(c.total);
+    const availableSlots = subscription?.holidaySlots.filter((s) => s.status === "PENDING") ?? [];
+    const kitDiscountPct = subscription ? subscription.plan.kitDiscount / 100 : 0;
+    const addOnDiscountPct = subscription ? subscription.plan.addOnDiscount / 100 : 0;
+
+    const priced = carts.map((cart, idx) => {
+        const rentalBase = Number(cart.rentalFee) + Number(cart.extendedFee);
+        const addOnBase = Number(cart.addOnsFee);
+        const deposit = Number(cart.kitDeposit) + Number(cart.addOnDeposit);
+        const slotIndex = idx < availableSlots.length ? availableSlots[idx].slotNumber : null;
+        const rentalDiscount = slotIndex !== null ? rentalBase * kitDiscountPct : 0;
+        const addOnDiscount = slotIndex !== null ? addOnBase * addOnDiscountPct : 0;
+        const lineDiscountedSubtotal = rentalBase - rentalDiscount + addOnBase - addOnDiscount + deposit;
+        return { cart, rentalBase, addOnBase, rentalDiscount, addOnDiscount, deposit, lineDiscountedSubtotal, slotIndex };
+    });
+
+    const totals = priced.reduce(
+        (acc, p) => {
+            acc.rental += p.rentalBase;
+            acc.addOns += p.addOnBase;
+            acc.rentalDiscount += p.rentalDiscount;
+            acc.addOnDiscount += p.addOnDiscount;
+            acc.deposit += p.deposit;
+            acc.lineTotal += p.lineDiscountedSubtotal;
             return acc;
         },
-        { rental: 0, addOns: 0, deposit: 0, lineTotal: 0 },
+        { rental: 0, addOns: 0, rentalDiscount: 0, addOnDiscount: 0, deposit: 0, lineTotal: 0 },
     );
+    const totalDiscount = totals.rentalDiscount + totals.addOnDiscount;
 
     const taxRate = 0.08;
-    const taxes = (totals.rental + totals.addOns) * taxRate;
+    const taxableAfterDiscount = totals.rental - totals.rentalDiscount + totals.addOns - totals.addOnDiscount;
+    const taxes = taxableAfterDiscount * taxRate;
     const dueToday = totals.lineTotal + taxes + shippingFee;
+
+    const upsellRentalRate = 0.2;
+    const upsellAddOnRate = 0.2;
+    const eligibleCount = Math.min(carts.length, 3);
+    const eligibleRental = priced.slice(0, eligibleCount).reduce((a, p) => a + p.rentalBase, 0);
+    const eligibleAddOns = priced.slice(0, eligibleCount).reduce((a, p) => a + p.addOnBase, 0);
+    const potentialSavings = eligibleRental * upsellRentalRate + eligibleAddOns * upsellAddOnRate;
 
     return (
         <form
@@ -166,10 +201,10 @@ export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; 
 
                     <Field>
                         <FieldLabel htmlFor="deliveryType">Delivery Option</FieldLabel>
-                        <RadioGroup value={deliveryType} onValueChange={setDeliveryType}>
+                        <RadioGroup value={deliveryType} onValueChange={setDeliveryType} disabled={!!subscription}>
                             {[
-                                { label: "Standard Delivery - +$15.00", value: "STANDARD" },
-                                { label: "Express Delivery - +$25.00", value: "EXPRESS" },
+                                { label: `Standard Delivery - ${subscription ? "FREE" : "+$15.00"}`, value: "STANDARD" },
+                                { label: `Express Delivery - ${subscription ? "FREE" : "+$25.00"}`, value: "EXPRESS" },
                             ].map((option, index) => (
                                 <div
                                     key={index}
@@ -204,25 +239,65 @@ export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; 
             <div className="bg-white rounded-2xl p-5 shadow-2xl space-y-4">
                 <h2 className="text-xl lg:text-2xl font-semibold">Order Summary</h2>
 
-                {carts.map((cart, idx) => (
+                {subscription && (
+                    <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs flex items-start gap-2">
+                        <HugeiconsIcon icon={Tick} size={16} className="text-emerald-600 mt-0.5" />
+                        <div>
+                            <p className="font-medium text-emerald-900">{subscription.plan.name} pricing</p>
+                            <p className="text-emerald-800">
+                                {availableSlots.length} of {subscription.plan.holidaysPerYear} slots available
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {!subscription && potentialSavings > 0 && (
+                    <Link
+                        href="/subscription"
+                        className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs flex items-start gap-2 hover:bg-amber-100 transition"
+                    >
+                        <HugeiconsIcon icon={Tick} size={16} className="text-amber-700 mt-0.5" />
+                        <div>
+                            <p className="font-medium text-amber-900">Save up to {fmtMoney(potentialSavings)} with a subscription</p>
+                            <p className="text-amber-800">Explore plans &rarr;</p>
+                        </div>
+                    </Link>
+                )}
+
+                {priced.map(({ cart, rentalBase, addOnBase, rentalDiscount, addOnDiscount, slotIndex }, idx) => (
                     <div key={cart.id}>
                         <h4 className="font-medium">{cart.holiday.name}</h4>
                         <p className="text-sm text-muted-foreground mt-1">
                             {tierLabel[cart.kit.tier]} &middot; {formatRange(cart.startDate, cart.endDate)}
                         </p>
+                        {slotIndex !== null && subscription && (
+                            <p className="text-xs text-emerald-700 font-medium mt-1">
+                                Uses subscription slot {slotIndex} of {subscription.plan.holidaysPerYear}
+                            </p>
+                        )}
                         <div className="mt-3 space-y-1 text-muted-foreground">
                             <div className="text-sm flex justify-between text-foreground">
                                 <span>Rental</span>
-                                <span className="font-medium tabular-nums tracking-tight">
-                                    {fmtMoney(Number(cart.rentalFee) + Number(cart.extendedFee))}
-                                </span>
+                                <span className="font-medium tabular-nums tracking-tight">{fmtMoney(rentalBase)}</span>
                             </div>
+                            {rentalDiscount > 0 && (
+                                <div className="text-xs flex justify-between text-emerald-700">
+                                    <span>Subscriber discount ({subscription!.plan.kitDiscount}%)</span>
+                                    <span className="font-medium tabular-nums tracking-tight">-{fmtMoney(rentalDiscount)}</span>
+                                </div>
+                            )}
                             {cart.addOns.length > 0 && (
                                 <div className="text-xs flex justify-between">
                                     <span>
                                         {cart.addOns.length} Add-on{cart.addOns.length === 1 ? "" : "s"}
                                     </span>
-                                    <span className="font-medium tabular-nums tracking-tight">{fmtMoney(cart.addOnsFee)}</span>
+                                    <span className="font-medium tabular-nums tracking-tight">{fmtMoney(addOnBase)}</span>
+                                </div>
+                            )}
+                            {addOnDiscount > 0 && (
+                                <div className="text-xs flex justify-between text-emerald-700">
+                                    <span>Add-on discount ({subscription!.plan.addOnDiscount}%)</span>
+                                    <span className="font-medium tabular-nums tracking-tight">-{fmtMoney(addOnDiscount)}</span>
                                 </div>
                             )}
                             <div className="text-xs flex justify-between">
@@ -239,6 +314,12 @@ export default function CheckoutDetails({ carts, address }: { carts: ApiCart[]; 
                 <hr className="border-t border-dashed" />
 
                 <div className="space-y-1">
+                    {totalDiscount > 0 && (
+                        <div className="flex justify-between font-medium text-emerald-700">
+                            <span>Subscriber savings</span>
+                            <span className="tabular-nums tracking-tight">-{fmtMoney(totalDiscount)}</span>
+                        </div>
+                    )}
                     <div className="flex justify-between font-medium text-[#D97706]">
                         <span>Refundable Deposit</span>
                         <span className="tabular-nums tracking-tight">{fmtMoney(totals.deposit)}</span>

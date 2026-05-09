@@ -32,8 +32,8 @@ export function FormImage({ label, disabled, accept = "image/png,image/jpeg,imag
         try {
             const url = await uploadImage(file);
             field.handleChange(url);
-        } catch (err) {
-            setUploadError(err instanceof Error ? err.message : "Upload failed");
+        } catch (error) {
+            setUploadError(error instanceof Error ? error.message : "Upload failed");
         } finally {
             setIsUploading(false);
         }
@@ -87,8 +87,8 @@ export function FormImage({ label, disabled, accept = "image/png,image/jpeg,imag
                             try {
                                 await deleteImage(currentUrl);
                                 field.handleChange(null);
-                            } catch (err) {
-                                setUploadError(err instanceof Error ? err.message : "Delete failed");
+                            } catch (error) {
+                                setUploadError(error instanceof Error ? error.message : "Delete failed");
                             } finally {
                                 setIsDeleting(false);
                             }

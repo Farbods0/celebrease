@@ -57,7 +57,13 @@ async function readError(res: Response, fallback: string): Promise<string> {
 
 export async function getMyCarts(): Promise<{ items: ApiCart[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/cart`, { credentials: "include" });
-    return res.json();
+
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to get carts"));
+    }
+
+    const data = await res.json();
+    return data;
 }
 
 export async function addToCart(payload: AddToCartPayload): Promise<ApiCart> {
@@ -67,6 +73,7 @@ export async function addToCart(payload: AddToCartPayload): Promise<ApiCart> {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
+
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to add to cart"));
     }
@@ -80,6 +87,7 @@ export async function removeFromCart(cartId: string): Promise<{ ok: true }> {
         method: "DELETE",
         credentials: "include",
     });
+
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to remove cart item"));
     }

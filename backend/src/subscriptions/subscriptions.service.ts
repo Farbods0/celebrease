@@ -69,7 +69,7 @@ export class SubscriptionsService {
             select: { stripeCustomerId: true },
         });
 
-        if (!user?.stripeCustomerId) throw new BadRequestException("User not found");
+        if (!user?.stripeCustomerId) return null;
 
         const methods = await this.stripe.client.paymentMethods.list({
             customer: user.stripeCustomerId,

@@ -25,9 +25,9 @@ export class StripeWebhookController {
         let event: StripeEvent;
         try {
             event = this.stripe.constructEvent(req.rawBody, signature);
-        } catch (err) {
-            this.logger.error(`Webhook signature verification failed: ${(err as Error).message}`);
-            throw new BadRequestException(`Webhook signature failed: ${(err as Error).message}`);
+        } catch (error) {
+            this.logger.error(`Webhook signature verification failed: ${(error as Error).message}`);
+            throw new BadRequestException(`Webhook signature failed: ${(error as Error).message}`);
         }
 
         this.logger.log(`📩 Stripe webhook received: ${event.type} (${event.id})`);
@@ -54,10 +54,10 @@ export class StripeWebhookController {
                     this.logger.debug(`Unhandled event type: ${event.type}`);
                     break;
             }
-        } catch (err) {
-            this.logger.error(`Failed to process ${event.type} (${event.id}): ${(err as Error).message}`, (err as Error).stack);
+        } catch (error) {
+            this.logger.error(`Failed to process ${event.type} (${event.id}): ${(error as Error).message}`, (error as Error).stack);
             // Re-throw so Stripe gets a 500 and retries the event
-            throw err;
+            throw error;
         }
 
         return { received: true };

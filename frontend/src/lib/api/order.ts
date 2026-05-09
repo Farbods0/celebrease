@@ -118,6 +118,7 @@ export async function createOrderCheckout(payload: CreateCheckoutPayload): Promi
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
+
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to start checkout"));
     }
@@ -133,7 +134,13 @@ export async function listMyOrders(params?: { filter?: "active" | "recent"; page
     if (params?.limit) url.searchParams.set("limit", params.limit.toString());
 
     const res = await fetch(url.toString(), { credentials: "include" });
-    return res.json();
+
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to list orders"));
+    }
+
+    const data = await res.json();
+    return data;
 }
 
 export async function cancelMyOrder(orderId: string): Promise<ApiOrder> {
@@ -141,10 +148,13 @@ export async function cancelMyOrder(orderId: string): Promise<ApiOrder> {
         method: "PATCH",
         credentials: "include",
     });
+
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to cancel order"));
     }
-    return res.json();
+
+    const data = await res.json();
+    return data;
 }
 
 export async function retryOrderPayment(orderId: string): Promise<{ url: string }> {
@@ -152,10 +162,13 @@ export async function retryOrderPayment(orderId: string): Promise<{ url: string 
         method: "POST",
         credentials: "include",
     });
+
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to retry payment"));
     }
-    return res.json();
+
+    const data = await res.json();
+    return data;
 }
 
 export async function requestOrderReturn(orderId: string): Promise<ApiOrder> {
@@ -165,8 +178,11 @@ export async function requestOrderReturn(orderId: string): Promise<ApiOrder> {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
     });
+
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to request return"));
     }
-    return res.json();
+
+    const data = await res.json();
+    return data;
 }

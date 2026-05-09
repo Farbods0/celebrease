@@ -6,7 +6,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import PlansGrid from "./plans-grid";
 
 export default async function SubscriptionPage() {
-    const plans = await getPlans();
+    const data = await getPlans();
 
     return (
         <>
@@ -70,7 +70,7 @@ export default async function SubscriptionPage() {
                             to 60 days with prorated rates.
                         </p>
                     </SectionHeader>
-                    <PlansGrid plans={plans} />
+                    <PlansGrid plans={data.items} />
                 </div>
             </section>
             {/* --- COMPARISON SECTION --- */}
@@ -97,7 +97,7 @@ export default async function SubscriptionPage() {
                         </thead>
                         <tbody className="divide-y">
                             {(() => {
-                                const { holidaysPerYear, kitDiscount, addOnDiscount } = getRangesOrValues(plans, [
+                                const { holidaysPerYear, kitDiscount, addOnDiscount } = getRangesOrValues(data.items, [
                                     "holidaysPerYear",
                                     "kitDiscount",
                                     "addOnDiscount",

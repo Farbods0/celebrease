@@ -8,9 +8,8 @@ export class AddressesService {
 
     async getMine(userId: string) {
         const address = await this.prisma.address.findUnique({ where: { userId } });
-        if (!address) throw new NotFoundException("Address not found");
 
-        return address;
+        return address ?? null;
     }
 
     async upsertMine(userId: string, dto: UpsertAddressDto) {

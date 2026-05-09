@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ApiCart, ApiSubscription, baseURL, KitTier, removeFromCart } from "@/lib/api";
-import { LockPasswordIcon, Tick, Trash } from "@hugeicons/core-free-icons";
+import { LockPasswordIcon, Trash } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -98,53 +98,11 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
     const dueToday = totals.discountedSubtotal + taxes + shipping;
     const allAgreed = agreed1 && agreed2 && agreed3;
 
-    // Estimate savings if non-subscriber bought a Premium-tier sub (20% kits, 20% add-ons) — purely UI hint.
-    const upsellRentalRate = 0.2;
-    const upsellAddOnRate = 0.2;
-    const eligibleCount = Math.min(carts.length, 3);
-    const eligibleRental = priced.slice(0, eligibleCount).reduce((a, p) => a + p.rentalBase, 0);
-    const eligibleAddOns = priced.slice(0, eligibleCount).reduce((a, p) => a + p.addOnBase, 0);
-    const potentialSavings = eligibleRental * upsellRentalRate + eligibleAddOns * upsellAddOnRate;
-
     return (
         <>
             {/* Cart Items */}
             <div className="flex flex-col gap-6">
                 <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">Your Cart</h3>
-
-                {subscription && (
-                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm flex items-start gap-3">
-                        <HugeiconsIcon icon={Tick} size={20} className="text-emerald-600 mt-0.5" />
-                        <div>
-                            <p className="font-medium text-emerald-900">
-                                {subscription.plan.name} subscriber pricing applied
-                            </p>
-                            <p className="text-emerald-800 mt-0.5">
-                                {availableSlots.length} of {subscription.plan.holidaysPerYear} holiday slots remaining this cycle
-                                {subscription.plan.kitDiscount > 0 && ` · ${subscription.plan.kitDiscount}% off kits`}
-                                {subscription.plan.addOnDiscount > 0 && ` · ${subscription.plan.addOnDiscount}% off add-ons`}
-                                .
-                            </p>
-                        </div>
-                    </div>
-                )}
-
-                {!subscription && potentialSavings > 0 && (
-                    <Link
-                        href="/subscription"
-                        className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm flex items-start gap-3 hover:bg-amber-100 transition"
-                    >
-                        <HugeiconsIcon icon={Tick} size={20} className="text-amber-700 mt-0.5" />
-                        <div>
-                            <p className="font-medium text-amber-900">
-                                Save up to {fmtMoney(potentialSavings)} with a subscription
-                            </p>
-                            <p className="text-amber-800 mt-0.5">
-                                Subscribers get up to 20% off kits and add-ons. Explore plans &rarr;
-                            </p>
-                        </div>
-                    </Link>
-                )}
 
                 {priced.map(({ cart, rentalDiscount, addOnDiscount, discountedTotal, slotIndex }) => (
                     <div key={cart.id} className="border rounded-2xl p-5 flex flex-col md:flex-row gap-4 relative">
@@ -178,9 +136,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                                     </p>
                                 )}
                                 {slotIndex === null && subscription && availableSlots.length === 0 && (
-                                    <p className="text-xs text-muted-foreground mt-1">
-                                        No slots remaining — billed at full price
-                                    </p>
+                                    <p className="text-xs text-muted-foreground mt-1">No slots remaining — billed at full price</p>
                                 )}
                             </div>
 
@@ -204,12 +160,8 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                             <div className="mt-4 flex flex-col items-end">
                                 {rentalDiscount + addOnDiscount > 0 ? (
                                     <>
-                                        <span className="text-sm text-muted-foreground line-through">
-                                            {fmtMoney(Number(cart.total))}
-                                        </span>
-                                        <span className="text-2xl font-semibold text-emerald-700">
-                                            {fmtMoney(discountedTotal)}
-                                        </span>
+                                        <span className="text-sm text-muted-foreground line-through">{fmtMoney(Number(cart.total))}</span>
+                                        <span className="text-2xl font-semibold text-emerald-700">{fmtMoney(discountedTotal)}</span>
                                         <span className="text-xs text-emerald-700">
                                             You save {fmtMoney(rentalDiscount + addOnDiscount)}
                                         </span>

@@ -39,7 +39,17 @@ async function readError(res: Response, fallback: string): Promise<string> {
 
 export async function getMyAddress(): Promise<ApiAddress | null> {
     const res = await fetch(`${baseURL}${apiPrefix}/address/me`, { credentials: "include" });
-    return res.json();
+
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to get address"));
+    }
+
+    try {
+        const data = await res.json();
+        return data;
+    } catch {
+        return null;
+    }
 }
 
 export async function upsertMyAddress(payload: UpsertAddressPayload): Promise<ApiAddress> {
@@ -49,6 +59,7 @@ export async function upsertMyAddress(payload: UpsertAddressPayload): Promise<Ap
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
+
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to save address"));
     }

@@ -1,6 +1,16 @@
 const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
 const apiPrefix = "/api/v1";
 
+async function readError(res: Response, fallback: string): Promise<string> {
+    try {
+        const body = await res.json();
+        if (body && typeof body.message === "string") return body.message;
+    } catch {
+        // not JSON
+    }
+    return `${fallback}: ${res.statusText}`;
+}
+
 export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
 export type KitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
 export type KitStatus = "DRAFT" | "ACTIVE" | "HIDDEN" | "LOW_STOCK";
@@ -65,15 +75,22 @@ export type ApiHolidayDetail = {
 
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { credentials: "include" });
-    return res.json();
+
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to get holidays"));
+    }
+
+    const data = await res.json();
+    return data;
 }
 
 export async function getHolidayById(
     id: string,
 ): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
+
     if (!res.ok) {
-        return { holiday: null, kits: [], addOns: [], holidays: [] };
+        throw new Error(await readError(res, "Failed to get holiday"));
     }
 
     const data = await res.json();
@@ -82,8 +99,9 @@ export async function getHolidayById(
 
 export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays/loves`, { cache: "no-store" });
+
     if (!res.ok) {
-        return { items: [] };
+        throw new Error(await readError(res, "Failed to get loves"));
     }
 
     const data = await res.json();
@@ -94,8 +112,9 @@ export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/loves`, {
         credentials: "include",
     });
+
     if (!res.ok) {
-        return { holidayIds: [] };
+        throw new Error(await readError(res, "Failed to get my loves"));
     }
 
     const data = await res.json();
@@ -107,8 +126,9 @@ export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCou
         method: "POST",
         credentials: "include",
     });
+
     if (!res.ok) {
-        throw new Error("Failed to love holiday");
+        throw new Error(await readError(res, "Failed to love holiday"));
     }
 
     const data = await res.json();
@@ -120,8 +140,9 @@ export async function unloveHoliday(id: string): Promise<{ loved: boolean; loveC
         method: "DELETE",
         credentials: "include",
     });
+
     if (!res.ok) {
-        throw new Error("Failed to unlove holiday");
+        throw new Error(await readError(res, "Failed to unlove holiday"));
     }
 
     const data = await res.json();

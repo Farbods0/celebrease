@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { type ApiPlan, type ApiSubscription, CheckoutConflictError, createSubscriptionCheckout, getMySubscription } from "@/lib/api";
+import { type ApiPlan, type ApiSubscription, createSubscriptionCheckout, getMySubscription } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { ArrowRight02Icon, CheckmarkCircle03Icon } from "@hugeicons/core-free-icons";
@@ -80,13 +80,8 @@ export default function PlansGrid({ plans }: PlansGridProps) {
             });
             if (!url) throw new Error("Stripe did not return a redirect URL");
             window.location.href = url;
-        } catch (err) {
-            if (err instanceof CheckoutConflictError) {
-                toast.error(err.message);
-                router.push("/account");
-                return;
-            }
-            toast.error(err instanceof Error ? err.message : "Could not start checkout");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Could not start checkout");
             setPendingPlanId(null);
         }
     }

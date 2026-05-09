@@ -35,13 +35,7 @@ import { toast } from "sonner";
 
 const TIMELINE_STATUSES: OrderStatus[] = ["PENDING", "RESERVED", "SHIPPED", "DELIVERED", "COMPLETED"];
 
-const RETURN_TIMELINE_STATUSES: OrderStatus[] = [
-    "RETURN_REQUESTED",
-    "RETURN_IN_TRANSIT",
-    "RETURN_RECEIVED",
-    "INSPECTED",
-    "COMPLETED",
-];
+const RETURN_TIMELINE_STATUSES: OrderStatus[] = ["RETURN_REQUESTED", "RETURN_IN_TRANSIT", "RETURN_RECEIVED", "INSPECTED", "COMPLETED"];
 
 const TIMELINE_LABELS: Record<OrderStatus, string> = {
     PENDING: "Order Placed",
@@ -56,12 +50,7 @@ const TIMELINE_LABELS: Record<OrderStatus, string> = {
     INSPECTED: "Inspected",
 };
 
-const RETURN_STATUSES = new Set<OrderStatus>([
-    "RETURN_REQUESTED",
-    "RETURN_IN_TRANSIT",
-    "RETURN_RECEIVED",
-    "INSPECTED",
-]);
+const RETURN_STATUSES = new Set<OrderStatus>(["RETURN_REQUESTED", "RETURN_IN_TRANSIT", "RETURN_RECEIVED", "INSPECTED"]);
 
 function timelineDescription(order: ApiOrder, status: OrderStatus): string {
     switch (status) {
@@ -139,13 +128,7 @@ function lineKey(itemId: string | undefined, addOnId: string | undefined): LineK
     return itemId ? `i:${itemId}` : `a:${addOnId}`;
 }
 
-export function OrderView({
-    item,
-    onUpdated,
-}: {
-    item: ApiOrder;
-    onUpdated?: (updated: ApiOrder) => void;
-}) {
+export function OrderView({ item, onUpdated }: { item: ApiOrder; onUpdated?: (updated: ApiOrder) => void }) {
     const [loading, setLoading] = useState<string | null>(null);
     const [showShipForm, setShowShipForm] = useState(false);
     const [trackingNumber, setTrackingNumber] = useState("");
@@ -200,8 +183,8 @@ export function OrderView({
             setShowShipForm(false);
             setTrackingNumber("");
             setTrackingUrl("");
-        } catch (err) {
-            toast.error(err instanceof Error ? err.message : "Failed to update order");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Failed to update order");
         } finally {
             setLoading(null);
         }
@@ -230,8 +213,8 @@ export function OrderView({
             toast.success(`Inspection complete — refunded ${formatMoney(updated.depositRefunded)}`);
             onUpdated?.(updated);
             setShowInspect(false);
-        } catch (err) {
-            toast.error(err instanceof Error ? err.message : "Failed to submit inspection");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Failed to submit inspection");
         } finally {
             setLoading(null);
         }
@@ -243,8 +226,8 @@ export function OrderView({
             const updated = await ordersApi.completeInspected(item.id);
             toast.success(`Order ${updated.orderNumber} completed`);
             onUpdated?.(updated);
-        } catch (err) {
-            toast.error(err instanceof Error ? err.message : "Failed to complete order");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Failed to complete order");
         } finally {
             setLoading(null);
         }
@@ -330,9 +313,7 @@ export function OrderView({
             )}
 
             <section>
-                <h3 className="text-sm uppercase font-medium mb-2.5">
-                    {isReturnPhase ? "Return Timeline" : "Shipment Timeline"}
-                </h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">{isReturnPhase ? "Return Timeline" : "Shipment Timeline"}</h3>
                 <div className="flex items-center justify-center">
                     <Stepper
                         defaultValue={currentStep(item, timelineStatuses)}
@@ -411,9 +392,7 @@ export function OrderView({
                         <Field label="Forfeited" value={formatMoney(item.depositForfeited)} />
                         <Field label="Inspected" value={item.inspectedAt ? moment(item.inspectedAt).format("MMM DD, YYYY") : "—"} />
                     </div>
-                    {item.inspectionNotes && (
-                        <p className="text-sm text-muted-foreground border rounded-lg p-2">{item.inspectionNotes}</p>
-                    )}
+                    {item.inspectionNotes && <p className="text-sm text-muted-foreground border rounded-lg p-2">{item.inspectionNotes}</p>}
                 </section>
             )}
 
@@ -497,10 +476,7 @@ export function OrderView({
                         <div className="mt-3 grid grid-cols-3 gap-2 p-3 rounded-lg border bg-muted/40">
                             <Field label="Deposit Held" value={formatMoney(totalDeposit)} />
                             <Field label="Deductions" value={formatMoney(projectedForfeit)} />
-                            <Field
-                                label="Refund"
-                                value={<span className="text-emerald-700">{formatMoney(projectedRefund)}</span>}
-                            />
+                            <Field label="Refund" value={<span className="text-emerald-700">{formatMoney(projectedRefund)}</span>} />
                         </div>
 
                         <div className="grid grid-cols-2 gap-3 mt-4">
@@ -629,11 +605,7 @@ function InspectRow({
                 </div>
             </div>
             {state.condition !== "GOOD" && (
-                <Input
-                    placeholder="Notes (optional)"
-                    value={state.notes}
-                    onChange={(e) => onChange({ notes: e.target.value })}
-                />
+                <Input placeholder="Notes (optional)" value={state.notes} onChange={(e) => onChange({ notes: e.target.value })} />
             )}
         </div>
     );

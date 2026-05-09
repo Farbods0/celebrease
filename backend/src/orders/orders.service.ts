@@ -586,8 +586,8 @@ export class OrdersService {
             try {
                 const pi = await this.stripe.client.paymentIntents.retrieve(paymentIntentId);
                 chargeId = typeof pi.latest_charge === "string" ? pi.latest_charge : (pi.latest_charge?.id ?? null);
-            } catch (err) {
-                this.logger.warn(`Failed to retrieve PaymentIntent ${paymentIntentId}: ${(err as Error).message}`);
+            } catch (error) {
+                this.logger.warn(`Failed to retrieve PaymentIntent ${paymentIntentId}: ${(error as Error).message}`);
             }
         }
 
@@ -656,11 +656,7 @@ export class OrdersService {
             throw new BadRequestException("Order is not in a return-requested state");
         }
 
-        if (
-            dto.returnLabelUrl === undefined &&
-            dto.returnTrackingNumber === undefined &&
-            dto.returnTrackingUrl === undefined
-        ) {
+        if (dto.returnLabelUrl === undefined && dto.returnTrackingNumber === undefined && dto.returnTrackingUrl === undefined) {
             throw new BadRequestException("At least one of returnLabelUrl, returnTrackingNumber, or returnTrackingUrl is required");
         }
 
@@ -827,10 +823,10 @@ export class OrdersService {
                     data: { stripeRefundId: refundObj.id },
                 });
                 this.logger.log(`Refunded ${refundCents}¢ for order ${order.orderNumber} (${refundObj.id})`);
-            } catch (err) {
+            } catch (error) {
                 // DB has already recorded the inspection; surface the failure so the admin can retry.
-                this.logger.error(`Stripe refund failed for order ${order.orderNumber}: ${(err as Error).message}`);
-                throw new BadRequestException(`Inspection saved but Stripe refund failed: ${(err as Error).message}`);
+                this.logger.error(`Stripe refund failed for order ${order.orderNumber}: ${(error as Error).message}`);
+                throw new BadRequestException(`Inspection saved but Stripe refund failed: ${(error as Error).message}`);
             }
         }
 

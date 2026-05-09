@@ -24,11 +24,25 @@ export type ApiPlan = {
     features: ApiPlanFeature[];
 };
 
-export async function getPlans(): Promise<ApiPlan[]> {
+async function readError(res: Response, fallback: string): Promise<string> {
+    try {
+        const body = await res.json();
+        if (body && typeof body.message === "string") return body.message;
+    } catch {
+        // not JSON
+    }
+    return `${fallback}: ${res.statusText}`;
+}
+
+export async function getPlans(): Promise<{ items: ApiPlan[] }> {
     const res = await fetch(`${baseURL}${apiPrefix}/plan`, { cache: "no-store" });
-    if (!res.ok) return [];
-    const data = (await res.json()) as { items: ApiPlan[] };
-    return data.items;
+
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to get plans"));
+    }
+
+    const data = await res.json();
+    return data;
 }
 
 export type BillingCycle = "MONTHLY" | "YEARLY";
@@ -63,20 +77,13 @@ export type ApiSubscription = {
     holidaySlots: ApiSubscriptionHolidaySlot[];
 };
 
-export class CheckoutConflictError extends Error {
-    constructor(message: string) {
-        super(message);
-        this.name = "CheckoutConflictError";
-    }
-}
-
 export async function getMySubscription(): Promise<ApiSubscription | null> {
     const res = await fetch(`${baseURL}${apiPrefix}/subscription/me`, {
         credentials: "include",
-        cache: "no-store",
     });
+
     if (!res.ok) {
-        return null;
+        throw new Error(await readError(res, "Failed to get subscription"));
     }
 
     const data = await res.json();
@@ -90,16 +97,11 @@ export async function createSubscriptionCheckout(args: { planId: string; billing
         credentials: "include",
         body: JSON.stringify(args),
     });
+
     if (!res.ok) {
-        let message = res.statusText;
-        try {
-            const body = await res.json();
-            if (body && typeof body.message === "string") message = body.message;
-        } catch {
-            // body wasn't JSON — keep statusText
-        }
-        if (res.status === 409) throw new CheckoutConflictError(message || "You already have an active subscription");
-        throw new Error(message || "Failed to start checkout");
+        throw new Error(await readError(res, "Failed to start checkout"));
     }
-    return res.json();
+
+    const data = await res.json();
+    return data;
 }

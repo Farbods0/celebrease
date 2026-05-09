@@ -6,9 +6,8 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { ApiAddress, ApiCart, ApiSubscription, DeliveryOption, KitTier, createOrderCheckout, upsertMyAddress } from "@/lib/api";
-import { LockPasswordIcon, Tick } from "@hugeicons/core-free-icons";
+import { LockPasswordIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -145,13 +144,6 @@ export default function CheckoutDetails({
     const taxes = taxableAfterDiscount * taxRate;
     const dueToday = totals.lineTotal + taxes + shippingFee;
 
-    const upsellRentalRate = 0.2;
-    const upsellAddOnRate = 0.2;
-    const eligibleCount = Math.min(carts.length, 3);
-    const eligibleRental = priced.slice(0, eligibleCount).reduce((a, p) => a + p.rentalBase, 0);
-    const eligibleAddOns = priced.slice(0, eligibleCount).reduce((a, p) => a + p.addOnBase, 0);
-    const potentialSavings = eligibleRental * upsellRentalRate + eligibleAddOns * upsellAddOnRate;
-
     return (
         <form
             onSubmit={(e) => {
@@ -238,31 +230,6 @@ export default function CheckoutDetails({
             {/* Order Summary */}
             <div className="bg-white rounded-2xl p-5 shadow-2xl space-y-4">
                 <h2 className="text-xl lg:text-2xl font-semibold">Order Summary</h2>
-
-                {subscription && (
-                    <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs flex items-start gap-2">
-                        <HugeiconsIcon icon={Tick} size={16} className="text-emerald-600 mt-0.5" />
-                        <div>
-                            <p className="font-medium text-emerald-900">{subscription.plan.name} pricing</p>
-                            <p className="text-emerald-800">
-                                {availableSlots.length} of {subscription.plan.holidaysPerYear} slots available
-                            </p>
-                        </div>
-                    </div>
-                )}
-
-                {!subscription && potentialSavings > 0 && (
-                    <Link
-                        href="/subscription"
-                        className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs flex items-start gap-2 hover:bg-amber-100 transition"
-                    >
-                        <HugeiconsIcon icon={Tick} size={16} className="text-amber-700 mt-0.5" />
-                        <div>
-                            <p className="font-medium text-amber-900">Save up to {fmtMoney(potentialSavings)} with a subscription</p>
-                            <p className="text-amber-800">Explore plans &rarr;</p>
-                        </div>
-                    </Link>
-                )}
 
                 {priced.map(({ cart, rentalBase, addOnBase, rentalDiscount, addOnDiscount, slotIndex }, idx) => (
                     <div key={cart.id}>

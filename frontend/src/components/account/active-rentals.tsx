@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import type { ApiOrder } from "@/lib/api";
-import { cancelMyOrder, listMyOrders, retryOrderPayment } from "@/lib/api";
+import { cancelMyOrder, listMyOrders, requestOrderReturn, retryOrderPayment } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import {
     CalendarIcon,
@@ -53,6 +53,10 @@ function StatusBadge({ status, paymentStatus }: { status: ApiOrder["status"]; pa
         SHIPPED: { label: "Shipped", className: "bg-sky-100 text-sky-700" },
         DELIVERED: { label: "Delivered", className: "bg-emerald-100 text-emerald-700" },
         COMPLETED: { label: "Completed", className: "bg-green-100 text-green-700" },
+        RETURN_REQUESTED: { label: "Return Requested", className: "bg-orange-100 text-orange-700" },
+        RETURN_IN_TRANSIT: { label: "Return In Transit", className: "bg-orange-100 text-orange-700" },
+        RETURN_RECEIVED: { label: "Awaiting Inspection", className: "bg-yellow-100 text-yellow-700" },
+        INSPECTED: { label: "Inspection Complete", className: "bg-teal-100 text-teal-700" },
     };
 
     const info = labels[status] ?? { label: status, className: "bg-gray-100 text-gray-700" };
@@ -86,7 +90,16 @@ function OrderActions({ order }: { order: ApiOrder }) {
         onError: (err) => toast.error(err.message),
     });
 
-    const isPending = cancelMutation.isPending || retryMutation.isPending;
+    const returnMutation = useMutation({
+        mutationFn: () => requestOrderReturn(order.id),
+        onSuccess: () => {
+            toast.success("Return requested. We'll email you the return label.");
+            queryClient.invalidateQueries({ queryKey: ["active-orders"] });
+        },
+        onError: (err) => toast.error(err.message),
+    });
+
+    const isPending = cancelMutation.isPending || retryMutation.isPending || returnMutation.isPending;
 
     // Payment pending — show Pay Now + Cancel
     if (order.paymentStatus === "PENDING" && order.status !== "CANCELLED") {
@@ -138,19 +151,71 @@ function OrderActions({ order }: { order: ApiOrder }) {
         );
     }
 
-    // Delivered — show Return Label
+    // Delivered — show Request Return
     if (order.status === "DELIVERED") {
         return (
             <>
-                <Button variant="outline">
+                <Button variant="outline" disabled>
                     <HugeiconsIcon icon={Tick01Icon} />
                     Delivered
                 </Button>
-                <Button variant="outline">
+                <Button variant="black" onClick={() => returnMutation.mutate()} disabled={isPending}>
                     <HugeiconsIcon icon={Upload01Icon} />
-                    Return Label
+                    {returnMutation.isPending ? "Requesting…" : "Request Return"}
                 </Button>
             </>
+        );
+    }
+
+    // Return Requested — waiting on label / drop-off
+    if (order.status === "RETURN_REQUESTED") {
+        return order.returnLabelUrl ? (
+            <Button
+                variant="black"
+                nativeButton={false}
+                render={
+                    <a href={order.returnLabelUrl} target="_blank" rel="noopener noreferrer">
+                        <HugeiconsIcon icon={Upload01Icon} />
+                        Return Label
+                    </a>
+                }
+            />
+        ) : (
+            <Button variant="outline" disabled>
+                <HugeiconsIcon icon={Upload01Icon} />
+                Label Coming Soon
+            </Button>
+        );
+    }
+
+    // Return In Transit — track the return shipment
+    if (order.status === "RETURN_IN_TRANSIT") {
+        return order.returnTrackingUrl ? (
+            <Button
+                variant="black"
+                nativeButton={false}
+                render={
+                    <a href={order.returnTrackingUrl} target="_blank" rel="noopener noreferrer">
+                        <HugeiconsIcon icon={LinkSquare02Icon} />
+                        Track Return
+                    </a>
+                }
+            />
+        ) : (
+            <Button variant="outline" disabled>
+                <HugeiconsIcon icon={PackageIcon} />
+                Return In Transit
+            </Button>
+        );
+    }
+
+    // Return Received / Inspected — wait for refund finalization
+    if (order.status === "RETURN_RECEIVED" || order.status === "INSPECTED") {
+        return (
+            <Button variant="outline" disabled>
+                <HugeiconsIcon icon={PackageIcon} />
+                {order.status === "RETURN_RECEIVED" ? "Awaiting Inspection" : "Inspection Complete"}
+            </Button>
         );
     }
 

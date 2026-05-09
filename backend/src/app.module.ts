@@ -5,6 +5,7 @@ import { AppService } from "@/app.service";
 import { CartModule } from "@/cart/cart.module";
 import { CommonModule } from "@/common/common.module";
 import { config } from "@/config/env.config";
+import { DashboardModule } from "@/dashboard/dashboard.module";
 import { HolidaysModule } from "@/holidays/holidays.module";
 import { InventoryModule } from "@/inventory/inventory.module";
 import { KitsModule } from "@/kits/kits.module";
@@ -49,6 +50,7 @@ import { join } from "path";
         InventoryModule,
         AddOnsModule,
         CartModule,
+        DashboardModule,
     ],
     controllers: [AppController],
     providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],

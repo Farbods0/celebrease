@@ -1,8 +1,18 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { Prisma } from "@/generated/prisma/client";
-import { HolidaySlotStatus, OrderStatus, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/enums";
+import {
+    HolidaySlotStatus,
+    OrderStatus,
+    PaymentStatus,
+    ReturnCondition,
+    SubscriptionStage,
+    SubscriptionStatus,
+} from "@/generated/prisma/enums";
+import { InventoryAllocationService } from "@/inventory/inventory-allocation.service";
 import { CreateCheckoutDto, DeliveryOption } from "@/orders/dto/create-checkout.dto";
+import { InspectReturnDto } from "@/orders/dto/inspect-return.dto";
 import { ListOrdersDto } from "@/orders/dto/list-orders.dto";
+import { SetReturnLabelDto } from "@/orders/dto/set-return-label.dto";
 import { UpdateOrderStatusDto } from "@/orders/dto/update-order-status.dto";
 import { type StripeCheckoutSession, StripeService } from "@/stripe/stripe.service";
 import { BadRequestException, ForbiddenException, Injectable, Logger, NotFoundException } from "@nestjs/common";
@@ -32,6 +42,17 @@ const orderInclude = {
             price: true,
             deposit: true,
             addOn: { select: { id: true, sku: true, name: true, image: true } },
+        },
+    },
+    returnLines: {
+        select: {
+            id: true,
+            itemId: true,
+            addOnId: true,
+            qty: true,
+            condition: true,
+            feeCharged: true,
+            notes: true,
         },
     },
 } as const;
@@ -71,17 +92,35 @@ function generateOrderNumber(): string {
 
 /**
  * Valid admin status transitions:
- *   PENDING  → RESERVED | CANCELLED
- *   RESERVED → SHIPPED  | CANCELLED
- *   SHIPPED  → DELIVERED | CANCELLED
- *   DELIVERED → COMPLETED
+ *   PENDING           → RESERVED | CANCELLED
+ *   RESERVED          → SHIPPED  | CANCELLED
+ *   SHIPPED           → DELIVERED | CANCELLED
+ *   DELIVERED         → RETURN_REQUESTED | COMPLETED
+ *   RETURN_REQUESTED  → RETURN_IN_TRANSIT
+ *   RETURN_IN_TRANSIT → RETURN_RECEIVED
+ *   RETURN_RECEIVED   → INSPECTED (via /inspect)
+ *   INSPECTED         → COMPLETED
  */
 const ALLOWED_TRANSITIONS: Record<string, string[]> = {
     PENDING: ["RESERVED", "CANCELLED"],
     RESERVED: ["SHIPPED", "CANCELLED"],
     SHIPPED: ["DELIVERED", "CANCELLED"],
-    DELIVERED: ["COMPLETED"],
+    DELIVERED: ["RETURN_REQUESTED", "COMPLETED"],
+    RETURN_REQUESTED: ["RETURN_IN_TRANSIT"],
+    RETURN_IN_TRANSIT: ["RETURN_RECEIVED"],
+    INSPECTED: ["COMPLETED"],
 };
+
+const ACTIVE_STATUSES: OrderStatus[] = [
+    "PENDING",
+    "RESERVED",
+    "SHIPPED",
+    "DELIVERED",
+    "RETURN_REQUESTED",
+    "RETURN_IN_TRANSIT",
+    "RETURN_RECEIVED",
+    "INSPECTED",
+] as OrderStatus[];
 
 @Injectable()
 export class OrdersService {
@@ -90,6 +129,7 @@ export class OrdersService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly stripe: StripeService,
+        private readonly allocator: InventoryAllocationService,
     ) {}
 
     // ─── User: list my orders ───────────────────────────────────────────
@@ -99,7 +139,7 @@ export class OrdersService {
 
         const where: Prisma.OrderWhereInput = { userId };
         if (filter === "active") {
-            where.status = { in: ["PENDING", "SHIPPED", "DELIVERED", "RESERVED"] };
+            where.status = { in: ACTIVE_STATUSES };
         } else if (filter === "recent") {
             where.status = { in: ["COMPLETED", "CANCELLED"] };
         }
@@ -144,16 +184,18 @@ export class OrdersService {
             throw new BadRequestException("Cannot cancel a paid order. Please contact support.");
         }
 
-        const updated = await this.prisma.order.update({
-            where: { id },
-            data: {
-                status: "CANCELLED" as OrderStatus,
-                cancelledAt: new Date(),
-            },
-            include: orderInclude,
+        return this.prisma.$transaction(async (tx) => {
+            // Order was reserved at checkout — release the held stock back to available.
+            await this.allocator.releaseForOrder(tx, id);
+            return tx.order.update({
+                where: { id },
+                data: {
+                    status: "CANCELLED" as OrderStatus,
+                    cancelledAt: new Date(),
+                },
+                include: orderInclude,
+            });
         });
-
-        return updated;
     }
 
     // ─── User: retry payment for a pending-payment order ────────────────
@@ -249,7 +291,7 @@ export class OrdersService {
     async updateStatus(id: string, dto: UpdateOrderStatusDto) {
         const order = await this.prisma.order.findUnique({
             where: { id },
-            select: { id: true, status: true, paymentStatus: true },
+            select: { id: true, status: true, paymentStatus: true, holidaySlotId: true, subscriptionId: true },
         });
         if (!order) throw new NotFoundException("Order not found");
 
@@ -279,6 +321,12 @@ export class OrdersService {
             case "DELIVERED":
                 data.deliveredAt = now;
                 break;
+            case "RETURN_IN_TRANSIT":
+                data.returnShippedAt = now;
+                break;
+            case "RETURN_RECEIVED":
+                data.returnReceivedAt = now;
+                break;
             case "COMPLETED":
                 data.completedAt = now;
                 break;
@@ -287,10 +335,38 @@ export class OrdersService {
                 break;
         }
 
-        const updated = await this.prisma.order.update({
-            where: { id },
-            data,
-            include: adminOrderInclude,
+        const updated = await this.prisma.$transaction(async (tx) => {
+            // SHIPPED → reserved → shipped buckets.
+            if (dto.status === "SHIPPED") {
+                await this.allocator.markShippedForOrder(tx, id);
+            }
+
+            // CANCELLED → release whichever bucket the stock currently sits in.
+            if (dto.status === "CANCELLED") {
+                if (order.status === ("SHIPPED" as OrderStatus) || order.status === ("DELIVERED" as OrderStatus)) {
+                    await this.allocator.releaseShippedForOrder(tx, id);
+                } else {
+                    await this.allocator.releaseForOrder(tx, id);
+                }
+            }
+
+            const result = await tx.order.update({ where: { id }, data, include: adminOrderInclude });
+
+            // SHIPPED → propagate to slot + subscription stage.
+            if (dto.status === "SHIPPED" && order.holidaySlotId) {
+                await tx.subscriptionHolidaySlot.update({
+                    where: { id: order.holidaySlotId },
+                    data: { status: "SHIPPED" as HolidaySlotStatus },
+                });
+                if (order.subscriptionId) {
+                    await tx.subscription.update({
+                        where: { id: order.subscriptionId },
+                        data: { stage: "IN_USE" as SubscriptionStage },
+                    });
+                }
+            }
+
+            return result;
         });
 
         this.logger.log(`Order ${updated.orderNumber} transitioned to ${dto.status} by admin`);
@@ -454,6 +530,10 @@ export class OrdersService {
                     });
                 }
 
+                // Reserve inventory for this order. Throws if stock is insufficient,
+                // which rolls back the entire $transaction (no orphan orders).
+                await this.allocator.reserveForOrder(tx, order.id);
+
                 orders.push({
                     id: order.id,
                     total: orderTotal,
@@ -538,5 +618,240 @@ export class OrdersService {
         });
 
         this.logger.log(`Finalized ${orderIds.length} order(s) from session ${session.id}`);
+    }
+
+    // ─── User: request a return on a delivered order ────────────────────
+    async requestReturn(userId: string, id: string) {
+        const order = await this.prisma.order.findUnique({
+            where: { id },
+            select: { id: true, userId: true, status: true },
+        });
+        if (!order) throw new NotFoundException("Order not found");
+        if (order.userId !== userId) throw new ForbiddenException("Not your order");
+        if (order.status !== ("DELIVERED" as OrderStatus)) {
+            throw new BadRequestException("Only delivered orders can be returned");
+        }
+
+        // TODO: integrate Shippo/EasyPost to auto-generate a return label here.
+        // For now the admin attaches the label via /admin/:id/return-label.
+
+        return this.prisma.order.update({
+            where: { id },
+            data: {
+                status: "RETURN_REQUESTED" as OrderStatus,
+                returnRequestedAt: new Date(),
+            },
+            include: orderInclude,
+        });
+    }
+
+    // ─── Admin: attach a return label / mark in transit ─────────────────
+    async setReturnLabel(id: string, dto: SetReturnLabelDto) {
+        const order = await this.prisma.order.findUnique({
+            where: { id },
+            select: { id: true, status: true },
+        });
+        if (!order) throw new NotFoundException("Order not found");
+        if (order.status !== ("RETURN_REQUESTED" as OrderStatus) && order.status !== ("RETURN_IN_TRANSIT" as OrderStatus)) {
+            throw new BadRequestException("Order is not in a return-requested state");
+        }
+
+        if (
+            dto.returnLabelUrl === undefined &&
+            dto.returnTrackingNumber === undefined &&
+            dto.returnTrackingUrl === undefined
+        ) {
+            throw new BadRequestException("At least one of returnLabelUrl, returnTrackingNumber, or returnTrackingUrl is required");
+        }
+
+        return this.prisma.order.update({
+            where: { id },
+            data: {
+                ...(dto.returnLabelUrl !== undefined ? { returnLabelUrl: dto.returnLabelUrl } : {}),
+                ...(dto.returnTrackingNumber !== undefined ? { returnTrackingNumber: dto.returnTrackingNumber } : {}),
+                ...(dto.returnTrackingUrl !== undefined ? { returnTrackingUrl: dto.returnTrackingUrl } : {}),
+            },
+            include: adminOrderInclude,
+        });
+    }
+
+    // ─── Admin: submit return inspection ────────────────────────────────
+    // Computes refund vs forfeiture, issues a Stripe partial refund, transitions
+    // inventory buckets, marks the order INSPECTED, and flips the subscription
+    // slot to RETURNED. All side effects run in one DB transaction; the Stripe
+    // refund is issued AFTER the DB succeeds, then its id is written back.
+    async inspectReturn(id: string, dto: InspectReturnDto) {
+        const order = await this.prisma.order.findUnique({
+            where: { id },
+            include: {
+                items: { select: { itemId: true, qty: true, item: { select: { id: true } } } },
+                addOns: { select: { addOnId: true, qty: true, deposit: true } },
+            },
+        });
+        if (!order) throw new NotFoundException("Order not found");
+        if (order.status !== ("RETURN_RECEIVED" as OrderStatus)) {
+            throw new BadRequestException("Order must be RETURN_RECEIVED before it can be inspected");
+        }
+        if (!order.stripeChargeId) {
+            throw new BadRequestException("Order has no charge to refund against");
+        }
+
+        // Validate that the submitted lines fully account for every shipped unit.
+        // Build the canonical "expected" map from the order, then walk dto.lines
+        // accumulating per-target qtys. Each total must match exactly — no missing
+        // coverage (would strand shippedQty), no over-coverage (would oversell into
+        // negatives), no foreign references.
+        const expected = new Map<string, number>();
+        for (const l of order.items) expected.set(`i:${l.itemId}`, l.qty);
+        for (const l of order.addOns) expected.set(`a:${l.addOnId}`, l.qty);
+
+        const submitted = new Map<string, number>();
+        for (const line of dto.lines) {
+            if (!line.itemId === !line.addOnId) {
+                throw new BadRequestException("Each return line must specify exactly one of itemId or addOnId");
+            }
+            if (line.qty <= 0) {
+                throw new BadRequestException("Return line qty must be positive");
+            }
+            const key = line.itemId ? `i:${line.itemId}` : `a:${line.addOnId}`;
+            if (!expected.has(key)) {
+                throw new BadRequestException(`${line.itemId ?? line.addOnId} is not on this order`);
+            }
+            submitted.set(key, (submitted.get(key) ?? 0) + line.qty);
+        }
+
+        for (const [key, expectedQty] of expected) {
+            const submittedQty = submitted.get(key) ?? 0;
+            if (submittedQty !== expectedQty) {
+                const id = key.slice(2);
+                throw new BadRequestException(
+                    `Return coverage mismatch for ${id}: expected ${expectedQty}, got ${submittedQty}. ` +
+                        `Mark un-returned units as MISSING or LOST.`,
+                );
+            }
+        }
+
+        const totalDeposit = new Prisma.Decimal(order.kitDeposit).plus(order.addOnDeposit);
+        const totalFees = dto.lines.reduce((acc, l) => acc.plus(new Prisma.Decimal(l.feeCharged ?? 0)), new Prisma.Decimal(0));
+        // Forfeit cannot exceed deposit held; anything beyond is a write-off.
+        const forfeit = Prisma.Decimal.min(totalFees, totalDeposit);
+        const refund = totalDeposit.minus(forfeit);
+
+        const refundCents = decimalToCents(refund);
+        const now = new Date();
+
+        // ── Stage 1: DB transaction — write inspection, transition inventory & slot.
+        const updated = await this.prisma.$transaction(async (tx) => {
+            // Re-submission support: undo any previously-applied inventory effects
+            // before overwriting the return lines and applying the new ones.
+            const prior = await tx.orderReturnLine.findMany({
+                where: { orderId: id },
+                select: { itemId: true, addOnId: true, qty: true, condition: true },
+            });
+            if (prior.length) {
+                await this.allocator.undoInspection(tx, prior);
+            }
+
+            await tx.orderReturnLine.deleteMany({ where: { orderId: id } });
+            await tx.orderReturnLine.createMany({
+                data: dto.lines.map((l) => ({
+                    orderId: id,
+                    itemId: l.itemId ?? null,
+                    addOnId: l.addOnId ?? null,
+                    qty: l.qty,
+                    condition: l.condition as ReturnCondition,
+                    feeCharged: new Prisma.Decimal(l.feeCharged ?? 0),
+                    notes: l.notes ?? null,
+                })),
+            });
+
+            await this.allocator.applyInspection(
+                tx,
+                dto.lines.map((l) => ({
+                    itemId: l.itemId ?? null,
+                    addOnId: l.addOnId ?? null,
+                    qty: l.qty,
+                    condition: l.condition as ReturnCondition,
+                })),
+            );
+
+            const order = await tx.order.update({
+                where: { id },
+                data: {
+                    status: "INSPECTED" as OrderStatus,
+                    inspectedAt: now,
+                    inspectionNotes: dto.inspectionNotes ?? null,
+                    depositRefunded: refund,
+                    depositForfeited: forfeit,
+                },
+                include: adminOrderInclude,
+            });
+
+            if (order.holidaySlotId) {
+                await tx.subscriptionHolidaySlot.update({
+                    where: { id: order.holidaySlotId },
+                    data: { status: "RETURNED" as HolidaySlotStatus },
+                });
+            }
+
+            // Roll the parent subscription's stage forward. If every slot is now
+            // RETURNED or SKIPPED, the subscription has finished its cycle; otherwise
+            // we drop back to RETURNED so the user can pick the next holiday.
+            if (order.subscriptionId) {
+                const slots = await tx.subscriptionHolidaySlot.findMany({
+                    where: { subscriptionId: order.subscriptionId },
+                    select: { status: true },
+                });
+                const allDone = slots.every(
+                    (s) => s.status === ("RETURNED" as HolidaySlotStatus) || s.status === ("SKIPPED" as HolidaySlotStatus),
+                );
+                await tx.subscription.update({
+                    where: { id: order.subscriptionId },
+                    data: { stage: (allDone ? "COMPLETED" : "RETURNED") as SubscriptionStage },
+                });
+            }
+
+            return order;
+        });
+
+        // ── Stage 2: Stripe refund (only if there's something to refund).
+        if (refundCents > 0) {
+            try {
+                const refundObj = await this.stripe.client.refunds.create({
+                    charge: order.stripeChargeId,
+                    amount: refundCents,
+                    metadata: { orderId: id, kind: "deposit_refund" },
+                });
+                await this.prisma.order.update({
+                    where: { id },
+                    data: { stripeRefundId: refundObj.id },
+                });
+                this.logger.log(`Refunded ${refundCents}¢ for order ${order.orderNumber} (${refundObj.id})`);
+            } catch (err) {
+                // DB has already recorded the inspection; surface the failure so the admin can retry.
+                this.logger.error(`Stripe refund failed for order ${order.orderNumber}: ${(err as Error).message}`);
+                throw new BadRequestException(`Inspection saved but Stripe refund failed: ${(err as Error).message}`);
+            }
+        }
+
+        return updated;
+    }
+
+    // ─── Admin: finalize inspected order to COMPLETED ────────────────────
+    async completeInspected(id: string) {
+        const order = await this.prisma.order.findUnique({
+            where: { id },
+            select: { id: true, status: true, holidaySlotId: true },
+        });
+        if (!order) throw new NotFoundException("Order not found");
+        if (order.status !== ("INSPECTED" as OrderStatus)) {
+            throw new BadRequestException("Order must be INSPECTED before completion");
+        }
+
+        return this.prisma.order.update({
+            where: { id },
+            data: { status: "COMPLETED" as OrderStatus, completedAt: new Date() },
+            include: adminOrderInclude,
+        });
     }
 }

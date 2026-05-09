@@ -2,8 +2,19 @@ import { request, toQuery, type Paginated } from "./base";
 import type { HolidayCategory } from "./holiday";
 
 export type Duration = "THIRTY_DAY" | "SIXTY_DAY";
-export type OrderStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "RESERVED" | "CANCELLED" | "COMPLETED";
+export type OrderStatus =
+    | "PENDING"
+    | "SHIPPED"
+    | "DELIVERED"
+    | "RESERVED"
+    | "CANCELLED"
+    | "COMPLETED"
+    | "RETURN_REQUESTED"
+    | "RETURN_IN_TRANSIT"
+    | "RETURN_RECEIVED"
+    | "INSPECTED";
 export type PaymentStatus = "PENDING" | "PAID" | "FAILED";
+export type ReturnCondition = "GOOD" | "DAMAGED" | "MISSING" | "LOST";
 
 // Backend supports STARTER | PREMIUM | ULTIMATE; admin's KitTier currently narrows to two,
 // so for orders we keep the wider union to be safe regardless of the kit tier on the order.
@@ -42,6 +53,16 @@ export type ApiOrderAddOn = {
     addOn: { id: string; sku: string | null; name: string; image: string };
 };
 
+export type ApiReturnLine = {
+    id: string;
+    itemId: string | null;
+    addOnId: string | null;
+    qty: number;
+    condition: ReturnCondition;
+    feeCharged: string;
+    notes: string | null;
+};
+
 export type ApiOrder = {
     id: string;
     orderNumber: string;
@@ -66,6 +87,17 @@ export type ApiOrder = {
     paymentStatus: PaymentStatus;
     trackingNumber: string | null;
     trackingUrl: string | null;
+    returnLabelUrl: string | null;
+    returnTrackingNumber: string | null;
+    returnTrackingUrl: string | null;
+    returnRequestedAt: string | null;
+    returnShippedAt: string | null;
+    returnReceivedAt: string | null;
+    inspectedAt: string | null;
+    inspectionNotes: string | null;
+    depositRefunded: string;
+    depositForfeited: string;
+    stripeRefundId: string | null;
     paidAt: string | null;
     stripePaymentIntentId: string | null;
     stripeChargeId: string | null;
@@ -77,6 +109,7 @@ export type ApiOrder = {
     updatedAt: string;
     items: ApiOrderItem[];
     addOns: ApiOrderAddOn[];
+    returnLines: ApiReturnLine[];
 };
 
 export type ListOrdersParams = {
@@ -91,6 +124,26 @@ export type UpdateOrderStatusPayload = {
     trackingUrl?: string;
 };
 
+export type SetReturnLabelPayload = {
+    returnLabelUrl?: string;
+    returnTrackingNumber?: string;
+    returnTrackingUrl?: string;
+};
+
+export type InspectReturnLinePayload = {
+    itemId?: string;
+    addOnId?: string;
+    qty: number;
+    condition: ReturnCondition;
+    feeCharged?: number;
+    notes?: string;
+};
+
+export type InspectReturnPayload = {
+    lines: InspectReturnLinePayload[];
+    inspectionNotes?: string;
+};
+
 export const ordersApi = {
     list: (params: ListOrdersParams = {}) => request<Paginated<ApiOrder>>(`/order/admin${toQuery(params)}`),
     get: (id: string) => request<ApiOrder>(`/order/admin/${id}`),
@@ -98,6 +151,20 @@ export const ordersApi = {
         request<ApiOrder>(`/order/admin/${id}/status`, {
             method: "PATCH",
             body: JSON.stringify(payload),
+        }),
+    setReturnLabel: (id: string, payload: SetReturnLabelPayload) =>
+        request<ApiOrder>(`/order/admin/${id}/return-label`, {
+            method: "PATCH",
+            body: JSON.stringify(payload),
+        }),
+    inspectReturn: (id: string, payload: InspectReturnPayload) =>
+        request<ApiOrder>(`/order/admin/${id}/inspect`, {
+            method: "POST",
+            body: JSON.stringify(payload),
+        }),
+    completeInspected: (id: string) =>
+        request<ApiOrder>(`/order/admin/${id}/complete`, {
+            method: "PATCH",
         }),
 };
 
@@ -108,6 +175,10 @@ const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {
     RESERVED: "Reserved",
     CANCELLED: "Cancelled",
     COMPLETED: "Completed",
+    RETURN_REQUESTED: "Return Requested",
+    RETURN_IN_TRANSIT: "Return In Transit",
+    RETURN_RECEIVED: "Return Received",
+    INSPECTED: "Inspected",
 };
 
 const PAYMENT_STATUS_LABEL: Record<PaymentStatus, string> = {
@@ -173,6 +244,10 @@ const ALLOWED_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
     RESERVED: ["SHIPPED", "CANCELLED"],
     SHIPPED: ["DELIVERED", "CANCELLED"],
     DELIVERED: ["COMPLETED"],
+    RETURN_REQUESTED: ["RETURN_IN_TRANSIT"],
+    RETURN_IN_TRANSIT: ["RETURN_RECEIVED"],
+    RETURN_RECEIVED: [], // → /inspect (separate endpoint)
+    INSPECTED: ["COMPLETED"],
     COMPLETED: [],
     CANCELLED: [],
 };

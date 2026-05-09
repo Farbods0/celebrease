@@ -14,7 +14,17 @@ export type CreateCheckoutResponse = {
     orderIds: string[];
 };
 
-export type OrderStatus = "PENDING" | "SHIPPED" | "DELIVERED" | "RESERVED" | "CANCELLED" | "COMPLETED";
+export type OrderStatus =
+    | "PENDING"
+    | "SHIPPED"
+    | "DELIVERED"
+    | "RESERVED"
+    | "CANCELLED"
+    | "COMPLETED"
+    | "RETURN_REQUESTED"
+    | "RETURN_IN_TRANSIT"
+    | "RETURN_RECEIVED"
+    | "INSPECTED";
 export type PaymentStatus = "PENDING" | "PAID" | "FAILED";
 
 export type ApiOrder = {
@@ -36,6 +46,16 @@ export type ApiOrder = {
     paymentStatus: PaymentStatus;
     trackingNumber: string | null;
     trackingUrl: string | null;
+    returnLabelUrl: string | null;
+    returnTrackingNumber: string | null;
+    returnTrackingUrl: string | null;
+    returnRequestedAt: string | null;
+    returnShippedAt: string | null;
+    returnReceivedAt: string | null;
+    inspectedAt: string | null;
+    inspectionNotes: string | null;
+    depositRefunded: string;
+    depositForfeited: string;
     shippedAt: string | null;
     deliveredAt: string | null;
     completedAt: string | null;
@@ -134,6 +154,19 @@ export async function retryOrderPayment(orderId: string): Promise<{ url: string 
     });
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to retry payment"));
+    }
+    return res.json();
+}
+
+export async function requestOrderReturn(orderId: string): Promise<ApiOrder> {
+    const res = await fetch(`${baseURL}${apiPrefix}/order/me/${orderId}/return`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+    });
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to request return"));
     }
     return res.json();
 }

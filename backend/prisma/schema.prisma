@@ -515,12 +515,23 @@ enum OrderStatus {
     RESERVED
     CANCELLED
     COMPLETED
+    RETURN_REQUESTED
+    RETURN_IN_TRANSIT
+    RETURN_RECEIVED
+    INSPECTED
 }
 
 enum PaymentStatus {
     PENDING
     PAID
     FAILED
+}
+
+enum ReturnCondition {
+    GOOD
+    DAMAGED
+    MISSING
+    LOST
 }
 
 model Order {
@@ -566,6 +577,19 @@ model Order {
     trackingNumber String?
     trackingUrl    String?
 
+    // Return
+    returnLabelUrl       String?
+    returnTrackingNumber String?
+    returnTrackingUrl    String?
+    returnRequestedAt    DateTime?
+    returnShippedAt      DateTime?
+    returnReceivedAt     DateTime?
+    inspectedAt          DateTime?
+    inspectionNotes      String?
+    depositRefunded      Decimal   @default(0) @db.Decimal(10, 2)
+    depositForfeited     Decimal   @default(0) @db.Decimal(10, 2)
+    stripeRefundId       String?
+
     // Timestamps
     shippedAt   DateTime?
     deliveredAt DateTime?
@@ -574,8 +598,9 @@ model Order {
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @updatedAt
 
-    items  OrderItem[]
-    addOns OrderAddOn[]
+    items       OrderItem[]
+    addOns      OrderAddOn[]
+    returnLines OrderReturnLine[]
 
     @@index([userId])
     @@index([status])
@@ -605,4 +630,24 @@ model OrderAddOn {
 
     @@unique([orderId, addOnId])
     @@map("order_addon")
+}
+
+// ============================================================
+// RETURNS
+// ============================================================
+
+model OrderReturnLine {
+    id        String          @id @default(cuid())
+    orderId   String
+    order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    itemId    String?
+    addOnId   String?
+    qty       Int             @default(1)
+    condition ReturnCondition
+    feeCharged Decimal        @default(0) @db.Decimal(10, 2)
+    notes     String?
+    createdAt DateTime        @default(now())
+
+    @@index([orderId])
+    @@map("order_return_line")
 }

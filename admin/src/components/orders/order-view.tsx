@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { Textarea } from "@/components/ui/textarea";
 import {
     formatDuration,
     formatMoney,
@@ -23,14 +24,24 @@ import {
     getNextActions,
     ordersApi,
     type ApiOrder,
+    type InspectReturnLinePayload,
     type OrderStatus,
+    type ReturnCondition,
 } from "@/lib/api";
 import { CheckIcon, LoaderCircleIcon } from "lucide-react";
 import moment from "moment";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const TIMELINE_STATUSES: OrderStatus[] = ["PENDING", "RESERVED", "SHIPPED", "DELIVERED", "COMPLETED"];
+
+const RETURN_TIMELINE_STATUSES: OrderStatus[] = [
+    "RETURN_REQUESTED",
+    "RETURN_IN_TRANSIT",
+    "RETURN_RECEIVED",
+    "INSPECTED",
+    "COMPLETED",
+];
 
 const TIMELINE_LABELS: Record<OrderStatus, string> = {
     PENDING: "Order Placed",
@@ -39,7 +50,18 @@ const TIMELINE_LABELS: Record<OrderStatus, string> = {
     DELIVERED: "Delivered",
     COMPLETED: "Completed",
     CANCELLED: "Cancelled",
+    RETURN_REQUESTED: "Return Requested",
+    RETURN_IN_TRANSIT: "In Transit",
+    RETURN_RECEIVED: "Received",
+    INSPECTED: "Inspected",
 };
+
+const RETURN_STATUSES = new Set<OrderStatus>([
+    "RETURN_REQUESTED",
+    "RETURN_IN_TRANSIT",
+    "RETURN_RECEIVED",
+    "INSPECTED",
+]);
 
 function timelineDescription(order: ApiOrder, status: OrderStatus): string {
     switch (status) {
@@ -51,6 +73,14 @@ function timelineDescription(order: ApiOrder, status: OrderStatus): string {
             return order.shippedAt ? moment(order.shippedAt).format("MMM DD, YYYY") : "Pending";
         case "DELIVERED":
             return order.deliveredAt ? moment(order.deliveredAt).format("MMM DD, YYYY") : "Pending";
+        case "RETURN_REQUESTED":
+            return order.returnRequestedAt ? moment(order.returnRequestedAt).format("MMM DD, YYYY") : "Pending";
+        case "RETURN_IN_TRANSIT":
+            return order.returnShippedAt ? moment(order.returnShippedAt).format("MMM DD, YYYY") : "Pending";
+        case "RETURN_RECEIVED":
+            return order.returnReceivedAt ? moment(order.returnReceivedAt).format("MMM DD, YYYY") : "Pending";
+        case "INSPECTED":
+            return order.inspectedAt ? moment(order.inspectedAt).format("MMM DD, YYYY") : "Pending";
         case "COMPLETED":
             return order.completedAt ? moment(order.completedAt).format("MMM DD, YYYY") : "Pending";
         default:
@@ -69,10 +99,13 @@ function formatRange(start: string, end: string) {
     return `${s.format("MMM DD, YYYY")} - ${e.format("MMM DD, YYYY")}`;
 }
 
-function currentStep(order: ApiOrder) {
+function currentStep(order: ApiOrder, statuses: OrderStatus[]) {
     if (order.status === "CANCELLED") return 1;
-    const idx = TIMELINE_STATUSES.indexOf(order.status);
-    return idx >= 0 ? idx + 1 : 1;
+    const idx = statuses.indexOf(order.status);
+    if (idx >= 0) return idx + 1;
+    // If we're past this timeline (e.g. forward-flow but already in return), mark all done.
+    if (RETURN_STATUSES.has(order.status) && statuses === TIMELINE_STATUSES) return statuses.length;
+    return 1;
 }
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
@@ -91,7 +124,20 @@ const ACTION_LABELS: Record<OrderStatus, { label: string; variant: "default" | "
     COMPLETED: { label: "Mark Completed", variant: "default" },
     CANCELLED: { label: "Cancel Order", variant: "destructive" },
     PENDING: { label: "Pending", variant: "outline" },
+    RETURN_REQUESTED: { label: "Return Requested", variant: "outline" },
+    RETURN_IN_TRANSIT: { label: "Mark Return Shipped", variant: "default" },
+    RETURN_RECEIVED: { label: "Mark Received", variant: "default" },
+    INSPECTED: { label: "Inspected", variant: "outline" },
 };
+
+const CONDITIONS: ReturnCondition[] = ["GOOD", "DAMAGED", "MISSING", "LOST"];
+
+type LineKey = string;
+type LineState = { itemId?: string; addOnId?: string; qty: number; condition: ReturnCondition; feeCharged: number; notes: string };
+
+function lineKey(itemId: string | undefined, addOnId: string | undefined): LineKey {
+    return itemId ? `i:${itemId}` : `a:${addOnId}`;
+}
 
 export function OrderView({
     item,
@@ -104,6 +150,34 @@ export function OrderView({
     const [showShipForm, setShowShipForm] = useState(false);
     const [trackingNumber, setTrackingNumber] = useState("");
     const [trackingUrl, setTrackingUrl] = useState("");
+    const [showInspect, setShowInspect] = useState(false);
+    const [inspectNotes, setInspectNotes] = useState("");
+    const [lines, setLines] = useState<Record<LineKey, LineState>>(() => {
+        const initial: Record<LineKey, LineState> = {};
+        for (const l of item.items) {
+            const key = lineKey(l.item.id, undefined);
+            initial[key] = { itemId: l.item.id, qty: l.qty, condition: "GOOD", feeCharged: 0, notes: "" };
+        }
+        for (const l of item.addOns) {
+            const key = lineKey(undefined, l.addOn.id);
+            initial[key] = { addOnId: l.addOn.id, qty: l.qty, condition: "GOOD", feeCharged: 0, notes: "" };
+        }
+        return initial;
+    });
+
+    const totalDeposit = useMemo(
+        () => Number.parseFloat(item.kitDeposit) + Number.parseFloat(item.addOnDeposit),
+        [item.kitDeposit, item.addOnDeposit],
+    );
+    const totalFees = useMemo(
+        () => Object.values(lines).reduce((acc, l) => acc + (Number.isFinite(l.feeCharged) ? l.feeCharged : 0), 0),
+        [lines],
+    );
+    const projectedForfeit = Math.min(totalFees, totalDeposit);
+    const projectedRefund = totalDeposit - projectedForfeit;
+
+    const isReturnPhase = RETURN_STATUSES.has(item.status) || item.status === "COMPLETED";
+    const timelineStatuses = isReturnPhase ? RETURN_TIMELINE_STATUSES : TIMELINE_STATUSES;
 
     const nextActions = getNextActions(item);
 
@@ -128,6 +202,49 @@ export function OrderView({
             setTrackingUrl("");
         } catch (err) {
             toast.error(err instanceof Error ? err.message : "Failed to update order");
+        } finally {
+            setLoading(null);
+        }
+    }
+
+    function updateLine(key: LineKey, patch: Partial<LineState>) {
+        setLines((prev) => ({ ...prev, [key]: { ...prev[key], ...patch } }));
+    }
+
+    async function handleSubmitInspection() {
+        const payload: InspectReturnLinePayload[] = Object.values(lines).map((l) => ({
+            itemId: l.itemId,
+            addOnId: l.addOnId,
+            qty: l.qty,
+            condition: l.condition,
+            ...(l.feeCharged > 0 ? { feeCharged: l.feeCharged } : {}),
+            ...(l.notes ? { notes: l.notes } : {}),
+        }));
+
+        setLoading("INSPECT");
+        try {
+            const updated = await ordersApi.inspectReturn(item.id, {
+                lines: payload,
+                ...(inspectNotes ? { inspectionNotes: inspectNotes } : {}),
+            });
+            toast.success(`Inspection complete — refunded ${formatMoney(updated.depositRefunded)}`);
+            onUpdated?.(updated);
+            setShowInspect(false);
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Failed to submit inspection");
+        } finally {
+            setLoading(null);
+        }
+    }
+
+    async function handleCompleteInspected() {
+        setLoading("COMPLETE");
+        try {
+            const updated = await ordersApi.completeInspected(item.id);
+            toast.success(`Order ${updated.orderNumber} completed`);
+            onUpdated?.(updated);
+        } catch (err) {
+            toast.error(err instanceof Error ? err.message : "Failed to complete order");
         } finally {
             setLoading(null);
         }
@@ -213,10 +330,12 @@ export function OrderView({
             )}
 
             <section>
-                <h3 className="text-sm uppercase font-medium mb-2.5">Shipment Timeline</h3>
+                <h3 className="text-sm uppercase font-medium mb-2.5">
+                    {isReturnPhase ? "Return Timeline" : "Shipment Timeline"}
+                </h3>
                 <div className="flex items-center justify-center">
                     <Stepper
-                        defaultValue={currentStep(item)}
+                        defaultValue={currentStep(item, timelineStatuses)}
                         orientation="vertical"
                         indicators={{
                             completed: <CheckIcon className="size-3.5" />,
@@ -224,7 +343,7 @@ export function OrderView({
                         }}
                     >
                         <StepperNav>
-                            {TIMELINE_STATUSES.map((status, index) => (
+                            {timelineStatuses.map((status, index) => (
                                 <StepperItem key={status} step={index + 1} className="relative items-start not-last:flex-1">
                                     <StepperTrigger className="items-start gap-2.5 pb-4 last:pb-0">
                                         <StepperIndicator className="data-[state=completed]:bg-chart-4 data-[state=completed]:text-white">
@@ -235,7 +354,7 @@ export function OrderView({
                                             <StepperDescription>{timelineDescription(item, status)}</StepperDescription>
                                         </div>
                                     </StepperTrigger>
-                                    {index < TIMELINE_STATUSES.length - 1 && (
+                                    {index < timelineStatuses.length - 1 && (
                                         <StepperSeparator className="group-data-[state=completed]/step:bg-success absolute inset-y-0 top-7 left-3 -order-1 m-0 -translate-x-1/2 group-data-[orientation=vertical]/stepper-nav:h-[calc(100%-2rem)]" />
                                     )}
                                 </StepperItem>
@@ -244,6 +363,59 @@ export function OrderView({
                     </Stepper>
                 </div>
             </section>
+
+            {(item.returnLabelUrl || item.returnTrackingNumber) && (
+                <section>
+                    <h3 className="text-sm uppercase font-medium mb-2.5">Return Shipment</h3>
+                    <div className="grid grid-cols-2 gap-2">
+                        {item.returnLabelUrl && (
+                            <Field
+                                label="Return Label"
+                                value={
+                                    <a
+                                        href={item.returnLabelUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:underline text-sm"
+                                    >
+                                        Open label →
+                                    </a>
+                                }
+                            />
+                        )}
+                        {item.returnTrackingNumber && <Field label="Return Tracking #" value={item.returnTrackingNumber} />}
+                        {item.returnTrackingUrl && (
+                            <Field
+                                label="Return Tracking URL"
+                                value={
+                                    <a
+                                        href={item.returnTrackingUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:underline text-sm"
+                                    >
+                                        View →
+                                    </a>
+                                }
+                            />
+                        )}
+                    </div>
+                </section>
+            )}
+
+            {(item.status === "INSPECTED" || item.status === "COMPLETED") && item.returnLines.length > 0 && (
+                <section>
+                    <h3 className="text-sm uppercase font-medium mb-2.5">Inspection Result</h3>
+                    <div className="grid grid-cols-3 gap-2 mb-3">
+                        <Field label="Refunded" value={formatMoney(item.depositRefunded)} />
+                        <Field label="Forfeited" value={formatMoney(item.depositForfeited)} />
+                        <Field label="Inspected" value={item.inspectedAt ? moment(item.inspectedAt).format("MMM DD, YYYY") : "—"} />
+                    </div>
+                    {item.inspectionNotes && (
+                        <p className="text-sm text-muted-foreground border rounded-lg p-2">{item.inspectionNotes}</p>
+                    )}
+                </section>
+            )}
 
             <section>
                 <h3 className="text-sm uppercase font-medium mb-2.5">Payment & Deposit</h3>
@@ -273,7 +445,77 @@ export function OrderView({
                 </>
             )}
 
-            {nextActions.length > 0 && (
+            {item.status === "RETURN_RECEIVED" && showInspect && (
+                <>
+                    <Separator />
+                    <section>
+                        <h3 className="text-sm uppercase font-medium mb-2.5">Inspect Returned Items</h3>
+                        <div className="space-y-2">
+                            {item.items.map((line) => {
+                                const key = lineKey(line.item.id, undefined);
+                                const state = lines[key];
+                                if (!state) return null;
+                                return (
+                                    <InspectRow
+                                        key={key}
+                                        title={line.item.name}
+                                        qty={line.qty}
+                                        state={state}
+                                        onChange={(patch) => updateLine(key, patch)}
+                                    />
+                                );
+                            })}
+                            {item.addOns.map((line) => {
+                                const key = lineKey(undefined, line.addOn.id);
+                                const state = lines[key];
+                                if (!state) return null;
+                                return (
+                                    <InspectRow
+                                        key={key}
+                                        title={`${line.addOn.name} (add-on)`}
+                                        qty={line.qty}
+                                        state={state}
+                                        onChange={(patch) => updateLine(key, patch)}
+                                    />
+                                );
+                            })}
+                        </div>
+
+                        <div className="space-y-1.5 mt-3">
+                            <Label htmlFor="inspectionNotes" className="text-xs">
+                                Inspection Notes (optional)
+                            </Label>
+                            <Textarea
+                                id="inspectionNotes"
+                                placeholder="Overall condition, observations, etc."
+                                value={inspectNotes}
+                                onChange={(e) => setInspectNotes(e.target.value)}
+                                rows={2}
+                            />
+                        </div>
+
+                        <div className="mt-3 grid grid-cols-3 gap-2 p-3 rounded-lg border bg-muted/40">
+                            <Field label="Deposit Held" value={formatMoney(totalDeposit)} />
+                            <Field label="Deductions" value={formatMoney(projectedForfeit)} />
+                            <Field
+                                label="Refund"
+                                value={<span className="text-emerald-700">{formatMoney(projectedRefund)}</span>}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3 mt-4">
+                            <Button variant="outline" onClick={() => setShowInspect(false)} disabled={!!loading}>
+                                Cancel
+                            </Button>
+                            <Button onClick={handleSubmitInspection} disabled={!!loading}>
+                                {loading === "INSPECT" ? "Refunding…" : "Confirm & Refund"}
+                            </Button>
+                        </div>
+                    </section>
+                </>
+            )}
+
+            {(nextActions.length > 0 || item.status === "RETURN_RECEIVED" || item.status === "INSPECTED") && !showInspect && (
                 <>
                     <Separator />
                     <section>
@@ -308,6 +550,13 @@ export function OrderView({
                         <div className="grid grid-cols-2 gap-3">
                             {nextActions.map((status) => {
                                 const config = ACTION_LABELS[status];
+                                if (status === "COMPLETED" && item.status === "INSPECTED") {
+                                    return (
+                                        <Button key={status} disabled={!!loading} onClick={handleCompleteInspected}>
+                                            {loading === "COMPLETE" ? "Completing…" : "Complete Order"}
+                                        </Button>
+                                    );
+                                }
                                 return (
                                     <Button
                                         key={status}
@@ -323,10 +572,69 @@ export function OrderView({
                                     </Button>
                                 );
                             })}
+                            {item.status === "RETURN_RECEIVED" && (
+                                <Button onClick={() => setShowInspect(true)} disabled={!!loading}>
+                                    Open Inspection
+                                </Button>
+                            )}
                         </div>
                     </section>
                 </>
             )}
         </DialogContent>
+    );
+}
+
+function InspectRow({
+    title,
+    qty,
+    state,
+    onChange,
+}: {
+    title: string;
+    qty: number;
+    state: LineState;
+    onChange: (patch: Partial<LineState>) => void;
+}) {
+    return (
+        <div className="border rounded-lg p-3 space-y-2">
+            <div className="flex justify-between items-center text-sm">
+                <span className="font-medium">{title}</span>
+                <span className="text-muted-foreground">x{qty}</span>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                    <Label className="text-xs">Condition</Label>
+                    <select
+                        className="w-full h-9 rounded-md border bg-background px-2 text-sm"
+                        value={state.condition}
+                        onChange={(e) => onChange({ condition: e.target.value as ReturnCondition })}
+                    >
+                        {CONDITIONS.map((c) => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="space-y-1">
+                    <Label className="text-xs">Fee Charged</Label>
+                    <Input
+                        type="number"
+                        min={0}
+                        step="0.01"
+                        value={state.feeCharged}
+                        onChange={(e) => onChange({ feeCharged: Number.parseFloat(e.target.value) || 0 })}
+                    />
+                </div>
+            </div>
+            {state.condition !== "GOOD" && (
+                <Input
+                    placeholder="Notes (optional)"
+                    value={state.notes}
+                    onChange={(e) => onChange({ notes: e.target.value })}
+                />
+            )}
+        </div>
     );
 }

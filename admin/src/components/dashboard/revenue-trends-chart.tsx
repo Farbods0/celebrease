@@ -1,19 +1,8 @@
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-const data = [
-    { month: "Jan", subscriptions: 6000, rentals: 18000 },
-    { month: "Feb", subscriptions: 7200, rentals: 20500 },
-    { month: "Mar", subscriptions: 6800, rentals: 19800 },
-    { month: "Apr", subscriptions: 7800, rentals: 21000 },
-    { month: "May", subscriptions: 7300, rentals: 19500 },
-    { month: "Jun", subscriptions: 8100, rentals: 20800 },
-    { month: "Jul", subscriptions: 7600, rentals: 19900 },
-    { month: "Aug", subscriptions: 8200, rentals: 21200 },
-    { month: "Sep", subscriptions: 7900, rentals: 20500 },
-    { month: "Oct", subscriptions: 8600, rentals: 22000 },
-    { month: "Nov", subscriptions: 8400, rentals: 21600 },
-    { month: "Dec", subscriptions: 8900, rentals: 22800 },
-];
+type Props = {
+    data: { month: string; subscriptions: number; rentals: number }[];
+};
 
 const formatK = (value: number) => (value === 0 ? "0" : `${Math.round(value / 1000)}k`);
 
@@ -26,7 +15,13 @@ function LegendDot({ color, label }: { color: string; label: string }) {
     );
 }
 
-export function RevenueTrendsChart() {
+export function RevenueTrendsChart({ data }: Props) {
+    const max = data.reduce((acc, d) => Math.max(acc, d.subscriptions, d.rentals), 0);
+    // Round the upper bound up to the next 5k so ticks stay clean.
+    const upper = Math.max(5000, Math.ceil((max * 1.1) / 5000) * 5000);
+    const ticks: number[] = [];
+    for (let v = 0; v <= upper; v += upper / 5) ticks.push(v);
+
     return (
         <div className="rounded-lg border bg-card p-5 shadow-none">
             <div className="flex items-center justify-between gap-4 flex-wrap">
@@ -34,11 +29,6 @@ export function RevenueTrendsChart() {
                 <div className="flex items-center gap-2">
                     <LegendDot color="var(--chart-1)" label="Subscriptions" />
                     <LegendDot color="var(--chart-2)" label="Rentals" />
-                    <select className="rounded-md border bg-card py-1 px-2 shadow-none text-xs">
-                        <option value="month">This Month</option>
-                        <option value="quarter">This Quarter</option>
-                        <option value="year">This Year</option>
-                    </select>
                 </div>
             </div>
 
@@ -54,8 +44,8 @@ export function RevenueTrendsChart() {
                             tickLine={false}
                             axisLine={false}
                             width={48}
-                            domain={[0, 25000]}
-                            ticks={[0, 5000, 10000, 15000, 20000, 25000]}
+                            domain={[0, upper]}
+                            ticks={ticks}
                         />
                         <Tooltip
                             cursor={{ stroke: "var(--border)", strokeWidth: 1 }}

@@ -253,18 +253,27 @@ export class OrdersService {
 
     // ─── Admin: list all orders ─────────────────────────────────────────
     async listAll(query: ListOrdersDto) {
-        const { page, limit, search } = query;
+        const { page, limit, search, filter } = query;
         const skip = (page - 1) * limit;
 
-        const where: Prisma.OrderWhereInput = search
-            ? {
-                  OR: [
-                      { orderNumber: { contains: search, mode: "insensitive" } },
-                      { user: { email: { contains: search, mode: "insensitive" } } },
-                      { user: { name: { contains: search, mode: "insensitive" } } },
-                  ],
-              }
-            : {};
+        const where: Prisma.OrderWhereInput = {};
+        if (search) {
+            where.OR = [
+                { orderNumber: { contains: search, mode: "insensitive" } },
+                { user: { email: { contains: search, mode: "insensitive" } } },
+                { user: { name: { contains: search, mode: "insensitive" } } },
+            ];
+        }
+        if (filter === "returns") {
+            where.status = {
+                in: [
+                    "RETURN_REQUESTED" as OrderStatus,
+                    "RETURN_IN_TRANSIT" as OrderStatus,
+                    "RETURN_RECEIVED" as OrderStatus,
+                    "INSPECTED" as OrderStatus,
+                ],
+            };
+        }
 
         const [items, total] = await this.prisma.$transaction([
             this.prisma.order.findMany({

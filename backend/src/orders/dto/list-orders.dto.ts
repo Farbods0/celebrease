@@ -21,6 +21,6 @@ export class ListOrdersDto {
 
     @IsString()
     @IsOptional()
-    @IsIn(["active", "recent"])
-    filter?: "active" | "recent";
+    @IsIn(["active", "recent", "returns"])
+    filter?: "active" | "recent" | "returns";
 }

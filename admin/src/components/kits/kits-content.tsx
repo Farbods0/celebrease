@@ -52,6 +52,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
     const router = useRouter();
     const [editOpen, setEditOpen] = useState(false);
     const [savingToggles, setSavingToggles] = useState(false);
+    const [removing, setRemoving] = useState(false);
     const [addTarget, setAddTarget] = useState<AddTarget | null>(null);
 
     if (!holiday) {
@@ -97,6 +98,48 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
             toast.error(e instanceof Error ? e.message : "Failed to update");
         } finally {
             setSavingToggles(false);
+        }
+    };
+
+    const handleRemoveKitItem = async (itemId: string, name: string) => {
+        if (removing) return;
+        setRemoving(true);
+        try {
+            await kitsApi.removeItem(kit.id, itemId);
+            toast.success(`Removed "${name}" from kit`);
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to remove item");
+        } finally {
+            setRemoving(false);
+        }
+    };
+
+    const handleRemovePreviewItem = async (itemId: string, name: string) => {
+        if (removing) return;
+        setRemoving(true);
+        try {
+            await kitsApi.removePreviewItem(kit.id, itemId);
+            toast.success(`Removed "${name}" from preview`);
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to remove preview item");
+        } finally {
+            setRemoving(false);
+        }
+    };
+
+    const handleRemoveHolidayAddOn = async (addOnId: string, name: string) => {
+        if (removing) return;
+        setRemoving(true);
+        try {
+            await holidaysApi.removeAddOn(holiday.id, addOnId);
+            toast.success(`Unlinked "${name}" from ${holiday.name}`);
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to remove add-on");
+        } finally {
+            setRemoving(false);
         }
     };
 
@@ -237,7 +280,17 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                                             className="flex h-11.5 items-center justify-between rounded-lg border bg-muted/40 pl-3 pr-4 py-2.5"
                                         >
                                             <span className="text-sm capitalize">{pi.item.name}</span>
-                                            <span className="text-xs text-muted-foreground">{pi.item.sku}</span>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-xs text-muted-foreground">{pi.item.sku}</span>
+                                                <button
+                                                    type="button"
+                                                    disabled={removing}
+                                                    onClick={() => handleRemovePreviewItem(pi.item.id, pi.item.name)}
+                                                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                                >
+                                                    Trash
+                                                </button>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -261,7 +314,12 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                                 No items linked yet. Inventory items will be wired up once the inventory module ships.
                             </p>
                         ) : (
-                            <KitsItemTable items={kit.items} onView={(item) => console.log(item)} />
+                            <KitsItemTable
+                                items={kit.items}
+                                onView={(item) => console.log(item)}
+                                onRemove={(item) => handleRemoveKitItem(item.id, item.name)}
+                                removing={removing}
+                            />
                         )}
                     </div>
                 </div>
@@ -281,7 +339,11 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                                 No add-ons linked yet. Add-ons will be wired up once the add-ons module ships.
                             </p>
                         ) : (
-                            <KitsAddonTable items={holiday.addOns} />
+                            <KitsAddonTable
+                                items={holiday.addOns}
+                                onRemove={(addOn) => handleRemoveHolidayAddOn(addOn.id, addOn.name)}
+                                removing={removing}
+                            />
                         )}
                     </div>
                 </div>

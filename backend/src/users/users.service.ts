@@ -118,8 +118,15 @@ export class UsersService {
         const { page, limit, search } = query;
         const skip = (page - 1) * limit;
 
+        // A customer is a user with at least one paid, non-cancelled order.
+        const validOrderFilter = {
+            paymentStatus: "PAID" as const,
+            status: { not: "CANCELLED" as const },
+        };
+
         const where = {
             role: "user",
+            orders: { some: validOrderFilter },
             ...(search
                 ? {
                       OR: [
@@ -148,6 +155,7 @@ export class UsersService {
                         },
                     },
                     orders: {
+                        where: validOrderFilter,
                         select: { status: true, kitDeposit: true, addOnDeposit: true },
                     },
                     subscriptions: {

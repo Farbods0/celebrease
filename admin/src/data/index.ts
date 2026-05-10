@@ -29,7 +29,6 @@ export type NextAction =
     | "Renewal Decision";
 
 export type OrderStatus = "Shipped" | "Delivered" | "Reserved" | "Return in Transit" | "Completed";
-export type ReturnStatus = "In Cleaning" | "In Transit" | "Inspection Needed" | "Completed";
 export type AddOnStatus = "Active" | "Hidden";
 
 export type Region = "CA" | "TX" | "NY" | "WA" | "FL" | "NV" | "IL" | "OH" | "PA" | "OR" | "MA" | "CO" | "MI" | "AZ";
@@ -650,67 +649,6 @@ export const ORDERS: Order[] = [
         shipDate: "Sep 10",
         deposit: "$0",
         total: "$225",
-    },
-];
-
-// ============ RETURNS ============
-
-export type Return = {
-    returnId: string;
-    orderId: string;
-    customerName: string;
-    holiday: Holiday;
-    kit: KitType;
-    dueDate: string;
-    deposit: string;
-    damage: boolean;
-    status: ReturnStatus;
-};
-
-export const RETURNS: Return[] = [
-    {
-        returnId: "R-1011",
-        orderId: "8421",
-        customerName: "Ryan Gouse",
-        holiday: "Christmas",
-        kit: "Premium",
-        dueDate: "Jan 10",
-        status: "In Cleaning",
-        deposit: "Hold",
-        damage: false,
-    },
-    {
-        returnId: "R-1011",
-        orderId: "8421",
-        customerName: "Paityn Vaccaro",
-        holiday: "Birthday",
-        kit: "Premium",
-        dueDate: "Nov 18",
-        status: "In Transit",
-        deposit: "--",
-        damage: false,
-    },
-    {
-        returnId: "R-1011",
-        orderId: "8421",
-        customerName: "Emery Siphron",
-        holiday: "Easter",
-        kit: "Starter",
-        dueDate: "Oct 15",
-        status: "Inspection Needed",
-        deposit: "Hold",
-        damage: true,
-    },
-    {
-        returnId: "R-1011",
-        orderId: "8421",
-        customerName: "Skylar Siphron",
-        holiday: "New Year",
-        kit: "Starter",
-        dueDate: "Sep 20",
-        status: "Completed",
-        deposit: "Refunded",
-        damage: false,
     },
 ];
 

@@ -2,7 +2,13 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { baseURL, type ApiHolidayWithAddOns } from "@/lib/api";
 
-export function KitsAddonTable({ items }: { items: ApiHolidayWithAddOns["addOns"] }) {
+type KitsAddonTableProps = {
+    items: ApiHolidayWithAddOns["addOns"];
+    onRemove: (addOn: ApiHolidayWithAddOns["addOns"][number]["addOn"]) => void;
+    removing?: boolean;
+};
+
+export function KitsAddonTable({ items, onRemove, removing }: KitsAddonTableProps) {
     return (
         <div className="overflow-hidden rounded-lg border">
             <Table>
@@ -38,7 +44,11 @@ export function KitsAddonTable({ items }: { items: ApiHolidayWithAddOns["addOns"
                                 <StatusBadge status={addon.addOn.isActive ? "Active" : "Hidden"} />
                             </TableCell>
                             <TableCell>
-                                <button className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium">
+                                <button
+                                    disabled={removing}
+                                    onClick={() => onRemove(addon.addOn)}
+                                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
                                     Trash
                                 </button>
                             </TableCell>

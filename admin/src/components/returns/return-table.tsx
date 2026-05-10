@@ -1,11 +1,17 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { Return } from "@/data";
+import { formatMoney, formatOrderStatus, formatTier, totalDeposit, type ApiOrder } from "@/lib/api";
+import moment from "moment";
 
 type ReturnTableProps = {
-    items: Return[];
-    onView: (item: Return) => void;
+    items: ApiOrder[];
+    onView: (item: ApiOrder) => void;
 };
+
+function returnRequestedAt(order: ApiOrder) {
+    if (!order.returnRequestedAt) return "—";
+    return moment(order.returnRequestedAt).format("MMM DD, YYYY");
+}
 
 export function ReturnTable({ items, onView }: ReturnTableProps) {
     return (
@@ -13,35 +19,37 @@ export function ReturnTable({ items, onView }: ReturnTableProps) {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Return ID</TableHead>
                         <TableHead>Order #</TableHead>
                         <TableHead>Customer</TableHead>
                         <TableHead>Holiday</TableHead>
                         <TableHead>Kit</TableHead>
-                        <TableHead>Due Date</TableHead>
+                        <TableHead>Requested</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead>Deposit</TableHead>
-                        <TableHead>Damage</TableHead>
+                        <TableHead>Deposit Held</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {items.map((item, i) => {
-                        return (
-                            <TableRow key={i}>
-                                <TableCell className="font-medium text-muted-foreground">{item.returnId}</TableCell>
-                                <TableCell className="text-muted-foreground">{item.orderId}</TableCell>
-                                <TableCell className="font-medium">{item.customerName}</TableCell>
+                    {items.length === 0 ? (
+                        <TableRow>
+                            <TableCell colSpan={8} className="text-center text-sm text-muted-foreground py-10">
+                                No active returns
+                            </TableCell>
+                        </TableRow>
+                    ) : (
+                        items.map((item) => (
+                            <TableRow key={item.id}>
+                                <TableCell className="font-medium text-muted-foreground">{item.orderNumber}</TableCell>
+                                <TableCell className="font-medium">{item.user.name}</TableCell>
                                 <TableCell>
-                                    <StatusBadge status={item.holiday} />
+                                    <StatusBadge status={item.holiday.name} />
                                 </TableCell>
-                                <TableCell>{item.kit}</TableCell>
-                                <TableCell>{item.dueDate}</TableCell>
+                                <TableCell>{formatTier(item.kit.tier)}</TableCell>
+                                <TableCell>{returnRequestedAt(item)}</TableCell>
                                 <TableCell>
-                                    <StatusBadge status={item.status} />
+                                    <StatusBadge status={formatOrderStatus(item.status)} />
                                 </TableCell>
-                                <TableCell>{item.deposit}</TableCell>
-                                <TableCell>{item.damage ? "Yes" : "No"}</TableCell>
+                                <TableCell>{formatMoney(totalDeposit(item))}</TableCell>
                                 <TableCell>
                                     <button
                                         type="button"
@@ -52,8 +60,8 @@ export function ReturnTable({ items, onView }: ReturnTableProps) {
                                     </button>
                                 </TableCell>
                             </TableRow>
-                        );
-                    })}
+                        ))
+                    )}
                 </TableBody>
             </Table>
         </div>

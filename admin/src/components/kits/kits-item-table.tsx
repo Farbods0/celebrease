@@ -8,7 +8,14 @@ const STATUS_LABEL: Record<ApiKit["items"][number]["item"]["status"], string> = 
     RETIRED: "Retired",
 };
 
-export function KitsItemTable({ items, onView }: { items: ApiKit["items"]; onView: (item: ApiKit["items"][number]["item"]) => void }) {
+type KitsItemTableProps = {
+    items: ApiKit["items"];
+    onView: (item: ApiKit["items"][number]["item"]) => void;
+    onRemove: (item: ApiKit["items"][number]["item"]) => void;
+    removing?: boolean;
+};
+
+export function KitsItemTable({ items, onView, onRemove, removing }: KitsItemTableProps) {
     return (
         <div className="overflow-hidden rounded-lg border">
             <Table>
@@ -47,7 +54,11 @@ export function KitsItemTable({ items, onView }: { items: ApiKit["items"]; onVie
                             </TableCell>
 
                             <TableCell className="space-x-2">
-                                <button className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium">
+                                <button
+                                    disabled={removing}
+                                    onClick={() => onRemove(item.item)}
+                                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
                                     Trash
                                 </button>
 

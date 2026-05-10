@@ -116,6 +116,7 @@ export type ListOrdersParams = {
     page?: number;
     limit?: number;
     search?: string;
+    filter?: "active" | "recent" | "returns";
 };
 
 export type UpdateOrderStatusPayload = {

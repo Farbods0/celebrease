@@ -1,5 +1,5 @@
 import { CreateKitDto } from "@/kits/dto/create-kit.dto";
-import { AddKitItemDto, AddKitPreviewItemDto } from "@/kits/dto/kit-item.dto";
+import { AddKitItemDto, AddKitPreviewItemDto, ReorderKitPreviewItemsDto } from "@/kits/dto/kit-item.dto";
 import { UpdateKitDto } from "@/kits/dto/update-kit.dto";
 import { KitsService } from "@/kits/kits.service";
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
@@ -67,5 +67,11 @@ export class KitsController {
     @Roles(["admin", "superadmin"])
     removePreviewItem(@Param("id") id: string, @Param("previewItemId") previewItemId: string) {
         return this.kitsService.removePreviewItem(id, previewItemId);
+    }
+
+    @Patch(":id/preview-items/reorder")
+    @Roles(["admin", "superadmin"])
+    reorderPreviewItems(@Param("id") id: string, @Body() dto: ReorderKitPreviewItemsDto) {
+        return this.kitsService.reorderPreviewItems(id, dto);
     }
 }

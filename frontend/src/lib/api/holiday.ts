@@ -27,6 +27,16 @@ export type ApiKitItem = {
     };
 };
 
+export type ApiKitPreviewItem = {
+    sortOrder: number;
+    item: {
+        id: string;
+        sku: string;
+        name: string;
+        image: string;
+    };
+};
+
 export type ApiHolidayKit = {
     id: string;
     sku: string;
@@ -35,6 +45,7 @@ export type ApiHolidayKit = {
     price60Day: string;
     deposit: string;
     items: Array<ApiKitItem>;
+    previewItems: Array<ApiKitPreviewItem>;
 };
 
 export type ApiHolidayAddOn = {

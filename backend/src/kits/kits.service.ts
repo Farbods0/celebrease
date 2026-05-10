@@ -1,8 +1,8 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { CreateKitDto } from "@/kits/dto/create-kit.dto";
-import { AddKitItemDto, AddKitPreviewItemDto } from "@/kits/dto/kit-item.dto";
+import { AddKitItemDto, AddKitPreviewItemDto, ReorderKitPreviewItemsDto } from "@/kits/dto/kit-item.dto";
 import { UpdateKitDto } from "@/kits/dto/update-kit.dto";
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 const kitInclude = {
     holiday: { select: { id: true, name: true, category: true, image: true } },
@@ -197,5 +197,42 @@ export class KitsService {
         return this.prisma.kitPreviewItem.delete({
             where: { kitId_itemId: { kitId, itemId } },
         });
+    }
+
+    async reorderPreviewItems(kitId: string, dto: ReorderKitPreviewItemsDto) {
+        const kit = await this.prisma.kit.findUnique({ where: { id: kitId }, select: { id: true } });
+        if (!kit) throw new NotFoundException("Kit not found");
+
+        const unique = new Set(dto.itemIds);
+        if (unique.size !== dto.itemIds.length) {
+            throw new BadRequestException("itemIds must not contain duplicates");
+        }
+
+        const existing = await this.prisma.kitPreviewItem.findMany({
+            where: { kitId },
+            select: { itemId: true },
+        });
+
+        if (existing.length !== dto.itemIds.length) {
+            throw new BadRequestException("itemIds must contain every preview item exactly once");
+        }
+
+        const existingIds = new Set(existing.map((p) => p.itemId));
+        for (const id of dto.itemIds) {
+            if (!existingIds.has(id)) {
+                throw new BadRequestException(`Item ${id} is not a preview item of this kit`);
+            }
+        }
+
+        await this.prisma.$transaction(
+            dto.itemIds.map((itemId, sortOrder) =>
+                this.prisma.kitPreviewItem.update({
+                    where: { kitId_itemId: { kitId, itemId } },
+                    data: { sortOrder },
+                }),
+            ),
+        );
+
+        return this.getById(kitId);
     }
 }

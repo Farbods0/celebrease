@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsInt, IsNotEmpty, IsOptional, IsString, Min } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsOptional, IsString, Min } from "class-validator";
 
 export class AddKitItemDto {
     @IsString()
@@ -17,4 +17,11 @@ export class AddKitPreviewItemDto {
     @IsString()
     @IsNotEmpty()
     itemId: string;
+}
+
+export class ReorderKitPreviewItemsDto {
+    @IsArray()
+    @ArrayNotEmpty()
+    @IsString({ each: true })
+    itemIds: string[];
 }

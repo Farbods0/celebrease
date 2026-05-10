@@ -173,11 +173,17 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
             </div>
             {/* Gallery */}
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 grid-rows-3 md:grid-rows-2 gap-1 h-auto md:h-112 rounded-2xl overflow-hidden">
-                {[holiday.image, holiday.image, holiday.image, holiday.image, holiday.image].map((image, index) => (
+                {Array.from({ length: 5 }, (_, index) => {
+                    if (index === 0) return { src: holiday.image, alt: holiday.name };
+                    const preview = selectedKit?.previewItems?.[index - 1];
+                    return preview
+                        ? { src: preview.item.image, alt: preview.item.name }
+                        : { src: holiday.image, alt: holiday.name };
+                }).map((image, index) => (
                     <img
                         key={index}
-                        src={`${baseURL}${image}`}
-                        alt={holiday.name}
+                        src={`${baseURL}${image.src}`}
+                        alt={image.alt}
                         crossOrigin="anonymous"
                         className={cn(
                             "w-full h-48 md:h-full object-cover bg-muted",

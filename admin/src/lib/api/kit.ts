@@ -88,4 +88,9 @@ export const kitsApi = {
         request<{ id: string }>(`/kits/${kitId}/preview-items/${itemId}`, {
             method: "DELETE",
         }),
+    reorderPreviewItems: (kitId: string, payload: { itemIds: string[] }) =>
+        request<{ id: string }>(`/kits/${kitId}/preview-items/reorder`, {
+            method: "PATCH",
+            body: JSON.stringify(payload),
+        }),
 };

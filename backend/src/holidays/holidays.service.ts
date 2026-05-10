@@ -63,6 +63,20 @@ const holidayKitSelect = {
             },
         },
     },
+    previewItems: {
+        orderBy: { sortOrder: "asc" as const },
+        select: {
+            sortOrder: true,
+            item: {
+                select: {
+                    id: true,
+                    sku: true,
+                    name: true,
+                    image: true,
+                },
+            },
+        },
+    },
 };
 
 const holidayAddOnSelect = {

@@ -11,6 +11,7 @@ import { KitsAddItemDialog } from "./kits-add-item-dialog";
 import { KitsAddonTable } from "./kits-addon-table";
 import { KitsForm } from "./kits-form";
 import { KitsItemTable } from "./kits-item-table";
+import { KitsPreviewItems } from "./kits-preview-items";
 
 type AddTarget = "kit-item" | "preview-item" | "holiday-addon";
 
@@ -110,20 +111,6 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
             await router.invalidate();
         } catch (e) {
             toast.error(e instanceof Error ? e.message : "Failed to remove item");
-        } finally {
-            setRemoving(false);
-        }
-    };
-
-    const handleRemovePreviewItem = async (itemId: string, name: string) => {
-        if (removing) return;
-        setRemoving(true);
-        try {
-            await kitsApi.removePreviewItem(kit.id, itemId);
-            toast.success(`Removed "${name}" from preview`);
-            await router.invalidate();
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to remove preview item");
         } finally {
             setRemoving(false);
         }
@@ -259,44 +246,11 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                         </div>
                     </div>
 
-                    {/* PDP Preview Items */}
-                    <div className="rounded-xl border bg-white overflow-hidden">
-                        <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">PDP Preview Items</h3>
-                            <Button variant="black" size="sm" onClick={() => setAddTarget("preview-item")}>
-                                <Plus className="size-4" />
-                                Add item
-                            </Button>
-                        </div>
-                        <div className="p-5 flex flex-col gap-2.5">
-                            <p className="text-xs text-muted-foreground capitalize">Items shown on customer-facing PDP preview</p>
-                            {kit.previewItems.length === 0 ? (
-                                <p className="text-sm text-muted-foreground py-4 text-center">No preview items yet.</p>
-                            ) : (
-                                <div className="flex flex-col gap-3">
-                                    {kit.previewItems.map((pi) => (
-                                        <div
-                                            key={pi.item.id}
-                                            className="flex h-11.5 items-center justify-between rounded-lg border bg-muted/40 pl-3 pr-4 py-2.5"
-                                        >
-                                            <span className="text-sm capitalize">{pi.item.name}</span>
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-xs text-muted-foreground">{pi.item.sku}</span>
-                                                <button
-                                                    type="button"
-                                                    disabled={removing}
-                                                    onClick={() => handleRemovePreviewItem(pi.item.id, pi.item.name)}
-                                                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                                >
-                                                    Trash
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    <KitsPreviewItems
+                        kitId={kit.id}
+                        previewItems={kit.previewItems}
+                        onAdd={() => setAddTarget("preview-item")}
+                    />
                 </div>
 
                 {/* Full Kit Contents */}

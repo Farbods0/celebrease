@@ -102,6 +102,20 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
         }
     };
 
+    const handleRemovePreviewItem = async (itemId: string, name: string) => {
+        if (removing) return;
+        setRemoving(true);
+        try {
+            await kitsApi.removePreviewItem(kit.id, itemId);
+            toast.success(`Removed "${name}" from preview`);
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to remove preview item");
+        } finally {
+            setRemoving(false);
+        }
+    };
+
     const handleRemoveKitItem = async (itemId: string, name: string) => {
         if (removing) return;
         setRemoving(true);
@@ -246,11 +260,30 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                         </div>
                     </div>
 
-                    <KitsPreviewItems
-                        kitId={kit.id}
-                        previewItems={kit.previewItems}
-                        onAdd={() => setAddTarget("preview-item")}
-                    />
+                    <div className="rounded-xl border bg-white overflow-hidden">
+                        <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
+                            <h3 className="text-lg font-semibold">PDP Preview Items</h3>
+                            <Button variant="black" size="sm" onClick={() => setAddTarget("preview-item")}>
+                                <Plus className="size-4" />
+                                Add item
+                            </Button>
+                        </div>
+                        <div className="p-5 flex flex-col gap-2.5">
+                            <p className="text-xs text-muted-foreground capitalize">
+                                Items shown on customer-facing PDP preview. Drag to reorder.
+                            </p>
+                            {items.length === 0 ? (
+                                <p className="text-sm text-muted-foreground py-4 text-center">No preview items yet.</p>
+                            ) : (
+                                <KitsPreviewItems
+                                    kitId={kit.id}
+                                    items={kit.previewItems}
+                                    onRemove={(item) => handleRemovePreviewItem(item.id, item.name)}
+                                    removing={removing}
+                                />
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Full Kit Contents */}
@@ -270,7 +303,6 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                         ) : (
                             <KitsItemTable
                                 items={kit.items}
-                                onView={(item) => console.log(item)}
                                 onRemove={(item) => handleRemoveKitItem(item.id, item.name)}
                                 removing={removing}
                             />

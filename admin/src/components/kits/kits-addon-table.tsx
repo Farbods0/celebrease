@@ -1,5 +1,6 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TrashConfirm } from "@/components/ui/trash-confirm";
 import { baseURL, type ApiHolidayWithAddOns } from "@/lib/api";
 
 type KitsAddonTableProps = {
@@ -44,13 +45,13 @@ export function KitsAddonTable({ items, onRemove, removing }: KitsAddonTableProp
                                 <StatusBadge status={addon.addOn.isActive ? "Active" : "Hidden"} />
                             </TableCell>
                             <TableCell>
-                                <button
+                                <TrashConfirm
+                                    name={addon.addOn.name}
+                                    title="Remove add-on?"
+                                    description="Are you sure you want to remove"
+                                    onConfirm={() => onRemove(addon.addOn)}
                                     disabled={removing}
-                                    onClick={() => onRemove(addon.addOn)}
-                                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    Trash
-                                </button>
+                                />
                             </TableCell>
                         </TableRow>
                     ))}

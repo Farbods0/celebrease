@@ -1,37 +1,24 @@
-import { Button } from "@/components/ui/button";
-import { kitsApi, type ApiKitPreviewItem } from "@/lib/api";
-import {
-    DndContext,
-    KeyboardSensor,
-    PointerSensor,
-    closestCenter,
-    useSensor,
-    useSensors,
-    type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-    SortableContext,
-    arrayMove,
-    sortableKeyboardCoordinates,
-    useSortable,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { TrashConfirm } from "@/components/ui/trash-confirm";
+import { kitsApi, type ApiKit, type ApiKitPreviewItem } from "@/lib/api";
+import { DndContext, KeyboardSensor, PointerSensor, closestCenter, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useRouter } from "@tanstack/react-router";
-import { GripVertical, Plus } from "lucide-react";
+import { GripVertical } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 type KitsPreviewItemsProps = {
     kitId: string;
-    previewItems: ApiKitPreviewItem[];
-    onAdd: () => void;
+    items: ApiKit["previewItems"];
+    onRemove: (item: ApiKit["previewItems"][number]["item"]) => void;
+    removing?: boolean;
 };
 
 type SortableRowProps = {
     item: ApiKitPreviewItem;
-    onRemove: (id: string, name: string) => void;
-    removing: boolean;
+    onRemove: (item: ApiKit["previewItems"][number]["item"]) => void;
+    removing?: boolean;
 };
 
 function SortableRow({ item, onRemove, removing }: SortableRowProps) {
@@ -63,23 +50,21 @@ function SortableRow({ item, onRemove, removing }: SortableRowProps) {
             </div>
             <div className="flex items-center gap-3">
                 <span className="text-xs text-muted-foreground">{item.item.sku}</span>
-                <button
-                    type="button"
+                <TrashConfirm
+                    name={item.item.name}
+                    title="Remove preview item?"
+                    description="Are you sure you want to remove"
+                    onConfirm={() => onRemove(item.item)}
                     disabled={removing}
-                    onClick={() => onRemove(item.item.id, item.item.name)}
-                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    Trash
-                </button>
+                />
             </div>
         </div>
     );
 }
 
-export function KitsPreviewItems({ kitId, previewItems, onAdd }: KitsPreviewItemsProps) {
+export function KitsPreviewItems({ kitId, items: previewItems, onRemove, removing }: KitsPreviewItemsProps) {
     const router = useRouter();
     const [items, setItems] = useState(previewItems);
-    const [removing, setRemoving] = useState(false);
     const [reordering, setReordering] = useState(false);
 
     useEffect(() => {
@@ -114,47 +99,15 @@ export function KitsPreviewItems({ kitId, previewItems, onAdd }: KitsPreviewItem
         }
     };
 
-    const handleRemove = async (itemId: string, name: string) => {
-        if (removing) return;
-        setRemoving(true);
-        try {
-            await kitsApi.removePreviewItem(kitId, itemId);
-            toast.success(`Removed "${name}" from preview`);
-            await router.invalidate();
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to remove preview item");
-        } finally {
-            setRemoving(false);
-        }
-    };
-
     return (
-        <div className="rounded-xl border bg-white overflow-hidden">
-            <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
-                <h3 className="text-lg font-semibold">PDP Preview Items</h3>
-                <Button variant="black" size="sm" onClick={onAdd}>
-                    <Plus className="size-4" />
-                    Add item
-                </Button>
-            </div>
-            <div className="p-5 flex flex-col gap-2.5">
-                <p className="text-xs text-muted-foreground capitalize">
-                    Items shown on customer-facing PDP preview. Drag to reorder.
-                </p>
-                {items.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-4 text-center">No preview items yet.</p>
-                ) : (
-                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-                        <SortableContext items={items.map((i) => i.item.id)} strategy={verticalListSortingStrategy}>
-                            <div className="flex flex-col gap-3">
-                                {items.map((pi) => (
-                                    <SortableRow key={pi.item.id} item={pi} onRemove={handleRemove} removing={removing} />
-                                ))}
-                            </div>
-                        </SortableContext>
-                    </DndContext>
-                )}
-            </div>
-        </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={items.map((i) => i.item.id)} strategy={verticalListSortingStrategy}>
+                <div className="flex flex-col gap-3">
+                    {items.map((pi) => (
+                        <SortableRow key={pi.item.id} item={pi} onRemove={onRemove} removing={removing} />
+                    ))}
+                </div>
+            </SortableContext>
+        </DndContext>
     );
 }

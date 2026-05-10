@@ -1,5 +1,6 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TrashConfirm } from "@/components/ui/trash-confirm";
 import { baseURL, type ApiKit } from "@/lib/api";
 
 const STATUS_LABEL: Record<ApiKit["items"][number]["item"]["status"], string> = {
@@ -10,12 +11,11 @@ const STATUS_LABEL: Record<ApiKit["items"][number]["item"]["status"], string> = 
 
 type KitsItemTableProps = {
     items: ApiKit["items"];
-    onView: (item: ApiKit["items"][number]["item"]) => void;
     onRemove: (item: ApiKit["items"][number]["item"]) => void;
     removing?: boolean;
 };
 
-export function KitsItemTable({ items, onView, onRemove, removing }: KitsItemTableProps) {
+export function KitsItemTable({ items, onRemove, removing }: KitsItemTableProps) {
     return (
         <div className="overflow-hidden rounded-lg border">
             <Table>
@@ -53,21 +53,14 @@ export function KitsItemTable({ items, onView, onRemove, removing }: KitsItemTab
                                 <StatusBadge status={STATUS_LABEL[item.item.status]} />
                             </TableCell>
 
-                            <TableCell className="space-x-2">
-                                <button
+                            <TableCell>
+                                <TrashConfirm
+                                    name={item.item.name}
+                                    title="Remove item from kit?"
+                                    description="Are you sure you want to remove"
+                                    onConfirm={() => onRemove(item.item)}
                                     disabled={removing}
-                                    onClick={() => onRemove(item.item)}
-                                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    Trash
-                                </button>
-
-                                <button
-                                    onClick={() => onView(item.item)}
-                                    className="rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors"
-                                >
-                                    Edit
-                                </button>
+                                />
                             </TableCell>
                         </TableRow>
                     ))}

@@ -1,6 +1,6 @@
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import type { ApiReview } from "@/lib/api";
+import { baseURL, type ApiReview } from "@/lib/api";
 import { Star } from "lucide-react";
 
 type ReviewTableProps = {
@@ -50,7 +50,19 @@ export function ReviewTable({ items, onEdit }: ReviewTableProps) {
                     ) : (
                         items.map((item) => (
                             <TableRow key={item.id}>
-                                <TableCell className="font-medium">{item.name}</TableCell>
+                                <TableCell className="font-medium">
+                                    <div className="flex items-center gap-2">
+                                        <div className="size-8 shrink-0 rounded-md bg-white overflow-hidden">
+                                            <img
+                                                src={`${baseURL}${item.image}`}
+                                                alt={item.name}
+                                                crossOrigin="anonymous"
+                                                className="w-full h-full object-cover rounded-md"
+                                            />
+                                        </div>
+                                        {item.name}
+                                    </div>
+                                </TableCell>
                                 <TableCell>
                                     <RatingStars rating={item.rating} />
                                 </TableCell>

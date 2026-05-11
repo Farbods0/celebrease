@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
-import type { ApiReview } from "@/lib/api";
+import { baseURL, type ApiReview } from "@/lib/api";
 import { Star } from "lucide-react";
 import moment from "moment";
 
@@ -32,8 +32,13 @@ export function ReviewCard({ item, onEdit }: ReviewCardProps) {
     return (
         <article className="rounded-xl border border-border bg-card p-4">
             <div className="flex items-center gap-2">
-                <div className="size-12 rounded-full bg-muted flex items-center justify-center text-lg font-medium">
-                    {item.name.charAt(0)}
+                <div className="size-10 shrink-0 rounded-md bg-muted overflow-hidden">
+                    <img
+                        src={`${baseURL}${item.image}`}
+                        alt={item.name}
+                        crossOrigin="anonymous"
+                        className="w-full h-full object-cover rounded-md"
+                    />
                 </div>
                 <div>
                     <h3 className="text-lg font-medium">{item.name}</h3>

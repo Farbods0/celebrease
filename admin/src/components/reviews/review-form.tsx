@@ -64,6 +64,7 @@ export function ReviewForm({ review, onClose }: ReviewFormProps) {
                 if (isEdit && review) {
                     await reviewsApi.update(review.id, {
                         name: value.name,
+                        image: value.image,
                         rating: value.rating,
                         content: value.content,
                         isActive: value.isActive,
@@ -72,6 +73,7 @@ export function ReviewForm({ review, onClose }: ReviewFormProps) {
                 } else {
                     await reviewsApi.create({
                         name: value.name,
+                        image: value.image,
                         rating: value.rating,
                         content: value.content,
                         isActive: value.isActive,
@@ -99,6 +101,10 @@ export function ReviewForm({ review, onClose }: ReviewFormProps) {
                     form.handleSubmit();
                 }}
             >
+                <div className="w-max">
+                    <form.AppField name="image">{(field) => <field.FormAvatar folder="reviews" />}</form.AppField>
+                </div>
+
                 <form.AppField name="name">{(field) => <field.FormInput label="Reviewer Name" placeholder="Enter name" />}</form.AppField>
 
                 <form.AppField name="rating">
@@ -118,7 +124,7 @@ export function ReviewForm({ review, onClose }: ReviewFormProps) {
                     {(field) => (
                         <Field orientation="horizontal">
                             <FieldContent>
-                                <FieldLabel htmlFor={field.name}>Active</FieldLabel>
+                                <FieldLabel htmlFor={field.name}>Visible to customers</FieldLabel>
                             </FieldContent>
                             <Switch id={field.name} checked={field.state.value} onCheckedChange={field.handleChange} />
                         </Field>

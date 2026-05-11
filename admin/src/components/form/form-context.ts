@@ -1,4 +1,5 @@
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { FormAvatar } from "./form-avatar";
 import { FormImage } from "./form-image";
 import { FormInput } from "./form-input";
 import { FormRadio } from "./form-radio";
@@ -13,6 +14,7 @@ export const { useAppForm } = createFormHook({
     fieldContext,
     formContext,
     fieldComponents: {
+        FormAvatar,
         FormInput,
         FormImage,
         FormRadio,

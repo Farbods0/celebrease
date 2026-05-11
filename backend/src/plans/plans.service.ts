@@ -81,6 +81,7 @@ export class PlansService {
                 addOnDiscount: dto.addOnDiscount ?? 0,
                 isActive: dto.isActive ?? true,
                 sortOrder: dto.sortOrder ?? 0,
+                stripeProductId: product.id,
                 stripePriceMonthlyId: monthlyPrice.id,
                 stripePriceYearlyId: yearlyPrice?.id ?? null,
                 features: {
@@ -94,7 +95,12 @@ export class PlansService {
     async update(id: string, dto: UpdatePlanDto) {
         const plan = await this.prisma.plan.findUnique({
             where: { id },
-            select: { id: true, stripePriceMonthlyId: true, stripePriceYearlyId: true },
+            select: {
+                id: true,
+                stripeProductId: true,
+                stripePriceMonthlyId: true,
+                stripePriceYearlyId: true,
+            },
         });
         if (!plan) throw new NotFoundException("Plan not found");
 
@@ -117,8 +123,11 @@ export class PlansService {
             if (dto.isActive !== undefined) updateData.isActive = dto.isActive;
             if (dto.sortOrder !== undefined) updateData.sortOrder = dto.sortOrder;
 
-            if (Object.keys(updateData).length > 0) {
-                await tx.plan.update({ where: { id }, data: updateData });
+            if (plan.stripeProductId && (dto.name !== undefined || dto.description !== undefined)) {
+                await this.stripe.updateProduct(plan.stripeProductId, {
+                    name: dto.name,
+                    description: dto.description,
+                });
             }
 
             if (dto.monthlyPrice !== undefined && plan.stripePriceMonthlyId) {
@@ -128,6 +137,10 @@ export class PlansService {
             if (dto.yearlyPrice !== undefined && plan.stripePriceYearlyId) {
                 const newPrice = await this.stripe.updatePrice(plan.stripePriceYearlyId, Math.round(dto.yearlyPrice * 100));
                 updateData.stripePriceYearlyId = newPrice.id;
+            }
+
+            if (Object.keys(updateData).length > 0) {
+                await tx.plan.update({ where: { id }, data: updateData });
             }
 
             return tx.plan.findUnique({ where: { id }, include: planInclude });

@@ -385,6 +385,7 @@ model Plan {
     sortOrder            Int      @default(0)
     stripePriceMonthlyId String?  @unique
     stripePriceYearlyId  String?  @unique
+    stripeProductId      String?  @unique
     createdAt            DateTime @default(now())
     updatedAt            DateTime @updatedAt
 

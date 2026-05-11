@@ -143,10 +143,30 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                 </form.AppField>
 
                 <div className="grid grid-cols-2 gap-3">
-                    <form.AppField name="monthlyPrice">
+                    <form.AppField
+                        name="monthlyPrice"
+                        listeners={{
+                            onBlur: ({ value }) => {
+                                const m = Number(value);
+                                if (!Number.isNaN(m) && m > 0) {
+                                    form.setFieldValue("yearlyPrice", String(Math.round(m * 12)));
+                                }
+                            },
+                        }}
+                    >
                         {(field) => <field.FormInput type="number" label="Monthly Price ($)" placeholder="41.00" />}
                     </form.AppField>
-                    <form.AppField name="yearlyPrice">
+                    <form.AppField
+                        name="yearlyPrice"
+                        listeners={{
+                            onBlur: ({ value }) => {
+                                const y = Number(value);
+                                if (!Number.isNaN(y) && y > 0) {
+                                    form.setFieldValue("monthlyPrice", String(Math.round(y / 12)));
+                                }
+                            },
+                        }}
+                    >
                         {(field) => <field.FormInput type="number" label="Yearly Price ($)" placeholder="466.00" />}
                     </form.AppField>
                 </div>

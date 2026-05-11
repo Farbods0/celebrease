@@ -170,10 +170,7 @@ export class DashboardService {
         ]);
 
         const subscriptionRevenue = activeSubs.reduce((acc, s) => {
-            const v =
-                s.billingCycle === "YEARLY"
-                    ? new Prisma.Decimal(s.plan.yearlyPrice ?? 0)
-                    : new Prisma.Decimal(s.plan.monthlyPrice);
+            const v = s.billingCycle === "YEARLY" ? new Prisma.Decimal(s.plan.yearlyPrice ?? 0) : new Prisma.Decimal(s.plan.monthlyPrice);
             return acc.plus(v);
         }, ZERO);
         const rentalRevenue = (allPaidOrdersAgg._sum.rentalFee ?? ZERO).plus(allPaidOrdersAgg._sum.extendedFee ?? ZERO);

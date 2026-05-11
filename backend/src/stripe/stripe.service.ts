@@ -95,4 +95,52 @@ export class StripeService {
             },
         });
     }
+
+    async createProduct(args: { name: string; description?: string; planId: string }) {
+        return this.client.products.create({
+            name: args.name,
+            description: args.description,
+            metadata: { planId: args.planId },
+        });
+    }
+
+    async updateProduct(productId: string, args: { name?: string; description?: string }) {
+        return this.client.products.update(productId, {
+            ...(args.name && { name: args.name }),
+            ...(args.description && { description: args.description }),
+        });
+    }
+
+    async createPrice(args: {
+        productId: string;
+        unitAmountCents: number;
+        currency?: string;
+        interval: "month" | "year";
+        metadata?: Record<string, string>;
+    }) {
+        return this.client.prices.create({
+            product: args.productId,
+            unit_amount: args.unitAmountCents,
+            currency: args.currency ?? "usd",
+            recurring: { interval: args.interval },
+            metadata: args.metadata,
+        });
+    }
+
+    async archivePrice(priceId: string) {
+        return this.client.prices.update(priceId, { active: false });
+    }
+
+    async updatePrice(priceId: string, unitAmountCents: number) {
+        const oldPrice = await this.client.prices.retrieve(priceId);
+        const newPrice = await this.client.prices.create({
+            product: oldPrice.product as string,
+            unit_amount: unitAmountCents,
+            currency: oldPrice.currency,
+            recurring: { interval: oldPrice.recurring?.interval as "month" | "year" },
+            metadata: oldPrice.metadata,
+        });
+        await this.client.prices.update(priceId, { active: false });
+        return newPrice;
+    }
 }

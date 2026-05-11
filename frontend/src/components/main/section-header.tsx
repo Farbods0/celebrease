@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 
-type SectionHeaderProps = React.ComponentProps<"div"> & {
-    title: string | React.ReactNode;
-    subtitle: string | React.ReactNode;
+type SectionHeaderProps = Omit<React.ComponentProps<"div">, "title"> & {
+    title: React.ReactNode;
+    subtitle: React.ReactNode;
 };
 
 export default function SectionHeader({ title, subtitle, className, children, ...props }: SectionHeaderProps) {

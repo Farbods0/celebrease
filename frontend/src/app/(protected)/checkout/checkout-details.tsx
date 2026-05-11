@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ApiAddress, ApiCart, ApiSubscription, DeliveryOption, KitTier, createOrderCheckout, upsertMyAddress } from "@/lib/api";
 import { LockPasswordIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -326,13 +327,13 @@ export default function CheckoutDetails({
                         <Checkbox checked={agreed2} onCheckedChange={(val) => setAgreed2(!!val)} className="mt-0.5" />
                         <span className="text-sm text-muted-foreground select-none">
                             I agree to the CeleBrease{" "}
-                            <a href="#" className="underline hover:text-stone-900">
+                            <Link href="/rental-agreement" className="underline hover:text-stone-900">
                                 Rental Agreement
-                            </a>{" "}
+                            </Link>{" "}
                             and{" "}
-                            <a href="#" className="underline hover:text-stone-900">
+                            <Link href="/terms" className="underline hover:text-stone-900">
                                 Terms of Service
-                            </a>
+                            </Link>
                             .
                         </span>
                     </label>

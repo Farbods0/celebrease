@@ -268,13 +268,13 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                         <Checkbox checked={agreed2} onCheckedChange={() => setAgreed2((v) => !v)} className="mt-0.5" />
                         <span className="text-sm text-muted-foreground select-none">
                             I agree to the CeleBrease{" "}
-                            <a href="#" className="underline hover:text-stone-900">
+                            <Link href="/rental-agreement" className="underline hover:text-stone-900">
                                 Rental Agreement
-                            </a>{" "}
+                            </Link>{" "}
                             and{" "}
-                            <a href="#" className="underline hover:text-stone-900">
+                            <Link href="/terms" className="underline hover:text-stone-900">
                                 Terms of Service
-                            </a>
+                            </Link>
                             .
                         </span>
                     </label>

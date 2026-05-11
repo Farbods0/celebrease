@@ -17,7 +17,6 @@ export default function Footer() {
                         <div className="flex flex-col gap-4">
                             <Link href="/">Home</Link>
                             <Link href="/about">About Us</Link>
-                            <Link href="/blog">Blog</Link>
                             <Link href="/contact">Contact</Link>
                         </div>
                     </div>
@@ -32,22 +31,11 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* About */}
-                    <div className="flex flex-col gap-5">
-                        <h3 className="font-semibold text-lg">About</h3>
-                        <div className="flex flex-col gap-4">
-                            <Link href="/faqs">How It Works</Link>
-                            <Link href="/sustainability">Sustainability</Link>
-                            <Link href="/inspiration">Blog / Inspiration</Link>
-                        </div>
-                    </div>
-
                     {/* Support */}
                     <div className="flex flex-col gap-5">
                         <h3 className="font-semibold text-lg">Support</h3>
                         <div className="flex flex-col gap-4">
                             <Link href="/faqs">FAQs</Link>
-                            <Link href="/contact-us">Contact Us</Link>
                             <Link href="/rental-agreement">Rental Agreement</Link>
                             <Link href="/return-policy">Return Policy</Link>
                         </div>
@@ -61,7 +49,7 @@ export default function Footer() {
                     <div className="flex items-center gap-6 text-muted-foreground">
                         <Link href="/privacy">Privacy</Link>
                         <Link href="/terms">Terms</Link>
-                        <Link href="/accessibility">Accessibility</Link>
+                        <Link href="/signup">Accessibility</Link>
                     </div>
                 </div>
             </div>

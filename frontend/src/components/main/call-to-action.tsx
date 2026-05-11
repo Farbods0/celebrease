@@ -1,4 +1,5 @@
 import { GiftCard } from "@/components/icons";
+import Link from "next/link";
 
 export default function CallToAction() {
     return (
@@ -31,8 +32,14 @@ export default function CallToAction() {
                     </div>
                     <p className="text-center lg:text-left">
                         <span className="text-white/60">By clicking submit, you agree to our</span>{" "}
-                        <span className="font-medium underline">Terms of Service</span> <span className="text-white/60">and</span>{" "}
-                        <span className="font-medium underline">Privacy Policy</span>.
+                        <Link href="/terms" className="font-medium underline">
+                            Terms of Service
+                        </Link>{" "}
+                        <span className="text-white/60">and</span>{" "}
+                        <Link href="/privacy" className="font-medium underline">
+                            Privacy Policy
+                        </Link>
+                        .
                     </p>
                 </div>
             </div>

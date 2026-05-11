@@ -637,17 +637,34 @@ model OrderAddOn {
 // ============================================================
 
 model OrderReturnLine {
-    id        String          @id @default(cuid())
-    orderId   String
-    order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
-    itemId    String?
-    addOnId   String?
-    qty       Int             @default(1)
-    condition ReturnCondition
-    feeCharged Decimal        @default(0) @db.Decimal(10, 2)
-    notes     String?
-    createdAt DateTime        @default(now())
+    id         String          @id @default(cuid())
+    orderId    String
+    order      Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    itemId     String?
+    addOnId    String?
+    qty        Int             @default(1)
+    condition  ReturnCondition
+    feeCharged Decimal         @default(0) @db.Decimal(10, 2)
+    notes      String?
+    createdAt  DateTime        @default(now())
 
     @@index([orderId])
     @@map("order_return_line")
+}
+
+// ============================================================
+// REVIEWS
+// ============================================================
+
+model Review {
+    id        String   @id @default(cuid())
+    name      String
+    image     String?
+    rating    Int      @default(5)
+    content   String
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("review")
 }

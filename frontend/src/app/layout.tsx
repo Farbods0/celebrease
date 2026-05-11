@@ -26,6 +26,11 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={`${geist.variable} ${playfairDisplay.variable}`}>
+            <head>
+                <link rel="preload" as="image" href="/gradient/hero.png" fetchPriority="high" />
+                <link rel="preload" as="image" href="/gradient/section.png" fetchPriority="high" />
+                <link rel="preload" as="image" href="/gradient/footer.png" fetchPriority="high" />
+            </head>
             <body className="min-h-screen flex flex-col">
                 <Provider>
                     <Navbar />

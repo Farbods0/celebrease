@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
 import { useHydrateLoves } from "@/lib/loves-store";
-import { ArrowDown01Icon, LoginCircle02Icon, Logout01Icon, Menu01Icon } from "@hugeicons/core-free-icons";
+import { ArrowDown01Icon, FavouriteIcon, LoginCircle02Icon, Logout01Icon, Menu01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -89,6 +89,14 @@ export default function Navbar() {
                                             <Link href="/account">
                                                 <UserCircle />
                                                 Account
+                                            </Link>
+                                        }
+                                    />
+                                    <DropdownMenuItem
+                                        render={
+                                            <Link href="/wishlist">
+                                                <HugeiconsIcon icon={FavouriteIcon} />
+                                                Wishlist
                                             </Link>
                                         }
                                     />

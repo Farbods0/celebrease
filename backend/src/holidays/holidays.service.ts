@@ -236,6 +236,15 @@ export class HolidaysService {
         return { holidayIds: loves.map((l) => l.holidayId) };
     }
 
+    async listMyWishlist(userId: string) {
+        const items = await this.prisma.holiday.findMany({
+            where: { isActive: true, loves: { some: { userId } } },
+            orderBy: { sortOrder: "asc" },
+            include: holidayKitInclude,
+        });
+        return { items };
+    }
+
     async love(holidayId: string, userId: string) {
         const holiday = await this.prisma.holiday.findUnique({ where: { id: holidayId }, select: { id: true } });
         if (!holiday) throw new NotFoundException("Holiday not found");

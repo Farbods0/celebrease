@@ -132,6 +132,20 @@ export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
     return data;
 }
 
+export async function getMyWishlist(): Promise<{ items: ApiHoliday[] }> {
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/wishlist`, {
+        credentials: "include",
+        cache: "no-store",
+    });
+
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to get wishlist"));
+    }
+
+    const data = await res.json();
+    return data;
+}
+
 export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
     const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
         method: "POST",

@@ -6,7 +6,7 @@ export default function CallToAction() {
         <section
             style={{
                 position: "relative",
-                backgroundImage: `url('gradient/footer.png')`,
+                backgroundImage: `url('/gradient/footer.png')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 color: "white",

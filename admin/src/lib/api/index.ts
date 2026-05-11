@@ -9,4 +9,5 @@ export * from "./order";
 export * from "./plan";
 export * from "./subscription";
 export * from "./upload";
+export * from "./review";
 export * from "./user";

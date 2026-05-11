@@ -4,7 +4,20 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { auth, type Session } from "@/lib/auth";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronDown, LayoutDashboard, Menu, Package, PlusCircle, ShieldUser, ShoppingBag, Star, Tag, Undo2, Users } from "lucide-react";
+import {
+    ChevronDown,
+    LayoutDashboard,
+    Menu,
+    MessageSquare,
+    Package,
+    PlusCircle,
+    ShieldUser,
+    ShoppingBag,
+    Star,
+    Tag,
+    Undo2,
+    Users,
+} from "lucide-react";
 import { createElement } from "react";
 
 const navItems = [
@@ -19,6 +32,7 @@ const navItems = [
     { label: "Customers", link: "/customers", icon: Users, key: "customers" },
     { label: "Plans", link: "/plans", icon: Tag, key: "plans" },
     { label: "Users", link: "/users", icon: ShieldUser, key: "users" },
+    { label: "Reviews", link: "/reviews", icon: MessageSquare, key: "reviews" },
 ];
 
 export function Navbar({ user }: { user: Session["user"] }) {

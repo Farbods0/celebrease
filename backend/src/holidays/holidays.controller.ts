@@ -32,6 +32,11 @@ export class HolidaysController {
         return this.holidaysService.listMyLoves(session.user.id);
     }
 
+    @Get("me/wishlist")
+    listMyWishlist(@Session() session: UserSession) {
+        return this.holidaysService.listMyWishlist(session.user.id);
+    }
+
     @Get(":id")
     @AllowAnonymous()
     get(@Param("id") id: string) {

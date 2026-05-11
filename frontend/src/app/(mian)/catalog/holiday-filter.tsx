@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Search } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const FILTERS: { label: string; value: HolidayCategory | "" }[] = [
     { label: "All", value: "" },
@@ -22,6 +22,26 @@ export default function HolidayFilter({ category = "", search = "" }: { category
 
     const [localSearch, setLocalSearch] = useState(search);
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const filterRowRef = useRef<HTMLDivElement>(null);
+    const buttonRefs = useRef<Map<string, HTMLButtonElement | null>>(new Map());
+    const [pill, setPill] = useState<{ x: number; y: number; width: number; height: number }>({ x: 0, y: 0, width: 0, height: 0 });
+    const [pillReady, setPillReady] = useState(false);
+
+    useLayoutEffect(() => {
+        const updatePill = () => {
+            const btn = buttonRefs.current.get(category);
+            const container = filterRowRef.current;
+            if (!btn || !container) return;
+            const b = btn.getBoundingClientRect();
+            const c = container.getBoundingClientRect();
+            setPill({ x: b.left - c.left, y: b.top - c.top, width: b.width, height: b.height });
+            setPillReady(true);
+        };
+        updatePill();
+        window.addEventListener("resize", updatePill);
+        return () => window.removeEventListener("resize", updatePill);
+    }, [category]);
 
     const createQueryString = useCallback(
         (name: string, value: string) => {
@@ -71,10 +91,26 @@ export default function HolidayFilter({ category = "", search = "" }: { category
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div className="flex flex-col gap-4">
                 <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold">All Celebrations</h2>
-                <div className="p-1.5 lg:p-2 bg-muted w-fit rounded-full flex">
+                <div ref={filterRowRef} className="relative p-1.5 lg:p-2 bg-muted w-fit rounded-full flex">
+                    <span
+                        aria-hidden
+                        className={cn(
+                            "absolute top-0 left-0 bg-white shadow-lg rounded-full pointer-events-none",
+                            pillReady ? "opacity-100" : "opacity-0",
+                            pillReady && "transition-[transform,width,height] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                        )}
+                        style={{
+                            transform: `translate(${pill.x}px, ${pill.y}px)`,
+                            width: pill.width,
+                            height: pill.height,
+                        }}
+                    />
                     {FILTERS.map((item) => (
                         <button
                             key={item.value}
+                            ref={(el) => {
+                                buttonRefs.current.set(item.value, el);
+                            }}
                             type="button"
                             onClick={() => {
                                 if (item.value === "") {
@@ -84,8 +120,8 @@ export default function HolidayFilter({ category = "", search = "" }: { category
                                 }
                             }}
                             className={cn(
-                                "px-4 py-1.5 lg:px-5 lg:py-2 rounded-full whitespace-nowrap transition-colors",
-                                category === item.value ? "bg-white shadow-lg" : "",
+                                "relative z-10 px-4 py-1.5 lg:px-5 lg:py-2 rounded-full whitespace-nowrap transition-colors duration-200 active:scale-95 transition-transform",
+                                category === item.value ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                             )}
                         >
                             {item.label}

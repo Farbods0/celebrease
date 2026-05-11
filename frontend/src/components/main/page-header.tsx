@@ -7,7 +7,7 @@ export default function PageHeader({ title, description }: PageHeaderProps) {
     return (
         <section
             style={{
-                backgroundImage: `url('gradient/section.png')`,
+                backgroundImage: `url('/gradient/section.png')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}

@@ -15,7 +15,7 @@ export default async function HomePage() {
             <section
                 className="mb-16 md:mb-20 lg:mb-24"
                 style={{
-                    backgroundImage: `url('gradient/hero.png')`,
+                    backgroundImage: `url('/gradient/hero.png')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                 }}

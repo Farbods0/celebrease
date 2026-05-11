@@ -1,13 +1,15 @@
 import { DecorKit, Return, Sustainable } from "@/components/icons";
 import SectionHeader from "@/components/main/section-header";
 import { Button } from "@/components/ui/button";
-import { ApiHoliday, baseURL, getHolidaysByLoves } from "@/lib/api";
+import { StarRating } from "@/components/ui/star-rating";
+import { ApiHoliday, baseURL, getActiveReviews, getHolidaysByLoves } from "@/lib/api";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import moment from "moment";
 import Link from "next/link";
 
 export default async function HomePage() {
-    const data = await getHolidaysByLoves();
+    const [data, reviewsData] = await Promise.all([getHolidaysByLoves(), getActiveReviews()]);
 
     return (
         <div className="min-h-screen font-sans text-gray-900 bg-white">
@@ -176,55 +178,27 @@ export default async function HomePage() {
                 <SectionHeader title="See How Customers Enjoying" subtitle="Reviews" />
 
                 <div className="flex gap-4 overflow-x-auto">
-                    {[
-                        {
-                            name: "Ashlynn .",
-                            time: "3 hours ago",
-                            review: "CeleBrease gave our Diwali a luxury touch. The colors, details, and effortless return process made it such a joyful experience.",
-                        },
-                        {
-                            name: "Makenna C.",
-                            time: "1 week ago",
-                            review: "The unboxing experience alone was magical - everything felt festive, coordinated, and thoughtfully designed to make hosting completely stress-free.",
-                        },
-                        {
-                            name: "Angel C.",
-                            time: "5 days ago",
-                            review: "CeleBrease completely transformed how we celebrate - every kit felt premium, easy to set up, and beautifully curated for our family gatherings.",
-                        },
-                        {
-                            name: "Charlie G.",
-                            time: "Yesterday",
-                            review: "I loved not having to store boxes of décor! The subscription makes every season feel special without any extra work or clutter.",
-                        },
-                        {
-                            name: "Lincoln L.",
-                            time: "4 days ago",
-                            review: "The quality blew me away. everything arrived spotless, organized, and ready to use. It genuinely made our holiday feel magazine-worthy!",
-                        },
-                        {
-                            name: "Marcus Rhiel Madsen",
-                            time: "2 weeks ago",
-                            review: "As someone who loves decorating but hates the cleanup, CeleBrease is a dream. Stylish, sustainable, and so convenient to use!",
-                        },
-                        {
-                            name: "Sophie Chen",
-                            time: "2 days ago",
-                            review: "CeleBrease completely transformed how we celebrate - every kit felt premium, easy to set up, and beautifully curated for our family gatherings.",
-                        },
-                    ].map((review) => (
+                    {reviewsData.items.map((review) => (
                         <div
-                            key={review.name}
+                            key={review.id}
                             className="p-6 min-w-70 md:min-w-78 lg:min-w-86 h-min bg-muted rounded-2xl flex flex-col gap-6 lg:gap-8"
                         >
                             <div className="flex items-center gap-4">
-                                <div className="w-16 h-16 bg-gray-200 rounded-full"></div>
+                                <div className="w-16 h-16 bg-white rounded-full overflow-hidden">
+                                    <img
+                                        src={`${baseURL}${review.image}`}
+                                        alt={review.name}
+                                        crossOrigin="anonymous"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
                                 <div>
                                     <h4 className="font-medium text-base lg:text-lg">{review.name}</h4>
-                                    <div className="text-sm">{review.time}</div>
+                                    <StarRating rating={review.rating} size={16} />
                                 </div>
                             </div>
-                            <p className="text-base lg:text-lg">{review.review}</p>
+                            <p className="text-base lg:text-lg">{review.content}</p>
+                            <div className="text-sm text-muted-foreground">{moment(review.createdAt).fromNow()}</div>
                         </div>
                     ))}
                 </div>

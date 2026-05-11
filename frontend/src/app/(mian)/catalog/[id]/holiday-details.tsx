@@ -385,10 +385,10 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
 
                         <div className="grid gap-2">
                             <Button variant="black" onClick={() => handleAddToCart("/checkout")} disabled={submitting || !selectedKit}>
-                                🛒 Purchase Now
+                                Buy It - ${total}
                             </Button>
                             <Button variant="outline" onClick={() => handleAddToCart("/cart")} disabled={submitting || !selectedKit}>
-                                + Add to Cart
+                                One-off rental
                             </Button>
                         </div>
                     </div>

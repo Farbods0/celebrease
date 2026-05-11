@@ -66,9 +66,11 @@ export class ReviewsService {
     }
 
     async getActiveReviews() {
-        return this.prisma.review.findMany({
+        const items = await this.prisma.review.findMany({
             where: { isActive: true },
             orderBy: { createdAt: "desc" },
         });
+
+        return { items };
     }
 }

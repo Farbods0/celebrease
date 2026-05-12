@@ -176,9 +176,7 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                 {Array.from({ length: 5 }, (_, index) => {
                     if (index === 0) return { src: holiday.image, alt: holiday.name };
                     const preview = selectedKit?.previewItems?.[index - 1];
-                    return preview
-                        ? { src: preview.item.image, alt: preview.item.name }
-                        : { src: holiday.image, alt: holiday.name };
+                    return preview ? { src: preview.item.image, alt: preview.item.name } : { src: holiday.image, alt: holiday.name };
                 }).map((image, index) => (
                     <img
                         key={index}
@@ -384,10 +382,10 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                         </div>
 
                         <div className="grid gap-2">
-                            <Button variant="black" onClick={() => handleAddToCart("/checkout")} disabled={submitting || !selectedKit}>
+                            <Button className="border" onClick={() => handleAddToCart("/checkout")} disabled={submitting || !selectedKit}>
                                 Buy It - ${total}
                             </Button>
-                            <Button variant="outline" onClick={() => handleAddToCart("/cart")} disabled={submitting || !selectedKit}>
+                            <Button variant="black" onClick={() => handleAddToCart("/cart")} disabled={submitting || !selectedKit}>
                                 One-off rental
                             </Button>
                         </div>

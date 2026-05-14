@@ -1,26 +1,43 @@
 "use client";
 
+import { useAppForm } from "@/components/form/form-context";
 import SectionHeader from "@/components/main/section-header";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { submitContact } from "@/lib/api/contact";
 import { Mail01Icon, MapPinIcon, PhoneCall } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useState } from "react";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const contactSchema = z.object({
+    firstName: z.string().min(1, "First name is required").min(2, "First name must be at least 2 characters"),
+    lastName: z.string().min(1, "Last name is required").min(2, "Last name must be at least 2 characters"),
+    email: z.string().min(1, "Email is required").email("Invalid email address"),
+    subject: z.string().min(1, "Subject is required").min(3, "Subject must be at least 3 characters"),
+    message: z.string().min(1, "Message is required").min(10, "Message must be at least 10 characters"),
+});
 
 export default function ContactPage() {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        setIsSubmitting(true);
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-        setIsSubmitting(false);
-        toast.success("Message sent! We'll get back to you soon.");
-        (e.target as HTMLFormElement).reset();
-    }
+    const form = useAppForm({
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            email: "",
+            subject: "",
+            message: "",
+        },
+        validators: {
+            onChange: contactSchema,
+        },
+        onSubmit: async ({ value }) => {
+            try {
+                await submitContact(value);
+                toast.success("Message sent! We'll get back to you soon.");
+                form.reset();
+            } catch {
+                toast.error("Failed to send message. Please try again.");
+            }
+        },
+    });
 
     return (
         <section className="bg-linear-to-b from-primary/10 to-transparent">
@@ -64,36 +81,37 @@ export default function ContactPage() {
                     </div>
 
                     {/* Contact Form */}
-                    <form onSubmit={handleSubmit} className="p-6 md:p-8 border rounded-2xl bg-white space-y-6">
+                    <form
+                        className="p-6 md:p-8 border rounded-2xl bg-white space-y-6"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            form.handleSubmit();
+                        }}
+                    >
                         <div className="grid sm:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="firstName">First name</Label>
-                                <Input id="firstName" placeholder="Jane" required />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="lastName">Last name</Label>
-                                <Input id="lastName" placeholder="Doe" required />
-                            </div>
+                            <form.AppField name="firstName">
+                                {(field) => <field.FormInput type="text" label="First Name" placeholder="Jane" />}
+                            </form.AppField>
+                            <form.AppField name="lastName">
+                                {(field) => <field.FormInput type="text" label="Last Name" placeholder="Doe" />}
+                            </form.AppField>
                         </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="jane@example.com" required />
-                        </div>
+                        <form.AppField name="email">
+                            {(field) => <field.FormInput type="email" label="Email" placeholder="jane@example.com" />}
+                        </form.AppField>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="subject">Subject</Label>
-                            <Input id="subject" placeholder="How can we help?" required />
-                        </div>
+                        <form.AppField name="subject">
+                            {(field) => <field.FormInput type="text" label="Subject" placeholder="How can we help?" />}
+                        </form.AppField>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="message">Message</Label>
-                            <Textarea id="message" placeholder="Tell us what's on your mind..." rows={5} required />
-                        </div>
+                        <form.AppField name="message">
+                            {(field) => <field.FormTextarea label="Message" placeholder="Tell us what's on your mind..." />}
+                        </form.AppField>
 
-                        <Button variant="black" className="w-full" disabled={isSubmitting}>
-                            {isSubmitting ? "Sending..." : "Send Message"}
-                        </Button>
+                        <form.AppForm>
+                            <form.FormSubmit label="Send Message" />
+                        </form.AppForm>
                     </form>
                 </div>
             </div>

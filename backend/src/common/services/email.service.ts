@@ -167,6 +167,174 @@ export class EmailService {
         });
     }
 
+    async contact({ name, email, subject, message }: { name: string; email: string; subject: string; message: string }) {
+        return await this.transporter.sendMail({
+            from: `CeleBrease Contact <${this.config.get("mail.user")}>`,
+            to: ["farbods0@gmail.com"],
+            subject: `New Contact: ${subject}`,
+            html: `
+            <!doctype html>
+            <html lang="en">
+                <head>
+                    <meta charset="UTF-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    <title>New Contact Form Submission</title>
+                    <style>
+                        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+                        body {
+                            margin: 0;
+                            padding: 0;
+                            font-family: "Inter", sans-serif;
+                            background-color: #f4f4f4;
+                        }
+                        .email-container {
+                            max-width: 600px;
+                            margin: 0 auto;
+                            background-color: #ffffff;
+                        }
+                        .header {
+                            background-color: #6729FF;
+                            padding: 30px 20px;
+                            text-align: center;
+                        }
+                        .logo {
+                            font-size: 32px;
+                            font-weight: bold;
+                            color: #ffffff !important;
+                            text-decoration: none;
+                            letter-spacing: 1px;
+                        }
+                        .content {
+                            padding: 40px 30px;
+                        }
+                        .title {
+                            font-size: 24px;
+                            color: #333333;
+                            margin-bottom: 20px;
+                            font-weight: 600;
+                        }
+                        .info-box {
+                            background-color: #f8f9fa;
+                            border-radius: 12px;
+                            padding: 20px;
+                            margin-bottom: 20px;
+                        }
+                        .info-row {
+                            margin-bottom: 12px;
+                        }
+                        .info-label {
+                            font-weight: 600;
+                            color: #333333;
+                            display: inline-block;
+                            min-width: 80px;
+                        }
+                        .info-value {
+                            color: #666666;
+                        }
+                        .message-box {
+                            background-color: #f8f9fa;
+                            border-radius: 12px;
+                            padding: 20px;
+                            margin-top: 20px;
+                        }
+                        .message-label {
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: #333333;
+                            margin-bottom: 12px;
+                        }
+                        .message-text {
+                            color: #666666;
+                            line-height: 1.6;
+                            white-space: pre-wrap;
+                        }
+                        .footer {
+                            text-align: center;
+                            padding: 20px;
+                            color: #888888;
+                            font-size: 14px;
+                            border-top: 1px solid #eeeeee;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <table
+                        role="presentation"
+                        width="100%"
+                        cellpadding="0"
+                        cellspacing="0"
+                        border="0"
+                        style="background-color: #f4f4f4; padding: 20px 0"
+                    >
+                        <tr>
+                            <td align="center">
+                                <table class="email-container" role="presentation" width="600" cellpadding="0" cellspacing="0" border="0">
+                                    <tr>
+                                        <td class="header">
+                                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                <tr>
+                                                    <td align="center">
+                                                        <a href="#" class="logo">CeleBrease</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="content">
+                                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                <tr>
+                                                    <td>
+                                                        <div class="title">New Contact Form Submission</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="info-box">
+                                                            <div class="info-row">
+                                                                <span class="info-label">Name:</span>
+                                                                <span class="info-value">${name}</span>
+                                                            </div>
+                                                            <div class="info-row">
+                                                                <span class="info-label">Email:</span>
+                                                                <span class="info-value">${email}</span>
+                                                            </div>
+                                                            <div class="info-row">
+                                                                <span class="info-label">Subject:</span>
+                                                                <span class="info-value">${subject}</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="message-box">
+                                                            <div class="message-label">Message:</div>
+                                                            <div class="message-text">${message}</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="footer">
+                                            This message was sent from the CeleBrease contact form.
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+            </html>
+            `,
+        });
+    }
+
     async resetPassword({ email, url }: { email: string; url: string }) {
         return await this.transporter.sendMail({
             from: `CeleBrease <${this.config.get("mail.user")}>`,

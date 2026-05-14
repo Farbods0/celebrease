@@ -1,3 +1,4 @@
+import { ContactController } from "@/common/controllers/contact.controller";
 import { EmailService } from "@/common/services/email.service";
 import { PrismaService } from "@/common/services/prisma.service";
 import { Global, Module } from "@nestjs/common";
@@ -68,6 +69,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
             }),
         }),
     ],
+    controllers: [ContactController],
     providers: [PrismaService, EmailService],
     exports: [PrismaService, EmailService],
 })

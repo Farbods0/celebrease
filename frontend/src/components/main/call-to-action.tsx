@@ -1,7 +1,31 @@
+"use client";
+
 import { GiftCard } from "@/components/icons";
+import { subscribeNewsletter } from "@/lib/api";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function CallToAction() {
+    const [email, setEmail] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        setLoading(true);
+
+        try {
+            await subscribeNewsletter({ email });
+            setEmail("");
+            toast.success("Thanks for subscribing. Check your inbox for updates.");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Failed to subscribe. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
         <section
             style={{
@@ -24,12 +48,23 @@ export default function CallToAction() {
                     </div>
                 </div>
                 <div className="space-y-2">
-                    <div className="h-14 pl-6 pr-1.75 bg-white/20 text-white/60 rounded-full flex items-center">
-                        <input type="text" placeholder="Enter your email" className="flex-1 outline-none" />
-                        <button className="bg-white text-black px-6 py-2.25 rounded-full font-semibold flex items-center gap-2">
-                            Subscribe
+                    <form onSubmit={handleSubmit} className="h-14 pl-6 pr-1.75 bg-white/20 text-white/60 rounded-full flex items-center">
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            className="flex-1 outline-none"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-white text-black px-6 py-2.25 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {loading ? "Subscribing..." : "Subscribe"}
                         </button>
-                    </div>
+                    </form>
                     <p className="text-center lg:text-left">
                         <span className="text-white/60">By clicking submit, you agree to our</span>{" "}
                         <Link href="/terms" className="font-medium underline">

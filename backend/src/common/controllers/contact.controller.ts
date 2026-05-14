@@ -1,6 +1,6 @@
 import { ContactDto } from "@/common/dto/contact.dto";
 import { EmailService } from "@/common/services/email.service";
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { AllowAnonymous } from "@thallesp/nestjs-better-auth";
 
 @Controller("contact")
@@ -9,7 +9,6 @@ export class ContactController {
 
     @Post()
     @AllowAnonymous()
-    @HttpCode(HttpStatus.OK)
     async submit(@Body() dto: ContactDto) {
         await this.emailService.contact({
             name: `${dto.firstName} ${dto.lastName}`,

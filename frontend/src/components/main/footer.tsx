@@ -49,7 +49,7 @@ export default function Footer() {
                     <div className="flex items-center gap-6 text-muted-foreground">
                         <Link href="/privacy">Privacy</Link>
                         <Link href="/terms">Terms</Link>
-                        <Link href="/signup">Accessibility</Link>
+                        <Link href="/accessibility">Accessibility</Link>
                     </div>
                 </div>
             </div>

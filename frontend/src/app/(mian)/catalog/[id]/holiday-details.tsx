@@ -348,7 +348,6 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                                             </p>
                                             <p className="text-xs text-muted-foreground truncate">{item.category}</p>
                                         </div>
-                                        <span className="text-muted-foreground">↗</span>
                                     </div>
                                 ))
                             ) : (

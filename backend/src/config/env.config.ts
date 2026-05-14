@@ -24,4 +24,9 @@ export const config = () => ({
         successUrl: process.env.STRIPE_SUCCESS_URL,
         cancelUrl: process.env.STRIPE_CANCEL_URL,
     },
+
+    brevo: {
+        apiKey: process.env.BREVO_API_KEY,
+        listId: process.env.BREVO_LIST_ID,
+    },
 });

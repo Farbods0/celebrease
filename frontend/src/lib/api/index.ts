@@ -4,6 +4,7 @@ export * from "./contact";
 export * from "./holiday";
 export * from "./order";
 export * from "./plan";
+export * from "./newsletter";
 export * from "./upload";
 export * from "./review";
 export * from "./subscriptions";

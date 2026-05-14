@@ -128,7 +128,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                             <div
                                 key={plan.id}
                                 className={cn(
-                                    "p-1 rounded-2xl shadow-lg transition-all duration-500 ease-out bg-white flex flex-col hover:bg-linear-to-r hover:from-primary hover:to-secondary",
+                                    "p-1 rounded-2xl shadow-lg transition-all duration-500 ease-out bg-white flex flex-col hover:bg-linear-to-r hover:from-primary hover:to-secondary hover:scale-105",
                                 )}
                             >
                                 <div className="flex-1 p-6 bg-white flex flex-col gap-6 rounded-xl">

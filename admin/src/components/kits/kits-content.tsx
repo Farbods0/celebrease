@@ -1,11 +1,10 @@
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { formatKitTier, holidaysApi, kitsApi, type ApiAddOn, type ApiHolidayWithAddOns, type ApiItem, type ApiKit, type KitTier } from "@/lib/api";
+import { holidaysApi, kitsApi, type ApiAddOn, type ApiHolidayWithAddOns, type ApiItem, type ApiKit } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@tanstack/react-router";
-import { Eye, Plus, Save, SquarePen, Trash2 } from "lucide-react";
+import { Eye, Plus, Save, SquarePen } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { KitsAddItemDialog } from "./kits-add-item-dialog";
@@ -22,8 +21,7 @@ type KitsContentProps = {
     holidays: ApiHolidayWithAddOns[];
     items: ApiItem[];
     addOns: ApiAddOn[];
-    selectedTier: KitTier;
-    frontendUrl?: string;
+    selectedTier: "STARTER" | "PREMIUM";
 };
 
 const fmtMoney = (raw: string | number) => {
@@ -51,12 +49,11 @@ const STATUS_COLOR: Record<ApiKit["status"], string> = {
     LOW_STOCK: "text-amber-500",
 };
 
-export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTier, frontendUrl }: KitsContentProps) {
+export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTier }: KitsContentProps) {
     const router = useRouter();
     const [editOpen, setEditOpen] = useState(false);
     const [savingToggles, setSavingToggles] = useState(false);
     const [removing, setRemoving] = useState(false);
-    const [deletingKit, setDeletingKit] = useState(false);
     const [addTarget, setAddTarget] = useState<AddTarget | null>(null);
 
     if (!holiday) {
@@ -68,14 +65,14 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
             <>
                 <main className="w-full p-10 flex flex-col items-center justify-center gap-4 text-center">
                     <h2 className="text-xl font-semibold">
-                        No {formatKitTier(selectedTier)} kit for {holiday.name}
+                        No {selectedTier === "STARTER" ? "Starter" : "Premium"} kit for {holiday.name}
                     </h2>
                     <p className="text-sm text-muted-foreground max-w-md">
                         Create a {selectedTier.toLowerCase()} kit for this holiday to start managing its pricing, items, and add-ons.
                     </p>
                     <Button onClick={() => setEditOpen(true)}>
                         <Plus className="size-4" />
-                        Create {formatKitTier(selectedTier)} Kit
+                        Create {selectedTier === "STARTER" ? "Starter" : "Premium"} Kit
                     </Button>
                 </main>
                 <Dialog open={editOpen} onOpenChange={setEditOpen}>
@@ -91,20 +88,6 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
             </>
         );
     }
-
-    const handleDeleteKit = async () => {
-        if (deletingKit || !kit) return;
-        setDeletingKit(true);
-        try {
-            await kitsApi.remove(kit.id);
-            toast.success(`${formatKitTier(kit.tier)} kit deleted`);
-            await router.invalidate();
-        } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to delete kit");
-        } finally {
-            setDeletingKit(false);
-        }
-    };
 
     const handleToggle = async (field: "visibleOnPdp" | "alwaysVisible" | "addOnsEnabled" | "limitInventory", value: boolean) => {
         if (savingToggles) return;
@@ -163,7 +146,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
 
     const overviewRows = [
         { label: "Kit SKU", value: kit.sku },
-        { label: "Kit Tier", value: `${formatKitTier(kit.tier)} Kit` },
+        { label: "Kit Tier", value: kit.tier === "STARTER" ? "Starter Kit" : "Premium Kit" },
         { label: "Holiday", value: holiday.name },
         { label: "Status", value: STATUS_LABEL[kit.status], valueClass: STATUS_COLOR[kit.status] },
         { label: "Seasonal Visibility", value: fmtDateRange(kit.seasonStart, kit.seasonEnd), valueClass: "text-primary" },
@@ -183,7 +166,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex flex-col gap-1.5">
                         <h2 className="text-2xl font-semibold">
-                            {holiday.name} – {formatKitTier(kit.tier)} Kit
+                            {holiday.name} – {kit.tier === "STARTER" ? "Starter" : "Premium"} Kit
                         </h2>
                         <p className="text-sm text-muted-foreground">
                             Last saved: {new Date(kit.updatedAt).toLocaleString()}
@@ -196,48 +179,14 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        {frontendUrl ? (
-                            <a
-                                href={`${frontendUrl}/catalog/${holiday.id}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-                            >
-                                <Eye className="size-4" />
-                                Preview PDP
-                            </a>
-                        ) : (
-                            <Button variant="ghost" size="sm" disabled title="Set website URL in Settings to enable preview">
-                                <Eye className="size-4" />
-                                Preview PDP
-                            </Button>
-                        )}
+                        <Button variant="ghost" size="sm" disabled>
+                            <Eye className="size-4" />
+                            Preview PDP
+                        </Button>
                         <Button size="sm" onClick={() => setEditOpen(true)}>
                             <SquarePen className="size-4" />
                             Edit Kit
                         </Button>
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button variant="destructive" size="sm" disabled={deletingKit}>
-                                    <Trash2 className="size-4" />
-                                    Delete Kit
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Delete {formatKitTier(kit.tier)} Kit?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        This will permanently delete the {formatKitTier(kit.tier)} kit for {holiday.name}. This action cannot be undone.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={handleDeleteKit} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                                        {deletingKit ? "Deleting..." : "Delete"}
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
                     </div>
                 </div>
 
@@ -349,7 +298,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                     <div className="p-5">
                         {kit.items.length === 0 ? (
                             <p className="text-sm text-muted-foreground py-6 text-center">
-                                No items added yet — click &apos;Add Item&apos; to include decoration pieces in this kit.
+                                No items linked yet. Inventory items will be wired up once the inventory module ships.
                             </p>
                         ) : (
                             <KitsItemTable
@@ -373,7 +322,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                     <div className="p-5">
                         {holiday.addOns.length === 0 ? (
                             <p className="text-sm text-muted-foreground py-6 text-center">
-                                No add-ons linked — use the Add Add-On button to associate extras with this holiday.
+                                No add-ons linked yet. Add-ons will be wired up once the add-ons module ships.
                             </p>
                         ) : (
                             <KitsAddonTable

@@ -1,8 +1,7 @@
 import { CreateReviewDto } from "@/reviews/dto/create-review.dto";
 import { ListReviewsDto } from "@/reviews/dto/list-reviews.dto";
-import { UpdateReviewDto } from "@/reviews/dto/update-review.dto";
 import { ReviewsService } from "@/reviews/reviews.service";
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { AllowAnonymous, Roles } from "@thallesp/nestjs-better-auth";
 
 @Controller("/review")
@@ -29,13 +28,7 @@ export class ReviewsController {
 
     @Patch(":id")
     @Roles(["admin", "superadmin"])
-    update(@Param("id") id: string, @Body() dto: UpdateReviewDto) {
+    update(@Param("id") id: string, @Body() dto: CreateReviewDto) {
         return this.reviewsService.update(id, dto);
-    }
-
-    @Delete(":id")
-    @Roles(["admin", "superadmin"])
-    remove(@Param("id") id: string) {
-        return this.reviewsService.remove(id);
     }
 }

@@ -1,6 +1,6 @@
 import { request, toQuery } from "./base";
 
-export type KitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
+export type KitTier = "STARTER" | "PREMIUM";
 export type KitStatus = "DRAFT" | "ACTIVE" | "HIDDEN" | "LOW_STOCK";
 
 export type ApiKitItem = {
@@ -52,16 +52,6 @@ export type CreateKitPayload = {
 };
 
 export type UpdateKitPayload = Partial<CreateKitPayload>;
-
-const KIT_TIER_LABEL: Record<KitTier, string> = {
-    STARTER: "Starter",
-    PREMIUM: "Premium",
-    ULTIMATE: "Ultimate",
-};
-
-export function formatKitTier(tier: KitTier) {
-    return KIT_TIER_LABEL[tier] ?? tier;
-}
 
 export const kitsApi = {
     listAll: (params: { holidayId?: string } = {}) => request<{ items: ApiKit[] }>(`/kits/admin${toQuery(params)}`),

@@ -61,17 +61,6 @@ export type CreateItemPayload = {
 
 export type UpdateItemPayload = Partial<CreateItemPayload>;
 
-export type AdjustStockPayload = {
-    totalDelta?: number;
-    availableDelta?: number;
-    reservedDelta?: number;
-    shippedDelta?: number;
-    cleaningDelta?: number;
-    repairDelta?: number;
-    lostDelta?: number;
-    reason?: string;
-};
-
 export const inventoryApi = {
     listAll: () => request<{ items: ApiItem[] }>(`/inventory/admin`),
     get: (id: string) => request<ApiItem>(`/inventory/${id}`),
@@ -88,11 +77,6 @@ export const inventoryApi = {
     remove: (id: string) =>
         request<{ id: string }>(`/inventory/${id}`, {
             method: "DELETE",
-        }),
-    adjustStock: (id: string, payload: AdjustStockPayload) =>
-        request<ApiItem>(`/inventory/${id}/adjust-stock`, {
-            method: "PATCH",
-            body: JSON.stringify(payload),
         }),
 };
 

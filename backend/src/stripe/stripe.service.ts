@@ -14,8 +14,7 @@ export class StripeService {
     private readonly webhookSecret: string;
 
     constructor(private readonly config: ConfigService) {
-        const secretKey = this.config.getOrThrow<string>("stripe.secretKey");
-        this.client = new StripeLib(secretKey);
+        this.client = new StripeLib(this.config.getOrThrow<string>("stripe.secretKey"));
         this.webhookSecret = this.config.getOrThrow<string>("stripe.webhookSecret");
     }
 
@@ -110,10 +109,6 @@ export class StripeService {
             ...(args.name && { name: args.name }),
             ...(args.description && { description: args.description }),
         });
-    }
-
-    async archiveProduct(productId: string) {
-        return this.client.products.update(productId, { active: false });
     }
 
     async createPrice(args: {

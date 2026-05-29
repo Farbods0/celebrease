@@ -1,4 +1,3 @@
-import { AdjustStockDto } from "@/inventory/dto/adjust-stock.dto";
 import { CreateItemDto } from "@/inventory/dto/create-item.dto";
 import { UpdateItemDto } from "@/inventory/dto/update-item.dto";
 import { InventoryService } from "@/inventory/inventory.service";
@@ -43,11 +42,5 @@ export class InventoryController {
     @Roles(["admin", "superadmin"])
     remove(@Param("id") id: string) {
         return this.inventoryService.remove(id);
-    }
-
-    @Patch(":id/adjust-stock")
-    @Roles(["admin", "superadmin"])
-    adjustStock(@Param("id") id: string, @Body() dto: AdjustStockDto) {
-        return this.inventoryService.adjustStock(id, dto);
     }
 }

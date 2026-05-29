@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { Trash2 } from "lucide-react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -38,10 +37,9 @@ export function TrashConfirm({
                 <button
                     type="button"
                     disabled={disabled}
-                    className="inline-flex items-center gap-1.5 rounded-md text-destructive bg-destructive/10 px-2.5 py-1.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="rounded-md text-destructive bg-destructive/10 px-2 py-0.5 text-xs font-medium hover:bg-destructive/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    <Trash2 className="size-3" />
-                    Remove
+                    Trash
                 </button>
             </AlertDialogTrigger>
             <AlertDialogContent>

@@ -45,8 +45,4 @@ export const reviewsApi = {
             method: "PATCH",
             body: JSON.stringify(payload),
         }),
-    remove: (id: string) =>
-        request<{ id: string }>(`/review/${id}`, {
-            method: "DELETE",
-        }),
 };

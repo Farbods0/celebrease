@@ -13,11 +13,11 @@ export function HolidayDistributionChart({ data }: Props) {
         <div className="flex h-full flex-col rounded-lg border bg-card p-5 shadow-none">
             <h3 className="text-xl font-medium text-foreground">Holiday Distribution</h3>
 
-            <div className="mt-2 w-full">
+            <div className="mt-2 h-48 w-full">
                 {palette.length === 0 ? (
-                    <div className="flex h-48 items-center justify-center text-sm text-muted-foreground">No order data</div>
+                    <div className="flex h-full items-center justify-center text-sm text-muted-foreground">No order data</div>
                 ) : (
-                    <ResponsiveContainer width="100%" height={192} minWidth={1}>
+                    <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                             <Tooltip
                                 contentStyle={{

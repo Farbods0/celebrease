@@ -20,9 +20,6 @@ export type ApiPlan = {
     addOnDiscount: number;
     isActive: boolean;
     sortOrder: number;
-    stripePriceMonthlyId: string | null;
-    stripePriceYearlyId: string | null;
-    stripeProductId: string | null;
     features: ApiPlanFeature[];
     createdAt: string;
     updatedAt: string;
@@ -67,9 +64,5 @@ export const plansApi = {
         request<ApiPlan>(`/plan/${id}`, {
             method: "PATCH",
             body: JSON.stringify(payload),
-        }),
-    remove: (id: string) =>
-        request<{ id: string }>(`/plan/${id}`, {
-            method: "DELETE",
         }),
 };

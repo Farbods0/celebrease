@@ -129,15 +129,7 @@ function RouteComponent() {
                         )}
                     </div>
 
-                    {selectedItem ? (
-                        <InventoryView
-                            item={selectedItem}
-                            onEdit={(item) => {
-                                setEditing(item);
-                                setSelectedItem(null);
-                            }}
-                        />
-                    ) : null}
+                    {selectedItem ? <InventoryView item={selectedItem} /> : null}
                 </Sheet>
 
                 <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>

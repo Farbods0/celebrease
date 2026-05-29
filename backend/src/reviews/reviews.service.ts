@@ -73,11 +73,4 @@ export class ReviewsService {
 
         return { items };
     }
-
-    async remove(id: string) {
-        const review = await this.prisma.review.findUnique({ where: { id }, select: { id: true } });
-        if (!review) throw new NotFoundException("Review not found");
-        await this.prisma.review.delete({ where: { id } });
-        return { id };
-    }
 }

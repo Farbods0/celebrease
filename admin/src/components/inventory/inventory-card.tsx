@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { formatItemStatus, formatKitTier, type ApiItem } from "@/lib/api";
+import { formatItemStatus, type ApiItem } from "@/lib/api";
 import { AlertTriangle } from "lucide-react";
 
 function Field({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "available" | "reserved" | "repair" }) {
@@ -35,7 +35,7 @@ function holidayLabel(item: ApiItem): string {
 function kitTierLabel(item: ApiItem): string {
     const tiers = Array.from(new Set(item.kitItems.map((ki) => ki.kit.tier)));
     if (tiers.length === 0) return "—";
-    return tiers.map((t) => formatKitTier(t)).join(", ");
+    return tiers.map((t) => (t === "STARTER" ? "Starter" : "Premium")).join(", ");
 }
 
 export function InventoryCard({ item, onView, onEdit }: InventoryCardProps) {

@@ -1,0 +1,6 @@
+.DS_Store
+.claude/
+.playwright-mcp/
+.pnpm-store/
+audit/
+CeleBrease Artifacts/

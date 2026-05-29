@@ -3,7 +3,7 @@ import { StripeService } from "@/stripe/stripe.service";
 import { PlanCode } from "@/generated/prisma/enums";
 import { CreatePlanDto } from "@/plans/dto/create-plan.dto";
 import { UpdatePlanDto } from "@/plans/dto/update-plan.dto";
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 const planInclude = {
     features: {
@@ -145,5 +145,29 @@ export class PlansService {
 
             return tx.plan.findUnique({ where: { id }, include: planInclude });
         });
+    }
+
+    async remove(id: string) {
+        const plan = await this.prisma.plan.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                stripeProductId: true,
+                _count: { select: { subscriptions: true } },
+            },
+        });
+        if (!plan) throw new NotFoundException("Plan not found");
+        if (plan._count.subscriptions > 0) {
+            throw new BadRequestException(
+                "Cannot delete a plan that has subscriptions. Toggle isActive=false to hide it instead.",
+            );
+        }
+
+        if (plan.stripeProductId) {
+            await this.stripe.archiveProduct(plan.stripeProductId).catch(() => undefined);
+        }
+
+        await this.prisma.plan.delete({ where: { id } });
+        return { id };
     }
 }

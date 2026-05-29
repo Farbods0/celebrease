@@ -1,8 +1,9 @@
 import { CreateAddOnDto } from "@/addons/dto/create-addon.dto";
 import { UpdateAddOnDto } from "@/addons/dto/update-addon.dto";
 import { PrismaService } from "@/common/services/prisma.service";
+import { AdjustStockDto } from "@/inventory/dto/adjust-stock.dto";
 import { UploadService } from "@/upload/upload.service";
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 const addonInclude = {
     holidays: {
@@ -93,7 +94,7 @@ export class AddOnsService {
     async update(id: string, dto: UpdateAddOnDto) {
         const existing = await this.prisma.addOn.findUnique({
             where: { id },
-            select: { id: true, sku: true, image: true, inventory: { select: { availableQty: true } } },
+            select: { id: true, sku: true, image: true, inventory: { select: { totalQty: true } } },
         });
         if (!existing) throw new NotFoundException("Add-on not found");
 
@@ -104,7 +105,8 @@ export class AddOnsService {
             }
         }
 
-        const diffQty = dto?.totalQty && existing.inventory ? dto.totalQty - existing.inventory.availableQty : 0;
+        const diffQty =
+            dto?.totalQty !== undefined && existing.inventory ? dto.totalQty - existing.inventory.totalQty : 0;
 
         const updated = await this.prisma.$transaction(async (tx) => {
             if (dto.holidayIds !== undefined) {
@@ -151,5 +153,56 @@ export class AddOnsService {
             await this.uploadService.deleteImage(addon.image).catch(() => undefined);
         }
         return deleted;
+    }
+
+    async adjustStock(id: string, dto: AdjustStockDto) {
+        const addon = await this.prisma.addOn.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                inventory: {
+                    select: {
+                        totalQty: true,
+                        availableQty: true,
+                        reservedQty: true,
+                        shippedQty: true,
+                        cleaningQty: true,
+                        repairQty: true,
+                        lostQty: true,
+                    },
+                },
+            },
+        });
+        if (!addon) throw new NotFoundException("Add-on not found");
+        if (!addon.inventory) throw new BadRequestException("Add-on has no inventory record");
+
+        const inv = addon.inventory;
+        const next = {
+            totalQty: inv.totalQty + (dto.totalDelta ?? 0),
+            availableQty: inv.availableQty + (dto.availableDelta ?? 0),
+            reservedQty: inv.reservedQty + (dto.reservedDelta ?? 0),
+            shippedQty: inv.shippedQty + (dto.shippedDelta ?? 0),
+            cleaningQty: inv.cleaningQty + (dto.cleaningDelta ?? 0),
+            repairQty: inv.repairQty + (dto.repairDelta ?? 0),
+            lostQty: inv.lostQty + (dto.lostDelta ?? 0),
+        };
+
+        for (const [k, v] of Object.entries(next)) {
+            if (v < 0) throw new BadRequestException(`${k} cannot be negative (would become ${v})`);
+        }
+
+        const bucketSum = next.availableQty + next.reservedQty + next.shippedQty + next.cleaningQty + next.repairQty + next.lostQty;
+        if (bucketSum > next.totalQty) {
+            throw new BadRequestException(
+                `Stock buckets (${bucketSum}) exceed total (${next.totalQty}). Adjust totalDelta to compensate.`,
+            );
+        }
+
+        await this.prisma.inventory.update({
+            where: { addOnId: id },
+            data: next,
+        });
+
+        return this.getById(id);
     }
 }

@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, IsString, Max, Min } from "class-validator";
+import { IsIn, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class ListUsersDto {
     @IsOptional()
@@ -18,4 +18,8 @@ export class ListUsersDto {
     @IsOptional()
     @IsString()
     search?: string;
+
+    @IsOptional()
+    @IsIn(["admin", "user"])
+    role?: "admin" | "user";
 }

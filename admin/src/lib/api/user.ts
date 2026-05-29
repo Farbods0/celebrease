@@ -7,6 +7,7 @@ export type ApiUser = {
     image: string | null;
     role: string;
     banned: boolean;
+    emailVerified: boolean;
     phone: string | null;
     region: string | null;
     createdAt: string;
@@ -17,6 +18,7 @@ export type ListUsersParams = {
     page?: string;
     limit?: string;
     search?: string;
+    role?: "admin" | "user";
 };
 
 export type CreateUserPayload = {
@@ -49,4 +51,6 @@ export const usersApi = {
             method: "PATCH",
             body: JSON.stringify(payload),
         }),
+    remove: (id: string) =>
+        request<{ id: string }>(`/user/${id}`, { method: "DELETE" }),
 };

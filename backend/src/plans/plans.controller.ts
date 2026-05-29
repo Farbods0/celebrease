@@ -1,7 +1,7 @@
 import { CreatePlanDto } from "@/plans/dto/create-plan.dto";
 import { UpdatePlanDto } from "@/plans/dto/update-plan.dto";
 import { PlansService } from "@/plans/plans.service";
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { AllowAnonymous, Roles } from "@thallesp/nestjs-better-auth";
 
 @Controller("/plan")
@@ -36,5 +36,11 @@ export class PlansController {
     @Roles(["admin", "superadmin"])
     update(@Param("id") id: string, @Body() dto: UpdatePlanDto) {
         return this.plansService.update(id, dto);
+    }
+
+    @Delete(":id")
+    @Roles(["admin", "superadmin"])
+    remove(@Param("id") id: string) {
+        return this.plansService.remove(id);
     }
 }

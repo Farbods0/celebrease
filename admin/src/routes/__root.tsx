@@ -12,19 +12,16 @@ export const Route = createRootRoute({
 function RootComponent() {
     return (
         <>
-            <Outlet />
+            <div className="min-h-screen flex flex-col">
+                <Outlet />
+            </div>
             <Toaster />
-            <TanStackDevtools
-                config={{
-                    position: "bottom-right",
-                }}
-                plugins={[
-                    {
-                        name: "TanStack Router",
-                        render: <TanStackRouterDevtoolsPanel />,
-                    },
-                ]}
-            />
+            {import.meta.env.DEV && (
+                <TanStackDevtools
+                    config={{ position: "bottom-right" }}
+                    plugins={[{ name: "TanStack Router", render: <TanStackRouterDevtoolsPanel /> }]}
+                />
+            )}
         </>
     );
 }

@@ -2,7 +2,7 @@ import { PrismaService } from "@/common/services/prisma.service";
 import { CreateUserDto } from "@/users/dto/create-user.dto";
 import { ListUsersDto } from "@/users/dto/list-users.dto";
 import { UpdateUserDto } from "@/users/dto/update-user.dto";
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { UserSession } from "@thallesp/nestjs-better-auth";
 import { hashPassword } from "better-auth/crypto";
 import { randomBytes } from "node:crypto";
@@ -25,11 +25,23 @@ export class UsersService {
     constructor(private readonly prisma: PrismaService) {}
 
     async list(query: ListUsersDto, session: UserSession) {
-        const { page, limit, search } = query;
+        const { page, limit, search, role } = query;
         const skip = (page - 1) * limit;
 
+        // Superadmins see all roles (user, admin, superadmin); admins see users
+        // and other admins (but not superadmins). Restricting role visibility is
+        // intentional so a regular admin can't escalate by editing a superadmin.
+        const visibleRoles = session.user.role === "superadmin" ? ["user", "admin", "superadmin"] : ["user", "admin"];
+        // When the user filters by role from the UI, intersect with the visible set.
+        const effectiveRoles =
+            role === "admin"
+                ? visibleRoles.filter((r) => r !== "user")
+                : role === "user"
+                  ? ["user"]
+                  : visibleRoles;
+
         const where = {
-            ...(session.user.role === "superadmin" ? { role: { in: ["user", "admin"] } } : { role: "user" }),
+            role: { in: effectiveRoles },
             ...(search
                 ? {
                       OR: [
@@ -267,5 +279,15 @@ export class UsersService {
             subscription: user.subscriptions[0] ?? null,
             recentOrders: orders.slice(0, 10),
         };
+    }
+
+    async remove(id: string) {
+        const user = await this.prisma.user.findUnique({ where: { id }, select: { id: true, role: true } });
+        if (!user) throw new NotFoundException("User not found");
+        if (user.role === "superadmin") {
+            throw new BadRequestException("Cannot delete a superadmin account");
+        }
+        await this.prisma.user.delete({ where: { id } });
+        return { id };
     }
 }

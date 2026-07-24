@@ -24,20 +24,22 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                     emailVerification: {
                         sendOnSignUp: true,
                         sendVerificationEmail: async (data) => {
-                            await emailService.verifyEmail({
+                            console.log(`[AUTH] Verification link for ${data.user.email}: ${data.url}`);
+                            emailService.verifyEmail({
                                 email: data.user.email,
                                 url: data.url,
-                            });
+                            }).catch(err => console.error("Failed to send verification email:", err));
                         },
                     },
                     emailAndPassword: {
                         enabled: true,
                         requireVerification: true,
                         sendResetPassword: async (data) => {
-                            await emailService.resetPassword({
+                            console.log(`[AUTH] Password reset link for ${data.user.email}: ${data.url}`);
+                            emailService.resetPassword({
                                 email: data.user.email,
                                 url: data.url,
-                            });
+                            }).catch(err => console.error("Failed to send reset email:", err));
                         },
                     },
                     user: {

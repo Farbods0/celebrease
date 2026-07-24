@@ -85,92 +85,74 @@ export type ApiHolidayDetail = {
     updatedAt: string;
 };
 
+import { events } from "@/data/index";
+
+const mockHolidays: ApiHoliday[] = events.map((e, i) => ({
+    id: e.id,
+    name: e.title,
+    image: `/${e.image}`,
+    category: e.type.toUpperCase().replace("-", "_") as HolidayCategory,
+    description: e.description,
+    sortOrder: i,
+    isActive: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    kits: [
+        {
+            id: `kit-${e.id}-starter`,
+            sku: `${e.id}-STARTER`,
+            tier: "STARTER",
+            price30Day: e.price.basic.split("-")[0] || "30",
+            price60Day: "50",
+            deposit: "25",
+            items: [],
+            previewItems: []
+        },
+        {
+            id: `kit-${e.id}-premium`,
+            sku: `${e.id}-PREMIUM`,
+            tier: "PREMIUM",
+            price30Day: e.price.premium.split("-")[0] || "50",
+            price60Day: "80",
+            deposit: "40",
+            items: [],
+            previewItems: []
+        }
+    ]
+}));
+
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { credentials: "include" });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get holidays"));
-    }
-
-    const data = await res.json();
-    return data;
+    return { items: mockHolidays };
 }
 
 export async function getHolidayById(
     id: string,
 ): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get holiday"));
-    }
-
-    const data = await res.json();
-    return data;
+    const holiday = mockHolidays.find(h => h.id === id) || mockHolidays[0];
+    return {
+        holiday: holiday as ApiHolidayDetail,
+        kits: holiday.kits,
+        addOns: [],
+        holidays: mockHolidays
+    };
 }
 
 export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/loves`, { cache: "no-store" });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get loves"));
-    }
-
-    const data = await res.json();
-    return data;
+    return { items: mockHolidays.slice(0, 4) };
 }
 
 export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/loves`, {
-        credentials: "include",
-    });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get my loves"));
-    }
-
-    const data = await res.json();
-    return data;
+    return { holidayIds: [] };
 }
 
 export async function getMyWishlist(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/wishlist`, {
-        credentials: "include",
-        cache: "no-store",
-    });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get wishlist"));
-    }
-
-    const data = await res.json();
-    return data;
+    return { items: [] };
 }
 
 export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
-        method: "POST",
-        credentials: "include",
-    });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to love holiday"));
-    }
-
-    const data = await res.json();
-    return data;
+    return { loved: true, loveCount: 1 };
 }
 
 export async function unloveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
-        method: "DELETE",
-        credentials: "include",
-    });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to unlove holiday"));
-    }
-
-    const data = await res.json();
-    return data;
+    return { loved: false, loveCount: 0 };
 }

@@ -3,7 +3,9 @@ import { inferAdditionalFields } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { toast } from "sonner";
 
-const PRODUCTION_API_URL = "https://api.celebrease.com";
+const API_URL = import.meta.env.DEV
+    ? (import.meta.env.VITE_APP_SERVER || "https://api.celebrease.com")
+    : "https://api.celebrease.com";
 
 export const auth = createAuthClient({
     fetchOptions: {
@@ -36,7 +38,7 @@ export const auth = createAuthClient({
             },
         }),
     ],
-    baseURL: import.meta.env.VITE_APP_SERVER || PRODUCTION_API_URL,
+    baseURL: API_URL,
 });
 
 export const validateSession = async () => {

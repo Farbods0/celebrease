@@ -56,6 +56,7 @@ export type ApiHolidayAddOn = {
         image: string;
         price: number;
         deposit: number;
+        description: string | null;
     };
 };
 

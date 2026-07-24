@@ -1,0 +1,5 @@
+{
+  "name": "celebrease-monorepo",
+  "private": true,
+  "workspaces": ["backend"]
+}

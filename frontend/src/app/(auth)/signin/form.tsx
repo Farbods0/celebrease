@@ -41,6 +41,15 @@ export function SigninForm() {
                             router.push("/account");
                         }
                     },
+                    onError: (ctx) => {
+                        if (ctx.error.status === 403 && ctx.error.message?.toLowerCase().includes("verify")) {
+                            toast.error("Please verify your email first.");
+                            const params = new URLSearchParams({ user: value.email, type: "signup" });
+                            router.push(`/verification?${params.toString()}`);
+                        } else {
+                            toast.error(ctx.error.message || "Failed to sign in");
+                        }
+                    },
                 },
             );
         },

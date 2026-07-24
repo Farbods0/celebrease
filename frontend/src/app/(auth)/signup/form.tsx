@@ -131,6 +131,9 @@ export function SignupForm() {
                         toast.success("Verification link sent to your email!");
                         router.push(`/verification?user=${value.email}&type=signup`);
                     },
+                    onError: (ctx) => {
+                        toast.error(ctx.error.message);
+                    }
                 },
             );
         },

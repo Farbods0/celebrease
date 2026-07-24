@@ -6,6 +6,12 @@
         "-y",
         "@playwright/mcp@latest"
       ]
+    },
+    "railway": {
+      "command": "railway",
+      "args": [
+        "mcp"
+      ]
     }
   }
 }

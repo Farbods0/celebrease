@@ -31,8 +31,9 @@ function lowestPrice(kits: ApiHoliday["kits"]): number | null {
 
 const img = (path?: string | null) => {
     if (!path) return "";
-    if (path.startsWith("http") || path.startsWith("/")) return path;
-    return `${baseURL}${path}`;
+    if (path.startsWith("http")) return path;
+    if (path.startsWith("/uploads")) return `${baseURL}${path}`;
+    return path.startsWith("/") ? path : `${baseURL}/${path}`;
 };
 
 export default async function CatalogDetailPage({ params }: { params: Promise<{ id: string }> }) {

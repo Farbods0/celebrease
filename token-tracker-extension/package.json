@@ -1,0 +1,86 @@
+{
+  "name": "ai-token-tracker",
+  "displayName": "AI Token Tracker",
+  "description": "Track token usage and remaining quota for Antigravity CLI and Claude in your VS Code status bar",
+  "version": "0.1.0",
+  "publisher": "farbod",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiTokenTracker.showDashboard",
+        "title": "AI Token Tracker: Show Dashboard"
+      },
+      {
+        "command": "aiTokenTracker.refresh",
+        "title": "AI Token Tracker: Refresh Usage Data"
+      },
+      {
+        "command": "aiTokenTracker.setClaudeApiKey",
+        "title": "AI Token Tracker: Set Claude Admin API Key"
+      }
+    ],
+    "configuration": {
+      "title": "AI Token Tracker",
+      "properties": {
+        "aiTokenTracker.antigravity.dataDir": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the Antigravity CLI data directory (defaults to ~/.gemini/antigravity-cli)"
+        },
+        "aiTokenTracker.antigravity.monthlyTokenBudget": {
+          "type": "number",
+          "default": 1000000,
+          "description": "Your monthly token budget/limit for Antigravity (Gemini Pro subscription)"
+        },
+        "aiTokenTracker.claude.adminApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Claude Admin API Key (sk-ant-admin-...) for fetching usage data. Leave empty to track locally only.",
+          "markdownDescription": "Claude Admin API Key (`sk-ant-admin-...`) for fetching usage from the Anthropic Usage API. Leave empty to track usage locally from response headers."
+        },
+        "aiTokenTracker.claude.monthlyBudget": {
+          "type": "number",
+          "default": 100,
+          "description": "Monthly budget in USD for Claude API usage"
+        },
+        "aiTokenTracker.refreshIntervalMinutes": {
+          "type": "number",
+          "default": 5,
+          "description": "How often to refresh usage data (in minutes)"
+        },
+        "aiTokenTracker.statusBar.showAntigravity": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show Antigravity usage in status bar"
+        },
+        "aiTokenTracker.statusBar.showClaude": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show Claude usage in status bar"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {}
+}

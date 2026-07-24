@@ -7,19 +7,18 @@ services:
     startCommand: "pnpm run start:prod"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: celebrease-db
-          property: connectionString
+        value: "postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
       - key: NODE_ENV
         value: production
-      - key: FRONTEND_URL
-        value: https://celebrease.com
+      - key: CLIENT
+        value: "https://celebrease.com,https://admin.celebrease.com"
       - key: APP_SERVER
         value: https://celebrease-backend.onrender.com
+      - key: FRONTEND_URL
+        value: https://celebrease.com
+      - key: BETTER_AUTH_SECRET
+        value: "eb0c250ae4a9b1cff684b132a0d857faaf7d6bbf0e294cb3be86c3a1b26735e2"
+      - key: BETTER_AUTH_URL
+        value: https://api.celebrease.com
       - key: JWT_SECRET
         generateValue: true
-
-databases:
-  - name: celebrease-db
-    databaseName: celebrease
-    user: celebrease_user

@@ -1,6 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/auth";
@@ -10,12 +10,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-// Lazy-load heavy tab components to ensure instant tab switching
-const ActiveRentals = dynamic(() => import("@/components/account/active-rentals"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
-const AddressCard = dynamic(() => import("@/components/account/address-card"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
-const PaymentCard = dynamic(() => import("@/components/account/payment-card"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
-const RecentRentals = dynamic(() => import("@/components/account/recent-rentals"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
-const SubscriptionCard = dynamic(() => import("@/components/account/subscription-card"), { ssr: false, loading: () => <div className="animate-pulse h-64 bg-gray-200 rounded-xl" /> });
+import ActiveRentals from "@/components/account/active-rentals";
+import AddressCard from "@/components/account/address-card";
+import PaymentCard from "@/components/account/payment-card";
+import RecentRentals from "@/components/account/recent-rentals";
+import SubscriptionCard from "@/components/account/subscription-card";
 
 function getInitials(name?: string | null) {
     if (!name) return "?";

@@ -1,9 +1,10 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { StripeService } from "@/stripe/stripe.service";
-import { PlanCode } from "@/generated/prisma/enums";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { PlanCode } from "@/generated/prisma/enums";
 import { CreatePlanDto } from "@/plans/dto/create-plan.dto";
 import { UpdatePlanDto } from "@/plans/dto/update-plan.dto";
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 const planInclude = {
     features: {
@@ -43,7 +44,7 @@ export class PlansService {
     }
 
     async create(dto: CreatePlanDto) {
-        const exists = await this.prisma.plan.findUnique({ where: { code: dto.code as PlanCode }, select: { id: true } });
+        const exists = await this.prisma.plan.findUnique({ where: { code: dto.code }, select: { id: true } });
         if (exists) throw new ConflictException(`A plan with code ${dto.code} already exists`);
 
         const product = await this.stripe.createProduct({
@@ -71,7 +72,7 @@ export class PlansService {
 
         return this.prisma.plan.create({
             data: {
-                code: dto.code as PlanCode,
+                code: dto.code,
                 name: dto.name,
                 description: dto.description,
                 monthlyPrice: dto.monthlyPrice,
@@ -145,5 +146,27 @@ export class PlansService {
 
             return tx.plan.findUnique({ where: { id }, include: planInclude });
         });
+    }
+
+    async remove(id: string) {
+        const plan = await this.prisma.plan.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                stripeProductId: true,
+                _count: { select: { subscriptions: true } },
+            },
+        });
+        if (!plan) throw new NotFoundException("Plan not found");
+        if (plan._count.subscriptions > 0) {
+            throw new BadRequestException("Cannot delete a plan that has subscriptions. Toggle isActive=false to hide it instead.");
+        }
+
+        if (plan.stripeProductId) {
+            await this.stripe.archiveProduct(plan.stripeProductId).catch(() => undefined);
+        }
+
+        await this.prisma.plan.delete({ where: { id } });
+        return { id };
     }
 }

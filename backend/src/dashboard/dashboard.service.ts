@@ -1,6 +1,5 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { Prisma } from "@/generated/prisma/client";
-import { OrderStatus, PaymentStatus, SubscriptionStatus } from "@/generated/prisma/enums";
 import { Injectable } from "@nestjs/common";
 
 type MonthlyRevenue = { month: string; subscriptions: number; rentals: number };
@@ -57,17 +56,17 @@ export class DashboardService {
             holidayDistribution,
         ] = await Promise.all([
             this.prisma.order.count({
-                where: { status: { in: ["SHIPPED" as OrderStatus, "DELIVERED" as OrderStatus] } },
+                where: { status: { in: ["SHIPPED", "DELIVERED"] } },
             }),
             this.prisma.order.count({
                 where: {
-                    status: { in: ["PENDING" as OrderStatus, "RESERVED" as OrderStatus, "SHIPPED" as OrderStatus] },
-                    paymentStatus: "PAID" as PaymentStatus,
+                    status: { in: ["PENDING", "RESERVED", "SHIPPED"] },
+                    paymentStatus: "PAID",
                 },
             }),
             this.prisma.order.count({
                 where: {
-                    status: { in: ["RETURN_REQUESTED" as OrderStatus, "RETURN_IN_TRANSIT" as OrderStatus] },
+                    status: { in: ["RETURN_REQUESTED", "RETURN_IN_TRANSIT"] },
                 },
             }),
             this.prisma.order.count({
@@ -76,22 +75,15 @@ export class DashboardService {
                 },
             }),
             this.prisma.order.count({
-                where: { status: "RETURN_RECEIVED" as OrderStatus },
+                where: { status: "RETURN_RECEIVED" },
             }),
             // Deposits held = on orders past payment but not yet inspected/completed/cancelled.
             this.prisma.order.aggregate({
                 _sum: { kitDeposit: true, addOnDeposit: true },
                 where: {
-                    paymentStatus: "PAID" as PaymentStatus,
+                    paymentStatus: "PAID",
                     status: {
-                        in: [
-                            "RESERVED" as OrderStatus,
-                            "SHIPPED" as OrderStatus,
-                            "DELIVERED" as OrderStatus,
-                            "RETURN_REQUESTED" as OrderStatus,
-                            "RETURN_IN_TRANSIT" as OrderStatus,
-                            "RETURN_RECEIVED" as OrderStatus,
-                        ],
+                        in: ["RESERVED", "SHIPPED", "DELIVERED", "RETURN_REQUESTED", "RETURN_IN_TRANSIT", "RETURN_RECEIVED"],
                     },
                 },
             }),
@@ -101,7 +93,7 @@ export class DashboardService {
             // Rental revenue per month for the last 12 months.
             this.prisma.order.findMany({
                 where: {
-                    paymentStatus: "PAID" as PaymentStatus,
+                    paymentStatus: "PAID",
                     paidAt: { gte: trendStart },
                 },
                 select: { paidAt: true, rentalFee: true, extendedFee: true },
@@ -109,7 +101,7 @@ export class DashboardService {
             // Subscription revenue per month — start dates within the trend window.
             this.prisma.subscription.findMany({
                 where: {
-                    status: "ACTIVE" as SubscriptionStatus,
+                    status: "ACTIVE",
                     startedAt: { gte: trendStart },
                 },
                 include: {
@@ -120,7 +112,7 @@ export class DashboardService {
             this.prisma.order.groupBy({
                 by: ["holidayId"],
                 _count: { _all: true },
-                where: { status: { not: "CANCELLED" as OrderStatus } },
+                where: { status: { not: "CANCELLED" } },
             }),
         ]);
 
@@ -160,12 +152,12 @@ export class DashboardService {
         // Subscription revenue (active subs MRR) and Rental revenue (sum of all paid).
         const [activeSubs, allPaidOrdersAgg] = await Promise.all([
             this.prisma.subscription.findMany({
-                where: { status: "ACTIVE" as SubscriptionStatus },
+                where: { status: "ACTIVE" },
                 include: { plan: { select: { monthlyPrice: true, yearlyPrice: true } } },
             }),
             this.prisma.order.aggregate({
                 _sum: { rentalFee: true, extendedFee: true },
-                where: { paymentStatus: "PAID" as PaymentStatus },
+                where: { paymentStatus: "PAID" },
             }),
         ]);
 

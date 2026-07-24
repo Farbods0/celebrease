@@ -1,24 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { StatusBadge } from "@/components/ui/status-badge";
+import { orderStatusPill } from "@/lib/admin-status";
 import {
-    formatAddOnsSummary,
+    baseURL,
     formatDuration,
     formatMoney,
-    formatOrderStatus,
-    formatShipDate,
     formatTier,
-    totalDeposit,
     type ApiOrder,
 } from "@/lib/api";
-
-function Field({ label, value }: { label: string; value: React.ReactNode }) {
-    return (
-        <div className="flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">{label}</span>
-            <span className="text-sm font-medium">{value}</span>
-        </div>
-    );
-}
 
 type OrderCardProps = {
     item: ApiOrder;
@@ -26,25 +13,46 @@ type OrderCardProps = {
 };
 
 export function OrderCard({ item, onView }: OrderCardProps) {
+    const pill = orderStatusPill(item.status);
     return (
-        <article className="rounded-xl border border-border bg-card p-4">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-                <StatusBadge status={item.holiday.name} />
-                <span className="text-sm text-muted-foreground">Order {item.orderNumber}</span>
+        <article
+            style={{
+                border: "1px solid var(--line)",
+                borderRadius: "var(--radius)",
+                background: "var(--card)",
+                padding: 14,
+                boxShadow: "var(--shadow-xs)",
+            }}
+        >
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                <span className="oid">{item.orderNumber}</span>
+                <span className={`status ${pill.cls}`}>{pill.label}</span>
             </div>
-            <h3 className="mt-1.5 text-lg font-medium">{item.user.name}</h3>
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                <Field label="Kit Type" value={formatTier(item.kit.tier)} />
-                <Field label="Duration" value={formatDuration(item.duration)} />
-                <Field label="Add-Ons" value={formatAddOnsSummary(item)} />
-                <Field label="Ship Date" value={formatShipDate(item)} />
-                <Field label="Deposit" value={formatMoney(totalDeposit(item))} />
-                <Field label="Total" value={formatMoney(item.total)} />
-                <Field label="Status" value={<StatusBadge status={formatOrderStatus(item.status)} />} />
+            <div className="tbl-kit" style={{ marginTop: 12 }}>
+                <img src={`${baseURL}${item.holiday.image}`} alt="" />
+                <div>
+                    <div className="kit-name">{item.holiday.name}</div>
+                    <div className="kit-tier">{formatTier(item.kit.tier)} · {formatDuration(item.duration)}</div>
+                </div>
             </div>
-            <Button size="sm" onClick={() => onView(item)} className="mt-4 w-full bg-muted text-foreground hover:bg-muted/80">
-                View
-            </Button>
+            <div
+                style={{
+                    marginTop: 12,
+                    paddingTop: 12,
+                    borderTop: "1px solid var(--line)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}
+            >
+                <div>
+                    <div style={{ fontSize: 12, color: "var(--ink-soft)" }}>{item.user.name}</div>
+                    <div className="amt" style={{ fontSize: 15 }}>{formatMoney(item.total)}</div>
+                </div>
+                <button type="button" className="btn-outline" onClick={() => onView(item)}>
+                    👁 View
+                </button>
+            </div>
         </article>
     );
 }

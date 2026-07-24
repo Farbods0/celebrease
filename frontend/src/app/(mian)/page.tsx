@@ -1,214 +1,244 @@
-import { DecorKit, Return, Sustainable } from "@/components/icons";
-import SectionHeader from "@/components/main/section-header";
-import { Button } from "@/components/ui/button";
-import { StarRating } from "@/components/ui/star-rating";
-import { ApiHoliday, baseURL, getActiveReviews, getHolidaysByLoves } from "@/lib/api";
-import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import moment from "moment";
+import { FaqAccordion } from "@/components/main/faq-accordion";
+import { ApiHoliday, baseURL, getHolidaysByLoves } from "@/lib/api";
 import Link from "next/link";
 
+const CATEGORY = {
+    TRADITIONAL: { label: "Traditional", cls: "" },
+    CULTURAL: { label: "Cultural", cls: "cultural" },
+    EVENT_BASED: { label: "Event", cls: "event" },
+} as const;
+
+const HOME_FAQS = [
+    { q: "What if I don't like the kit when it arrives?", a: "If you don't love your kit, contact us within 48 hours of delivery. We'll send a replacement, swap it for another holiday, or credit your account — no questions asked." },
+    { q: "What if something breaks?", a: "Accidents happen. Minor wear is covered automatically. For major damage, our deposit protection covers up to 90% of replacement cost — you'll never owe more than your deposit." },
+    { q: "How does the deposit work?", a: "Your deposit (typically $50) is held when you reserve a kit and refunded in full within five business days of returning it in good condition. Shipping is free both ways." },
+    { q: "Can I skip a holiday?", a: "Absolutely. Skip any holiday from your account dashboard up to 14 days before the rental starts. Skipped holidays roll forward to next year — no slot is ever lost." },
+];
+
+function lowestPrice(kits: ApiHoliday["kits"]): number | null {
+    if (!kits || kits.length === 0) return null;
+    return Math.min(...kits.map((k) => Number(k.price30Day)));
+}
+
+const img = (path?: string) => (path ? `${baseURL}${path}` : "");
+
 export default async function HomePage() {
-    const [data, reviewsData] = await Promise.all([getHolidaysByLoves(), getActiveReviews()]);
+    const data = await getHolidaysByLoves();
+    const holidays = data.items;
+    const featured = holidays.slice(0, 6);
+    const hero0 = holidays[0];
+    const hero1 = holidays[1] ?? holidays[0];
 
     return (
-        <div className="min-h-screen font-sans text-gray-900 bg-white">
-            {/* --- HERO SECTION --- */}
-            <section
-                className="mb-16 md:mb-20 lg:mb-24"
-                style={{
-                    backgroundImage: `url('/gradient/hero.png')`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                }}
-            >
-                <div className="h-20" />
-                <div className="container mx-auto px-6 py-16 md:py-20 lg:py-24 text-center space-y-8 md:space-y-10 lg:space-y-12">
-                    <div>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-heading">
-                            Celebrate beautifully, without <br className="hidden sm:block" /> the storage.
-                        </h1>
-                        <p className="mt-4 md:mt-5 text-base lg:text-lg">
-                            Curated holiday & event décor kits, delivered <br className="hidden sm:block" /> and returned with ease.
+        <div className="cb">
+            {/* HERO */}
+            <section className="cb-hero" style={{ padding: 0 }}>
+                <div className="cb-hero-grid">
+                    <div className="cb-hero-copy">
+                        <span className="cb-hero-eyebrow"><span className="dot" /> Holiday décor, by subscription</span>
+                        <h1>Your home, <span className="gradient-text">dressed</span> for every holiday.</h1>
+                        <p className="cb-hero-sub">
+                            Designer-curated decoration kits delivered to your door — then picked up when the season ends.
+                            Decorate beautifully. Store nothing. Get your deposit back, every time.
                         </p>
-                        <div className="mt-5 md:mt-6 flex justify-center gap-4">
-                            <Button
-                                nativeButton={false}
-                                className="bg-white hover:bg-white/80 shadow-lg"
-                                render={<Link href="/catalog">Browse Holidays</Link>}
-                            />
-                            <Button nativeButton={false} render={<Link href="/faqs">How It Works</Link>} />
+                        <div className="cb-hero-ctas">
+                            <Link href="/catalog" className="btn-primary">Start Celebrating →</Link>
+                            <Link href="/how-it-works" className="btn-secondary">See how it works</Link>
+                        </div>
+                        <div className="cb-hero-proof">
+                            <div className="cb-avatars">
+                                {featured.slice(0, 4).map((h) => (
+                                    <span key={h.id} style={{ backgroundImage: `url('${img(h.image)}')` }} />
+                                ))}
+                            </div>
+                            <div className="cb-proof-text">
+                                <span className="cb-proof-stars">★★★★★</span> <b>4.9</b> · Loved by <b>2,400+ families</b>
+                                <br />Free shipping both ways · Deposit always refundable
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <img src="hero.png" alt="" />
-                    </div>
-                </div>
-            </section>
-            {/* --- HOW IT WORKS SECTION --- */}
-            <section className="container mx-auto px-6 pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeader title="Beautiful, & Hassle-Free Rentals" subtitle="How It Works" />
-
-                <div className="grid md:grid-cols-3 gap-6">
-                    {[
-                        {
-                            step: 1,
-                            title: "Choose a Holiday Kit",
-                            description:
-                                "Explore our seasonal kits for every celebration, featuring premium decorations to elevate your space.",
-                        },
-                        {
-                            step: 2,
-                            title: "Decorate &",
-                            description:
-                                "Your kit arrives clean and ready to use, no shopping needed. Unpack and enjoy lasting memories without storage worries.",
-                        },
-                        {
-                            step: 3,
-                            title: "Return Easily",
-                            description:
-                                "After your celebration, repack everything in the box with our prepaid label for guilt-free, sustainable reuse.",
-                        },
-                    ].map((step) => (
-                        <div
-                            key={step.step}
-                            className="p-6 border rounded-2xl flex flex-col gap-10 lg:gap-12 hover:-translate-y-2 transition-all duration-300"
-                        >
-                            <div className="px-4 py-1.5 bg-linear-to-r from-primary/10 to-secondary/10 rounded-full w-fit">
-                                <span className="bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary font-semibold">
-                                    Step {step.step}
-                                </span>
-                            </div>
-                            <div className="space-y-2">
-                                <h3 className="font-semibold text-xl lg:text-2xl">{step.title}</h3>
-                                <p className="text-base lg:text-lg">{step.description}</p>
-                            </div>
+                    <div className="cb-hero-art">
+                        <div className="img-main">
+                            {hero0 && <img src={img(hero0.image)} alt={`${hero0.name} décor`} />}
                         </div>
-                    ))}
-                </div>
-
-                <div className="p-6 border rounded-2xl lg:max-w-88 xl:max-w-99 mx-auto flex items-center justify-between hover:shadow-2xl transition-all duration-300">
-                    <div className="flex flex-col gap-2">
-                        <span className="text-base lg:text-lg">Plans start from</span>
-                        <span className="text-3xl lg:text-4xl font-semibold">$45</span>
-                    </div>
-                    <Button
-                        variant="black"
-                        nativeButton={false}
-                        render={
-                            <Link href="/subscription">
-                                Join Now
-                                <HugeiconsIcon icon={ArrowRight02Icon} />
-                            </Link>
-                        }
-                    />
-                </div>
-            </section>
-            {/* --- BENEFITS SECTION --- */}
-            <section className="container mx-auto px-6 pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeader title="Why Rent With Celebrease?" subtitle="Benefits" />
-
-                <div className="grid md:grid-cols-3 gap-6">
-                    {[
-                        {
-                            icon: <Sustainable />,
-                            title: "Sustainable & Reusable",
-                            description: "Reduce waste and celebrate responsibly with our eco-friendly rental model.",
-                        },
-                        {
-                            icon: <DecorKit />,
-                            title: "Premium Décor Kits",
-                            description: "Curated collections of high-quality decorations for every celebration.",
-                        },
-                        {
-                            icon: <Return />,
-                            title: "Hassle-Free Returns",
-                            description: "Easy pickup and return service - celebrate without the cleanup.",
-                        },
-                    ].map((benefit) => (
-                        <div
-                            key={benefit.title}
-                            className="p-6 bg-linear-to-r from-primary/10 to-secondary/10 rounded-2xl flex flex-col items-center gap-6 lg:gap-8 hover:scale-105 origin-bottom transition-all duration-300"
-                        >
-                            <div className="size-16 bg-linear-to-r from-primary to-secondary text-white rounded-2xl flex justify-center items-center">
-                                {benefit.icon}
-                            </div>
-                            <div className="space-y-2 text-center">
-                                <h3 className="font-semibold text-xl lg:text-2xl">{benefit.title}</h3>
-                                <p className="text-base lg:text-lg">{benefit.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-            {/* --- CATEGORIES SECTION --- */}
-            <section className="pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeader title="Our Loved Celebrations" subtitle="Categories" />
-
-                <div className="flex gap-4 overflow-x-auto">
-                    {data.items.map((holiday) => (
-                        <Link
-                            key={holiday.id}
-                            href={`/catalog/${holiday.id}`}
-                            className="relative min-w-76 md:min-w-96 lg:min-w-116 aspect-4/5 rounded-md overflow-hidden"
-                        >
-                            <img
-                                src={`${baseURL}${holiday.image}`}
-                                alt={holiday.name}
-                                crossOrigin="anonymous"
-                                className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"></div>
-                            <div className="absolute bottom-0 left-0 p-6 text-white space-y-2">
-                                <h3 className="font-semibold text-xl lg:text-2xl">{holiday.name}</h3>
-                                {getLowestPrice(holiday.kits) !== null ? (
-                                    <p className="text-base lg:text-lg">
-                                        From ${getLowestPrice(holiday.kits)} - <span className="text-white/60">30 Days</span>
-                                    </p>
-                                ) : (
-                                    <p className="text-base lg:text-lg text-white/60">Coming Soon</p>
-                                )}
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-            </section>
-            {/* --- REVIEWS SECTION --- */}
-            <section className="pb-16 md:pb-20 lg:pb-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeader title="See How Customers Enjoying" subtitle="Reviews" />
-
-                <div className="flex gap-4 overflow-x-auto">
-                    {reviewsData.items.map((review) => (
-                        <div
-                            key={review.id}
-                            className="p-6 min-w-70 md:min-w-78 lg:min-w-86 h-min bg-muted rounded-2xl flex flex-col gap-6 lg:gap-8"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-16 h-16 bg-white rounded-full overflow-hidden">
-                                    <img
-                                        src={`${baseURL}${review.image}`}
-                                        alt={review.name}
-                                        crossOrigin="anonymous"
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
+                        <div className="cb-kit-float">
+                            <div className="kf-row">
+                                {hero0 && <img className="kf-thumb" src={img(hero0.image)} alt="" />}
                                 <div>
-                                    <h4 className="font-medium text-base lg:text-lg">{review.name}</h4>
-                                    <StarRating rating={review.rating} size={16} />
+                                    <div className="kf-tier">Premium Kit</div>
+                                    <div className="kf-name">{hero0?.name ?? "Christmas"}</div>
                                 </div>
                             </div>
-                            <p className="text-base lg:text-lg">{review.content}</p>
-                            <div className="text-sm text-muted-foreground">{moment(review.createdAt).fromNow()}</div>
+                            <div className="kf-meta">
+                                <div className="kf-price">${lowestPrice(hero0?.kits) ?? 89} <span>/ 30 days</span></div>
+                                <div className="kf-rate"><b>★ 4.9</b></div>
+                            </div>
                         </div>
-                    ))}
+                        <div className="img-sub">
+                            {hero1 && <img src={img(hero1.image)} alt={`${hero1.name} décor`} />}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* TRUST STRIP */}
+            <div className="cb-logos">
+                <div className="cb-logos-inner">
+                    <span>✦ <b>2,400+</b> celebrations styled</span>
+                    <span>🚚 <b>Free</b> shipping both ways</span>
+                    <span>💳 <b>100%</b> deposit refunded</span>
+                    <span>♻ <b>78%</b> less holiday waste</span>
+                    <span>✕ <b>Cancel</b> anytime</span>
+                </div>
+            </div>
+
+            {/* HOW IT WORKS */}
+            <section className="cb-hiw">
+                <div className="cb-container">
+                    <div className="sec-head">
+                        <span className="eyebrow">How it works</span>
+                        <h2>From subscription to celebration in four steps</h2>
+                        <p>No buying, no storing, no stress. Just open the box and host the holiday.</p>
+                    </div>
+                    <div className="cb-hiw-grid">
+                        {[
+                            { n: 1, t: "Pick your holidays", d: "Choose the celebrations that matter most to your home this year." },
+                            { n: 2, t: "We curate your kit", d: "Our designers hand-pick 10–25 décor pieces for each holiday you choose." },
+                            { n: 3, t: "Decorate & celebrate", d: "Open the box, follow the styling card, and host an unforgettable holiday." },
+                            { n: 4, t: "Send it back, get refunded", d: "Prepaid label, doorstep pickup, and your full deposit back within five days." },
+                        ].map((s) => (
+                            <div key={s.n} className="cb-hiw-card">
+                                <div className="cb-hiw-num">{s.n}</div>
+                                <h3>{s.t}</h3>
+                                <p>{s.d}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* FEATURED */}
+            <section className="cb-featured">
+                <div className="cb-container">
+                    <div className="cb-featured-header">
+                        <div>
+                            <span className="eyebrow">Coming up next</span>
+                            <h2>Decorate your season</h2>
+                        </div>
+                        <Link href="/catalog" className="cb-featured-link">Explore all holidays →</Link>
+                    </div>
+                    <div className="cb-card-grid">
+                        {featured.map((h) => {
+                            const cat = CATEGORY[h.category as keyof typeof CATEGORY] ?? CATEGORY.TRADITIONAL;
+                            const price = lowestPrice(h.kits);
+                            return (
+                                <Link key={h.id} href={`/catalog/${h.id}`} className="cb-holiday-card">
+                                    <img src={img(h.image)} alt={`${h.name} décor kit`} />
+                                    <div className="scrim" />
+                                    <span className={`cb-cat-badge ${cat.cls}`}>{cat.label}</span>
+                                    <div className="meta">
+                                        <div className="name">{h.name}</div>
+                                        <div className="price">{price !== null ? `From $${price}` : "Coming soon"}</div>
+                                    </div>
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* TRIO */}
+            <section className="cb-trio">
+                <div className="cb-container">
+                    <div className="sec-head">
+                        <span className="eyebrow">Why CeleBrease</span>
+                        <h2>One mantel. Every holiday. Zero storage.</h2>
+                    </div>
+                    <div className="cb-trio-images">
+                        {featured.slice(0, 3).map((h) => (
+                            <img key={h.id} src={img(h.image)} alt={`Home dressed for ${h.name}`} />
+                        ))}
+                    </div>
+                    <div className="cb-trio-grid">
+                        <div className="cb-trio-card"><div className="cb-trio-ic">✨</div><h3>Always fresh</h3><p>Brand-new designer looks every season. You&apos;ll never repeat the same kit twice.</p></div>
+                        <div className="cb-trio-card"><div className="cb-trio-ic">📦</div><h3>No clutter, no storage</h3><p>We deliver, then pick it up. Your attic and closets stay completely yours.</p></div>
+                        <div className="cb-trio-card"><div className="cb-trio-ic">♻️</div><h3>Earth-kind</h3><p>One curated kit serves dozens of homes, cutting holiday waste by up to 78%.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            {/* PRICING */}
+            <section className="cb-pricing">
+                <div className="cb-container">
+                    <div className="sec-head">
+                        <span className="eyebrow">Membership</span>
+                        <h2>Plans built for the way you celebrate</h2>
+                        <p>Switch or cancel anytime. Every plan includes free two-way shipping and full deposit protection.</p>
+                    </div>
+                    <div className="cb-pricing-grid">
+                        <div className="cb-plan-card">
+                            <span className="cb-plan-tier">Starter</span>
+                            <div className="cb-plan-price">$29<span className="small">/mo</span></div>
+                            <p className="cb-plan-count">3 holidays per year</p>
+                            <p className="cb-plan-feat">Designer-curated starter kits with full deposit protection and free shipping both ways.</p>
+                            <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Starter</Link>
+                        </div>
+                        <div className="cb-plan-card elevated">
+                            <span className="cb-plan-ribbon">★ Most loved</span>
+                            <span className="cb-plan-tier">Premium</span>
+                            <div className="cb-plan-price">$49<span className="small">/mo</span></div>
+                            <p className="cb-plan-count">6 holidays per year</p>
+                            <p className="cb-plan-feat">Premium kits, priority shipping, and free add-ons worth up to $25 every season.</p>
+                            <Link href="/subscription" className="btn-fill-grad" style={{ marginTop: "auto" }}>Choose Premium</Link>
+                        </div>
+                        <div className="cb-plan-card">
+                            <span className="cb-plan-tier">Ultimate</span>
+                            <div className="cb-plan-price">$89<span className="small">/mo</span></div>
+                            <p className="cb-plan-count">Unlimited holidays</p>
+                            <p className="cb-plan-feat">Every kit tier, a dedicated stylist, and first access to limited seasonal drops.</p>
+                            <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Ultimate</Link>
+                        </div>
+                    </div>
+                    <p style={{ textAlign: "center" }}><Link href="/subscription" style={{ color: "var(--cb-purple)", fontWeight: 600 }}>Compare all plans in detail →</Link></p>
+                </div>
+            </section>
+
+            {/* TESTIMONIALS */}
+            <section className="cb-testimonials">
+                <div className="cb-container">
+                    <div className="sec-head">
+                        <span className="eyebrow">Real homes</span>
+                        <h2>Loved in living rooms everywhere</h2>
+                    </div>
+                    <div className="cb-testi-grid">
+                        {[
+                            { img: featured[0]?.image, q: "Best Christmas our family has ever had — and I didn't stress once about storage.", a: "Sarah M., Chicago" },
+                            { img: featured[1]?.image, q: "Subscribed in October and my Halloween was unbelievable. Already booked Christmas.", a: "James T., Austin" },
+                            { img: featured[2]?.image, q: "The kit arrived styled and ready. I literally just placed each piece. Done.", a: "Priya K., New York" },
+                        ].map((t, i) => (
+                            <div key={i} className="cb-testi-card">
+                                <img src={img(t.img)} alt="" />
+                                <div className="cb-testi-body">
+                                    <div className="cb-testi-stars">★★★★★</div>
+                                    <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>
+                                    <p className="cb-testi-attr">— {t.a}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* FAQ */}
+            <section className="cb-faq">
+                <div className="cb-container">
+                    <div className="sec-head">
+                        <span className="eyebrow">Good to know</span>
+                        <h2>You asked. We answered.</h2>
+                    </div>
+                    <FaqAccordion items={HOME_FAQS} />
                 </div>
             </section>
         </div>
     );
 }
-
-const getLowestPrice = (kits: ApiHoliday["kits"]) => {
-    if (!kits || kits.length === 0) return null;
-
-    return Math.min(...kits.map((kit) => Number(kit.price30Day)));
-};

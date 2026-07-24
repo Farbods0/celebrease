@@ -32,8 +32,8 @@ export function RevenueTrendsChart({ data }: Props) {
                 </div>
             </div>
 
-            <div className="mt-4 h-64 w-full">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className="mt-4 w-full">
+                <ResponsiveContainer width="100%" height={256} minWidth={1}>
                     <LineChart data={data} margin={{ top: 10, right: 8, left: -12, bottom: 0 }}>
                         <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                         <XAxis dataKey="month" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} dy={6} />

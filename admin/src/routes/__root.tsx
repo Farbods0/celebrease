@@ -4,6 +4,7 @@ import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import "../styles.css";
+import "../celebrease-admin.css";
 
 export const Route = createRootRoute({
     component: RootComponent,
@@ -12,19 +13,16 @@ export const Route = createRootRoute({
 function RootComponent() {
     return (
         <>
-            <Outlet />
+            <div className="min-h-screen flex flex-col">
+                <Outlet />
+            </div>
             <Toaster />
-            <TanStackDevtools
-                config={{
-                    position: "bottom-right",
-                }}
-                plugins={[
-                    {
-                        name: "TanStack Router",
-                        render: <TanStackRouterDevtoolsPanel />,
-                    },
-                ]}
-            />
+            {import.meta.env.DEV && (
+                <TanStackDevtools
+                    config={{ position: "bottom-right" }}
+                    plugins={[{ name: "TanStack Router", render: <TanStackRouterDevtoolsPanel /> }]}
+                />
+            )}
         </>
     );
 }

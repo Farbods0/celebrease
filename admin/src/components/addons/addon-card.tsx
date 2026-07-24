@@ -1,20 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { StatusBadge } from "@/components/ui/status-badge";
-import { baseURL, type ApiAddOn } from "@/lib/api";
+import { TrashConfirm } from "@/components/ui/trash-confirm";
+import { addOnsApi, baseURL, type ApiAddOn } from "@/lib/api";
+import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const fmtMoney = (raw: string | number) => {
     const n = typeof raw === "string" ? Number(raw) : raw;
-    return Number.isFinite(n) ? `$${n.toFixed(2)}` : "—";
+    return Number.isFinite(n) ? `$${n.toFixed(0)}` : "—";
 };
-
-function Field({ label, value }: { label: string; value: React.ReactNode }) {
-    return (
-        <div className="flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">{label}</span>
-            <span className="text-sm font-medium">{value}</span>
-        </div>
-    );
-}
 
 type AddOnCardProps = {
     item: ApiAddOn;
@@ -22,45 +15,82 @@ type AddOnCardProps = {
 };
 
 export function AddOnCard({ item, onEdit }: AddOnCardProps) {
-    return (
-        <article className="rounded-xl border border-border bg-card p-4">
-            <div className="flex items-center gap-3">
-                <div className="size-10 shrink-0 rounded-md bg-muted overflow-hidden">
-                    <img
-                        src={`${baseURL}${item.image}`}
-                        alt={item.name}
-                        crossOrigin="anonymous"
-                        className="w-full h-full object-cover rounded-md"
-                    />
-                </div>
-                <div>
-                    <h3 className="font-semibold text-sm leading-none">{item.name}</h3>
-                </div>
-            </div>
+    const router = useRouter();
+    const [toggling, setToggling] = useState(false);
+    const [removing, setRemoving] = useState(false);
 
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                <Field label="Price" value={fmtMoney(item.price)} />
-                <Field label="Deposit" value={fmtMoney(item.deposit)} />
-                <Field label="Inventory" value={item?.inventory?.availableQty ?? "N/A"} />
-                <Field label="Status" value={<StatusBadge status={item.isActive ? "Active" : "Hidden"} />} />
-                <Field
-                    label="Holidays Mapped"
-                    value={
-                        item.holidays.length === 0 ? (
-                            <span className="text-muted-foreground text-xs">—</span>
-                        ) : (
-                            <div className="flex flex-wrap gap-1">
-                                {item.holidays.map(({ holiday }) => (
-                                    <StatusBadge key={holiday.id} status={holiday.name} />
-                                ))}
-                            </div>
-                        )
-                    }
-                />
+    const handleToggleActive = async () => {
+        setToggling(true);
+        try {
+            await addOnsApi.update(item.id, { isActive: !item.isActive });
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to toggle status");
+        } finally {
+            setToggling(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        setRemoving(true);
+        try {
+            await addOnsApi.remove(item.id);
+            toast.success(`${item.name} deleted`);
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to delete");
+        } finally {
+            setRemoving(false);
+        }
+    };
+
+    const holiday = item.holidays[0]?.holiday;
+
+    return (
+        <div className={`addon-card${item.isActive ? "" : " inactive"}`}>
+            <div className="addon-img-wrap">
+                <img src={`${baseURL}${item.image}`} alt={item.name} />
+                {holiday && <span className="holiday-tag">{holiday.name}</span>}
             </div>
-            <Button size="sm" onClick={() => onEdit(item)} className="mt-4 w-full bg-primary/10 text-primary hover:bg-primary/20">
-                Edit
-            </Button>
-        </article>
+            <div className="addon-body">
+                <div className="addon-name">{item.name}</div>
+                {item.description && <div className="addon-desc">{item.description}</div>}
+                <div className="addon-meta">
+                    <span className="addon-price">
+                        {fmtMoney(item.price)}
+                        <span className="per">/rental</span>
+                    </span>
+                    {item.holidays.length > 0 && (
+                        <span className="kit-count">
+                            🎀 {item.holidays.length} {item.holidays.length === 1 ? "holiday" : "holidays"}
+                        </span>
+                    )}
+                </div>
+            </div>
+            <div className="addon-foot">
+                <label className="toggle-wrap">
+                    <span className="toggle">
+                        <input
+                            type="checkbox"
+                            checked={item.isActive}
+                            disabled={toggling}
+                            onChange={handleToggleActive}
+                        />
+                        <span className="toggle-slider" />
+                    </span>
+                    <span className={`toggle-label ${item.isActive ? "on" : "off"}`}>
+                        {item.isActive ? "Active" : "Inactive"}
+                    </span>
+                </label>
+                <div className="addon-actions">
+                    <button type="button" className="btn-sm btn-outline" onClick={() => onEdit(item)}>
+                        ✏ Edit
+                    </button>
+                    {!item.isActive && (
+                        <TrashConfirm name={item.name} onConfirm={handleDelete} disabled={removing} />
+                    )}
+                </div>
+            </div>
+        </div>
     );
 }

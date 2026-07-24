@@ -1,5 +1,3 @@
-import { StatusBadge } from "@/components/ui/status-badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TrashConfirm } from "@/components/ui/trash-confirm";
 import { baseURL, type ApiKit } from "@/lib/api";
 
@@ -7,6 +5,12 @@ const STATUS_LABEL: Record<ApiKit["items"][number]["item"]["status"], string> = 
     ACTIVE: "Active",
     LOW_STOCK: "Low Stock",
     RETIRED: "Retired",
+};
+
+const STATUS_DOT: Record<ApiKit["items"][number]["item"]["status"], string> = {
+    ACTIVE: "status-dot sd-active",
+    LOW_STOCK: "status-dot sd-amber",
+    RETIRED: "status-dot sd-muted",
 };
 
 type KitsItemTableProps = {
@@ -17,55 +21,45 @@ type KitsItemTableProps = {
 
 export function KitsItemTable({ items, onRemove, removing }: KitsItemTableProps) {
     return (
-        <div className="overflow-hidden rounded-lg border">
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Item</TableHead>
-                        <TableHead>QTY</TableHead>
-                        <TableHead>ITEM SKU</TableHead>
-                        <TableHead>CATEGORY</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Item SKU</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-                <TableBody>
-                    {items.map((item) => (
-                        <TableRow key={item.item.id}>
-                            <TableCell className="flex items-center gap-2">
-                                <div className="size-8 shrink-0 rounded-md bg-white overflow-hidden">
-                                    <img
-                                        src={`${baseURL}${item.item.image}`}
-                                        alt={item.item.name}
-                                        crossOrigin="anonymous"
-                                        className="w-full h-full object-cover rounded-md"
-                                    />
-                                </div>
-                                <span className="capitalize">{item.item.name}</span>
-                            </TableCell>
-
-                            <TableCell>{item.qty}</TableCell>
-                            <TableCell>{item.item.sku}</TableCell>
-                            <TableCell className="font-medium">{item.item.category}</TableCell>
-
-                            <TableCell>
-                                <StatusBadge status={STATUS_LABEL[item.item.status]} />
-                            </TableCell>
-
-                            <TableCell>
-                                <TrashConfirm
-                                    name={item.item.name}
-                                    title="Remove item from kit?"
-                                    description="Are you sure you want to remove"
-                                    onConfirm={() => onRemove(item.item)}
-                                    disabled={removing}
-                                />
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
+            <tbody>
+                {items.map((item) => (
+                    <tr key={item.item.id}>
+                        <td>
+                            <div className="it-cell">
+                                <img className="th" src={`${baseURL}${item.item.image}`} alt="" />
+                                <span className="nm">{item.item.name}</span>
+                            </div>
+                        </td>
+                        <td>{item.qty}</td>
+                        <td className="it-sku">{item.item.sku}</td>
+                        <td style={{ fontWeight: 600, textTransform: "capitalize" }}>{item.item.category}</td>
+                        <td>
+                            <span className={STATUS_DOT[item.item.status]}>{STATUS_LABEL[item.item.status]}</span>
+                        </td>
+                        <td>
+                            <TrashConfirm
+                                name={item.item.name}
+                                title="Remove item from kit?"
+                                description="Are you sure you want to remove"
+                                onConfirm={() => onRemove(item.item)}
+                                disabled={removing}
+                            />
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     );
 }

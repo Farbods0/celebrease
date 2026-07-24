@@ -13,8 +13,8 @@
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1280px;
 
-    --font-sans: var(--font-geist);
-    --font-heading: var(--font-playfair-display);
+    --font-sans: "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-heading: "Playfair Display", Georgia, serif;
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -135,5 +135,8 @@
     a,
     button {
         @apply cursor-pointer;
+    }
+    h1, h2 {
+        font-family: var(--font-heading);
     }
 }

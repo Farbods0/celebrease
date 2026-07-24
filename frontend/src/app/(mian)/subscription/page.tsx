@@ -1,186 +1,442 @@
-import PageHeader from "@/components/main/page-header";
-import SectionHeader from "@/components/main/section-header";
-import { ApiPlan, getPlans } from "@/lib/api";
-import { CheckmarkCircle03Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { FaqAccordion } from "@/components/main/faq-accordion";
+import { ApiHoliday, ApiPlan, baseURL, getHolidays, getPlans } from "@/lib/api";
+import Link from "next/link";
 import PlansGrid from "./plans-grid";
 
-export default async function SubscriptionPage() {
-    const data = await getPlans();
+/* ── FAQ items matching prototype ── */
+const FAQS = [
+    {
+        q: "Can I cancel my subscription anytime?",
+        a: "Yes. Cancel from your account dashboard with one click. There are no fees, no contracts, and any unused holiday slots remain available until your billing period ends.",
+    },
+    {
+        q: "What happens if I don't use all my holiday slots?",
+        a: "Unused slots roll forward. On annual plans, you can carry up to 100% of unused holidays into the next year. On monthly plans, slots roll over for up to 12 months from the time they were issued.",
+    },
+    {
+        q: "Can I upgrade or downgrade my plan?",
+        a: "Anytime. Upgrades take effect immediately and we prorate the difference. Downgrades apply at your next billing cycle. Existing reservations are always honored at the previous tier.",
+    },
+    {
+        q: "Is the deposit per kit or per subscription?",
+        a: "Per kit. Each kit you reserve has its own refundable deposit (typically $50). Deposits are released back to your card within 5 business days of the kit being returned in good condition.",
+    },
+    {
+        q: "What kits are included in each tier?",
+        a: "Starter kits include 8–12 décor pieces. Premium kits include 15–20 pieces with designer styling cards. Ultimate kits include 25+ pieces, premium materials, and exclusive seasonal drops.",
+    },
+    {
+        q: "Do you ship internationally?",
+        a: "Currently, we ship within the contiguous United States. We're expanding to Canada in late 2026 and select international markets in 2027 — join our newsletter to be first in line.",
+    },
+];
 
+/* ── Comparison table rows ── */
+const COMPARE_ROWS: Array<{
+    label: string;
+    starter: string;
+    premium: string;
+    ultimate: string;
+}> = [
+    { label: "Holidays per year",       starter: "3",           premium: "6",                  ultimate: "Unlimited" },
+    { label: "Kit tiers included",      starter: "Starter",     premium: "Starter + Premium",  ultimate: "All tiers" },
+    { label: "Free shipping both ways", starter: "✓",           premium: "✓",                  ultimate: "✓" },
+    { label: "Priority shipping",       starter: "—",           premium: "3-day",              ultimate: "Same-week" },
+    { label: "Add-on credit",           starter: "—",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
+    { label: "Holiday swaps",           starter: "1 per year",  premium: "3 per year",         ultimate: "Unlimited" },
+    { label: "Dedicated stylist",       starter: "—",           premium: "Email / chat",       ultimate: "Video call (1×/yr)" },
+    { label: "Early access to drops",   starter: "—",           premium: "—",                  ultimate: "✓" },
+    { label: "Deposit protection",      starter: "✓",           premium: "✓",                  ultimate: "✓" },
+    { label: "Cancel anytime",          starter: "✓",           premium: "✓",                  ultimate: "✓" },
+];
+
+function imgSrc(path?: string | null) {
+    return path ? `${baseURL}${path}` : "";
+}
+
+/* Mosaic card layout — first 2 holidays get span-2 large cards */
+function MosaicCard({ holiday, large }: { holiday: ApiHoliday; large?: boolean }) {
     return (
-        <>
-            <PageHeader
-                title=<>
-                    Celebrate All Year with the <br className="hidden sm:block" /> CeleBrease Subscription
-                </>
-                description={
-                    <>
-                        Three holidays per year. Premium décor, delivered when you <br className="hidden sm:block" /> need it - no storage,
-                        no stress.
-                    </>
-                }
-            />
-            {/* --- HOW IT WORKS SECTION --- */}
-            <section className="container mx-auto px-6 py-16 md:py-20 lg:py-24 space-y-8 md:space-y-10 lg:space-y-12">
-                <SectionHeader title="Beautiful, Hassle-Free Rentals" subtitle="How It Works" />
-
-                <div className="grid md:grid-cols-3 gap-5">
-                    {[
-                        {
-                            step: 1,
-                            title: "Choose a Holiday Kit",
-                            description:
-                                "Explore our seasonal kits for every celebration, featuring premium decorations to elevate your space.",
-                        },
-                        {
-                            step: 2,
-                            title: "Decorate &",
-                            description:
-                                "Your kit arrives clean and ready to use, no shopping needed. Unpack and enjoy lasting memories without storage worries.",
-                        },
-                        {
-                            step: 3,
-                            title: "Return Easily",
-                            description:
-                                "After your celebration, repack everything in the box with our prepaid label for guilt-free, sustainable reuse.",
-                        },
-                    ].map((step) => (
-                        <div
-                            key={step.step}
-                            className="p-6 bg-muted border rounded-2xl flex flex-col gap-10 lg:gap-12 hover:-translate-y-2 transition-all duration-300"
-                        >
-                            <div className="px-4 py-1.5 bg-white shadow-lg rounded-full w-fit">
-                                <span className="font-semibold">Step {step.step}</span>
-                            </div>
-                            <div className="space-y-2">
-                                <h3 className="font-semibold text-xl lg:text-2xl">{step.title}</h3>
-                                <p className="text-base lg:text-lg">{step.description}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-            {/* --- SUBSCRIPTION PLANS SECTION --- */}
-            <section className="bg-linear-to-b from-primary/10 to-transparent">
-                <div className="container mx-auto px-6 py-16 md:py-20 lg:py-24 space-y-8 md:space-y-10 lg:space-y-12 relative">
-                    <SectionHeader title="Plan your holidays efficiently" subtitle="Subscription Plans">
-                        <p className="mt-4 lg:mt-5 text-muted-foreground">
-                            All subscriptions include three 30-day holiday kits per year. You can <br className="hidden sm:block" /> extend
-                            to 60 days with prorated rates.
-                        </p>
-                    </SectionHeader>
-                    <PlansGrid plans={data.items} />
-                </div>
-            </section>
-            {/* --- COMPARISON SECTION --- */}
-            <section className="container mx-auto px-6 py-16 md:py-20 lg:py-24 flex flex-col lg:flex-row lg:justify-between gap-8 md:gap-10 lg:gap-12">
-                <SectionHeader
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    title={
-                        <>
-                            Subscription vs <br className="hidden lg:block" /> One-Time Rental
-                        </>
-                    }
-                    subtitle="Comparison"
-                    className="lg:items-start lg:text-left"
-                />
-                <div className="overflow-hidden rounded-2xl border shadow-lg">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="bg-black text-white">
-                                <th className="px-4 py-3 font-semibold text-sm uppercase">Feature</th>
-                                <th className="px-4 py-3 font-semibold text-sm uppercase">Subscription</th>
-                                <th className="px-4 py-3 font-semibold text-sm uppercase">One-Time Rental</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y">
-                            {(() => {
-                                const { holidaysPerYear, kitDiscount, addOnDiscount } = getRangesOrValues(data.items, [
-                                    "holidaysPerYear",
-                                    "kitDiscount",
-                                    "addOnDiscount",
-                                ]);
-
-                                return [
-                                    {
-                                        feature: "Kits Per Year",
-                                        sub: Array.isArray(holidaysPerYear) ? `Up to ${holidaysPerYear[1]}` : holidaysPerYear,
-                                        one: "1",
-                                    },
-                                    {
-                                        feature: "Savings",
-                                        sub: Array.isArray(kitDiscount) ? `${kitDiscount[0]}-${kitDiscount[1]}%` : `${kitDiscount}%`,
-                                        one: "—",
-                                    },
-                                    {
-                                        feature: "Add-On Discount",
-                                        sub: Array.isArray(addOnDiscount)
-                                            ? `${addOnDiscount[0]}-${addOnDiscount[1]}%`
-                                            : `${addOnDiscount}%`,
-                                        one: "—",
-                                    },
-                                    { feature: "Pause / Skip", sub: true, one: false },
-                                    { feature: "Refundable Deposit", sub: true, one: true },
-                                    { feature: "Availability Priority", sub: true, one: false },
-                                    { feature: "Early Access To New Holidays", sub: true, one: false },
-                                ];
-                            })().map((row, i) => (
-                                <tr key={i} className="hover:bg-muted/50 transition-colors">
-                                    <td className="px-4 py-3 font-medium">{row.feature}</td>
-                                    <td className="px-4 py-3">
-                                        {typeof row.sub === "boolean" ? (
-                                            <HugeiconsIcon size={20} icon={CheckmarkCircle03Icon} className="text-green-500" />
-                                        ) : (
-                                            row.sub
-                                        )}
-                                    </td>
-                                    <td className="px-4 py-3 text-muted-foreground">
-                                        {typeof row.one === "boolean" ? (
-                                            row.one ? (
-                                                <HugeiconsIcon size={20} icon={CheckmarkCircle03Icon} className="text-green-500" />
-                                            ) : (
-                                                "—"
-                                            )
-                                        ) : (
-                                            row.one
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </>
+        <div
+            className={`mos-card${large ? " mos-card-lg" : ""}`}
+            role="listitem"
+        >
+            <img src={imgSrc(holiday.image)} alt={`${holiday.name} décor`} />
+            <div className="scrim" />
+            <div className="mos-name">{holiday.name}</div>
+        </div>
     );
 }
 
-function getRangesOrValues<K extends keyof ApiPlan>(
-    plans: ApiPlan[],
-    keys: K[],
-): {
-    [P in K]: ApiPlan[P] | [ApiPlan[P], ApiPlan[P]];
-} {
-    const result = {} as {
-        [P in K]: ApiPlan[P] | [ApiPlan[P], ApiPlan[P]];
-    };
+/* Inline styles for page-specific CSS not yet in celebrease.css */
+const pageStyles = `
+.sub-hero {
+  background: radial-gradient(1100px 520px at 50% 0%, #FAEFFF 0%, var(--cb-lavender) 55%, #fff 100%);
+  padding: clamp(72px, 8vw, 104px) 24px clamp(56px, 6vw, 80px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.sub-hero::before {
+  content: '';
+  position: absolute;
+  width: 480px; height: 480px;
+  right: -100px; top: -180px;
+  background: radial-gradient(circle, rgba(155,47,201,0.14), transparent 70%);
+  filter: blur(24px);
+  pointer-events: none;
+}
+.sub-hero::after {
+  content: '';
+  position: absolute;
+  width: 360px; height: 360px;
+  left: -80px; bottom: -120px;
+  background: radial-gradient(circle, rgba(220,0,117,0.1), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+.sub-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--cb-line);
+  color: var(--cb-purple);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: var(--cb-r-pill);
+  box-shadow: var(--cb-shadow-xs);
+  margin-bottom: 24px;
+  position: relative;
+}
+.sub-hero-eyebrow .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--cb-magenta);
+  box-shadow: 0 0 0 4px rgba(220,0,117,0.15);
+}
+.sub-hero h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.06;
+  font-weight: 800;
+  max-width: 760px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+.sub-hero p {
+  font-size: clamp(16px, 1.4vw, 18px);
+  color: var(--cb-ink-muted);
+  max-width: 520px;
+  margin: 0 auto 12px;
+  line-height: 1.65;
+  position: relative;
+}
+.sub-hero-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--cb-ink-muted);
+  margin-top: 8px;
+  position: relative;
+}
+.sub-hero-proof .proof-stars { color: var(--cb-gold); letter-spacing: 1px; }
 
-    for (const key of keys) {
-        const values = plans.map((plan) => plan[key]);
+.plans-section {
+  padding: clamp(36px,4vw,56px) 24px clamp(56px,6vw,80px);
+}
+.plans-grid-wrap {
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.trust-strip {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 20px 24px 8px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  color: var(--cb-ink-muted);
+  font-weight: 500;
+}
+.trust-strip span { display: flex; align-items: center; gap: 6px; }
+.trust-strip .check { color: var(--cb-purple); font-weight: 700; }
 
-        const uniqueValues = [...new Set(values)];
+.compare-wrap {
+  padding: clamp(48px,5vw,72px) 24px;
+  background: var(--cb-lavender);
+}
+.compare-inner { max-width: 1060px; margin: 0 auto; }
+.compare-scroller {
+  overflow-x: auto;
+  border-radius: var(--cb-r-card);
+  box-shadow: var(--cb-shadow-sm);
+  background: #fff;
+}
+.compare-table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+.compare-table thead th {
+  padding: 20px 22px;
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--cb-ink);
+  background: #fff;
+  border-bottom: 2px solid var(--cb-line);
+  text-align: left;
+  white-space: nowrap;
+}
+.compare-table thead th:not(:first-child) { text-align: center; }
+.compare-table thead th.col-premium {
+  background: linear-gradient(180deg, #FAEFFF 0%, #fff 100%);
+  color: var(--cb-purple);
+  position: relative;
+}
+.compare-table thead th.col-premium::after {
+  content: 'MOST LOVED';
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--cb-magenta);
+  margin-top: 3px;
+}
+.compare-table tbody tr:nth-child(even) td { background: var(--cb-lavender); }
+.compare-table tbody td {
+  padding: 16px 22px;
+  font-size: 14px;
+  color: var(--cb-ink-muted);
+  border-bottom: 1px solid var(--cb-line);
+  text-align: left;
+}
+.compare-table tbody td:not(:first-child) {
+  text-align: center;
+  font-weight: 500;
+  color: var(--cb-ink);
+}
+.compare-table tbody td.col-premium { background: #FAEFFF !important; }
+.compare-table tbody tr:nth-child(even) td.col-premium { background: #F3E8FF !important; }
+.compare-table tbody tr:last-child td { border-bottom: none; }
+.compare-table .row-label { color: var(--cb-ink-muted); font-weight: 500; }
+.check-yes { color: var(--cb-purple); font-size: 16px; font-weight: 700; }
+.check-no  { color: var(--cb-ink-soft); font-size: 20px; line-height: 1; }
 
-        if (uniqueValues.length === 1) {
-            result[key] = uniqueValues[0];
-            continue;
-        }
+.holidays-section {
+  padding: clamp(56px,6vw,84px) 24px;
+  background: #fff;
+}
+.holidays-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.mos-card {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 3/4;
+  transition: transform .25s, box-shadow .25s;
+  box-shadow: var(--cb-shadow-xs);
+}
+.mos-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: var(--cb-shadow-md); }
+.mos-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.mos-card:hover img { transform: scale(1.07); }
+.mos-card .scrim { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(26,11,46,0.78) 100%); }
+.mos-card .mos-name { position: absolute; bottom: 10px; left: 12px; right: 12px; color: #fff; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; line-height: 1.25; }
+.mos-card-lg { grid-column: span 2; aspect-ratio: 1/1; }
 
-        const sorted = [...uniqueValues].sort((a, b) => Number(a) - Number(b));
+.faq-sub {
+  background: var(--cb-lavender);
+  padding: clamp(56px,6vw,84px) 24px;
+}
 
-        result[key] = [sorted[0], sorted[sorted.length - 1]];
-    }
+@media (max-width: 980px) {
+  .holidays-mosaic { grid-template-columns: repeat(3, 1fr); }
+  .mos-card-lg { grid-column: span 1; aspect-ratio: 3/4; }
+  .trust-strip { gap: 14px; }
+}
+@media (max-width: 600px) {
+  .trust-strip { flex-direction: column; align-items: flex-start; max-width: 320px; margin-left: auto; margin-right: auto; }
+  .holidays-mosaic { grid-template-columns: repeat(2, 1fr); }
+  .compare-table thead th, .compare-table tbody td { padding: 12px 14px; font-size: 13px; }
+}
+`;
 
-    return result;
+function CheckYes() {
+    return <span className="check-yes" aria-label="Yes">✓</span>;
+}
+function CheckNo() {
+    return <span className="check-no" aria-label="Not included">—</span>;
+}
+function CompareCell({ value }: { value: string }) {
+    if (value === "✓") return <CheckYes />;
+    if (value === "—") return <CheckNo />;
+    return <>{value}</>;
+}
+
+export default async function SubscriptionPage() {
+    const [plansData, holidaysData] = await Promise.all([
+        getPlans(),
+        getHolidays(),
+    ]);
+
+    const plans: ApiPlan[] = plansData.items;
+    const holidays: ApiHoliday[] = holidaysData.items;
+
+    /* mosaic: first 12 active holidays; first 2 render as span-2 large cards */
+    const mosaic = holidays.filter((h) => h.isActive).slice(0, 12);
+
+    /* Plan price display helpers (used in comparison table sub-labels) */
+    const starter = plans.find((p) => p.code === "STARTER");
+    const premium = plans.find((p) => p.code === "PREMIUM");
+    const ultimate = plans.find((p) => p.code === "ULTIMATE");
+
+    const starterPrice = starter ? `$${Number(starter.monthlyPrice).toFixed(0)}/mo` : "$29/mo";
+    const premiumPrice = premium ? `$${Number(premium.monthlyPrice).toFixed(0)}/mo` : "$49/mo";
+    const ultimatePrice = ultimate ? `$${Number(ultimate.monthlyPrice).toFixed(0)}/mo` : "$89/mo";
+
+    return (
+        <div className="cb">
+            {/* eslint-disable-next-line react/no-danger */}
+            <style dangerouslySetInnerHTML={{ __html: pageStyles }} />
+
+            {/* ── HERO ── */}
+            <section className="sub-hero" aria-labelledby="sub-hero-heading" style={{ padding: undefined }}>
+                <span className="sub-hero-eyebrow">
+                    <span className="dot" />
+                    Membership plans
+                </span>
+                <h1 id="sub-hero-heading">
+                    Plans built for the way
+                    <br />
+                    <span className="gradient-text">you celebrate</span>
+                </h1>
+                <p>Every plan is month-to-month. Cancel anytime. All deposits fully refundable. Free shipping both ways, always.</p>
+                <div className="sub-hero-proof">
+                    <span className="proof-stars">★★★★★</span>
+                    <span>
+                        <strong>4.9</strong> · 2,400+ families celebrating · 30-day money-back guarantee
+                    </span>
+                </div>
+            </section>
+
+            {/* ── PLANS (billing toggle + cards via client component) ── */}
+            <section className="plans-section" aria-labelledby="plans-heading">
+                <h2 id="plans-heading" className="sr-only">Subscription plans</h2>
+                <div className="plans-grid-wrap">
+                    <PlansGrid plans={plans} />
+                </div>
+
+                {/* Trust strip */}
+                <div className="trust-strip" aria-label="Key guarantees">
+                    <span><span className="check" aria-hidden="true">✓</span> Deposit fully refundable</span>
+                    <span><span className="check" aria-hidden="true">✓</span> Free shipping &amp; returns</span>
+                    <span><span className="check" aria-hidden="true">✓</span> Cancel anytime, no fees</span>
+                    <span><span className="check" aria-hidden="true">✓</span> 30-day money-back guarantee</span>
+                </div>
+            </section>
+
+            {/* ── COMPARISON TABLE ── */}
+            <section className="compare-wrap" aria-labelledby="compare-heading">
+                <div className="compare-inner">
+                    <div className="sec-head">
+                        <span className="eyebrow">Compare</span>
+                        <h2 id="compare-heading">Everything side by side</h2>
+                        <p>Pick the plan that fits your year — every plan includes free shipping and full deposit protection.</p>
+                    </div>
+                    <div className="compare-scroller" role="region" aria-label="Plan comparison table" tabIndex={0}>
+                        <table className="compare-table">
+                            <caption className="sr-only">Feature comparison across Starter, Premium, and Ultimate plans</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Feature</th>
+                                    <th scope="col">
+                                        Starter
+                                        <br />
+                                        <span style={{ fontFamily: "var(--font-geist-sans,Inter,sans-serif)", fontSize: 13, fontWeight: 400, color: "var(--cb-ink-muted)" }}>
+                                            {starterPrice}
+                                        </span>
+                                    </th>
+                                    <th scope="col" className="col-premium">
+                                        Premium
+                                        <br />
+                                        <span style={{ fontFamily: "var(--font-geist-sans,Inter,sans-serif)", fontSize: 13, fontWeight: 400, color: "var(--cb-purple)" }}>
+                                            {premiumPrice}
+                                        </span>
+                                    </th>
+                                    <th scope="col">
+                                        Ultimate
+                                        <br />
+                                        <span style={{ fontFamily: "var(--font-geist-sans,Inter,sans-serif)", fontSize: 13, fontWeight: 400, color: "var(--cb-ink-muted)" }}>
+                                            {ultimatePrice}
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {COMPARE_ROWS.map((row) => (
+                                    <tr key={row.label}>
+                                        <td className="row-label">{row.label}</td>
+                                        <td><CompareCell value={row.starter} /></td>
+                                        <td className="col-premium"><CompareCell value={row.premium} /></td>
+                                        <td><CompareCell value={row.ultimate} /></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style={{ textAlign: "center", marginTop: 28 }}>
+                        <Link href="/signup?plan=premium" className="btn-primary" style={{ display: "inline-flex", height: 52, fontSize: 15 }}>
+                            Start with Premium →
+                        </Link>
+                    </p>
+                </div>
+            </section>
+
+            {/* ── HOLIDAYS MOSAIC ── */}
+            <section className="holidays-section" aria-labelledby="holidays-heading">
+                <div className="cb-container">
+                    <div className="sec-head">
+                        <span className="eyebrow">Holidays we cover</span>
+                        <h2 id="holidays-heading">One kit for every occasion</h2>
+                        <p>
+                            From classic traditions to cultural celebrations and milestones, we have a curated kit for the
+                            moments that matter most.
+                        </p>
+                    </div>
+                    {mosaic.length > 0 && (
+                        <div className="holidays-mosaic" role="list">
+                            {mosaic.map((holiday, idx) => (
+                                <MosaicCard key={holiday.id} holiday={holiday} large={idx === 0 || idx === 6} />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* ── FAQ ── */}
+            <section className="faq-sub" aria-labelledby="faq-heading">
+                <div className="cb-container">
+                    <div className="sec-head">
+                        <span className="eyebrow">Good to know</span>
+                        <h2 id="faq-heading">Subscription questions, answered</h2>
+                        <p>Everything you need to know before you pick a plan.</p>
+                    </div>
+                    <FaqAccordion items={FAQS} />
+                </div>
+            </section>
+        </div>
+    );
 }

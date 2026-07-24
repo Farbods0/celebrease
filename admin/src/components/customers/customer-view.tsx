@@ -1,5 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
@@ -12,10 +14,14 @@ import {
     formatSubStatus,
     formatTier,
     getInitials,
+    usersApi,
     type ApiCustomer,
     type ApiCustomerDetail,
 } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+import { toast } from "sonner";
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
     return (
@@ -27,10 +33,34 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 }
 
 export function CustomerView({ item }: { item: ApiCustomer }) {
+    const router = useRouter();
+    const queryClient = useQueryClient();
+    const [toggling, setToggling] = useState(false);
+
     const { data: detail, isLoading } = useQuery<ApiCustomerDetail>({
         queryKey: ["customer", item.id],
         queryFn: () => customersApi.get(item.id),
     });
+
+    const handleToggleBan = async () => {
+        if (!detail) return;
+        setToggling(true);
+        try {
+            await usersApi.update(detail.id, {
+                name: detail.name,
+                banned: !detail.banned,
+                phone: detail.phone ?? undefined,
+                region: detail.region ?? undefined,
+            });
+            toast.success(detail.banned ? "Customer reinstated" : "Customer suspended");
+            await queryClient.invalidateQueries({ queryKey: ["customer", item.id] });
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to update");
+        } finally {
+            setToggling(false);
+        }
+    };
 
     return (
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
@@ -161,6 +191,18 @@ export function CustomerView({ item }: { item: ApiCustomer }) {
                             <Field label="Joined" value={formatCustomerDate(detail.createdAt)} />
                             <Field label="Status" value={detail.banned ? "Banned" : "Active"} />
                         </div>
+                    </section>
+
+                    <Separator />
+
+                    <section className="flex justify-end">
+                        <Button
+                            variant={detail.banned ? "default" : "destructive"}
+                            disabled={toggling}
+                            onClick={handleToggleBan}
+                        >
+                            {toggling ? "..." : detail.banned ? "Reinstate Account" : "Suspend Account"}
+                        </Button>
                     </section>
                 </div>
             )}

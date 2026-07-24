@@ -14,6 +14,7 @@ const buttonVariants = cva(
                 outline: "bg-transparent border text-foreground hover:bg-muted",
                 destructive: "bg-destructive text-white hover:bg-destructive/80",
                 black: "bg-black text-white hover:bg-black/80",
+                gradient: "bg-linear-to-r from-[#9B2FC9] to-[#DC0075] text-white hover:opacity-90",
                 ghost: "bg-transparent text-foreground hover:bg-muted",
             },
             size: {

@@ -24,24 +24,24 @@ const adminSubscriptionInclude = {
     },
 } as const;
 
-const ACTIVE_SUBSCRIPTION_STATUSES: SubscriptionStatus[] = ["ACTIVE" as SubscriptionStatus, "PAUSED" as SubscriptionStatus];
+const ACTIVE_SUBSCRIPTION_STATUSES: SubscriptionStatus[] = ["ACTIVE", "PAUSED"];
 
 function mapStripeStatus(status: StripeSubscription["status"]): SubscriptionStatus {
     switch (status) {
         case "active":
         case "trialing":
-            return "ACTIVE" as SubscriptionStatus;
+            return "ACTIVE";
         case "paused":
-            return "PAUSED" as SubscriptionStatus;
+            return "PAUSED";
         case "canceled":
-            return "CANCELLED" as SubscriptionStatus;
+            return "CANCELLED";
         case "incomplete":
         case "incomplete_expired":
         case "past_due":
         case "unpaid":
-            return "EXPIRED" as SubscriptionStatus;
+            return "EXPIRED";
         default:
-            return "ACTIVE" as SubscriptionStatus;
+            return "ACTIVE";
     }
 }
 
@@ -103,6 +103,70 @@ export class SubscriptionsService {
         });
         if (!sub) throw new NotFoundException("Subscription not found");
         return sub;
+    }
+
+    /**
+     * Admin-side subscription status changes. ACTIVE/PAUSED/CANCELLED are propagated to Stripe.
+     */
+    async adminUpdateStatus(id: string, status: SubscriptionStatus) {
+        const sub = await this.prisma.subscription.findUnique({
+            where: { id },
+            select: { id: true, stripeSubscriptionId: true, status: true },
+        });
+        if (!sub) throw new NotFoundException("Subscription not found");
+        if (sub.status === status) return this.getById(id);
+
+        if (sub.stripeSubscriptionId) {
+            try {
+                if (status === "CANCELLED") {
+                    await this.stripe.client.subscriptions.cancel(sub.stripeSubscriptionId);
+                } else if (status === "PAUSED") {
+                    await this.stripe.client.subscriptions.update(sub.stripeSubscriptionId, {
+                        pause_collection: { behavior: "keep_as_draft" },
+                    });
+                } else if (status === "ACTIVE") {
+                    await this.stripe.client.subscriptions.update(sub.stripeSubscriptionId, {
+                        pause_collection: null,
+                    });
+                }
+            } catch (error) {
+                this.logger.warn(`Failed to update Stripe subscription ${sub.stripeSubscriptionId}: ${(error as Error).message}`);
+            }
+        }
+
+        await this.prisma.subscription.update({
+            where: { id },
+            data: {
+                status,
+                ...(status === "CANCELLED" ? { cancelledAt: new Date() } : {}),
+            },
+        });
+
+        return this.getById(id);
+    }
+
+    /**
+     * Manually assign or change a holiday for a specific slot. Only allowed for PENDING slots.
+     */
+    async assignHolidaySlot(subscriptionId: string, slotId: string, holidayId: string) {
+        const slot = await this.prisma.subscriptionHolidaySlot.findFirst({
+            where: { id: slotId, subscriptionId },
+            select: { id: true, status: true },
+        });
+        if (!slot) throw new NotFoundException("Holiday slot not found for this subscription");
+        if (slot.status !== "PENDING") {
+            throw new BadRequestException("Only PENDING slots can be reassigned");
+        }
+
+        const holiday = await this.prisma.holiday.findUnique({ where: { id: holidayId }, select: { id: true } });
+        if (!holiday) throw new NotFoundException("Holiday not found");
+
+        await this.prisma.subscriptionHolidaySlot.update({
+            where: { id: slotId },
+            data: { holidayId, status: "SELECTED" },
+        });
+
+        return this.getById(subscriptionId);
     }
 
     async createCheckout(dto: CreateCheckoutDto, session: UserSession) {
@@ -230,7 +294,7 @@ export class SubscriptionsService {
         await this.prisma.subscription.update({
             where: { stripeSubscriptionId: stripeSub.id },
             data: {
-                status: "CANCELLED" as SubscriptionStatus,
+                status: "CANCELLED",
                 cancelledAt: new Date(),
             },
         });

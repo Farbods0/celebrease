@@ -14,8 +14,10 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, { logger, rawBody: true });
     const configService = app.get(ConfigService);
 
-    // Security
-    app.use(helmet());
+    // Security. Allow the frontend/admin (different origins) to embed images
+    // served from /uploads — Helmet's default Cross-Origin-Resource-Policy:
+    // same-origin otherwise blocks every <img> (ERR_BLOCKED_BY_RESPONSE.NotSameOrigin).
+    app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
     // CORS
     app.enableCors({
@@ -53,4 +55,4 @@ async function bootstrap() {
 
     logger.log(`Application is running on: ${await app.getUrl()}`);
 }
-bootstrap();
+void bootstrap();

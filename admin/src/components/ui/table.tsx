@@ -11,7 +11,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
 }
 
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
-    return <thead data-slot="table-header" className={cn("[&_tr]:shadow-sm [&_tr]:bg-card", className)} {...props} />;
+    return <thead data-slot="table-header" className={cn("", className)} {...props} />;
 }
 
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
@@ -33,7 +33,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
         <th
             data-slot="table-head"
             className={cn(
-                "px-3 py-2 uppercase text-xs text-left text-muted-foreground font-normal whitespace-nowrap [&:has([role=checkbox])]:pr-0",
+                "px-4 py-3 text-xs text-left text-muted-foreground font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0",
                 className,
             )}
             {...props}
@@ -45,7 +45,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     return (
         <td
             data-slot="table-cell"
-            className={cn("p-3 align-middle text-sm whitespace-nowrap [&:has([role=checkbox])]:pr-0", className)}
+            className={cn("px-4 py-3 align-middle text-sm whitespace-nowrap [&:has([role=checkbox])]:pr-0", className)}
             {...props}
         />
     );

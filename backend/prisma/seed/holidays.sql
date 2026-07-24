@@ -49,4 +49,9 @@ VALUES
 
 -- 12
 ('evt-012', 'Hanukkah', '/uploads/holidays/hanukkah.png', 'CULTURAL',
- 'Celebrate the Festival of Lights with traditional and elegant décor.', 12, true, NOW(), NOW());
+ 'Celebrate the Festival of Lights with traditional and elegant décor.', 12, true, NOW(), NOW()),
+
+-- 13
+('evt-013', 'Christmas', '/uploads/holidays/christmas.png', 'TRADITIONAL',
+ 'Transform your home into a winter wonderland with premium Christmas décor.', 0, true, NOW(), NOW())
+ON CONFLICT ("id") DO NOTHING;

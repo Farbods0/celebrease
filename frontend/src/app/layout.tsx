@@ -1,19 +1,21 @@
 import Provider from "@/app/provider";
-import Footer from "@/components/main/footer";
 import Navbar from "@/components/main/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { Geist, Playfair_Display } from "next/font/google";
+
+// Vendored fonts (self-hosted via @fontsource) — replaces next/font/google,
+// which fails to build behind networks that block fonts.gstatic.com.
+import "@fontsource/geist-sans/400.css";
+import "@fontsource/geist-sans/500.css";
+import "@fontsource/geist-sans/600.css";
+import "@fontsource/geist-sans/700.css";
+import "@fontsource/playfair-display/500.css";
+import "@fontsource/playfair-display/600.css";
+import "@fontsource/playfair-display/700.css";
+import "@fontsource/playfair-display/800.css";
 
 import "./globals.css";
-
-const geist = Geist({
-    variable: "--font-geist",
-});
-
-const playfairDisplay = Playfair_Display({
-    variable: "--font-playfair-display",
-});
+import "./celebrease.css";
 
 export const metadata: Metadata = {
     title: "CeleBrease",
@@ -25,7 +27,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={`${geist.variable} ${playfairDisplay.variable}`}>
+        <html lang="en">
             <head>
                 <link rel="preload" as="image" href="/gradient/hero.png" fetchPriority="high" />
                 <link rel="preload" as="image" href="/gradient/section.png" fetchPriority="high" />
@@ -35,7 +37,6 @@ export default function RootLayout({
                 <Provider>
                     <Navbar />
                     {children}
-                    <Footer />
                     <Toaster />
                 </Provider>
             </body>

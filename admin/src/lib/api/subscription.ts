@@ -56,6 +56,16 @@ export type ApiSubscription = {
 export const subscriptionsApi = {
     list: () => request<{ items: ApiSubscription[] }>(`/subscription/admin`),
     get: (id: string) => request<ApiSubscription>(`/subscription/admin/${id}`),
+    updateStatus: (id: string, payload: { status: SubscriptionStatus; note?: string }) =>
+        request<ApiSubscription>(`/subscription/admin/${id}/status`, {
+            method: "PATCH",
+            body: JSON.stringify(payload),
+        }),
+    assignHolidaySlot: (id: string, slotId: string, payload: { holidayId: string }) =>
+        request<ApiSubscription>(`/subscription/admin/${id}/slots/${slotId}`, {
+            method: "PATCH",
+            body: JSON.stringify(payload),
+        }),
 };
 
 const STATUS_LABEL: Record<SubscriptionStatus, string> = {

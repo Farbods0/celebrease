@@ -6,9 +6,15 @@ export default function AuthLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <section className="bg-linear-to-b from-primary/10 to-transparent">
-            <div className="h-20" />
+        <div
+            style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 200,
+                overflowY: "auto",
+            }}
+        >
             {children}
-        </section>
+        </div>
     );
 }

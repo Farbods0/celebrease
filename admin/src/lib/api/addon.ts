@@ -37,6 +37,17 @@ export type CreateAddOnPayload = {
 
 export type UpdateAddOnPayload = Partial<CreateAddOnPayload>;
 
+export type AdjustAddOnStockPayload = {
+    totalDelta?: number;
+    availableDelta?: number;
+    reservedDelta?: number;
+    shippedDelta?: number;
+    cleaningDelta?: number;
+    repairDelta?: number;
+    lostDelta?: number;
+    reason?: string;
+};
+
 export const addOnsApi = {
     listAll: () => request<{ items: ApiAddOn[] }>(`/addons/admin`),
     get: (id: string) => request<ApiAddOn>(`/addons/${id}`),
@@ -53,5 +64,10 @@ export const addOnsApi = {
     remove: (id: string) =>
         request<{ id: string }>(`/addons/${id}`, {
             method: "DELETE",
+        }),
+    adjustStock: (id: string, payload: AdjustAddOnStockPayload) =>
+        request<ApiAddOn>(`/addons/${id}/adjust-stock`, {
+            method: "PATCH",
+            body: JSON.stringify(payload),
         }),
 };

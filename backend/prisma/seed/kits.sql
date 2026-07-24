@@ -50,6 +50,11 @@ INSERT INTO "kit" (
     ('kit-evt-011-p', 'HAL-PREMIUM-2026', 'PREMIUM', 'evt-011', 'ACTIVE', 199.00, 299.00, 100.00, '2026-10-01', '2026-11-01', false, true, true, false, NOW(), NOW()),
 
     -- Hanukkah (evt-012) — seasonal Dec 1 – Dec 30
-    ('kit-evt-012-s', 'HAN-STARTER-2026', 'STARTER', 'evt-012', 'ACTIVE', 109.00, 159.00,  50.00, '2026-12-01', '2026-12-30', false, true, true, false, NOW(), NOW()),
-    ('kit-evt-012-p', 'HAN-PREMIUM-2026', 'PREMIUM', 'evt-012', 'ACTIVE', 219.00, 319.00, 100.00, '2026-12-01', '2026-12-30', false, true, true, false, NOW(), NOW())
+    ('kit-evt-012-s', 'HAN-STARTER-2026',  'STARTER',  'evt-012', 'ACTIVE', 109.00, 159.00,  50.00, '2026-12-01', '2026-12-30', false, true, true, false, NOW(), NOW()),
+    ('kit-evt-012-p', 'HAN-PREMIUM-2026',  'PREMIUM',  'evt-012', 'ACTIVE', 219.00, 319.00, 100.00, '2026-12-01', '2026-12-30', false, true, true, false, NOW(), NOW()),
+
+    -- Christmas (evt-013) — seasonal Dec 1 – Dec 31, shown first (sortOrder 0)
+    ('kit-evt-013-s', 'XMAS-STARTER-2026',  'STARTER',  'evt-013', 'ACTIVE',  89.00, 139.00,  50.00, '2026-12-01', '2026-12-31', false, true, true, false, NOW(), NOW()),
+    ('kit-evt-013-p', 'XMAS-PREMIUM-2026',  'PREMIUM',  'evt-013', 'ACTIVE', 199.00, 299.00, 100.00, '2026-12-01', '2026-12-31', false, true, true, false, NOW(), NOW()),
+    ('kit-evt-013-u', 'XMAS-ULTIMATE-2026', 'ULTIMATE', 'evt-013', 'ACTIVE', 299.00, 449.00, 150.00, '2026-12-01', '2026-12-31', false, true, true, false, NOW(), NOW())
 ON CONFLICT ("holidayId", "tier") DO NOTHING;

@@ -14,12 +14,14 @@
         "lint": "eslint \"{src,apps,libs}/**/*.ts\" --fix"
     },
     "dependencies": {
+        "@neondatabase/serverless": "^1.1.0",
         "@nestjs/cache-manager": "^3.1.0",
         "@nestjs/common": "^11.0.1",
         "@nestjs/config": "^4.0.4",
         "@nestjs/core": "^11.0.1",
         "@nestjs/platform-express": "^11.0.1",
         "@nestjs/serve-static": "^5.0.5",
+        "@prisma/adapter-neon": "^7.8.0",
         "@prisma/adapter-pg": "^7.7.0",
         "@prisma/client": "^7.7.0",
         "@thallesp/nestjs-better-auth": "^2.6.0",
@@ -34,6 +36,7 @@
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.1",
         "stripe": "^22.1.0",
+        "ws": "^8.21.0",
         "zod": "^4.3.6"
     },
     "devDependencies": {

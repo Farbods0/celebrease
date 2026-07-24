@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/main/navbar";
+import { Sidebar, Topbar } from "@/components/main/sidebar";
 import { validateSession } from "@/lib/auth";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 
@@ -13,9 +13,12 @@ function RouteComponent() {
     const { user } = Route.useRouteContext();
 
     return (
-        <>
-            <Navbar user={user} />
-            <Outlet />
-        </>
+        <div className="cbadmin app">
+            <Sidebar user={user} />
+            <div className="main">
+                <Topbar />
+                <Outlet />
+            </div>
+        </div>
     );
 }

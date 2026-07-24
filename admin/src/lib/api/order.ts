@@ -117,6 +117,8 @@ export type ListOrdersParams = {
     limit?: number;
     search?: string;
     filter?: "active" | "recent" | "returns";
+    startDate?: string;
+    endDate?: string;
 };
 
 export type UpdateOrderStatusPayload = {

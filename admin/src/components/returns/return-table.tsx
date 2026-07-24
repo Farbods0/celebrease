@@ -1,6 +1,5 @@
-import { StatusBadge } from "@/components/ui/status-badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { formatMoney, formatOrderStatus, formatTier, totalDeposit, type ApiOrder } from "@/lib/api";
+import { orderStatusPill } from "@/lib/admin-status";
+import { baseURL, formatDuration, formatMoney, formatTier, totalDeposit, type ApiOrder } from "@/lib/api";
 import moment from "moment";
 
 type ReturnTableProps = {
@@ -8,62 +7,99 @@ type ReturnTableProps = {
     onView: (item: ApiOrder) => void;
 };
 
-function returnRequestedAt(order: ApiOrder) {
-    if (!order.returnRequestedAt) return "—";
-    return moment(order.returnRequestedAt).format("MMM DD, YYYY");
+function initials(str?: string | null) {
+    return (str?.match(/\b(\w)/g) ?? []).slice(0, 2).join("").toUpperCase() || "?";
 }
+
+function returnedCell(order: ApiOrder) {
+    const value = order.returnReceivedAt ?? order.returnRequestedAt;
+    if (!value) return null;
+    const m = moment(value);
+    return { date: m.format("MMM D"), ago: m.fromNow() };
+}
+
+const img = (path?: string | null) => (path ? `${baseURL}${path}` : "");
 
 export function ReturnTable({ items, onView }: ReturnTableProps) {
     return (
-        <div className="hidden md:block overflow-hidden rounded-lg border p-3">
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Order #</TableHead>
-                        <TableHead>Customer</TableHead>
-                        <TableHead>Holiday</TableHead>
-                        <TableHead>Kit</TableHead>
-                        <TableHead>Requested</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Deposit Held</TableHead>
-                        <TableHead>Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
+        <div className="hidden md:block" style={{ padding: "0 4px 14px" }}>
+            <table className="ret-table">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Kit</th>
+                        <th>Returned</th>
+                        <th>Status</th>
+                        <th>Deposit</th>
+                        <th style={{ minWidth: 150 }}>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {items.length === 0 ? (
-                        <TableRow>
-                            <TableCell colSpan={8} className="text-center text-sm text-muted-foreground py-10">
-                                No active returns
-                            </TableCell>
-                        </TableRow>
+                        <tr>
+                            <td colSpan={7} className="ret-empty">
+                                No returns in this stage
+                            </td>
+                        </tr>
                     ) : (
-                        items.map((item) => (
-                            <TableRow key={item.id}>
-                                <TableCell className="font-medium text-muted-foreground">{item.orderNumber}</TableCell>
-                                <TableCell className="font-medium">{item.user.name}</TableCell>
-                                <TableCell>
-                                    <StatusBadge status={item.holiday.name} />
-                                </TableCell>
-                                <TableCell>{formatTier(item.kit.tier)}</TableCell>
-                                <TableCell>{returnRequestedAt(item)}</TableCell>
-                                <TableCell>
-                                    <StatusBadge status={formatOrderStatus(item.status)} />
-                                </TableCell>
-                                <TableCell>{formatMoney(totalDeposit(item))}</TableCell>
-                                <TableCell>
-                                    <button
-                                        type="button"
-                                        onClick={() => onView(item)}
-                                        className="rounded-md bg-border/30 px-2 py-0.5 text-xs font-medium hover:bg-border/60 transition-colors"
-                                    >
-                                        Inspect
-                                    </button>
-                                </TableCell>
-                            </TableRow>
-                        ))
+                        items.map((item) => {
+                            const pill = orderStatusPill(item.status);
+                            const ret = returnedCell(item);
+                            return (
+                                <tr key={item.id}>
+                                    <td className="oid">{item.orderNumber}</td>
+                                    <td>
+                                        <div className="cust">
+                                            <div className="av">{initials(item.user.name)}</div>
+                                            <div>
+                                                <div className="nm">{item.user.name}</div>
+                                                <div className="em">{item.user.email}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="kit-cell">
+                                            <img src={img(item.holiday.image)} alt="" />
+                                            <div>
+                                                <div className="kn">{item.holiday.name} · {formatTier(item.kit.tier)}</div>
+                                                <div className="ks">{formatDuration(item.duration)} rental · {item.kit.sku}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="ret-date">
+                                        {ret ? (
+                                            <>
+                                                <b>{ret.date}</b>
+                                                <br />
+                                                {ret.ago}
+                                            </>
+                                        ) : (
+                                            "—"
+                                        )}
+                                    </td>
+                                    <td>
+                                        <span className={`status ${pill.cls}`}>{pill.label}</span>
+                                    </td>
+                                    <td>
+                                        <div className="dep-cell">
+                                            <span className="dep-full">{formatMoney(totalDeposit(item))}</span>
+                                            <span className="dep-sub">Deposit held</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="act-btns">
+                                            <button type="button" className="btn-inspect" onClick={() => onView(item)}>
+                                                ✓ Inspect &amp; resolve
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })
                     )}
-                </TableBody>
-            </Table>
+                </tbody>
+            </table>
         </div>
     );
 }

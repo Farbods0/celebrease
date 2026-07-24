@@ -1,49 +1,42 @@
 "use client";
 
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { addToCart, ApiHolidayAddOn, ApiHolidayDetail, ApiHolidayKit, baseURL, HolidayCategory, KitTier } from "@/lib/api";
+    addToCart,
+    ApiHolidayAddOn,
+    ApiHolidayDetail,
+    ApiHolidayKit,
+    baseURL,
+    HolidayCategory,
+    KitTier,
+} from "@/lib/api";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { auth } from "@/lib/auth";
 import { useLovesStore } from "@/lib/loves-store";
-import { cn } from "@/lib/utils";
-import { Heart, Plus, Tick } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const categoryLabel: Record<HolidayCategory, string> = {
+/* ---- helpers ---------------------------------------------------------------- */
+
+const CATEGORY_LABEL: Record<HolidayCategory, string> = {
     TRADITIONAL: "Traditional",
     CULTURAL: "Cultural",
-    EVENT_BASED: "Event Based",
+    EVENT_BASED: "Event",
 };
 
-const tierLabel: Record<KitTier, string> = {
-    STARTER: "Starter Kit",
-    PREMIUM: "Premium Kit",
-    ULTIMATE: "Ultimate Kit",
+const CATEGORY_CLS: Record<HolidayCategory, string> = {
+    TRADITIONAL: "",
+    CULTURAL: "cultural",
+    EVENT_BASED: "event",
 };
 
-const tierTagline: Record<KitTier, string> = {
-    STARTER: "Best for minimal setups",
-    PREMIUM: "Full décor experience",
-    ULTIMATE: "The complete celebration",
+const TIER_LABEL: Record<KitTier, string> = {
+    STARTER: "Starter",
+    PREMIUM: "Premium",
+    ULTIMATE: "Ultimate",
 };
 
-type HolidayDetailsProps = {
-    holiday: ApiHolidayDetail;
-    kits: ApiHolidayKit[];
-    addOns: ApiHolidayAddOn[];
-};
+const TIER_ORDER: KitTier[] = ["STARTER", "PREMIUM", "ULTIMATE"];
 
 function todayIso(): string {
     return new Date().toISOString().slice(0, 10);
@@ -57,11 +50,34 @@ function addDaysIso(start: string, days: number): string {
     return d.toISOString().slice(0, 10);
 }
 
-export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
-    const [selectedKitId, setSelectedKitId] = useState<string | null>(kits[0]?.id ?? null);
-    const [rentalWindow, setRentalWindow] = useState<"standard" | "extended">("standard");
+const img = (path?: string | null) => (path ? `${baseURL}${path}` : "");
+
+/* ---- prop types ------------------------------------------------------------- */
+
+type HolidayDetailsProps = {
+    holiday: ApiHolidayDetail;
+    kits: ApiHolidayKit[];
+    addOns: ApiHolidayAddOn[];
+};
+
+/* ============================================================================ */
+/* HolidayDetails — main client component                                        */
+/* ============================================================================ */
+
+export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsProps) {
+    // sort kits in STARTER → PREMIUM → ULTIMATE order
+    const sortedKits = [...kits].sort(
+        (a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier),
+    );
+
+    const defaultKit = sortedKits.find((k) => k.tier === "PREMIUM") ?? sortedKits[0] ?? null;
+
+    const [selectedKitId, setSelectedKitId] = useState<string | null>(defaultKit?.id ?? null);
+    const [duration, setDuration] = useState<30 | 60>(30);
     const [selectedAddons, setSelectedAddons] = useState<Set<string>>(new Set());
+    const [quickViewId, setQuickViewId] = useState<string | null>(null);
     const [startDate, setStartDate] = useState<string>(todayIso());
+    const [activeThumb, setActiveThumb] = useState(0);
     const [submitting, setSubmitting] = useState(false);
 
     const { data: session } = auth.useSession();
@@ -77,29 +93,24 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
         toggleLove(holiday.id);
     };
 
-    const selectedKit = kits.find((k) => k.id === selectedKitId) ?? null;
+    /* ---- derived state ------------------------------------------------------ */
 
+    const selectedKit = sortedKits.find((k) => k.id === selectedKitId) ?? null;
     const price30 = selectedKit ? Number(selectedKit.price30Day) : 0;
     const price60 = selectedKit ? Number(selectedKit.price60Day) : 0;
     const kitDeposit = selectedKit ? Number(selectedKit.deposit) : 0;
-    const extendedDelta = Math.max(0, price60 - price30);
 
-    const kitPrice = price30;
-    const extendedFee = rentalWindow === "extended" ? extendedDelta : 0;
-    const rentalDays = rentalWindow === "extended" ? 60 : 30;
-    const endDate = addDaysIso(startDate, rentalDays);
-
-    const addOnDeposit = [...selectedAddons].reduce((sum, id) => {
-        const a = addOns.find((x) => x.addOn.id === id);
-        return sum + (a ? Number(a.addOn.deposit) : 0);
-    }, 0);
+    const currentPrice = duration === 30 ? price30 : price60;
+    const endDate = addDaysIso(startDate, duration);
 
     const addonTotal = [...selectedAddons].reduce((sum, id) => {
         const a = addOns.find((x) => x.addOn.id === id);
         return sum + (a ? Number(a.addOn.price) : 0);
     }, 0);
-
-    const total = kitPrice + extendedFee + (kitDeposit + addOnDeposit) + addonTotal;
+    const addOnDeposit = [...selectedAddons].reduce((sum, id) => {
+        const a = addOns.find((x) => x.addOn.id === id);
+        return sum + (a ? Number(a.addOn.deposit) : 0);
+    }, 0);
 
     const toggleAddon = (id: string) => {
         setSelectedAddons((prev) => {
@@ -109,7 +120,26 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
         });
     };
 
-    const handleAddToCart = async (next: "/cart" | "/checkout") => {
+    const quickViewAddOn = addOns.find((x) => x.addOn.id === quickViewId) ?? null;
+
+    /* ---- gallery images ----------------------------------------------------- */
+
+    const galleryImages: { src: string; alt: string }[] = [
+        { src: img(holiday.image), alt: holiday.name },
+        ...(selectedKit?.previewItems?.slice(0, 3).map((p) => ({
+            src: img(p.item.image),
+            alt: p.item.name,
+        })) ?? []),
+    ];
+    // ensure at least 3 thumbs by padding with the main holiday image
+    while (galleryImages.length < 3) {
+        galleryImages.push({ src: img(holiday.image), alt: holiday.name });
+    }
+    const mainImage = galleryImages[activeThumb] ?? galleryImages[0];
+
+    /* ---- add to cart -------------------------------------------------------- */
+
+    const handleAddToCart = async () => {
         if (!session?.user) {
             router.push("/signin");
             return;
@@ -127,13 +157,13 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
             await addToCart({
                 holidayId: holiday.id,
                 kitId: selectedKit.id,
-                duration: rentalWindow === "extended" ? "SIXTY_DAY" : "THIRTY_DAY",
+                duration: duration === 60 ? "SIXTY_DAY" : "THIRTY_DAY",
                 startDate,
                 endDate,
                 addOns: [...selectedAddons].map((addOnId) => ({ addOnId, qty: 1 })),
             });
-            toast.success("Added to cart");
-            router.push(next);
+            toast.success("Added to cart!");
+            router.push("/cart");
         } catch (e) {
             toast.error(e instanceof Error ? e.message : "Failed to add to cart");
         } finally {
@@ -141,112 +171,135 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
         }
     };
 
+    /* ---- included pieces list ---------------------------------------------- */
+
+    const pieces = selectedKit?.items ?? [];
+
+    /* ---- render ------------------------------------------------------------- */
+
+    const catCls = CATEGORY_CLS[holiday.category] ?? "";
+    const catLabel = CATEGORY_LABEL[holiday.category] ?? "Holiday";
+
+    // For the 60-day option: show savings % if > 0
+    const savings60Pct =
+        price30 > 0 && price60 > 0 && price60 < price30 * 2
+            ? Math.round((1 - price60 / (price30 * 2)) * 100)
+            : 0;
+
     return (
-        <section className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
-            <div className="flex items-center justify-between">
-                {/* Breadcrumb */}
-                <Breadcrumb>
-                    <BreadcrumbList>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href="/catalog">Catalog</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>{holiday.name}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-                {/* Top bar */}
-                <button
-                    type="button"
-                    onClick={onToggleLove}
-                    aria-pressed={loved}
-                    className={cn("hidden sm:flex items-center gap-2", loved && "text-rose-500")}
-                >
-                    <HugeiconsIcon size={20} icon={Heart} fill={loved ? "currentColor" : "none"} />
-                    <span className="underline">{loved ? "Saved" : "Save"}</span>
-                </button>
-            </div>
-            {/* Gallery */}
-            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 grid-rows-3 md:grid-rows-2 gap-1 h-auto md:h-112 rounded-2xl overflow-hidden">
-                {Array.from({ length: 5 }, (_, index) => {
-                    if (index === 0) return { src: holiday.image, alt: holiday.name };
-                    const preview = selectedKit?.previewItems?.[index - 1];
-                    return preview ? { src: preview.item.image, alt: preview.item.name } : { src: holiday.image, alt: holiday.name };
-                }).map((image, index) => (
-                    <img
-                        key={index}
-                        src={`${baseURL}${image.src}`}
-                        alt={image.alt}
-                        crossOrigin="anonymous"
-                        className={cn(
-                            "w-full h-48 md:h-full object-cover bg-muted",
-                            index === 0 ? "col-span-2 row-span-1 md:row-span-2" : "",
-                        )}
-                    />
-                ))}
-            </div>
-            {/* Main Content */}
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 items-start">
-                {/* Left Column */}
-                <div>
-                    {/* Tag + Title */}
-                    <div className="flex justify-between items-center">
-                        <div className="w-max bg-primary/10 text-primary border border-primary/30 rounded-full px-4 py-1.5">
-                            {categoryLabel[holiday.category]}
+        <>
+            {/* BREADCRUMB */}
+            <nav
+                aria-label="Breadcrumb"
+                style={{
+                    maxWidth: "var(--cb-max)",
+                    margin: "0 auto",
+                    padding: "22px 24px 0",
+                    fontSize: 13,
+                    color: "var(--cb-ink-muted)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    flexWrap: "wrap" as const,
+                }}
+            >
+                <a href="/" style={{ color: "var(--cb-purple)", fontWeight: 500 }}>Home</a>
+                <span style={{ color: "var(--cb-ink-soft)" }}>/</span>
+                <a href="/catalog" style={{ color: "var(--cb-purple)", fontWeight: 500 }}>Catalog</a>
+                <span style={{ color: "var(--cb-ink-soft)" }}>/</span>
+                <span aria-current="page">{holiday.name}</span>
+            </nav>
+
+            {/* TWO-COLUMN KIT DETAIL */}
+            <div className="cb-kit-page">
+
+                {/* ---- LEFT: Gallery ----------------------------------------- */}
+                <div className="cb-kit-left">
+                    <div className="cb-gallery">
+                        {/* Main image */}
+                        <div className="cb-gallery-main">
+                            <img src={mainImage.src} alt={mainImage.alt} loading="eager" />
                         </div>
-                        <button
-                            type="button"
-                            onClick={onToggleLove}
-                            aria-pressed={loved}
-                            className={cn("flex sm:hidden items-center gap-2", loved && "text-rose-500")}
-                        >
-                            <HugeiconsIcon size={20} icon={Heart} fill={loved ? "currentColor" : "none"} />
-                            <span className="underline">{loved ? "Saved" : "Save"}</span>
-                        </button>
+                        {/* Thumbs */}
+                        <div className="cb-gallery-thumbs" role="list" aria-label="Kit photo gallery">
+                            {galleryImages.slice(0, 3).map((g, i) => (
+                                <button
+                                    key={i}
+                                    role="listitem"
+                                    type="button"
+                                    className={`cb-gallery-thumb${activeThumb === i ? " active" : ""}`}
+                                    onClick={() => setActiveThumb(i)}
+                                    aria-label={`View ${g.alt}`}
+                                >
+                                    <img src={g.src} alt="" />
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* ---- RIGHT: Product panel ----------------------------------- */}
+                <aside className="cb-kit-right" aria-label="Kit details and booking">
+
+                    {/* Meta / rating */}
+                    <div className="cb-kit-meta-top">
+                        <div className="cb-kit-rating" aria-label="Rated 4.9 out of 5">
+                            <span className="stars" aria-hidden="true">★★★★★</span>
+                            <span><strong>4.9</strong></span>
+                            <span className="count">(127 reviews)</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                            <h1 className="cb-kit-title-h1">
+                                {holiday.name} {selectedKit ? TIER_LABEL[selectedKit.tier] : ""} Kit
+                            </h1>
+                            {/* Wishlist heart */}
+                            <button
+                                type="button"
+                                onClick={onToggleLove}
+                                aria-pressed={loved}
+                                className="cb-kit-wish-icon"
+                                aria-label={loved ? "Remove from wishlist" : "Save to wishlist"}
+                            >
+                                {loved ? "♥" : "♡"}
+                            </button>
+                        </div>
+                        {holiday.description && (
+                            <p className="cb-kit-short-desc">{holiday.description}</p>
+                        )}
+                        {!holiday.description && (
+                            <p className="cb-kit-short-desc">
+                                Designer-curated {holiday.name} décor kit — styled pieces, delivered to your door, picked up when the season ends. Decorate beautifully, store nothing.
+                            </p>
+                        )}
+                        <span className={`cb-cat-badge ${catCls}`} style={{ position: "static", display: "inline-block", marginBottom: 4 }}>
+                            {catLabel}
+                        </span>
                     </div>
 
-                    <h3 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-semibold">{holiday.name}</h3>
-                    {holiday.description ? <p className="mt-1">{holiday.description}</p> : null}
-                    <div className="mt-4 flex items-center gap-2">
-                        <span className="text-amber-400 tracking-widest">★★★★★</span>
-                        <span className="text-stone-400">4.5 (52 Reviews)</span>
-                    </div>
-
-                    {/* Choose Kit */}
-                    {kits.length > 0 && (
-                        <div className="mt-6">
-                            <p className="text-sm font-medium uppercase mb-2">Choose your kit</p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {kits.map((k) => {
-                                    const active = selectedKitId === k.id;
+                    {/* Tier Selector */}
+                    {sortedKits.length > 0 && (
+                        <div className="cb-tier-selector" role="group" aria-labelledby="tier-label">
+                            <div className="cb-tier-selector-label" id="tier-label">Choose a tier</div>
+                            <div className="cb-tier-options">
+                                {sortedKits.map((k) => {
+                                    const isSelected = selectedKitId === k.id;
                                     const isPopular = k.tier === "PREMIUM";
-                                    const itemCount = k.items.reduce((sum, i) => sum + i.qty, 0);
                                     return (
                                         <button
                                             key={k.id}
+                                            type="button"
+                                            className={`cb-tier-card${isSelected ? " selected" : ""}`}
                                             onClick={() => setSelectedKitId(k.id)}
-                                            className={`relative text-left rounded-2xl border p-4 space-y-2 transition-all ${
-                                                active
-                                                    ? "bg-linear-to-r from-primary/10 to-secondary/10 border-primary"
-                                                    : "bg-transparent hover:bg-linear-to-r hover:from-primary/10 hover:to-secondary/10"
-                                            }`}
+                                            role="radio"
+                                            aria-checked={isSelected}
+                                            aria-label={`${TIER_LABEL[k.tier]} tier, from $${Number(k.price30Day)}`}
                                         >
                                             {isPopular && (
-                                                <div className="absolute top-4 right-4 px-4 py-0.5 bg-linear-to-r from-primary to-secondary rounded-full w-fit">
-                                                    <span className="text-sm text-white font-medium uppercase">Most Popular</span>
-                                                </div>
+                                                <span className="cb-tier-badge-pill">★ Most loved</span>
                                             )}
-                                            <p className="font-semibold">{tierLabel[k.tier]}</p>
-                                            <p className="text-2xl bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary font-semibold">
-                                                ${Number(k.price30Day)}
-                                            </p>
-                                            <p className="text-sm text-muted-foreground">{tierTagline[k.tier]}</p>
-                                            <p className="text-xs text-muted-foreground">Includes {itemCount} décor pieces</p>
+                                            <div className="cb-tier-name">{TIER_LABEL[k.tier]}</div>
+                                            <div className="cb-tier-price">${Number(k.price30Day)}</div>
+                                            <div className="cb-tier-sub">From / 30 days</div>
                                         </button>
                                     );
                                 })}
@@ -254,143 +307,270 @@ export function HolidayDetails({ holiday, kits, addOns }: HolidayDetailsProps) {
                         </div>
                     )}
 
-                    {/* Rental Window */}
-                    <div className="mt-6">
-                        <p className="text-sm font-medium uppercase mb-2">Rental window</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Duration Toggle */}
+                    <div className="cb-duration-toggle" role="group" aria-labelledby="dur-label">
+                        <div className="cb-duration-label" id="dur-label">Rental duration</div>
+                        <div className="cb-dur-options">
                             <button
-                                onClick={() => setRentalWindow("standard")}
-                                className={`relative rounded-2xl border p-4 space-y-1 transition-all ${
-                                    rentalWindow === "standard" ? "bg-primary/10 border-primary" : "bg-transparent hover:bg-primary/10"
-                                }`}
+                                type="button"
+                                className={`cb-dur-opt${duration === 30 ? " selected" : ""}`}
+                                onClick={() => setDuration(30)}
+                                role="radio"
+                                aria-checked={duration === 30}
+                                aria-label="30-day rental"
                             >
-                                <p className="font-medium">Standard</p> <p className="text-sm">30 Days</p>
+                                <div className="cb-dur-days">30 days</div>
+                                <div className="cb-dur-price">${price30}</div>
                             </button>
                             <button
-                                onClick={() => setRentalWindow("extended")}
-                                className={`relative rounded-2xl border p-4 space-y-1 transition-all ${
-                                    rentalWindow === "extended" ? "bg-primary/10 border-primary" : "bg-transparent hover:bg-primary/10"
-                                }`}
+                                type="button"
+                                className={`cb-dur-opt${duration === 60 ? " selected" : ""}`}
+                                onClick={() => setDuration(60)}
+                                role="radio"
+                                aria-checked={duration === 60}
+                                aria-label={`60-day rental${savings60Pct > 0 ? `, save ${savings60Pct}%` : ""}`}
                             >
-                                <p className="font-medium">Extended</p>{" "}
-                                <p className="text-sm">60 Days {extendedDelta > 0 ? `(+$${extendedDelta})` : ""}</p>
+                                <div className="cb-dur-days">60 days</div>
+                                <div className="cb-dur-price">${price60}</div>
+                                {savings60Pct > 0 && (
+                                    <div className="cb-dur-save">Save {savings60Pct}%</div>
+                                )}
                             </button>
                         </div>
                     </div>
 
-                    {/* Select Dates */}
-                    <div className="mt-6">
-                        <p className="text-sm font-medium uppercase mb-2">Select your dates</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <Input type="date" value={startDate} min={todayIso()} onChange={(e) => setStartDate(e.target.value)} />
-                            <Input type="date" value={endDate} disabled readOnly />
-                        </div>
-                        <p className="text-sm text-emerald-600 flex items-center gap-1 mt-2">
-                            <HugeiconsIcon size={16} icon={Tick} />
-                            Available for your selected dates
-                        </p>
+                    {/* Price + Deposit */}
+                    <div className="cb-price-row" aria-live="polite" aria-label="Current price">
+                        <span className="cb-price-main">${currentPrice}</span>
+                        <span className="cb-price-period">/ rental period</span>
+                    </div>
+                    <div className="cb-deposit-line">
+                        <span className="cb-badge-green">Fully refundable</span>
+                        <span>+ ${kitDeposit + addOnDeposit} deposit returned when you send it back</span>
                     </div>
 
-                    {/* Add-ons */}
-                    {addOns.length > 0 && (
-                        <>
-                            <Separator className="mt-6" />
-                            <div className="mt-6">
-                                <p className="text-sm font-medium uppercase mb-2">Add-Ons</p>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {addOns.map(({ addOn }) => {
-                                        const active = selectedAddons.has(addOn.id);
-                                        return (
-                                            <button
-                                                key={addOn.id}
-                                                onClick={() => toggleAddon(addOn.id)}
-                                                className={`relative text-left rounded-2xl border p-4 transition-all ${
-                                                    active
-                                                        ? "border-emerald-300 bg-emerald-50"
-                                                        : "border-border bg-background hover:bg-muted/40"
-                                                }`}
-                                            >
-                                                <div
-                                                    className={`absolute top-4 right-4 p-1.5 rounded-full ${
-                                                        active ? "bg-emerald-500 text-white" : "bg-muted"
-                                                    }`}
+                    {/* Date picker (compact) */}
+                    <div style={{ marginBottom: 16 }}>
+                        <div style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: "0.1em", color: "var(--cb-ink-muted)", marginBottom: 8 }}>
+                            Start date
+                        </div>
+                        <input
+                            type="date"
+                            value={startDate}
+                            min={todayIso()}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            style={{
+                                width: "100%",
+                                height: 44,
+                                padding: "0 14px",
+                                borderRadius: 12,
+                                border: "1.5px solid var(--cb-line)",
+                                fontSize: 15,
+                                fontFamily: "inherit",
+                                color: "var(--cb-ink)",
+                                background: "#fff",
+                            }}
+                        />
+                    </div>
+
+                    {/* CTA Buttons */}
+                    <div className="cb-cta-group">
+                        <button
+                            type="button"
+                            className="cb-btn-cart"
+                            onClick={handleAddToCart}
+                            disabled={submitting || !selectedKit}
+                            aria-label={`Add ${holiday.name} kit to cart for $${currentPrice}`}
+                        >
+                            {submitting ? "Adding…" : `Add to Cart — $${currentPrice + addonTotal}`}
+                        </button>
+                        <button
+                            type="button"
+                            className={`cb-btn-wishlist${loved ? " active" : ""}`}
+                            onClick={onToggleLove}
+                            aria-pressed={loved}
+                        >
+                            {loved ? "♥" : "♡"} {loved ? "Saved to Wishlist" : "Save to Wishlist"}
+                        </button>
+                    </div>
+
+                    {/* Trust strip */}
+                    <div className="cb-trust-strip" role="list" aria-label="Trust guarantees">
+                        <div className="cb-trust-item" role="listitem">
+                            <span className="ti-icon" aria-hidden="true">📦</span>
+                            <span className="ti-label">Free shipping</span>
+                            both ways
+                        </div>
+                        <div className="cb-trust-item" role="listitem">
+                            <span className="ti-icon" aria-hidden="true">🚪</span>
+                            <span className="ti-label">Doorstep pickup</span>
+                            when done
+                        </div>
+                        <div className="cb-trust-item" role="listitem">
+                            <span className="ti-icon" aria-hidden="true">💜</span>
+                            <span className="ti-label">Deposit back</span>
+                            in 5 days
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+
+            {/* ---- BELOW-FOLD ------------------------------------------------ */}
+            <div className="cb-kit-below">
+
+                {/* What is Included */}
+                {pieces.length > 0 && (
+                    <section className="cb-included-section" aria-labelledby="included-heading">
+                        <div className="cb-sec-label">What&apos;s inside</div>
+                        <h2 id="included-heading">
+                            {pieces.reduce((s, p) => s + p.qty, 0)} hand-picked pieces, styled and ready
+                        </h2>
+                        <div className="cb-pieces-grid" role="list" aria-label="Included decoration pieces">
+                            {pieces.map(({ item, qty }) => (
+                                <div key={item.id} className="cb-piece-card" role="listitem">
+                                    <div className="cb-piece-thumb">
+                                        <img src={img(item.image)} alt={item.name} />
+                                    </div>
+                                    <div className="cb-piece-info">
+                                        <div className="cb-piece-name">{item.name}</div>
+                                        <div className="cb-piece-qty">{qty} pc{qty !== 1 ? "s" : ""} · {item.category}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Add-Ons */}
+                {addOns.length > 0 && (
+                    <section className="cb-addons-section" aria-labelledby="addons-heading">
+                        <div className="cb-sec-label">Elevate your kit</div>
+                        <h2 id="addons-heading">Optional add-ons</h2>
+                        <div className="cb-addons-grid" role="group" aria-label="Optional add-ons">
+                            {addOns.map(({ addOn }) => {
+                                const checked = selectedAddons.has(addOn.id);
+                                const deposit = Number(addOn.deposit);
+                                return (
+                                    <article key={addOn.id} className={`cb-addon-tile${checked ? " checked" : ""}`}>
+                                        <button
+                                            type="button"
+                                            className="cb-addon-media"
+                                            onClick={() => setQuickViewId(addOn.id)}
+                                            aria-label={`View details for ${addOn.name}`}
+                                        >
+                                            {img(addOn.image) ? (
+                                                <img src={img(addOn.image)} alt={addOn.name} />
+                                            ) : (
+                                                <span className="cb-addon-media-ph" aria-hidden="true">🎁</span>
+                                            )}
+                                            {checked && <span className="cb-addon-tick" aria-hidden="true">✓</span>}
+                                            <span className="cb-addon-view" aria-hidden="true">View details</span>
+                                        </button>
+                                        <div className="cb-addon-info">
+                                            <div className="cb-addon-line">
+                                                <h3 className="cb-addon-name">{addOn.name}</h3>
+                                                <span className="cb-addon-price">+${Number(addOn.price)}</span>
+                                            </div>
+                                            {addOn.description && (
+                                                <p className="cb-addon-desc">{addOn.description}</p>
+                                            )}
+                                            <div className="cb-addon-foot">
+                                                <span className={`cb-addon-deposit${deposit > 0 ? "" : " none"}`}>
+                                                    {deposit > 0 ? `$${deposit} deposit · refundable` : "No deposit"}
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    className={`cb-addon-add${checked ? " on" : ""}`}
+                                                    onClick={() => toggleAddon(addOn.id)}
+                                                    aria-pressed={checked}
+                                                    aria-label={`${checked ? "Remove" : "Add"} ${addOn.name}`}
                                                 >
-                                                    <HugeiconsIcon size={20} icon={active ? Tick : Plus} />
-                                                </div>
-                                                <p className="font-medium text-foreground pr-10">{addOn.name}</p>
-                                                <p className="mt-1 text-sm text-muted-foreground">{addOn.sku}</p>
-                                                <p className="mt-3 text-lg text-emerald-600 font-semibold">${Number(addOn.price)}</p>
-                                            </button>
-                                        );
-                                    })}
+                                                    {checked ? "✓ Added" : "+ Add"}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </article>
+                                );
+                            })}
+                        </div>
+                    </section>
+                )}
+
+                {/* Add-on quick-view modal */}
+                <Dialog
+                    open={quickViewId !== null}
+                    onOpenChange={(open) => {
+                        if (!open) setQuickViewId(null);
+                    }}
+                >
+                    <DialogContent className="cb-addon-modal p-0 gap-0 sm:max-w-[440px] overflow-hidden">
+                        {quickViewAddOn && (
+                            <div className="cb-qv">
+                                <div className="cb-qv-media">
+                                    {img(quickViewAddOn.addOn.image) ? (
+                                        <img src={img(quickViewAddOn.addOn.image)} alt={quickViewAddOn.addOn.name} />
+                                    ) : (
+                                        <span className="cb-addon-media-ph" aria-hidden="true">🎁</span>
+                                    )}
+                                </div>
+                                <div className="cb-qv-body">
+                                    <DialogTitle className="cb-qv-title">{quickViewAddOn.addOn.name}</DialogTitle>
+                                    <DialogDescription className="cb-qv-desc">
+                                        {quickViewAddOn.addOn.description ?? "A premium finishing touch for your celebration."}
+                                    </DialogDescription>
+                                    <div className="cb-qv-pricing">
+                                        <div className="cb-qv-prow">
+                                            <span className="cb-qv-k">Rental price</span>
+                                            <span className="cb-qv-v">+${Number(quickViewAddOn.addOn.price)}</span>
+                                        </div>
+                                        {Number(quickViewAddOn.addOn.deposit) > 0 && (
+                                            <div className="cb-qv-prow">
+                                                <span className="cb-qv-k">Refundable deposit</span>
+                                                <span className="cb-qv-v">${Number(quickViewAddOn.addOn.deposit)}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        className={`cb-qv-add${selectedAddons.has(quickViewAddOn.addOn.id) ? " on" : ""}`}
+                                        onClick={() => toggleAddon(quickViewAddOn.addOn.id)}
+                                    >
+                                        {selectedAddons.has(quickViewAddOn.addOn.id) ? "✓ Added to your kit" : "+ Add to kit"}
+                                    </button>
+                                    {Number(quickViewAddOn.addOn.deposit) > 0 && (
+                                        <p className="cb-qv-note">
+                                            Your ${Number(quickViewAddOn.addOn.deposit)} deposit is returned when the item comes back in good condition.
+                                        </p>
+                                    )}
                                 </div>
                             </div>
-                        </>
-                    )}
-                </div>
-                {/* Right Column — Order Card */}
-                <div className="lg:sticky lg:top-6">
-                    <div className="bg-white rounded-2xl border p-4 shadow-lg space-y-4">
-                        <div className="space-y-3">
-                            <p className="text-xl lg:text-2xl font-semibold">What&apos;s Inside Your Kit</p>
-                            {selectedKit && selectedKit.items.length > 0 ? (
-                                selectedKit.items.map(({ qty, item }) => (
-                                    <div key={item.id} className="p-2 rounded-md border flex items-center gap-3">
-                                        <img
-                                            src={`${baseURL}${item.image}`}
-                                            alt={item.name}
-                                            crossOrigin="anonymous"
-                                            className="w-10 h-10 rounded-lg object-cover bg-muted shrink-0"
-                                        />
-                                        <div className="flex-1 min-w-0 space-y-0.5">
-                                            <p className="text-sm font-semibold truncate">
-                                                {item.name} ({qty})
-                                            </p>
-                                            <p className="text-xs text-muted-foreground truncate">{item.category}</p>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-sm text-muted-foreground">Select a kit to see what&apos;s included.</p>
-                            )}
-                            <p className="text-sm text-muted-foreground">Items may vary slightly based on availability and season</p>
-                        </div>
-                        <Separator />
-                        {/* Price Breakdown */}
-                        <div className="bg-muted rounded-md border p-3 space-y-1">
-                            <div className="flex justify-between text-sm text-muted-foreground">
-                                <span>Rental Fee</span>
-                                <span>${kitPrice}</span>
-                            </div>
-                            <div className="flex justify-between text-sm text-muted-foreground">
-                                <span>Extended Fee</span>
-                                <span>${extendedFee}</span>
-                            </div>
-                            <div className="flex justify-between text-sm text-muted-foreground">
-                                <span>Deposit (Refundable)</span>
-                                <span>${kitDeposit + addOnDeposit}</span>
-                            </div>
-                            <div className="flex justify-between text-sm text-muted-foreground">
-                                <span>Add-ons</span>
-                                <span>${addonTotal}</span>
-                            </div>
-                            <div className="flex justify-between font-semibold pt-2 border-t">
-                                <span>Total</span>
-                                <span>${total}</span>
-                            </div>
-                        </div>
+                        )}
+                    </DialogContent>
+                </Dialog>
 
-                        <div className="grid gap-2">
-                            <Button className="border" onClick={() => handleAddToCart("/checkout")} disabled={submitting || !selectedKit}>
-                                Buy It - ${total}
-                            </Button>
-                            <Button variant="black" onClick={() => handleAddToCart("/cart")} disabled={submitting || !selectedKit}>
-                                One-off rental
-                            </Button>
+                {/* Subscription Upsell Band */}
+                <section aria-label="Subscription offer">
+                    <div className="cb-upsell-band">
+                        <div className="cb-upsell-copy">
+                            <div className="cb-upsell-eyebrow">Save up to 30% per kit</div>
+                            <h2>Celebrate every holiday for one monthly price</h2>
+                            <p>CeleBrease members get priority access, free add-ons every season, and never pay per-kit shipping. Join over 2,400 families who decorate without the clutter.</p>
+                            <div className="cb-upsell-perks">
+                                <div className="cb-upsell-perk">6 holidays / year</div>
+                                <div className="cb-upsell-perk">Free two-way shipping</div>
+                                <div className="cb-upsell-perk">Full deposit protection</div>
+                                <div className="cb-upsell-perk">Cancel anytime</div>
+                            </div>
+                        </div>
+                        <div className="cb-upsell-actions">
+                            <a href="/subscription" className="cb-btn-upsell-primary">See Membership Plans</a>
+                            <a href="/how-it-works" className="cb-btn-upsell-ghost">Learn how it works</a>
                         </div>
                     </div>
-                </div>
+                </section>
+
             </div>
-        </section>
+        </>
     );
 }

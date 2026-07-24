@@ -1,23 +1,26 @@
-import { Button } from "@/components/ui/button";
-import { StatusBadge } from "@/components/ui/status-badge";
 import {
     formatDate,
-    formatPlanLabel,
     formatStatus,
-    formatSubId,
     getCurrentHolidayName,
-    getNextActionLabel,
-    getStageLabel,
     type ApiSubscription,
 } from "@/lib/api";
 
-function Field({ label, value }: { label: string; value: React.ReactNode }) {
-    return (
-        <div className="flex flex-col gap-0.5">
-            <span className="text-xs text-muted-foreground">{label}</span>
-            <span className="text-sm font-medium">{value}</span>
-        </div>
-    );
+const STATUS_PILL: Record<ApiSubscription["status"], string> = {
+    ACTIVE: "st-active",
+    PAUSED: "st-paused",
+    CANCELLED: "st-cancelled",
+    EXPIRED: "st-cancelled",
+};
+
+function planBadgeClass(name: string) {
+    const n = name.toLowerCase();
+    if (n.includes("ultimate")) return "plan-ultimate";
+    if (n.includes("premium")) return "plan-premium";
+    return "plan-starter";
+}
+
+function initials(str?: string | null) {
+    return (str?.match(/\b(\w)/g) ?? []).slice(0, 2).join("").toUpperCase() || "?";
 }
 
 type SubscriptionCardProps = {
@@ -26,23 +29,41 @@ type SubscriptionCardProps = {
 };
 
 export function SubscriptionCard({ item, onView }: SubscriptionCardProps) {
+    const totalSlots = item.plan.holidaysPerYear;
+    const usedCount = item.holidaySlots.filter(
+        (s) => s.status === "RETURNED" || s.status === "SKIPPED" || s.status === "SHIPPED" || s.status === "SELECTED"
+    ).length;
+    const pct = totalSlots > 0 ? Math.round((usedCount / totalSlots) * 100) : 0;
+    const yearly = item.billingCycle === "YEARLY";
+
     return (
-        <article className="rounded-xl border border-border bg-card p-4">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-                <StatusBadge status={formatStatus(item.status)} />
-                <span className="text-sm text-muted-foreground">{formatSubId(item.id)}</span>
+        <button type="button" onClick={() => onView(item)} className="sub-mcard">
+            <div className="sub-mcard-top">
+                <div className="cust">
+                    <div className="av">{initials(item.user.name)}</div>
+                    <div>
+                        <div className="nm">{item.user.name}</div>
+                        <div className="em">{item.user.email}</div>
+                    </div>
+                </div>
+                <span className={`status ${STATUS_PILL[item.status]}`}>{formatStatus(item.status)}</span>
             </div>
-            <h3 className="mt-1.5 text-lg font-medium">{item.user.name}</h3>
-            <p className="text-sm">{formatPlanLabel(item)}</p>
-            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                <Field label="Current Holiday" value={getCurrentHolidayName(item)} />
-                <Field label="Stage" value={getStageLabel(item)} />
-                <Field label="Next Action" value={getNextActionLabel(item)} />
-                <Field label="Renewal" value={formatDate(item.nextBillingAt)} />
+            <div className="sub-mcard-badges">
+                <span className={`plan-badge ${planBadgeClass(item.plan.name)}`}>{item.plan.name}</span>
+                <span className={`billing-chip ${yearly ? "billing-yearly" : "billing-monthly"}`}>
+                    {yearly ? "Yearly" : "Monthly"}
+                </span>
             </div>
-            <Button size="sm" onClick={() => onView(item)} className="mt-4 w-full bg-muted text-foreground hover:bg-muted/80">
-                View
-            </Button>
-        </article>
+            <div className="slots-bar">
+                <div className="slots-bar-fill" style={{ width: `${pct}%` }} />
+            </div>
+            <div className="sub-mcard-meta">
+                <span className="slots-text">
+                    <span className="used">{usedCount}</span>
+                    <span className="total">/{totalSlots} used</span>
+                </span>
+                <span className="renews">{getCurrentHolidayName(item)} · {formatDate(item.nextBillingAt)}</span>
+            </div>
+        </button>
     );
 }

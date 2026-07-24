@@ -31,25 +31,21 @@ function SortableRow({ item, onRemove, removing }: SortableRowProps) {
     };
 
     return (
-        <div
-            ref={setNodeRef}
-            style={style}
-            className="flex h-11.5 items-center justify-between rounded-lg border bg-muted/40 pl-2 pr-4 py-2.5"
-        >
-            <div className="flex items-center gap-2">
+        <div ref={setNodeRef} style={style} className="pv-row">
+            <div className="l">
                 <button
                     type="button"
                     {...attributes}
                     {...listeners}
-                    className="cursor-grab active:cursor-grabbing touch-none rounded p-1 text-muted-foreground hover:text-foreground"
+                    className="pv-grip touch-none"
                     aria-label={`Reorder ${item.item.name}`}
                 >
                     <GripVertical className="size-4" />
                 </button>
-                <span className="text-sm capitalize">{item.item.name}</span>
+                <span className="nm">{item.item.name}</span>
             </div>
-            <div className="flex items-center gap-3">
-                <span className="text-xs text-muted-foreground">{item.item.sku}</span>
+            <div className="r">
+                <span className="sku">{item.item.sku}</span>
                 <TrashConfirm
                     name={item.item.name}
                     title="Remove preview item?"

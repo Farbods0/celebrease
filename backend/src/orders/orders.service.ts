@@ -1,13 +1,6 @@
 import { PrismaService } from "@/common/services/prisma.service";
 import { Prisma } from "@/generated/prisma/client";
-import {
-    HolidaySlotStatus,
-    OrderStatus,
-    PaymentStatus,
-    ReturnCondition,
-    SubscriptionStage,
-    SubscriptionStatus,
-} from "@/generated/prisma/enums";
+import { HolidaySlotStatus, OrderStatus, PaymentStatus } from "@/generated/prisma/enums";
 import { InventoryAllocationService } from "@/inventory/inventory-allocation.service";
 import { CreateCheckoutDto, DeliveryOption } from "@/orders/dto/create-checkout.dto";
 import { InspectReturnDto } from "@/orders/dto/inspect-return.dto";
@@ -190,7 +183,7 @@ export class OrdersService {
             return tx.order.update({
                 where: { id },
                 data: {
-                    status: "CANCELLED" as OrderStatus,
+                    status: "CANCELLED",
                     cancelledAt: new Date(),
                 },
                 include: orderInclude,
@@ -266,12 +259,7 @@ export class OrdersService {
         }
         if (filter === "returns") {
             where.status = {
-                in: [
-                    "RETURN_REQUESTED" as OrderStatus,
-                    "RETURN_IN_TRANSIT" as OrderStatus,
-                    "RETURN_RECEIVED" as OrderStatus,
-                    "INSPECTED" as OrderStatus,
-                ],
+                in: ["RETURN_REQUESTED", "RETURN_IN_TRANSIT", "RETURN_RECEIVED", "INSPECTED"],
             };
         }
 
@@ -318,7 +306,7 @@ export class OrdersService {
 
         const now = new Date();
         const data: Prisma.OrderUpdateInput = {
-            status: dto.status as OrderStatus,
+            status: dto.status,
         };
 
         switch (dto.status) {
@@ -365,12 +353,12 @@ export class OrdersService {
             if (dto.status === "SHIPPED" && order.holidaySlotId) {
                 await tx.subscriptionHolidaySlot.update({
                     where: { id: order.holidaySlotId },
-                    data: { status: "SHIPPED" as HolidaySlotStatus },
+                    data: { status: "SHIPPED" },
                 });
                 if (order.subscriptionId) {
                     await tx.subscription.update({
                         where: { id: order.subscriptionId },
-                        data: { stage: "IN_USE" as SubscriptionStage },
+                        data: { stage: "IN_USE" },
                     });
                 }
             }
@@ -405,11 +393,11 @@ export class OrdersService {
 
         // Find active subscription + available slots so we can apply the per-plan discount.
         const subscription = await this.prisma.subscription.findFirst({
-            where: { userId, status: "ACTIVE" as SubscriptionStatus },
+            where: { userId, status: "ACTIVE" },
             include: {
                 plan: { select: { kitDiscount: true, addOnDiscount: true } },
                 holidaySlots: {
-                    where: { status: "PENDING" as HolidaySlotStatus },
+                    where: { status: "PENDING" },
                     orderBy: { slotNumber: "asc" },
                     select: { id: true },
                 },
@@ -510,8 +498,8 @@ export class OrdersService {
                         total: orderTotal,
                         tax: orderTax,
                         shippingFee: orderShipping,
-                        status: "PENDING" as OrderStatus,
-                        paymentStatus: "PENDING" as PaymentStatus,
+                        status: "PENDING",
+                        paymentStatus: "PENDING",
                         items: {
                             create: cart.items.map((ci) => ({ itemId: ci.itemId, qty: ci.qty })),
                         },
@@ -533,7 +521,7 @@ export class OrdersService {
                     await tx.subscriptionHolidaySlot.update({
                         where: { id: p.slotId },
                         data: {
-                            status: "SELECTED" as HolidaySlotStatus,
+                            status: "SELECTED",
                             holidayId: cart.holidayId,
                         },
                     });
@@ -617,7 +605,7 @@ export class OrdersService {
                 await tx.order.update({
                     where: { id },
                     data: {
-                        paymentStatus: "PAID" as PaymentStatus,
+                        paymentStatus: "PAID",
                         paidAt: now,
                         stripePaymentIntentId: i === 0 ? (paymentIntentId ?? null) : null,
                         stripeChargeId: chargeId,
@@ -647,7 +635,7 @@ export class OrdersService {
         return this.prisma.order.update({
             where: { id },
             data: {
-                status: "RETURN_REQUESTED" as OrderStatus,
+                status: "RETURN_REQUESTED",
                 returnRequestedAt: new Date(),
             },
             include: orderInclude,
@@ -764,7 +752,7 @@ export class OrdersService {
                     itemId: l.itemId ?? null,
                     addOnId: l.addOnId ?? null,
                     qty: l.qty,
-                    condition: l.condition as ReturnCondition,
+                    condition: l.condition,
                     feeCharged: new Prisma.Decimal(l.feeCharged ?? 0),
                     notes: l.notes ?? null,
                 })),
@@ -776,14 +764,14 @@ export class OrdersService {
                     itemId: l.itemId ?? null,
                     addOnId: l.addOnId ?? null,
                     qty: l.qty,
-                    condition: l.condition as ReturnCondition,
+                    condition: l.condition,
                 })),
             );
 
             const order = await tx.order.update({
                 where: { id },
                 data: {
-                    status: "INSPECTED" as OrderStatus,
+                    status: "INSPECTED",
                     inspectedAt: now,
                     inspectionNotes: dto.inspectionNotes ?? null,
                     depositRefunded: refund,
@@ -795,7 +783,7 @@ export class OrdersService {
             if (order.holidaySlotId) {
                 await tx.subscriptionHolidaySlot.update({
                     where: { id: order.holidaySlotId },
-                    data: { status: "RETURNED" as HolidaySlotStatus },
+                    data: { status: "RETURNED" },
                 });
             }
 
@@ -812,7 +800,7 @@ export class OrdersService {
                 );
                 await tx.subscription.update({
                     where: { id: order.subscriptionId },
-                    data: { stage: (allDone ? "COMPLETED" : "RETURNED") as SubscriptionStage },
+                    data: { stage: allDone ? "COMPLETED" : "RETURNED" },
                 });
             }
 
@@ -855,7 +843,7 @@ export class OrdersService {
 
         return this.prisma.order.update({
             where: { id },
-            data: { status: "COMPLETED" as OrderStatus, completedAt: new Date() },
+            data: { status: "COMPLETED", completedAt: new Date() },
             include: adminOrderInclude,
         });
     }

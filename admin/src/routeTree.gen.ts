@@ -14,6 +14,7 @@ import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as _mainIndexRouteImport } from './routes/__main/index'
 import { Route as _mainUsersRouteImport } from './routes/__main/users'
 import { Route as _mainSubscriptionsRouteImport } from './routes/__main/subscriptions'
+import { Route as _mainSettingsRouteImport } from './routes/__main/settings'
 import { Route as _mainReviewsRouteImport } from './routes/__main/reviews'
 import { Route as _mainReturnsRouteImport } from './routes/__main/returns'
 import { Route as _mainPlansRouteImport } from './routes/__main/plans'
@@ -49,6 +50,11 @@ const _mainUsersRoute = _mainUsersRouteImport.update({
 const _mainSubscriptionsRoute = _mainSubscriptionsRouteImport.update({
   id: '/subscriptions',
   path: '/subscriptions',
+  getParentRoute: () => _mainRouteRoute,
+} as any)
+const _mainSettingsRoute = _mainSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => _mainRouteRoute,
 } as any)
 const _mainReviewsRoute = _mainReviewsRouteImport.update({
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/plans': typeof _mainPlansRoute
   '/returns': typeof _mainReturnsRoute
   '/reviews': typeof _mainReviewsRoute
+  '/settings': typeof _mainSettingsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
   '/users': typeof _mainUsersRoute
 }
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/plans': typeof _mainPlansRoute
   '/returns': typeof _mainReturnsRoute
   '/reviews': typeof _mainReviewsRoute
+  '/settings': typeof _mainSettingsRoute
   '/subscriptions': typeof _mainSubscriptionsRoute
   '/users': typeof _mainUsersRoute
 }
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/__main/plans': typeof _mainPlansRoute
   '/__main/returns': typeof _mainReturnsRoute
   '/__main/reviews': typeof _mainReviewsRoute
+  '/__main/settings': typeof _mainSettingsRoute
   '/__main/subscriptions': typeof _mainSubscriptionsRoute
   '/__main/users': typeof _mainUsersRoute
   '/__main/': typeof _mainIndexRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/plans'
     | '/returns'
     | '/reviews'
+    | '/settings'
     | '/subscriptions'
     | '/users'
   fileRoutesByTo: FileRoutesByTo
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/plans'
     | '/returns'
     | '/reviews'
+    | '/settings'
     | '/subscriptions'
     | '/users'
   id:
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/__main/plans'
     | '/__main/returns'
     | '/__main/reviews'
+    | '/__main/settings'
     | '/__main/subscriptions'
     | '/__main/users'
     | '/__main/'
@@ -273,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof _mainSubscriptionsRouteImport
+      parentRoute: typeof _mainRouteRoute
+    }
+    '/__main/settings': {
+      id: '/__main/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof _mainSettingsRouteImport
       parentRoute: typeof _mainRouteRoute
     }
     '/__main/reviews': {
@@ -397,6 +416,7 @@ interface _mainRouteRouteChildren {
   _mainPlansRoute: typeof _mainPlansRoute
   _mainReturnsRoute: typeof _mainReturnsRoute
   _mainReviewsRoute: typeof _mainReviewsRoute
+  _mainSettingsRoute: typeof _mainSettingsRoute
   _mainSubscriptionsRoute: typeof _mainSubscriptionsRoute
   _mainUsersRoute: typeof _mainUsersRoute
   _mainIndexRoute: typeof _mainIndexRoute
@@ -412,6 +432,7 @@ const _mainRouteRouteChildren: _mainRouteRouteChildren = {
   _mainPlansRoute: _mainPlansRoute,
   _mainReturnsRoute: _mainReturnsRoute,
   _mainReviewsRoute: _mainReviewsRoute,
+  _mainSettingsRoute: _mainSettingsRoute,
   _mainSubscriptionsRoute: _mainSubscriptionsRoute,
   _mainUsersRoute: _mainUsersRoute,
   _mainIndexRoute: _mainIndexRoute,

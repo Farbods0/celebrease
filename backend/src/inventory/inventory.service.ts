@@ -1,8 +1,9 @@
 import { PrismaService } from "@/common/services/prisma.service";
+import { AdjustStockDto } from "@/inventory/dto/adjust-stock.dto";
 import { CreateItemDto } from "@/inventory/dto/create-item.dto";
 import { UpdateItemDto } from "@/inventory/dto/update-item.dto";
 import { UploadService } from "@/upload/upload.service";
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 const itemInclude = {
     kitItems: {
@@ -102,7 +103,7 @@ export class InventoryService {
     async update(id: string, dto: UpdateItemDto) {
         const existing = await this.prisma.item.findUnique({
             where: { id },
-            select: { id: true, sku: true, image: true, inventory: { select: { availableQty: true } } },
+            select: { id: true, sku: true, image: true, inventory: { select: { totalQty: true } } },
         });
         if (!existing) throw new NotFoundException("Inventory item not found");
 
@@ -113,7 +114,7 @@ export class InventoryService {
             }
         }
 
-        const diffQty = dto?.totalQty && existing.inventory ? dto.totalQty - existing.inventory.availableQty : 0;
+        const diffQty = dto?.totalQty !== undefined && existing.inventory ? dto.totalQty - existing.inventory.totalQty : 0;
 
         const updated = await this.prisma.$transaction(async (tx) => {
             if (dto.kits !== undefined) {
@@ -165,5 +166,59 @@ export class InventoryService {
             await this.uploadService.deleteImage(item.image).catch(() => undefined);
         }
         return deleted;
+    }
+
+    /**
+     * Apply manual stock-bucket adjustments. Each delta can be positive or negative.
+     * Validates that the resulting bucket counts are non-negative and that
+     * total = available + reserved + shipped + cleaning + repair + lost (lost stays counted).
+     */
+    async adjustStock(id: string, dto: AdjustStockDto) {
+        const item = await this.prisma.item.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                inventory: {
+                    select: {
+                        totalQty: true,
+                        availableQty: true,
+                        reservedQty: true,
+                        shippedQty: true,
+                        cleaningQty: true,
+                        repairQty: true,
+                        lostQty: true,
+                    },
+                },
+            },
+        });
+        if (!item) throw new NotFoundException("Inventory item not found");
+        if (!item.inventory) throw new BadRequestException("Item has no inventory record");
+
+        const inv = item.inventory;
+        const next = {
+            totalQty: inv.totalQty + (dto.totalDelta ?? 0),
+            availableQty: inv.availableQty + (dto.availableDelta ?? 0),
+            reservedQty: inv.reservedQty + (dto.reservedDelta ?? 0),
+            shippedQty: inv.shippedQty + (dto.shippedDelta ?? 0),
+            cleaningQty: inv.cleaningQty + (dto.cleaningDelta ?? 0),
+            repairQty: inv.repairQty + (dto.repairDelta ?? 0),
+            lostQty: inv.lostQty + (dto.lostDelta ?? 0),
+        };
+
+        for (const [k, v] of Object.entries(next)) {
+            if (v < 0) throw new BadRequestException(`${k} cannot be negative (would become ${v})`);
+        }
+
+        const bucketSum = next.availableQty + next.reservedQty + next.shippedQty + next.cleaningQty + next.repairQty + next.lostQty;
+        if (bucketSum > next.totalQty) {
+            throw new BadRequestException(`Stock buckets (${bucketSum}) exceed total (${next.totalQty}). Adjust totalDelta to compensate.`);
+        }
+
+        await this.prisma.inventory.update({
+            where: { itemId: id },
+            data: next,
+        });
+
+        return this.getById(id);
     }
 }

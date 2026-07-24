@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
@@ -43,34 +42,140 @@ export function VerificationForm({ user, type }: { user: string; type: "signup" 
         });
     };
 
+    const isCountingDown = resendDisabled && countdown > 0;
+
     return (
         <>
-            <div className="text-center grid gap-2">
-                <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                    <svg className="w-8 h-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                    </svg>
-                </div>
-                <h2>Check your email</h2>
-                <p>We&apos;ve sent a {type === "reset" ? "password reset" : "verification"} link to</p>
-                {user && <p className="font-medium text-foreground">{user}</p>}
-            </div>
+            <style>{`
+                .cb-verify-resend-row {
+                    text-align: center;
+                    font-size: 14px;
+                    color: #5B4A6B;
+                    margin-bottom: 14px;
+                    line-height: 1.5;
+                }
+                .cb-verify-resend-btn {
+                    background: none;
+                    border: none;
+                    font-family: inherit;
+                    font-size: 14px;
+                    color: #9B2FC9;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: opacity .2s;
+                    padding: 0;
+                    text-decoration: none;
+                }
+                .cb-verify-resend-btn:hover:not(:disabled) {
+                    text-decoration: underline;
+                    opacity: .82;
+                }
+                .cb-verify-resend-btn:disabled {
+                    color: #8979A0;
+                    cursor: not-allowed;
+                    font-weight: 500;
+                }
+                .cb-verify-resend-timer {
+                    font-weight: 600;
+                    color: #5B4A6B;
+                }
+                .cb-verify-btn-primary {
+                    width: 100%;
+                    height: 52px;
+                    border-radius: 9999px;
+                    background: linear-gradient(to right, #9B2FC9, #DC0075);
+                    color: #fff;
+                    font-size: 16px;
+                    font-weight: 700;
+                    letter-spacing: 0.01em;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    border: none;
+                    cursor: pointer;
+                    box-shadow: 0 20px 60px rgba(220,0,117,0.18);
+                    transition: opacity .2s, transform .2s, box-shadow .2s;
+                    margin-bottom: 20px;
+                    font-family: inherit;
+                    text-decoration: none;
+                }
+                .cb-verify-btn-primary:hover:not(:disabled) {
+                    transform: translateY(-2px);
+                    box-shadow: 0 24px 56px rgba(220,0,117,0.28);
+                }
+                .cb-verify-btn-primary:active { transform: translateY(0); }
+                .cb-verify-btn-primary:disabled {
+                    opacity: 0.55;
+                    cursor: not-allowed;
+                    transform: none;
+                    box-shadow: none;
+                }
+                .cb-verify-btn-outline {
+                    width: 100%;
+                    height: 50px;
+                    border-radius: 9999px;
+                    border: 2px solid transparent;
+                    background: linear-gradient(#fff, #fff) padding-box, linear-gradient(to right, #9B2FC9, #DC0075) border-box;
+                    color: #9B2FC9;
+                    font-size: 15px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all .2s;
+                    font-family: inherit;
+                    text-decoration: none;
+                    margin-bottom: 0;
+                }
+                .cb-verify-btn-outline:hover:not(:disabled) {
+                    background: linear-gradient(to right, #9B2FC9, #DC0075);
+                    color: #fff;
+                }
+                .cb-verify-btn-outline:disabled {
+                    opacity: 0.55;
+                    cursor: not-allowed;
+                }
+            `}</style>
 
-            <div className="grid gap-4">
-                <p className="text-center mb-2">
-                    Didn&apos;t receive the email?
-                    <br /> Check your spam folder or
-                </p>
-                <Button variant="outline" onClick={handleResendEmail} disabled={resendDisabled || loading}>
-                    {loading ? "Sending..." : resendDisabled && countdown > 0 ? `Resend in ${countdown}s` : "Resend Email"}
-                </Button>
-                <Button variant="black" nativeButton={false} render={<Link href="/signin">Back to Sign In</Link>} />
-            </div>
+            <button
+                type="button"
+                className="cb-verify-btn-primary"
+                onClick={handleResendEmail}
+                disabled={resendDisabled || loading}
+            >
+                {loading
+                    ? "Sending..."
+                    : isCountingDown
+                    ? `Resend in ${countdown}s`
+                    : "Resend Email →"}
+            </button>
+
+            <p className="cb-verify-resend-row">
+                {isCountingDown ? (
+                    <>
+                        Didn&apos;t receive it? You can resend in{" "}
+                        <span className="cb-verify-resend-timer">{countdown}s</span>
+                    </>
+                ) : (
+                    <>
+                        Didn&apos;t receive it? Check spam or{" "}
+                        <button
+                            type="button"
+                            className="cb-verify-resend-btn"
+                            onClick={handleResendEmail}
+                            disabled={resendDisabled || loading}
+                        >
+                            resend
+                        </button>
+                    </>
+                )}
+            </p>
+
+            <Link href="/signin" className="cb-verify-btn-outline">
+                Back to Sign In
+            </Link>
         </>
     );
 }

@@ -8,7 +8,7 @@ export function FormSubmit({ label }: { label: string }) {
     return (
         <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
-                <Button type="submit" variant="black" disabled={!canSubmit}>
+                <Button type="submit" variant="gradient" disabled={!canSubmit}>
                     {isSubmitting ? <Spinner /> : label}
                 </Button>
             )}

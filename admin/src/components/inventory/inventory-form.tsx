@@ -2,7 +2,7 @@ import { useAppForm } from "@/components/form/form-context";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogClose, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { inventoryApi, type ApiHoliday, type ApiItem } from "@/lib/api";
+import { formatKitTier, inventoryApi, type ApiHoliday, type ApiItem } from "@/lib/api";
 import { getHolidays } from "@/lib/utils";
 import { useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
@@ -83,7 +83,7 @@ export function InventoryForm({ item, onClose }: { item?: ApiItem; onClose: () =
             vendorEmail: item?.vendorEmail ?? "",
             vendorPhone: item?.vendorPhone ?? "",
             costPerUnit: item ? String(item.costPerUnit) : "0",
-            totalQty: item?.inventory ? String(item.inventory.availableQty) : "0",
+            totalQty: item?.inventory ? String(item.inventory.totalQty) : "0",
             lowStockThreshold: item ? String(item.lowStockThreshold) : "0",
             status: item?.status ?? "ACTIVE",
         },
@@ -262,7 +262,7 @@ export function InventoryForm({ item, onClose }: { item?: ApiItem; onClose: () =
                         }
                         return holiday.kits.map((kit) => {
                             const checked = selectedKits.has(kit.id);
-                            const tierLabel = kit.tier === "STARTER" ? "Starter" : kit.tier === "PREMIUM" ? "Premium" : "Ultimate";
+                            const tierLabel = formatKitTier(kit.tier);
                             return (
                                 <div key={kit.id} className="flex items-center justify-between rounded-lg border bg-white p-2 pl-3 gap-3">
                                     <div className="flex items-center gap-3">

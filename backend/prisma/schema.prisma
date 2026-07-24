@@ -599,6 +599,8 @@ model Order {
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @updatedAt
 
+    adminNotes String?
+
     items       OrderItem[]
     addOns      OrderAddOn[]
     returnLines OrderReturnLine[]
@@ -668,4 +670,41 @@ model Review {
     updatedAt DateTime @updatedAt
 
     @@map("review")
+}
+
+// ============================================================
+// SITE SETTINGS
+// ============================================================
+
+model SiteSettings {
+    id                      String   @id @default("singleton")
+    companyName             String   @default("CeleBrease")
+    supportEmail            String   @default("")
+    supportPhone            String   @default("")
+    websiteUrl              String   @default("")
+    instagram               String   @default("")
+    facebook                String   @default("")
+    tiktok                  String   @default("")
+    maintenanceMode         Boolean  @default(false)
+    smtpHost                String   @default("")
+    smtpPort                Int      @default(587)
+    smtpUser                String   @default("")
+    smtpPass                String   @default("")
+    smtpFromEmail           String   @default("")
+    smtpFromName            String   @default("CeleBrease")
+    taxRate                 Float    @default(0.08)
+    shippingStandard        Float    @default(15.00)
+    shippingExpress         Float    @default(25.00)
+    logoUrl                 String   @default("")
+    heroTitle               String   @default("Celebrate Beautifully, Without The Storage.")
+    heroSubtitle            String   @default("Rent professionally curated holiday decor kits, delivered to your door.")
+    heroBadgeText           String   @default("New: 2026 Holiday Kits Available")
+    heroCtaPrimary          String   @default("Browse Holiday Kits")
+    heroCtaSecondary        String   @default("See How It Works")
+    tagline                 String   @default("Celebrate beautifully, without the storage.")
+    announcementBanner      String   @default("")
+    announcementBannerActive Boolean @default(false)
+    updatedAt               DateTime @updatedAt
+
+    @@map("site_settings")
 }

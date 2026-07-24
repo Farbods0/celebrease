@@ -1,10 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getMyCarts, getMySubscription } from "@/lib/api";
-import { Tick } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import CartDetails from "./cart-details";
@@ -24,81 +20,105 @@ export default function CartPage() {
 
     if (isLoading) {
         return (
-            <main className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-[1fr_384px] gap-6 items-start">
-                    <div className="flex flex-col gap-6">
-                        <Skeleton className="h-7 md:h-8 lg:h-9 w-28 md:w-32 lg:w-36" />
-                        {[...Array(2)].map((_, index) => (
-                            <Skeleton key={index} className="h-52 rounded-2xl" />
+            <div className="cb">
+                <style>{`
+                    .cb-cart-skeleton { animation: cb-pulse 1.6s ease-in-out infinite; background: linear-gradient(90deg, #f3e8ff 25%, #fce7f3 50%, #f3e8ff 75%); background-size: 200% 100%; border-radius: 18px; }
+                    @keyframes cb-pulse { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+                `}</style>
+                {/* Trust bar */}
+                <div className="cb-trust-bar-cart" style={{background:"var(--cb-lavender)",borderBottom:"1px solid var(--cb-line)",height:"40px",display:"flex",alignItems:"center",justifyContent:"center",gap:"clamp(16px,3vw,40px)",fontSize:"13px",fontWeight:500,color:"var(--cb-ink-muted)",padding:"0 24px",flexWrap:"wrap"}}>
+                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128666; <b style={{color:"var(--cb-purple)"}}>Free</b> shipping both ways</span>
+                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128179; <b style={{color:"var(--cb-purple)"}}>100%</b> deposit refunded</span>
+                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#11088; <b style={{color:"var(--cb-purple)"}}>4.9</b> &middot; 2,400+ celebrations</span>
+                </div>
+                <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"clamp(36px,4vw,56px) 24px 0"}}>
+                    <div style={{height:"16px",width:"120px",marginBottom:"20px"}} className="cb-cart-skeleton" />
+                    <div style={{height:"clamp(2rem,4.2vw,3rem)",width:"260px",marginBottom:"12px"}} className="cb-cart-skeleton" />
+                    <div style={{height:"20px",width:"340px",marginBottom:"32px"}} className="cb-cart-skeleton" />
+                </div>
+                <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"0 24px clamp(60px,8vw,100px)",display:"grid",gridTemplateColumns:"1fr 400px",gap:"32px",alignItems:"start"}}>
+                    <div style={{display:"flex",flexDirection:"column",gap:"14px"}}>
+                        {[0,1,2].map(i => (
+                            <div key={i} style={{height:"160px",borderRadius:"22px"}} className="cb-cart-skeleton" />
                         ))}
                     </div>
-                    <Skeleton className="h-full rounded-2xl" />
+                    <div style={{height:"480px",borderRadius:"22px"}} className="cb-cart-skeleton" />
                 </div>
-            </main>
+            </div>
         );
     }
 
     if (isError) {
         return (
-            <main className="flex-1 container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
-                <div className="bg-destructive/5 rounded-2xl border p-6 space-y-2">
-                    <h2 className="text-lg lg:text-xl font-semibold">Something went wrong</h2>
-                    <p className="text-sm lg:text-base text-muted-foreground">Something went wrong. Please try again later.</p>
+            <div className="cb">
+                <div style={{maxWidth:"var(--cb-max)",margin:"48px auto",padding:"0 24px"}}>
+                    <div style={{background:"var(--cb-lavender)",border:"1px solid var(--cb-line)",borderRadius:"var(--cb-r-card)",padding:"32px",textAlign:"center"}}>
+                        <div style={{fontSize:"40px",marginBottom:"16px"}}>&#128533;</div>
+                        <h2 style={{fontSize:"1.4rem",marginBottom:"10px"}}>Something went wrong</h2>
+                        <p style={{color:"var(--cb-ink-muted)",fontSize:"15px",marginBottom:"24px"}}>We could not load your cart. Please try again later.</p>
+                        <Link href="/catalog" className="btn-primary" style={{width:"auto",display:"inline-flex"}}>Browse Holiday Kits &#8594;</Link>
+                    </div>
                 </div>
-            </main>
+            </div>
         );
     }
 
-    if (!data?.items.length) {
+    if (!(data?.items ?? []).length) {
         return (
-            <main className="flex-1 container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
-                <div className="bg-muted rounded-2xl border p-6 space-y-2">
-                    <h2 className="text-lg lg:text-xl font-semibold">Oops! Your cart is empty</h2>
-                    <p className="text-sm lg:text-base text-muted-foreground">
-                        Browse the catalog to find a kit for your next celebration.
-                    </p>
-                    <div className="flex gap-3 pt-2">
-                        <Link href="/catalog">
-                            <Button variant="black" size="sm">
-                                Back to Catalog
-                            </Button>
-                        </Link>
+            <div className="cb">
+                {/* Trust bar */}
+                <div style={{background:"var(--cb-lavender)",borderBottom:"1px solid var(--cb-line)",height:"40px",display:"flex",alignItems:"center",justifyContent:"center",gap:"clamp(16px,3vw,40px)",fontSize:"13px",fontWeight:500,color:"var(--cb-ink-muted)",padding:"0 24px",flexWrap:"wrap"}}>
+                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128666; <b style={{color:"var(--cb-purple)"}}>Free</b> shipping both ways</span>
+                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128179; <b style={{color:"var(--cb-purple)"}}>100%</b> deposit refunded</span>
+                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#11088; <b style={{color:"var(--cb-purple)"}}>4.9</b> &middot; 2,400+ celebrations</span>
+                </div>
+                {/* Page header */}
+                <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"clamp(36px,4vw,56px) 24px 0"}}>
+                    <nav aria-label="Breadcrumb" style={{fontSize:"13px",color:"var(--cb-ink-soft)",marginBottom:"6px"}}>
+                        <Link href="/" style={{color:"var(--cb-purple)",fontWeight:600}}>Home</Link> &rsaquo; <Link href="/catalog" style={{color:"var(--cb-purple)",fontWeight:600}}>Catalog</Link> &rsaquo; Cart
+                    </nav>
+                    <h1 style={{fontSize:"clamp(2rem,4.2vw,3rem)",fontWeight:800,lineHeight:1.08,marginBottom:"10px",fontFamily:"'Playfair Display',Georgia,serif",color:"var(--cb-ink)"}}>Your celebration list</h1>
+                </div>
+                <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"32px 24px clamp(60px,8vw,100px)"}}>
+                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",padding:"clamp(60px,8vw,100px) 24px",border:"1px dashed rgba(155,47,201,0.2)",borderRadius:"var(--cb-r-lg)",background:"var(--cb-lavender)"}}>
+                        <div style={{width:"80px",height:"80px",borderRadius:"50%",background:"var(--cb-gradient-soft)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"38px",marginBottom:"22px"}}>&#128713;</div>
+                        <h2 style={{fontSize:"2rem",marginBottom:"12px",fontFamily:"'Playfair Display',Georgia,serif"}}>Your cart is empty</h2>
+                        <p style={{color:"var(--cb-ink-muted)",fontSize:"16px",maxWidth:"360px",lineHeight:1.6,marginBottom:"28px"}}>Browse our holiday kits and add one to get started. Every kit includes free two-way shipping and full deposit protection.</p>
+                        <Link href="/catalog" className="btn-primary" style={{width:"auto"}}>Browse Holiday Kits &#8594;</Link>
                     </div>
                 </div>
-            </main>
+            </div>
         );
     }
 
     return (
-        <main className="container mx-auto mt-20 px-6 py-8 md:py-10 lg:py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_384px] gap-6 items-start">
-                <CartDetails carts={data.items} subscription={isActiveSubscriber ? subscription : null} />
-                {!isActiveSubscriber && (
-                    <div className="mt-6 bg-linear-to-br from-primary to-secondary rounded-2xl p-6 md:p-8 lg:p-10 text-white">
-                        <h3 className="text-2xl md:text-3xl font-semibold font-heading">Want To Celebrate All Year Long?</h3>
-                        <p className="mt-2 text-sm text-white/80 max-w-lg">
-                            Join our 3-Holiday Subscription Plan &mdash; choose three holidays per year, with free returns and exclusive
-                            pricing.
-                        </p>
-                        <ul className="mt-4 space-y-2 text-sm">
-                            <li className="flex items-center gap-3">
-                                <HugeiconsIcon icon={Tick} size={18} /> Save up to 20% on each kit
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <HugeiconsIcon icon={Tick} size={18} /> Pause, skip, or bank a holiday anytime
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <HugeiconsIcon icon={Tick} size={18} /> Priority availability during peak seasons
-                            </li>
-                        </ul>
-                        <Button
-                            nativeButton={false}
-                            className="mt-6"
-                            render={<Link href="/subscription">Explore Subscription Plans &rarr;</Link>}
-                        />
-                    </div>
-                )}
+        <div className="cb">
+            {/* Trust bar */}
+            <div style={{background:"var(--cb-lavender)",borderBottom:"1px solid var(--cb-line)",height:"40px",display:"flex",alignItems:"center",justifyContent:"center",gap:"clamp(16px,3vw,40px)",fontSize:"13px",fontWeight:500,color:"var(--cb-ink-muted)",padding:"0 24px",flexWrap:"wrap"}}>
+                <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128666; <b style={{color:"var(--cb-purple)"}}>Free</b> shipping both ways</span>
+                <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128179; <b style={{color:"var(--cb-purple)"}}>100%</b> deposit refunded</span>
+                <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#11088; <b style={{color:"var(--cb-purple)"}}>4.9</b> &middot; 2,400+ celebrations</span>
+                <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#10005; <b style={{color:"var(--cb-purple)"}}>Cancel</b> anytime</span>
             </div>
-        </main>
+
+            {/* Page header */}
+            <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"clamp(36px,4vw,56px) 24px 0"}}>
+                <nav aria-label="Breadcrumb" style={{fontSize:"13px",color:"var(--cb-ink-soft)",marginBottom:"6px"}}>
+                    <Link href="/" style={{color:"var(--cb-purple)",fontWeight:600}}>Home</Link> &rsaquo; <Link href="/catalog" style={{color:"var(--cb-purple)",fontWeight:600}}>Catalog</Link> &rsaquo; Cart
+                </nav>
+                <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",gap:"16px",flexWrap:"wrap",marginBottom:"8px"}}>
+                    <h1 style={{fontSize:"clamp(2rem,4.2vw,3rem)",fontWeight:800,lineHeight:1.08,fontFamily:"'Playfair Display',Georgia,serif",color:"var(--cb-ink)"}}>Your celebration list</h1>
+                    <span aria-live="polite" style={{display:"inline-flex",alignItems:"center",gap:"7px",background:"var(--cb-gradient-soft)",border:"1px solid var(--cb-line)",color:"var(--cb-purple)",fontSize:"13px",fontWeight:700,padding:"6px 14px",borderRadius:"var(--cb-r-pill)",marginBottom:"6px"}}>
+                        &#128717; {(data?.items ?? []).length} item{(data?.items ?? []).length === 1 ? "" : "s"} in your cart
+                    </span>
+                </div>
+                <p style={{color:"var(--cb-ink-muted)",fontSize:"16px",marginTop:"10px",maxWidth:"560px"}}>Review your reservation. Your deposit is held safely and refunded in full after each kit is returned.</p>
+            </div>
+
+            {/* Main two-column layout */}
+            <main style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"32px 24px clamp(60px,8vw,100px)"}} className="cb-cart-layout">
+                <CartDetails carts={data!.items} subscription={isActiveSubscriber ? subscription : null} />
+            </main>
+        </div>
     );
 }

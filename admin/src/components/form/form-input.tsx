@@ -7,6 +7,10 @@ type FormInputProps = {
     label: string;
     placeholder?: string;
     disabled?: boolean;
+    autoComplete?: string;
+    min?: string | number;
+    max?: string | number;
+    step?: string | number;
 };
 
 export function FormInput({ type = "text", label, ...props }: FormInputProps) {

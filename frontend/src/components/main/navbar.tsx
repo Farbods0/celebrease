@@ -1,130 +1,93 @@
 "use client";
 
-import { ShoppingBasket, UserCircle } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
 import { useHydrateLoves } from "@/lib/loves-store";
-import { ArrowDown01Icon, FavouriteIcon, LoginCircle02Icon, Logout01Icon, Menu01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 const navLinks = [
     { label: "Home", href: "/" },
     { label: "Catalog", href: "/catalog" },
     { label: "Subscription", href: "/subscription" },
-    { label: "How It Work", href: "/faqs" },
+    { label: "How It Works", href: "/how-it-works" },
+    { label: "About Us", href: "/about" },
 ];
 
 export default function Navbar() {
     const { data } = auth.useSession();
     const router = useRouter();
+    const pathname = usePathname();
+    const [open, setOpen] = useState(false);
 
     useHydrateLoves(!!data?.user);
 
+    const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+
     return (
-        <nav className="absolute w-full border-b">
-            <div className="container mx-auto flex h-20 items-center justify-between gap-3 px-4 md:px-6">
-                {/* Mobile menu */}
-                <DropdownMenu>
-                    <DropdownMenuTrigger
-                        render={
-                            <Button variant="ghost" size="icon-sm" className="md:hidden" aria-label="Open menu">
-                                <HugeiconsIcon icon={Menu01Icon} />
-                            </Button>
-                        }
-                    />
-                    <DropdownMenuContent align="start" className="w-56">
+        <>
+            <div className="cb-announce">🎁 <strong>Winter 2026 holidays are now booking</strong> — reserve your kit before slots fill</div>
+            <nav className="cb-nav">
+                <div className="cb-nav-inner">
+                    <Link href="/" className="cb-logo">
+                        <img src="/celebrease-logo.svg" alt="" aria-hidden="true" height={34} style={{ height: 34, width: "auto" }} />
+                        CeleBrease
+                    </Link>
+
+                    <div className="cb-nav-links">
                         {navLinks.map((item) => (
-                            <DropdownMenuItem key={item.href} render={<Link href={item.href} />}>
+                            <Link key={item.href} href={item.href} className={isActive(item.href) ? "active" : ""}>
                                 {item.label}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-
-                <Link href="/" className="shrink-0">
-                    <Image src="/logo.png" alt="Logo" width={142} height={21.54} />
-                </Link>
-
-                {/* Desktop nav */}
-                <div className="hidden md:flex items-center gap-5">
-                    {navLinks.map((item) => (
-                        <Link key={item.href} href={item.href}>
-                            {item.label}
-                        </Link>
-                    ))}
-                </div>
-
-                <div className="flex items-center gap-3 md:gap-5">
-                    {data?.user ? (
-                        <>
-                            <Link href="/cart" aria-label="Cart">
-                                <ShoppingBasket />
                             </Link>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger
-                                    render={
-                                        <Button className="group bg-white hover:bg-white/80 shadow-lg">
-                                            <UserCircle />
-                                            <span className="hidden sm:inline">Account</span>
-                                            <HugeiconsIcon
-                                                icon={ArrowDown01Icon}
-                                                className="transition-transform group-data-popup-open:rotate-180"
-                                            />
-                                        </Button>
+                        ))}
+                    </div>
+
+                    <div className="cb-nav-actions">
+                        <Link href="/wishlist" className="cb-nav-icon" aria-label="Wishlist">♡</Link>
+                        <Link href="/cart" className="cb-nav-icon" aria-label="Cart">🛍</Link>
+                        {data?.user ? (
+                            <>
+                                <Link href="/account" className="cb-pill-grad signin">Account</Link>
+                                <button
+                                    className="cb-nav-icon"
+                                    aria-label="Sign out"
+                                    onClick={async () =>
+                                        await auth.signOut({ fetchOptions: { onSuccess: () => router.push("/") } })
                                     }
-                                />
-                                <DropdownMenuContent align="end" className="w-48">
-                                    <DropdownMenuItem
-                                        render={
-                                            <Link href="/account">
-                                                <UserCircle />
-                                                Account
-                                            </Link>
-                                        }
-                                    />
-                                    <DropdownMenuItem
-                                        render={
-                                            <Link href="/wishlist">
-                                                <HugeiconsIcon icon={FavouriteIcon} />
-                                                Wishlist
-                                            </Link>
-                                        }
-                                    />
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem
-                                        variant="destructive"
-                                        onClick={async () =>
-                                            await auth.signOut({
-                                                fetchOptions: { onSuccess: () => router.push("/") },
-                                            })
-                                        }
-                                    >
-                                        <HugeiconsIcon icon={Logout01Icon} />
-                                        Sign out
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </>
-                    ) : (
-                        <Link href="/signin">
-                            <Button className="bg-white hover:bg-white/80 shadow-lg">
-                                <HugeiconsIcon icon={LoginCircle02Icon} />
-                                <span className="hidden sm:inline">Sign in</span>
-                            </Button>
-                        </Link>
-                    )}
+                                >
+                                    ⎋
+                                </button>
+                            </>
+                        ) : (
+                            <Link href="/signin" className="cb-pill-grad signin">Sign In</Link>
+                        )}
+                        <button className="cb-hamburger" aria-label="Menu" onClick={() => setOpen((v) => !v)}>☰</button>
+                    </div>
                 </div>
-            </div>
-        </nav>
+
+                {open && (
+                    <div style={{ borderTop: "1px solid var(--cb-line)", background: "#fff", padding: "8px 24px 16px" }}>
+                        {navLinks.map((item) => (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setOpen(false)}
+                                style={{ display: "block", padding: "12px 0", fontWeight: 500, borderBottom: "1px solid var(--cb-line)" }}
+                            >
+                                {item.label}
+                            </Link>
+                        ))}
+                        <Link
+                            href={data?.user ? "/account" : "/signin"}
+                            onClick={() => setOpen(false)}
+                            className="cb-pill-grad"
+                            style={{ marginTop: 14, justifyContent: "center", width: "100%" }}
+                        >
+                            {data?.user ? "Account" : "Sign In"}
+                        </Link>
+                    </div>
+                )}
+            </nav>
+        </>
     );
 }

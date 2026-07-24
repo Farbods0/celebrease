@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { holidaysApi, kitsApi, type ApiAddOn, type ApiHolidayWithAddOns, type ApiItem, type ApiKit } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { formatKitTier, holidaysApi, kitsApi, type ApiAddOn, type ApiHolidayWithAddOns, type ApiItem, type ApiKit, type KitTier } from "@/lib/api";
 import { useRouter } from "@tanstack/react-router";
-import { Eye, Plus, Save, SquarePen } from "lucide-react";
+import { Eye, Plus, SquarePen, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { KitsAddItemDialog } from "./kits-add-item-dialog";
@@ -12,6 +11,19 @@ import { KitsAddonTable } from "./kits-addon-table";
 import { KitsForm } from "./kits-form";
 import { KitsItemTable } from "./kits-item-table";
 import { KitsPreviewItems } from "./kits-preview-items";
+
+const TIER_BADGE_CLASS: Record<KitTier, string> = {
+    STARTER: "tier-badge tier-starter",
+    PREMIUM: "tier-badge tier-premium",
+    ULTIMATE: "tier-badge tier-ultimate",
+};
+
+const STATUS_DOT_CLASS: Record<ApiKit["status"], string> = {
+    DRAFT: "status-dot sd-muted",
+    ACTIVE: "status-dot sd-active",
+    HIDDEN: "status-dot sd-muted",
+    LOW_STOCK: "status-dot sd-amber",
+};
 
 type AddTarget = "kit-item" | "preview-item" | "holiday-addon";
 
@@ -21,7 +33,8 @@ type KitsContentProps = {
     holidays: ApiHolidayWithAddOns[];
     items: ApiItem[];
     addOns: ApiAddOn[];
-    selectedTier: "STARTER" | "PREMIUM";
+    selectedTier: KitTier;
+    frontendUrl?: string;
 };
 
 const fmtMoney = (raw: string | number) => {
@@ -42,39 +55,40 @@ const STATUS_LABEL: Record<ApiKit["status"], string> = {
     LOW_STOCK: "Low Stock",
 };
 
-const STATUS_COLOR: Record<ApiKit["status"], string> = {
-    DRAFT: "text-muted-foreground",
-    ACTIVE: "text-[#008b3f]",
-    HIDDEN: "text-muted-foreground",
-    LOW_STOCK: "text-amber-500",
-};
-
-export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTier }: KitsContentProps) {
+export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTier, frontendUrl }: KitsContentProps) {
     const router = useRouter();
     const [editOpen, setEditOpen] = useState(false);
     const [savingToggles, setSavingToggles] = useState(false);
     const [removing, setRemoving] = useState(false);
+    const [deletingKit, setDeletingKit] = useState(false);
     const [addTarget, setAddTarget] = useState<AddTarget | null>(null);
 
     if (!holiday) {
-        return <main className="w-full p-10 text-center text-muted-foreground">Select a holiday from the sidebar to view its kits.</main>;
+        return (
+            <div className="panel kit-detail">
+                <div className="panel-empty">Select a holiday from the rail to view its kits.</div>
+            </div>
+        );
     }
 
     if (!kit) {
         return (
             <>
-                <main className="w-full p-10 flex flex-col items-center justify-center gap-4 text-center">
-                    <h2 className="text-xl font-semibold">
-                        No {selectedTier === "STARTER" ? "Starter" : "Premium"} kit for {holiday.name}
-                    </h2>
-                    <p className="text-sm text-muted-foreground max-w-md">
-                        Create a {selectedTier.toLowerCase()} kit for this holiday to start managing its pricing, items, and add-ons.
-                    </p>
-                    <Button onClick={() => setEditOpen(true)}>
-                        <Plus className="size-4" />
-                        Create {selectedTier === "STARTER" ? "Starter" : "Premium"} Kit
-                    </Button>
-                </main>
+                <div className="panel kit-detail">
+                    <div className="panel-empty" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, padding: "64px 20px" }}>
+                        <div style={{ fontSize: 40, opacity: 0.4 }}>🎁</div>
+                        <h2 style={{ fontSize: 18, fontWeight: 700, color: "var(--ink)" }}>
+                            No {formatKitTier(selectedTier)} kit for {holiday.name}
+                        </h2>
+                        <p style={{ maxWidth: 340 }}>
+                            Create a {selectedTier.toLowerCase()} kit for this holiday to start managing its pricing, items, and add-ons.
+                        </p>
+                        <button type="button" className="btn-grad" onClick={() => setEditOpen(true)}>
+                            <Plus className="size-4" />
+                            Create {formatKitTier(selectedTier)} Kit
+                        </button>
+                    </div>
+                </div>
                 <Dialog open={editOpen} onOpenChange={setEditOpen}>
                     {editOpen && (
                         <KitsForm
@@ -88,6 +102,20 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
             </>
         );
     }
+
+    const handleDeleteKit = async () => {
+        if (deletingKit || !kit) return;
+        setDeletingKit(true);
+        try {
+            await kitsApi.remove(kit.id);
+            toast.success(`${formatKitTier(kit.tier)} kit deleted`);
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to delete kit");
+        } finally {
+            setDeletingKit(false);
+        }
+    };
 
     const handleToggle = async (field: "visibleOnPdp" | "alwaysVisible" | "addOnsEnabled" | "limitInventory", value: boolean) => {
         if (savingToggles) return;
@@ -144,11 +172,11 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
         }
     };
 
-    const overviewRows = [
+    const overviewRows: { label: string; value: string; dotClass?: string; valueClass?: string }[] = [
         { label: "Kit SKU", value: kit.sku },
-        { label: "Kit Tier", value: kit.tier === "STARTER" ? "Starter Kit" : "Premium Kit" },
+        { label: "Kit Tier", value: `${formatKitTier(kit.tier)} Kit` },
         { label: "Holiday", value: holiday.name },
-        { label: "Status", value: STATUS_LABEL[kit.status], valueClass: STATUS_COLOR[kit.status] },
+        { label: "Status", value: STATUS_LABEL[kit.status], dotClass: STATUS_DOT_CLASS[kit.status] },
         { label: "Seasonal Visibility", value: fmtDateRange(kit.seasonStart, kit.seasonEnd), valueClass: "text-primary" },
     ];
 
@@ -161,119 +189,137 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
 
     return (
         <>
-            <main className="w-full flex flex-col gap-6 p-6 overflow-y-auto">
+            <div className="kit-detail">
                 {/* Kit header with action buttons */}
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                    <div className="flex flex-col gap-1.5">
-                        <h2 className="text-2xl font-semibold">
-                            {holiday.name} – {kit.tier === "STARTER" ? "Starter" : "Premium"} Kit
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                            Last saved: {new Date(kit.updatedAt).toLocaleString()}
-                            <span className="text-foreground/20 mx-2">•</span>
-                            30-Day: {fmtMoney(kit.price30Day)}
-                            <span className="text-foreground/20 mx-2">•</span>
-                            60-Day: {fmtMoney(kit.price60Day)}
-                            <span className="text-foreground/20 mx-2">•</span>
-                            Deposit: {fmtMoney(kit.deposit)}
-                        </p>
+                <div className="kit-detail-head">
+                    <div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                            <h2>{holiday.name} — {formatKitTier(kit.tier)} Kit</h2>
+                            <span className={TIER_BADGE_CLASS[kit.tier]}>{formatKitTier(kit.tier)}</span>
+                        </div>
+                        <div className="sub">
+                            <span className={STATUS_DOT_CLASS[kit.status]}>{STATUS_LABEL[kit.status]}</span>
+                            <span className="dot">•</span>
+                            <span>30-Day {fmtMoney(kit.price30Day)}</span>
+                            <span className="dot">•</span>
+                            <span>60-Day {fmtMoney(kit.price60Day)}</span>
+                            <span className="dot">•</span>
+                            <span>Deposit {fmtMoney(kit.deposit)}</span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" disabled>
-                            <Eye className="size-4" />
-                            Preview PDP
-                        </Button>
-                        <Button size="sm" onClick={() => setEditOpen(true)}>
+                    <div className="kit-detail-actions">
+                        {frontendUrl ? (
+                            <a
+                                href={`${frontendUrl}/catalog/${holiday.id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="btn-outline"
+                            >
+                                <Eye className="size-4" />
+                                Preview PDP
+                            </a>
+                        ) : (
+                            <button type="button" className="btn-outline" disabled title="Set website URL in Settings to enable preview">
+                                <Eye className="size-4" />
+                                Preview PDP
+                            </button>
+                        )}
+                        <button type="button" className="btn-grad" onClick={() => setEditOpen(true)}>
                             <SquarePen className="size-4" />
                             Edit Kit
-                        </Button>
+                        </button>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <button type="button" className="btn-danger" disabled={deletingKit}>
+                                    <Trash2 className="size-4" />
+                                    Delete Kit
+                                </button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Delete {formatKitTier(kit.tier)} Kit?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This will permanently delete the {formatKitTier(kit.tier)} kit for {holiday.name}. This action cannot be undone.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={handleDeleteKit} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                                        {deletingKit ? "Deleting..." : "Delete"}
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                     </div>
                 </div>
 
                 {/* Two column layout: Kit Overview + PDP Preview Items */}
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="kit-grid-2">
                     {/* Kit Overview */}
-                    <div className="rounded-xl border bg-white overflow-hidden">
-                        <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">Kit Overview</h3>
+                    <div className="panel">
+                        <div className="panel-head">
+                            <h3>Kit Overview</h3>
                         </div>
-                        <div className="p-5 flex flex-col">
-                            <div className="flex flex-col">
-                                {overviewRows.map((row, idx) => (
-                                    <div
-                                        key={row.label}
-                                        className={cn("flex items-center justify-between py-2.5 text-sm", idx > 0 && "border-t")}
-                                    >
-                                        <span className="text-muted-foreground capitalize">{row.label}</span>
-                                        <span className={cn("font-medium", row.valueClass)}>{row.value}</span>
+                        <div className="panel-body">
+                            <div>
+                                {overviewRows.map((row) => (
+                                    <div key={row.label} className="ov-row">
+                                        <span className="k">{row.label}</span>
+                                        <span className={`v${row.valueClass === "text-primary" ? " season" : ""}`}>
+                                            {row.dotClass ? <span className={row.dotClass}>{row.value}</span> : row.value}
+                                        </span>
                                     </div>
                                 ))}
                             </div>
 
                             {/* Rental Pricing */}
-                            <div className="flex flex-col gap-3">
-                                <h4 className="font-medium">Rental Pricing</h4>
-                                <div className="rounded-lg bg-black/2 shadow-sm">
-                                    <div className="grid grid-cols-3 gap-4 px-3.5 py-2.5 text-xs uppercase text-muted-foreground">
-                                        <div>Rental Duration</div>
-                                        <div>Price</div>
-                                        <div>Deposit</div>
-                                    </div>
-                                    <div className="px-3.5 pb-3.5 pt-1 flex flex-col gap-3">
-                                        {[
-                                            { duration: "30", price: fmtMoney(kit.price30Day), deposit: fmtMoney(kit.deposit) },
-                                            { duration: "60", price: fmtMoney(kit.price60Day), deposit: fmtMoney(kit.deposit) },
-                                        ].map((row) => (
-                                            <div key={row.duration} className="grid grid-cols-3 gap-4 items-center text-xs">
-                                                <div className="flex items-center justify-between rounded-md border h-7.5 px-2.5 font-medium">
-                                                    <span>{row.duration}</span>
-                                                    <span className="opacity-40">Days</span>
-                                                </div>
-                                                <div className="flex items-center rounded-md border h-7.5 px-2.5 font-medium">
-                                                    {row.price}
-                                                </div>
-                                                <div className="flex items-center rounded-md border h-7.5 px-2.5 font-medium">
-                                                    {row.deposit}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                            <div className="sub-head">Rental Pricing</div>
+                            <div className="kit-prices">
+                                <div className="kit-price-cell">
+                                    <div className="dur">30 days</div>
+                                    <div className="price">{fmtMoney(kit.price30Day)}</div>
+                                </div>
+                                <div className="kit-price-cell">
+                                    <div className="dur">60 days</div>
+                                    <div className="price">{fmtMoney(kit.price60Day)}</div>
+                                </div>
+                                <div className="kit-price-cell deposit-cell">
+                                    <div className="dur">Deposit</div>
+                                    <div className="price">{fmtMoney(kit.deposit)}</div>
                                 </div>
                             </div>
 
                             {/* Admin Toggles */}
-                            <div className="mt-4 flex flex-col gap-3">
-                                <h4 className="font-medium">Admin Toggles</h4>
-                                <div className="flex flex-col gap-3">
-                                    {toggles.map((toggle) => (
-                                        <div key={toggle.key} className="flex items-center justify-between">
-                                            <span className="text-sm capitalize text-muted-foreground">{toggle.label}</span>
-                                            <Switch
-                                                checked={toggle.checked}
-                                                disabled={savingToggles}
-                                                onCheckedChange={(v) => handleToggle(toggle.key, v)}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
+                            <div className="sub-head">Admin Toggles</div>
+                            <div>
+                                {toggles.map((toggle) => (
+                                    <div key={toggle.key} className="tog-row">
+                                        <span className="k">{toggle.label}</span>
+                                        <Switch
+                                            checked={toggle.checked}
+                                            disabled={savingToggles}
+                                            onCheckedChange={(v) => handleToggle(toggle.key, v)}
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    <div className="rounded-xl border bg-white overflow-hidden">
-                        <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">PDP Preview Items</h3>
-                            <Button variant="black" size="sm" onClick={() => setAddTarget("preview-item")}>
+                    <div className="panel">
+                        <div className="panel-head">
+                            <h3>PDP Preview Items</h3>
+                            <button type="button" className="btn-soft" onClick={() => setAddTarget("preview-item")}>
                                 <Plus className="size-4" />
                                 Add item
-                            </Button>
+                            </button>
                         </div>
-                        <div className="p-5 flex flex-col gap-2.5">
-                            <p className="text-xs text-muted-foreground capitalize">
+                        <div className="panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                            <p style={{ fontSize: 12.5, color: "var(--ink-soft)" }}>
                                 Items shown on customer-facing PDP preview. Drag to reorder.
                             </p>
-                            {items.length === 0 ? (
-                                <p className="text-sm text-muted-foreground py-4 text-center">No preview items yet.</p>
+                            {kit.previewItems.length === 0 ? (
+                                <p className="panel-empty">No preview items yet.</p>
                             ) : (
                                 <KitsPreviewItems
                                     kitId={kit.id}
@@ -287,18 +333,18 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                 </div>
 
                 {/* Full Kit Contents */}
-                <div className="rounded-xl border bg-white overflow-hidden">
-                    <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
-                        <h3 className="text-lg font-semibold">Full Kit Contents</h3>
-                        <Button variant="black" size="sm" onClick={() => setAddTarget("kit-item")}>
+                <div className="panel">
+                    <div className="panel-head">
+                        <h3>Full Kit Contents</h3>
+                        <button type="button" className="btn-soft" onClick={() => setAddTarget("kit-item")}>
                             <Plus className="size-4" />
                             Add item
-                        </Button>
+                        </button>
                     </div>
-                    <div className="p-5">
+                    <div className="panel-body table-wrap">
                         {kit.items.length === 0 ? (
-                            <p className="text-sm text-muted-foreground py-6 text-center">
-                                No items linked yet. Inventory items will be wired up once the inventory module ships.
+                            <p className="panel-empty">
+                                No items added yet — click &apos;Add item&apos; to include decoration pieces in this kit.
                             </p>
                         ) : (
                             <KitsItemTable
@@ -311,18 +357,18 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                 </div>
 
                 {/* Holiday-Specific Add-Ons */}
-                <div className="rounded-xl border bg-white overflow-hidden">
-                    <div className="h-14 px-5 bg-black/4 border-b flex items-center justify-between">
-                        <h3 className="text-lg font-semibold">Holiday-Specific Add-Ons</h3>
-                        <Button variant="black" size="sm" onClick={() => setAddTarget("holiday-addon")}>
+                <div className="panel">
+                    <div className="panel-head">
+                        <h3>Holiday-Specific Add-Ons</h3>
+                        <button type="button" className="btn-soft" onClick={() => setAddTarget("holiday-addon")}>
                             <Plus className="size-4" />
                             Add item
-                        </Button>
+                        </button>
                     </div>
-                    <div className="p-5">
+                    <div className="panel-body table-wrap">
                         {holiday.addOns.length === 0 ? (
-                            <p className="text-sm text-muted-foreground py-6 text-center">
-                                No add-ons linked yet. Add-ons will be wired up once the add-ons module ships.
+                            <p className="panel-empty">
+                                No add-ons linked — use the Add item button to associate extras with this holiday.
                             </p>
                         ) : (
                             <KitsAddonTable
@@ -334,13 +380,8 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                     </div>
                 </div>
 
-                <div className="pt-2 self-end">
-                    <Button variant="ghost" size="sm" className="text-[#008b3f] hover:text-[#008b3f]" disabled>
-                        <Save className="size-4" />
-                        All changes saved
-                    </Button>
-                </div>
-            </main>
+                <div className="save-chip">✓ All changes saved</div>
+            </div>
 
             <Dialog open={editOpen} onOpenChange={setEditOpen}>
                 {editOpen && <KitsForm kit={kit} holidays={holidays} onClose={() => setEditOpen(false)} />}

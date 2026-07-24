@@ -1,5 +1,4 @@
-import type { ApiHoliday } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { baseURL, type ApiHoliday } from "@/lib/api";
 
 type KitsHolidayListProps = {
     holidays: ApiHoliday[];
@@ -11,43 +10,42 @@ type KitsHolidayListProps = {
 
 export function KitsHolidayList({ holidays, isLoading, selectedHolidayId, onSelect, showHeading = true }: KitsHolidayListProps) {
     return (
-        <div className="rounded-lg border p-4 w-full h-fit">
-            {showHeading && <h2 className="font-medium mb-2">Select Holiday</h2>}
+        <div className="holiday-rail">
+            {showHeading && <div className="holiday-rail-head">Holidays</div>}
 
-            {isLoading ? (
-                <div className="space-y-1">
-                    <div className="h-10 w-full bg-primary/10 rounded-lg animate-pulse" />
-                    <div className="h-10 w-full bg-primary/10 rounded-lg animate-pulse" />
-                    <div className="h-10 w-full bg-primary/10 rounded-lg animate-pulse" />
-                </div>
-            ) : holidays.length === 0 ? (
-                <p className="text-sm text-muted-foreground py-2">No holidays yet. Add one from the Holidays page.</p>
-            ) : (
-                <div className="space-y-1">
-                    {holidays.map((holiday) => {
+            <div className="holiday-rail-body">
+                {isLoading ? (
+                    <>
+                        <div className="holiday-rail-skel" />
+                        <div className="holiday-rail-skel" />
+                        <div className="holiday-rail-skel" />
+                    </>
+                ) : holidays.length === 0 ? (
+                    <p className="holiday-rail-empty">No holidays yet. Add one from the Holidays page.</p>
+                ) : (
+                    holidays.map((holiday) => {
                         const active = holiday.id === selectedHolidayId;
                         return (
                             <button
+                                type="button"
                                 key={holiday.id}
                                 onClick={() => onSelect(holiday.id)}
-                                className={cn(
-                                    "w-full text-left px-3 py-2 rounded-lg transition-all",
-                                    active ? "bg-primary/10 font-medium" : "text-muted-foreground hover:text-foreground",
-                                )}
+                                className={active ? "holiday-item on" : "holiday-item"}
                             >
+                                {holiday.image && <img className="th" src={`${baseURL}${holiday.image}`} alt="" />}
                                 {holiday.name}
                             </button>
                         );
-                    })}
-                </div>
-            )}
+                    })
+                )}
+            </div>
         </div>
     );
 }
 
 export function KitsSidebar(props: KitsHolidayListProps) {
     return (
-        <aside className="hidden md:flex w-full max-w-80 p-6 overflow-y-auto">
+        <aside className="hidden md:block">
             <KitsHolidayList {...props} />
         </aside>
     );

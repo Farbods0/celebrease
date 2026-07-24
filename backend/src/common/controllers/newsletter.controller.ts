@@ -41,7 +41,7 @@ export class NewsletterController {
             }),
         });
 
-        const data = await response.json();
+        const data = (await response.json()) as { message?: string };
 
         if (!response.ok) {
             throw new BadRequestException(data?.message ?? "Failed to subscribe email");

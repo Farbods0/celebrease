@@ -88,7 +88,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
 
     return (
         <>
-            <div className="mt-5 lg:mt-6 flex items-center justify-center gap-6">
+            <div className="mt-5 lg:mt-6 flex items-center justify-center gap-3">
                 <div className="p-1.5 lg:p-2 bg-muted w-fit rounded-full flex">
                     {(["Monthly", "Yearly"] as BillingCycle[]).map((item) => (
                         <button
@@ -103,6 +103,11 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                         </button>
                     ))}
                 </div>
+                {cycle === "Yearly" && (
+                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-full">
+                        Save up to 20%
+                    </span>
+                )}
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6 mt-8">
@@ -114,6 +119,12 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                         const { perMonth, billedLabel } = priceFor(plan, cycle);
                         const isCurrentPlan = subscription?.plan.id === plan.id;
                         const hasOtherSub = !!subscription && !isCurrentPlan;
+                        const defaultLabel =
+                            plan.code === "STARTER"
+                                ? "Start with Starter"
+                                : plan.code === "PREMIUM"
+                                  ? "Go Premium"
+                                  : "Go Ultimate";
                         const buttonLabel = subLoading
                             ? "Loading..."
                             : isCurrentPlan
@@ -122,7 +133,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                                 ? "Manage Subscription"
                                 : pendingPlanId === plan.id
                                   ? "Redirecting..."
-                                  : "Get Started";
+                                  : defaultLabel;
 
                         return (
                             <div
@@ -162,7 +173,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                                     </div>
 
                                     <Button
-                                        variant="black"
+                                        variant="gradient"
                                         onClick={() => handleSubscribe(plan.id)}
                                         disabled={subLoading || isCurrentPlan || pendingPlanId !== null}
                                     >

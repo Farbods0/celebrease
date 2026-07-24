@@ -14,8 +14,14 @@ export class StripeService {
     private readonly webhookSecret: string;
 
     constructor(private readonly config: ConfigService) {
-        this.client = new StripeLib(this.config.getOrThrow<string>("stripe.secretKey"));
-        this.webhookSecret = this.config.getOrThrow<string>("stripe.webhookSecret");
+        const isProd = this.config.get<string>("nodeEnv") === "production";
+        const secretKey = isProd
+            ? this.config.getOrThrow<string>("stripe.secretKey")
+            : this.config.get<string>("stripe.secretKey") || "sk_test_placeholder";
+        this.client = new StripeLib(secretKey);
+        this.webhookSecret = isProd
+            ? this.config.getOrThrow<string>("stripe.webhookSecret")
+            : this.config.get<string>("stripe.webhookSecret") || "";
     }
 
     constructEvent(rawBody: Buffer, signature: string): StripeEvent {
@@ -109,6 +115,10 @@ export class StripeService {
             ...(args.name && { name: args.name }),
             ...(args.description && { description: args.description }),
         });
+    }
+
+    async archiveProduct(productId: string) {
+        return this.client.products.update(productId, { active: false });
     }
 
     async createPrice(args: {

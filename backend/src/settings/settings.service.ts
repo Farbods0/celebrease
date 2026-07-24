@@ -38,13 +38,12 @@ export class SettingsService {
     }
 
     async getPublic() {
-        const settings = await (this.prisma.siteSettings as any).upsert({
+        return this.prisma.siteSettings.upsert({
             where: { id: "singleton" },
             create: { id: "singleton" },
             update: {},
             select: PUBLIC_FIELDS,
         });
-        return settings;
     }
 
     async update(dto: UpdateSettingsDto) {

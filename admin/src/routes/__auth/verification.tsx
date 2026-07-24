@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import * as z from "zod";
 
 const searchSchema = z.object({
-    user: z.email(),
+    user: z.string().email(),
     type: z.enum(["signup", "reset"]),
 });
 

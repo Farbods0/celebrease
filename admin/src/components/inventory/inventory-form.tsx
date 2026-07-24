@@ -34,7 +34,7 @@ const formSchema = z.object({
     description: z.string().max(1000),
     category: z.string().max(64),
     vendorName: z.string().min(2, "Vendor name is required").max(120),
-    vendorEmail: z.email("Valid email required"),
+    vendorEmail: z.string().email("Valid email required"),
     vendorPhone: z.string().min(4, "Vendor phone is required").max(32),
     costPerUnit: numericString("Cost per unit", { allowZero: true }),
     totalQty: numericString("Total quantity", { allowZero: true, integer: true }),

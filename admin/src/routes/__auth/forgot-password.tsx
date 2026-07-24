@@ -9,7 +9,7 @@ export const Route = createFileRoute("/__auth/forgot-password")({
 });
 
 const forgotSchema = z.object({
-    email: z.email("Enter your email address"),
+    email: z.string().email("Enter your email address"),
 });
 
 function RouteComponent() {

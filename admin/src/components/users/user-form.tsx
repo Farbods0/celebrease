@@ -15,7 +15,7 @@ type UserFormProps = {
 
 const createSchema = z.object({
     name: z.string().min(2, "Name is required").max(64),
-    email: z.email("Enter a valid email address"),
+    email: z.string().email("Enter a valid email address"),
     password: z.string().min(8, "Password must be at least 8 characters").max(64),
     role: z.enum(["admin", "user"]),
     banned: z.boolean(),
@@ -25,7 +25,7 @@ const createSchema = z.object({
 
 const updateSchema = z.object({
     name: z.string().min(2, "Name is required").max(64),
-    email: z.email("Enter a valid email address"),
+    email: z.string().email("Enter a valid email address"),
     password: z.string(),
     role: z.enum(["admin", "user"]),
     banned: z.boolean(),

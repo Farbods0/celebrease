@@ -8,7 +8,7 @@
       ]
     },
     "railway": {
-      "command": "railway",
+      "command": "/Users/farbodjahan/.railway/bin/railway",
       "args": [
         "mcp"
       ]

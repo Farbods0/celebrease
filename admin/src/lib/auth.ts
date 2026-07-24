@@ -10,10 +10,12 @@ const API_URL = import.meta.env.DEV
 export const auth = createAuthClient({
     fetchOptions: {
         onError(e) {
-            if (e.error.status === 429) {
+            if (e.error?.status === 429) {
                 toast.error("Too many requests. Please try again later.");
+            } else if (e.error?.message) {
+                toast.error(e.error.message);
             } else {
-                toast.error(e.error.message ?? "Something went wrong.");
+                toast.error("Network error: Could not reach the backend server.");
             }
         },
     },

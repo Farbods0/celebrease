@@ -204,6 +204,8 @@ function CatalogCard({ holiday }: { holiday: ApiHoliday }) {
             <img
                 src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/uploads") ? `${baseURL}${holiday.image}` : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
                 alt={`${holiday.name} — holiday décor kit`}
+                className="w-full h-full object-cover"
+                loading="lazy"
             />
             <div className="scrim" />
             <span className={`cb-cat-badge${catCls ? ` ${catCls}` : ""}`}>{catLabel}</span>

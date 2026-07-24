@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
                 source: "/api/v1/:path*",
                 destination: `${BACKEND_URL}/api/v1/:path*`,
             },
+            // Proxy uploads so media loads correctly on the client domain
+            {
+                source: "/uploads/:path*",
+                destination: `${BACKEND_URL}/uploads/:path*`,
+            },
         ];
     },
 };

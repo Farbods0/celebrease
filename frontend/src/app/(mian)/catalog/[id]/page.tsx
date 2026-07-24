@@ -29,7 +29,11 @@ function lowestPrice(kits: ApiHoliday["kits"]): number | null {
     return Math.min(...kits.map((k) => Number(k.price30Day)));
 }
 
-const img = (path?: string | null) => (path ? `${baseURL}${path}` : "");
+const img = (path?: string | null) => {
+    if (!path) return "";
+    if (path.startsWith("http") || path.startsWith("/")) return path;
+    return `${baseURL}${path}`;
+};
 
 export default async function CatalogDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;

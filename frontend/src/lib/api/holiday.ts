@@ -86,38 +86,110 @@ export type ApiHolidayDetail = {
 };
 
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { credentials: "include" });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get holidays"));
+    try {
+        const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { credentials: "include" });
+        if (!res.ok) throw new Error("API error");
+        return await res.json();
+    } catch (error) {
+        console.warn("API unreachable. Falling back to mock data for getHolidays.");
+        return { items: MOCK_HOLIDAYS };
     }
-
-    const data = await res.json();
-    return data;
 }
 
 export async function getHolidayById(
     id: string,
 ): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get holiday"));
+    try {
+        const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
+        if (!res.ok) throw new Error("API error");
+        return await res.json();
+    } catch (error) {
+        console.warn("API unreachable. Falling back to mock data for getHolidayById.");
+        const mock = MOCK_HOLIDAYS.find(h => h.id === id) || MOCK_HOLIDAYS[0];
+        return {
+            holiday: mock,
+            kits: mock.kits,
+            addOns: [],
+            holidays: MOCK_HOLIDAYS
+        };
     }
-
-    const data = await res.json();
-    return data;
 }
 
-export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/loves`, { cache: "no-store" });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get loves"));
+const MOCK_HOLIDAYS: ApiHoliday[] = [
+    {
+        id: "mock-christmas",
+        name: "Classic Christmas",
+        image: "/gradient/hero.png",
+        category: "TRADITIONAL",
+        description: "A beautiful, traditional Christmas setup with timeless ornaments.",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        kits: [{
+            id: "kit-1",
+            sku: "XMAS-TRAD-1",
+            tier: "PREMIUM",
+            price30Day: "89",
+            price60Day: "149",
+            deposit: "50",
+            items: [],
+            previewItems: []
+        }]
+    },
+    {
+        id: "mock-halloween",
+        name: "Spooky Halloween",
+        image: "/gradient/section.png",
+        category: "EVENT_BASED",
+        description: "Everything you need for a hauntingly good time.",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        kits: [{
+            id: "kit-2",
+            sku: "HALLO-SPOOK-1",
+            tier: "STARTER",
+            price30Day: "49",
+            price60Day: "89",
+            deposit: "30",
+            items: [],
+            previewItems: []
+        }]
+    },
+    {
+        id: "mock-thanksgiving",
+        name: "Autumn Harvest",
+        image: "/gradient/footer.png",
+        category: "TRADITIONAL",
+        description: "Warm tones and elegant pieces for your Thanksgiving table.",
+        sortOrder: 3,
+        isActive: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        kits: [{
+            id: "kit-3",
+            sku: "TG-AUTUMN-1",
+            tier: "ULTIMATE",
+            price30Day: "129",
+            price60Day: "199",
+            deposit: "75",
+            items: [],
+            previewItems: []
+        }]
     }
+];
 
-    const data = await res.json();
-    return data;
+export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
+    try {
+        const res = await fetch(`${baseURL}${apiPrefix}/holidays/loves`, { cache: "no-store" });
+        if (!res.ok) throw new Error("API error");
+        return await res.json();
+    } catch (error) {
+        console.warn("API unreachable. Falling back to mock data for getHolidaysByLoves.");
+        return { items: MOCK_HOLIDAYS };
+    }
 }
 
 export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {

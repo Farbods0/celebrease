@@ -50,7 +50,11 @@ function addDaysIso(start: string, days: number): string {
     return d.toISOString().slice(0, 10);
 }
 
-const img = (path?: string | null) => (path ? `${baseURL}${path}` : "");
+const img = (path?: string | null) => {
+    if (!path) return "";
+    if (path.startsWith("http") || path.startsWith("/")) return path;
+    return `${baseURL}${path}`;
+};
 
 /* ---- prop types ------------------------------------------------------------- */
 

@@ -193,7 +193,7 @@ function CatalogCard({ holiday }: { holiday: ApiHoliday }) {
     return (
         <Link href={`/catalog/${holiday.id}`} className="cb-holiday-card">
             <img
-                src={`${baseURL}${holiday.image}`}
+                src={holiday.image?.startsWith("/") || holiday.image?.startsWith("http") ? holiday.image : `${baseURL}${holiday.image}`}
                 alt={`${holiday.name} — holiday décor kit`}
             />
             <div className="scrim" />

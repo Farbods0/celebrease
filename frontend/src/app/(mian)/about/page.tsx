@@ -14,7 +14,12 @@ function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number): ApiHol
 export default async function AboutPage() {
     let holidays: ApiHoliday[] = [];
     try {
-        const data = await getHolidays();
+        let data = { items: [] as ApiHoliday[] };
+        try {
+            data = await getHolidays();
+        } catch (e) {
+            console.error("Failed to fetch holidays:", e);
+        }
         holidays = data.items ?? [];
     } catch {
         holidays = [];

@@ -23,11 +23,16 @@ function lowestPrice(kits: ApiHoliday["kits"]): number | null {
 const img = (path?: string) => (path ? `${baseURL}${path}` : "");
 
 export default async function HomePage() {
-    const data = await getHolidaysByLoves();
+    let data = { items: [] as ApiHoliday[] };
+    try {
+        data = await getHolidaysByLoves();
+    } catch (e) {
+        console.error("Failed to fetch holidays:", e);
+    }
     const holidays = data.items;
     const featured = holidays.slice(0, 6);
-    const hero0 = holidays[0];
-    const hero1 = holidays[1] ?? holidays[0];
+    const hero0 = holidays[0] ?? null;
+    const hero1 = holidays[1] ?? holidays[0] ?? null;
 
     return (
         <div className="cb">

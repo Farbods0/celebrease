@@ -1,19 +1,21 @@
 import { PrismaClient } from "@/generated/prisma/client";
-import { Injectable } from "@nestjs/common";
-import { neonConfig } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import ws from "ws";
-
-// The Neon serverless driver speaks WebSocket. In a Node runtime there is no
-// global WebSocket, so it must be supplied explicitly or every query throws an
-// ErrorEvent. (Edge/browser runtimes have it built in.)
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-neonConfig.webSocketConstructor = ws;
+import { Injectable, OnModuleInit, OnModuleDestroy } from "@nestjs/common";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 
 @Injectable()
-export class PrismaService extends PrismaClient {
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
     constructor() {
-        const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL });
-        super({ adapter });
+        const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+        const adapter = new PrismaPg(pool);
+        super({ adapter } as any);
+    }
+
+    async onModuleInit() {
+        await this.$connect();
+    }
+
+    async onModuleDestroy() {
+        await this.$disconnect();
     }
 }

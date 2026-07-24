@@ -23,7 +23,12 @@ const img = (path?: string | null) => (path ? `${baseURL}${path}` : "");
 
 export default async function CatalogDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const data = await getHolidayById(id);
+    let data = { holiday: null, kits: [] as ApiHolidayKit[], addOns: [] as ApiHolidayAddOn[], holidays: [] as ApiHoliday[] };
+    try {
+        data = await getHolidayById(id);
+    } catch (e) {
+        console.error("Failed to fetch holiday:", e);
+    }
 
     if (!data.holiday) {
         return (

@@ -287,10 +287,18 @@ function CompareCell({ value }: { value: string }) {
 }
 
 export default async function SubscriptionPage() {
-    const [plansData, holidaysData] = await Promise.all([
-        getPlans(),
-        getHolidays(),
-    ]);
+    let plansData = { items: [] as ApiPlan[] };
+    let holidaysData = { items: [] as ApiHoliday[] };
+    try {
+        const [p, h] = await Promise.all([
+            getPlans(),
+            getHolidays(),
+        ]);
+        plansData = p;
+        holidaysData = h;
+    } catch (e) {
+        console.error("Failed to fetch subscription data:", e);
+    }
 
     const plans: ApiPlan[] = plansData.items;
     const holidays: ApiHoliday[] = holidaysData.items;

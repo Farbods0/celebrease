@@ -1,4 +1,4 @@
-export const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+export const baseURL = "";
 export const apiPrefix = "/api/v1";
 
 export async function uploadImage(file: File): Promise<string> {

@@ -35,7 +35,7 @@ export const auth = createAuthClient({
             },
         }),
     ],
-    baseURL: process.env.NEXT_PUBLIC_APP_SERVER || "https://celebrease-backend-production-4778.up.railway.app",
+    baseURL: typeof window !== "undefined" ? window.location.origin : (process.env.NEXT_PUBLIC_APP_CLIENT || "https://celebrease.com"),
 });
 
 export type Session = typeof auth.$Infer.Session;

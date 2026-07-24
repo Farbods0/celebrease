@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SigninForm } from "./form";
 
-const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+const baseURL = "";
 
 const holidayImages = [
     { src: `${baseURL}/uploads/holidays/christmas.png`, name: "Christmas", span: "tall" },

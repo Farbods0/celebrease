@@ -1,4 +1,4 @@
-const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+const baseURL = "";
 const apiPrefix = "/api/v1";
 
 async function readError(res: Response, fallback: string): Promise<string> {

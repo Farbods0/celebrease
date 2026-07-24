@@ -9,7 +9,7 @@ const verifySchema = z.object({
     type: z.enum(["signup", "reset"]),
 });
 
-const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+const baseURL = "";
 
 const holidayImages = [
     { src: `${baseURL}/uploads/holidays/christmas.png`, alt: "" },

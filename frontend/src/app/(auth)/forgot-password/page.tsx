@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ForgotPasswordForm } from "./form";
 
-const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+const baseURL = "";
 
 export default function ForgotPassword() {
     return (

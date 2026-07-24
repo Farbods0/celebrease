@@ -1,6 +1,6 @@
 import { HolidayCategory, KitTier } from "@/lib/api/holiday";
 
-const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+const baseURL = "";
 const apiPrefix = "/api/v1";
 
 export type Duration = "THIRTY_DAY" | "SIXTY_DAY";

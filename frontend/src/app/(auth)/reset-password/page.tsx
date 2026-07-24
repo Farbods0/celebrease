@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { ResetPasswordForm } from "./form";
 
-const baseURL = process.env.NEXT_PUBLIC_APP_SERVER as string;
+const baseURL = "";
 
 export default async function ResetPassword() {
     return (

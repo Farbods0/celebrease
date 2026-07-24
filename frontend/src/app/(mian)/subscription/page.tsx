@@ -51,7 +51,10 @@ const COMPARE_ROWS: Array<{
 ];
 
 function imgSrc(path?: string | null) {
-    return path ? `${baseURL}${path}` : "";
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    if (path.startsWith("/uploads")) return `${baseURL}${path}`;
+    return path.startsWith("/") ? path : `${baseURL}/${path}`;
 }
 
 /* Mosaic card layout — first 2 holidays get span-2 large cards */

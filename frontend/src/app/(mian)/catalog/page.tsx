@@ -1,8 +1,10 @@
-import { HolidayCategory } from "@/lib/api";
+import { HolidayCategory, getHolidays } from "@/lib/api";
 import { HolidayGrid } from "./holiday-grid";
 import type { SortValue } from "./catalog-filter";
 
-export default function CatalogPage() {
+export default async function CatalogPage() {
+    const initialData = await getHolidays();
+
     return (
         <div className="cb">
             {/* PAGE HEADER */}
@@ -74,7 +76,7 @@ export default function CatalogPage() {
             </header>
 
             {/* HOLIDAY GRID (client — handles filter + search + sort) */}
-            <HolidayGrid />
+            <HolidayGrid initialData={initialData} />
         </div>
     );
 }

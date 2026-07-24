@@ -24,7 +24,7 @@ const CATEGORY_CLS: Record<HolidayCategory, string> = {
     EVENT_BASED: "event",
 };
 
-function HolidayGridContent() {
+function HolidayGridContent({ initialData }: { initialData?: any }) {
     const searchParams = useSearchParams();
     const category = searchParams.get("category") || "";
     const searchQuery = searchParams.get("search")?.trim().toLowerCase() || "";
@@ -33,9 +33,10 @@ function HolidayGridContent() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["holidays"],
         queryFn: () => getHolidays(),
+        initialData: initialData,
     });
 
-    const allHolidays = useMemo(() => data?.items ?? [], [data]);
+    const allHolidays: ApiHoliday[] = useMemo(() => data?.items ?? [], [data]);
 
     const filtered = useMemo(() => {
         let list = allHolidays.filter((h) => {
@@ -155,10 +156,10 @@ function HolidayGridContent() {
     );
 }
 
-export function HolidayGrid() {
+export function HolidayGrid({ initialData }: { initialData?: any }) {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <HolidayGridContent />
+            <HolidayGridContent initialData={initialData} />
         </Suspense>
     );
 }

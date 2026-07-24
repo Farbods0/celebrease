@@ -158,7 +158,15 @@ export function WishlistGrid() {
                                         aria-label={`View ${holiday.name} kits`}
                                     >
                                         <img
-                                            src={`${baseURL}${holiday.image}`}
+                                            src={
+                                                holiday.image?.startsWith("http")
+                                                    ? holiday.image
+                                                    : holiday.image?.startsWith("/uploads")
+                                                    ? `${baseURL}${holiday.image}`
+                                                    : holiday.image?.startsWith("/")
+                                                    ? holiday.image
+                                                    : `${baseURL}/${holiday.image}`
+                                            }
                                             alt={`${holiday.name} — holiday decor kit`}
                                         />
                                         <div className="scrim" />

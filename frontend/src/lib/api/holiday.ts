@@ -122,19 +122,27 @@ const mockHolidays: ApiHoliday[] = events.map((e, i) => ({
 }));
 
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
-    return { items: mockHolidays };
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { cache: "no-store" });
+    if (!res.ok) {
+        return { items: mockHolidays };
+    }
+    return res.json();
 }
 
 export async function getHolidayById(
     id: string,
 ): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
-    const holiday = mockHolidays.find(h => h.id === id) || mockHolidays[0];
-    return {
-        holiday: holiday as ApiHolidayDetail,
-        kits: holiday.kits,
-        addOns: [],
-        holidays: mockHolidays
-    };
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
+    if (!res.ok) {
+        const holiday = mockHolidays.find(h => h.id === id) || mockHolidays[0];
+        return {
+            holiday: holiday as ApiHolidayDetail,
+            kits: holiday.kits,
+            addOns: [],
+            holidays: mockHolidays
+        };
+    }
+    return res.json();
 }
 
 export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {

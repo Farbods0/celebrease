@@ -544,8 +544,7 @@ export default function AccountClient() {
                     <main className="acct-content">
 
                         {/* ===== OVERVIEW TAB ===== */}
-                        {activeTab === "overview" && (
-                            <>
+                        <div className={activeTab === "overview" ? "block" : "hidden"}>
                                 {/* Greeting */}
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
@@ -761,24 +760,20 @@ export default function AccountClient() {
                                         </button>
                                     </div>
                                 </div>
-                            </>
-                        )}
+                        </div>
 
                         {/* ===== SUBSCRIPTION TAB ===== */}
-                        {activeTab === "subscription" && (
-                            <>
+                        <div className={activeTab === "subscription" ? "block" : "hidden"}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>My Subscription</h1>
                                     <p className="greeting-sub">Manage your plan, billing, and holiday slots.</p>
                                 </div>
                                 <SubscriptionCard />
-                            </>
-                        )}
+                        </div>
 
                         {/* ===== SLOTS TAB ===== */}
-                        {activeTab === "slots" && (
-                            <>
+                        <div className={activeTab === "slots" ? "block" : "hidden"}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Holiday Slots</h1>
@@ -933,12 +928,10 @@ export default function AccountClient() {
                                         </Link>
                                     </div>
                                 )}
-                            </>
-                        )}
+                        </div>
 
                         {/* ===== ORDERS TAB ===== */}
-                        {activeTab === "orders" && (
-                            <>
+                        <div className={activeTab === "orders" ? "block" : "hidden"}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Orders</h1>
@@ -953,12 +946,10 @@ export default function AccountClient() {
                                         <RecentRentals />
                                     </div>
                                 </div>
-                            </>
-                        )}
+                        </div>
 
                         {/* ===== ADDRESSES TAB ===== */}
-                        {activeTab === "addresses" && (
-                            <>
+                        <div className={activeTab === "addresses" ? "block" : "hidden"}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Addresses &amp; Payment</h1>
@@ -968,12 +959,10 @@ export default function AccountClient() {
                                     <AddressCard />
                                     <PaymentCard />
                                 </div>
-                            </>
-                        )}
+                        </div>
 
                         {/* ===== SETTINGS TAB ===== */}
-                        {activeTab === "settings" && (
-                            <>
+                        <div className={activeTab === "settings" ? "block" : "hidden"}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Account Settings</h1>
@@ -984,8 +973,7 @@ export default function AccountClient() {
                                     email={user?.email ?? ""}
                                     onSignOut={handleSignOut}
                                 />
-                            </>
-                        )}
+                        </div>
                     </main>
                 </div>
             </div>

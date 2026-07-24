@@ -58,7 +58,17 @@ export default function AccountClient() {
     const firstName = displayName.split(" ")[0] ?? displayName;
     const initials = getInitials(user?.name);
 
-    const [activeTab, setActiveTab] = useState<ActiveTab>("overview");
+    // Use vanilla JS for 0ms tab switching
+    const changeTab = (id: ActiveTab) => {
+        document.querySelectorAll('.tab-content').forEach((el: any) => el.style.display = 'none');
+        const target = document.getElementById('tab-' + id);
+        if (target) target.style.display = 'block';
+        
+        document.querySelectorAll('.acct-nav-link').forEach((el: any) => el.classList.remove('active'));
+        const navTarget = document.getElementById('nav-' + id);
+        if (navTarget) navTarget.classList.add('active');
+    };
+    
     const [sub, setSub] = useState<ApiSubscription | null>(null);
 
     useEffect(() => {
@@ -524,9 +534,10 @@ export default function AccountClient() {
                             {navItems.map((item) => (
                                 <button
                                     key={item.id}
-                                    className={`acct-nav-link${activeTab === item.id ? " active" : ""}`}
-                                    onClick={() => setActiveTab(item.id)}
-                                    aria-current={activeTab === item.id ? "page" : undefined}
+                                    className={`acct-nav-link${item.id === "overview" ? " active" : ""}`}
+                                    id={`nav-${item.id}`}
+                                    onClick={() => changeTab(item.id)}
+                                    aria-current={item.id === "overview" ? "page" : undefined}
                                 >
                                     <span className="nav-ic" aria-hidden="true">{item.icon}</span>
                                     {item.label}
@@ -544,7 +555,7 @@ export default function AccountClient() {
                     <main className="acct-content">
 
                         {/* ===== OVERVIEW TAB ===== */}
-                        <div className={activeTab === "overview" ? "block" : "hidden"}>
+                        <div className="tab-content" id="tab-overview" style={{ display: "block" }}>
                                 {/* Greeting */}
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
@@ -710,7 +721,7 @@ export default function AccountClient() {
                                         <button
                                             className="sidebar-signout-btn"
                                             style={{ color: "var(--cb-purple)", fontSize: 13.5, fontWeight: 600 }}
-                                            onClick={() => setActiveTab("orders")}
+                                            onClick={() => changeTab("orders")}
                                         >
                                             View all orders &#8594;
                                         </button>
@@ -734,7 +745,7 @@ export default function AccountClient() {
                                         <button
                                             className="qa-card"
                                             aria-label="View your orders"
-                                            onClick={() => setActiveTab("orders")}
+                                            onClick={() => changeTab("orders")}
                                         >
                                             <div className="qa-icon" aria-hidden="true">📦</div>
                                             <div className="qa-label">My Orders</div>
@@ -743,7 +754,7 @@ export default function AccountClient() {
                                         <button
                                             className="qa-card"
                                             aria-label="Manage your delivery addresses"
-                                            onClick={() => setActiveTab("addresses")}
+                                            onClick={() => changeTab("addresses")}
                                         >
                                             <div className="qa-icon" aria-hidden="true">🏠</div>
                                             <div className="qa-label">Manage Addresses</div>
@@ -752,7 +763,7 @@ export default function AccountClient() {
                                         <button
                                             className="qa-card"
                                             aria-label="Account settings and preferences"
-                                            onClick={() => setActiveTab("settings")}
+                                            onClick={() => changeTab("settings")}
                                         >
                                             <div className="qa-icon" aria-hidden="true">⚙️</div>
                                             <div className="qa-label">Account Settings</div>
@@ -763,7 +774,7 @@ export default function AccountClient() {
                         </div>
 
                         {/* ===== SUBSCRIPTION TAB ===== */}
-                        <div className={activeTab === "subscription" ? "block" : "hidden"}>
+                        <div className="tab-content" id="tab-subscription" style={{ display: "none" }}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>My Subscription</h1>
@@ -773,7 +784,7 @@ export default function AccountClient() {
                         </div>
 
                         {/* ===== SLOTS TAB ===== */}
-                        <div className={activeTab === "slots" ? "block" : "hidden"}>
+                        <div className="tab-content" id="tab-slots" style={{ display: "none" }}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Holiday Slots</h1>
@@ -931,7 +942,7 @@ export default function AccountClient() {
                         </div>
 
                         {/* ===== ORDERS TAB ===== */}
-                        <div className={activeTab === "orders" ? "block" : "hidden"}>
+                        <div className="tab-content" id="tab-orders" style={{ display: "none" }}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Orders</h1>
@@ -949,7 +960,7 @@ export default function AccountClient() {
                         </div>
 
                         {/* ===== ADDRESSES TAB ===== */}
-                        <div className={activeTab === "addresses" ? "block" : "hidden"}>
+                        <div className="tab-content" id="tab-addresses" style={{ display: "none" }}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Addresses &amp; Payment</h1>
@@ -962,7 +973,7 @@ export default function AccountClient() {
                         </div>
 
                         {/* ===== SETTINGS TAB ===== */}
-                        <div className={activeTab === "settings" ? "block" : "hidden"}>
+                        <div className="tab-content" id="tab-settings" style={{ display: "none" }}>
                                 <div className="acct-greeting">
                                     <div className="greeting-eyebrow">My Account</div>
                                     <h1>Account Settings</h1>

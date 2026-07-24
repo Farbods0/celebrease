@@ -3,6 +3,8 @@ import { inferAdditionalFields } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { toast } from "sonner";
 
+const PRODUCTION_API_URL = "https://api.celebrease.com";
+
 export const auth = createAuthClient({
     fetchOptions: {
         onError(e) {
@@ -34,22 +36,32 @@ export const auth = createAuthClient({
             },
         }),
     ],
-    baseURL: import.meta.env.VITE_APP_SERVER,
+    baseURL: import.meta.env.VITE_APP_SERVER || PRODUCTION_API_URL,
 });
 
 export const validateSession = async () => {
-    const { data } = await auth.getSession();
+    try {
+        const { data } = await auth.getSession();
 
-    if (!data?.user) {
+        if (!data?.user) {
+            throw redirect({ to: "/signin" });
+        } else if (!data.user.emailVerified) {
+            throw redirect({ to: "/verification", search: { user: data.user.email, type: "signup" } });
+        } else if (data.user.role !== "admin" && data.user.role !== "superadmin") {
+            await auth.signOut();
+            toast.error("Only admins can access the admin portal.");
+            throw redirect({ to: "/signin" });
+        } else {
+            return { user: data.user, session: data.session };
+        }
+    } catch (error) {
+        // Re-throw TanStack Router redirects
+        if (error && typeof error === "object" && "to" in error) {
+            throw error;
+        }
+        // Network errors, CORS failures, etc. — redirect to signin
+        console.error("Session validation failed:", error);
         throw redirect({ to: "/signin" });
-    } else if (!data.user.emailVerified) {
-        throw redirect({ to: "/verification", search: { user: data.user.email, type: "signup" } });
-    } else if (data.user.role !== "admin" && data.user.role !== "superadmin") {
-        await auth.signOut();
-        toast.error("Only admins can access the admin portal.");
-        throw redirect({ to: "/signin" });
-    } else {
-        return { user: data.user, session: data.session };
     }
 };
 

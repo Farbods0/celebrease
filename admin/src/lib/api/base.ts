@@ -1,4 +1,5 @@
-export const baseURL = import.meta.env.VITE_APP_SERVER as string;
+const PRODUCTION_API_URL = "https://api.celebrease.com";
+export const baseURL = (import.meta.env.VITE_APP_SERVER as string) || PRODUCTION_API_URL;
 export const apiPrefix = "/api/v1";
 
 export type Paginated<T> = {

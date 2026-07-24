@@ -8,16 +8,9 @@ import { toNumber } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import { useMemo, Suspense } from "react";
 import { CatalogFilter, type SortValue } from "./catalog-filter";
-
-type HolidayGridProps = {
-    searchParams: {
-        category?: HolidayCategory | "";
-        search?: string;
-        sort?: SortValue;
-    };
-};
 
 const CATEGORY_LABEL: Record<HolidayCategory, string> = {
     TRADITIONAL: "Traditional",
@@ -31,15 +24,16 @@ const CATEGORY_CLS: Record<HolidayCategory, string> = {
     EVENT_BASED: "event",
 };
 
-export function HolidayGrid({ searchParams }: HolidayGridProps) {
+function HolidayGridContent() {
+    const searchParams = useSearchParams();
+    const category = searchParams.get("category") || "";
+    const searchQuery = searchParams.get("search")?.trim().toLowerCase() || "";
+    const sort = (searchParams.get("sort") as SortValue) || "popular";
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ["holidays"],
         queryFn: () => getHolidays(),
     });
-
-    const category = searchParams.category || "";
-    const searchQuery = searchParams.search?.trim().toLowerCase() || "";
-    const sort: SortValue = searchParams.sort || "popular";
 
     const allHolidays = useMemo(() => data?.items ?? [], [data]);
 
@@ -73,7 +67,7 @@ export function HolidayGrid({ searchParams }: HolidayGridProps) {
         <>
             <CatalogFilter
                 category={category as HolidayCategory | ""}
-                search={searchParams.search || ""}
+                search={searchParams.get("search") || ""}
                 sort={sort}
                 visibleCount={filtered.length}
             />
@@ -158,6 +152,14 @@ export function HolidayGrid({ searchParams }: HolidayGridProps) {
                 }
             `}</style>
         </>
+    );
+}
+
+export function HolidayGrid() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <HolidayGridContent />
+        </Suspense>
     );
 }
 

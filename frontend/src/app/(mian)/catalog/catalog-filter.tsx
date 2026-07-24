@@ -21,10 +21,8 @@ type CatalogFilterProps = {
 };
 
 export function CatalogFilter({ category, search, sort, visibleCount }: CatalogFilterProps) {
-    const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    const [, startTransition] = useTransition();
 
     const update = useCallback(
         (key: string, value: string) => {
@@ -35,11 +33,10 @@ export function CatalogFilter({ category, search, sort, visibleCount }: CatalogF
                 params.set(key, value);
             }
             const qs = params.toString();
-            startTransition(() => {
-                router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
-            });
+            const newUrl = `${pathname}${qs ? `?${qs}` : ""}`;
+            window.history.pushState(null, "", newUrl);
         },
-        [searchParams, router, pathname],
+        [searchParams, pathname],
     );
 
     return (

@@ -2,13 +2,7 @@ import { HolidayCategory } from "@/lib/api";
 import { HolidayGrid } from "./holiday-grid";
 import type { SortValue } from "./catalog-filter";
 
-type CatalogPageProps = {
-    searchParams: Promise<{ category?: HolidayCategory | ""; search?: string; sort?: SortValue }>;
-};
-
-export default async function CatalogPage(props: CatalogPageProps) {
-    const searchParams = await props.searchParams;
-
+export default function CatalogPage() {
     return (
         <div className="cb">
             {/* PAGE HEADER */}
@@ -80,7 +74,7 @@ export default async function CatalogPage(props: CatalogPageProps) {
             </header>
 
             {/* HOLIDAY GRID (client — handles filter + search + sort) */}
-            <HolidayGrid searchParams={searchParams} />
+            <HolidayGrid />
         </div>
     );
 }

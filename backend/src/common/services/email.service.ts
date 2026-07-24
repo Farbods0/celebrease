@@ -9,17 +9,19 @@ export class EmailService {
 
     constructor(private readonly config: ConfigService) {
         this.transporter = nodemailer.createTransport({
-            service: "gmail",
+            host: "smtp.resend.com",
+            port: 2525,
+            secure: false,
             auth: {
-                user: this.config.get("mail.user"),
-                pass: this.config.get("mail.pass"),
+                user: "resend", // Resend SMTP username is always "resend"
+                pass: this.config.get("mail.pass"), // The API key
             },
         });
     }
 
     async verifyEmail({ email, url }: { email: string; url: string }) {
         return await this.transporter.sendMail({
-            from: `CeleBrease <${this.config.get("mail.user")}>`,
+            from: `CeleBrease <onboarding@resend.dev>`, // Resend requires this for unverified domains
             to: [email],
             subject: "Verify Your CeleBrease Account",
             html: `
@@ -169,7 +171,7 @@ export class EmailService {
 
     async contact({ name, email, subject, message }: { name: string; email: string; subject: string; message: string }) {
         return await this.transporter.sendMail({
-            from: `CeleBrease Contact <${this.config.get("mail.user")}>`,
+            from: `CeleBrease Contact <onboarding@resend.dev>`,
             to: ["farbods0@gmail.com"],
             subject: `New Contact: ${subject}`,
             html: `
@@ -337,7 +339,7 @@ export class EmailService {
 
     async resetPassword({ email, url }: { email: string; url: string }) {
         return await this.transporter.sendMail({
-            from: `CeleBrease <${this.config.get("mail.user")}>`,
+            from: `CeleBrease <onboarding@resend.dev>`,
             to: [email],
             subject: "Reset Your CeleBrease Password",
             html: `

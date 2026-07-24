@@ -138,21 +138,49 @@ export async function getHolidayById(
 }
 
 export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
-    return { items: mockHolidays.slice(0, 4) };
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/loves`, { cache: "no-store" });
+    if (!res.ok) {
+        return { items: mockHolidays.slice(0, 4) };
+    }
+    return res.json();
 }
 
 export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
-    return { holidayIds: [] };
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/loves`, { credentials: "include" });
+    if (!res.ok) {
+        return { holidayIds: [] };
+    }
+    return res.json();
 }
 
 export async function getMyWishlist(): Promise<{ items: ApiHoliday[] }> {
-    return { items: [] };
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/wishlist`, { credentials: "include" });
+    if (!res.ok) {
+        return { items: [] };
+    }
+    return res.json();
 }
 
 export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
-    return { loved: true, loveCount: 1 };
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
+        method: "POST",
+        credentials: "include",
+    });
+    if (!res.ok) {
+        const errorMsg = await readError(res, "Failed to save to wishlist");
+        throw new Error(errorMsg);
+    }
+    return res.json();
 }
 
 export async function unloveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
-    return { loved: false, loveCount: 0 };
+    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
+        method: "DELETE",
+        credentials: "include",
+    });
+    if (!res.ok) {
+        const errorMsg = await readError(res, "Failed to remove from wishlist");
+        throw new Error(errorMsg);
+    }
+    return res.json();
 }

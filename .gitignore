@@ -4,3 +4,13 @@
 .pnpm-store/
 audit/
 CeleBrease Artifacts/
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Next.js & Build output
+.next/
+dist/
+build/
+

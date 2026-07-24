@@ -1,5 +1,4 @@
-const baseURL = "";
-const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 async function readError(res: Response, fallback: string): Promise<string> {
     try {
@@ -16,7 +15,7 @@ export async function submitContact(data: {
     subject: string;
     message: string;
 }): Promise<{ success: boolean }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/contact`, {
+    const res = await fetch(apiURL(`${apiPrefix}/contact`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

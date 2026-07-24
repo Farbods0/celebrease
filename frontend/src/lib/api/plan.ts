@@ -1,5 +1,4 @@
-const baseURL = "";
-const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 export type PlanCode = "STARTER" | "PREMIUM" | "ULTIMATE";
 
@@ -23,27 +22,6 @@ export type ApiPlan = {
     sortOrder: number;
     features: ApiPlanFeature[];
 };
-
-async function readError(res: Response, fallback: string): Promise<string> {
-    try {
-        const body = await res.json();
-        if (body && typeof body.message === "string") return body.message;
-    } catch {
-        // not JSON
-    }
-    return `${fallback}: ${res.statusText}`;
-}
-
-export async function getPlans(): Promise<{ items: ApiPlan[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/plan`, { cache: "no-store" });
-
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to get plans"));
-    }
-
-    const data = await res.json();
-    return data;
-}
 
 export type BillingCycle = "MONTHLY" | "YEARLY";
 
@@ -77,31 +55,40 @@ export type ApiSubscription = {
     holidaySlots: ApiSubscriptionHolidaySlot[];
 };
 
-export async function getMySubscription(): Promise<ApiSubscription | null> {
-    const res = await fetch(`${baseURL}${apiPrefix}/subscription/me`, {
-        credentials: "include",
-    });
+async function readError(res: Response, fallback: string): Promise<string> {
+    try {
+        const body = await res.json();
+        if (body && typeof body.message === "string") return body.message;
+    } catch {
+        // not JSON
+    }
+    return `${fallback}: ${res.statusText}`;
+}
 
+export async function getPlans(): Promise<{ items: ApiPlan[] }> {
+    const res = await fetch(apiURL(`${apiPrefix}/plan`), { cache: "no-store" });
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to get plans"));
+    }
+    return res.json();
+}
+
+export async function getMySubscription(): Promise<ApiSubscription | null> {
+    const res = await fetch(apiURL(`${apiPrefix}/subscription/me`));
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to get subscription"));
     }
-
-    const data = await res.json();
-    return data;
+    return res.json();
 }
 
 export async function createSubscriptionCheckout(args: { planId: string; billingCycle: BillingCycle }): Promise<{ url: string }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/subscription/checkout`, {
+    const res = await fetch(apiURL(`${apiPrefix}/subscription/checkout`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(args),
     });
-
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to start checkout"));
     }
-
-    const data = await res.json();
-    return data;
+    return res.json();
 }

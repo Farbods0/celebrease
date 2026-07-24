@@ -1,7 +1,5 @@
+import { apiPrefix, apiURL } from "./base";
 import { HolidayCategory, KitTier } from "@/lib/api/holiday";
-
-const baseURL = "";
-const apiPrefix = "/api/v1";
 
 export type Duration = "THIRTY_DAY" | "SIXTY_DAY";
 
@@ -56,42 +54,31 @@ async function readError(res: Response, fallback: string): Promise<string> {
 }
 
 export async function getMyCarts(): Promise<{ items: ApiCart[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/cart`, { credentials: "include" });
-
+    const res = await fetch(apiURL(`${apiPrefix}/cart`));
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to get carts"));
     }
-
-    const data = await res.json();
-    return data;
+    return res.json();
 }
 
 export async function addToCart(payload: AddToCartPayload): Promise<ApiCart> {
-    const res = await fetch(`${baseURL}${apiPrefix}/cart`, {
+    const res = await fetch(apiURL(`${apiPrefix}/cart`), {
         method: "POST",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to add to cart"));
     }
-
-    const data = await res.json();
-    return data;
+    return res.json();
 }
 
 export async function removeFromCart(cartId: string): Promise<{ ok: true }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/cart/${cartId}`, {
+    const res = await fetch(apiURL(`${apiPrefix}/cart/${cartId}`), {
         method: "DELETE",
-        credentials: "include",
     });
-
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to remove cart item"));
     }
-
-    const data = await res.json();
-    return data;
+    return res.json();
 }

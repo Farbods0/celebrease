@@ -1,5 +1,4 @@
-const baseURL = "";
-const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 async function readError(res: Response, fallback: string): Promise<string> {
     try {
@@ -19,7 +18,7 @@ export type ApiPaymentMethod = {
 };
 
 export async function getMyPaymentMethod(): Promise<ApiPaymentMethod | null> {
-    const res = await fetch(`${baseURL}${apiPrefix}/subscription/payment-method`, { credentials: "include" });
+    const res = await fetch(apiURL(`${apiPrefix}/subscription/payment-method`));
 
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to get payment method"));

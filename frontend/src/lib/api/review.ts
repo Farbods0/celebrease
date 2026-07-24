@@ -1,5 +1,4 @@
-const baseURL = "";
-const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 async function readError(res: Response, fallback: string): Promise<string> {
     try {
@@ -21,7 +20,7 @@ export type ApiReview = {
 };
 
 export async function getActiveReviews(): Promise<{ items: ApiReview[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/review/active`, { cache: "no-store" });
+    const res = await fetch(apiURL(`${apiPrefix}/review/active`), { cache: "no-store" });
 
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to get reviews"));

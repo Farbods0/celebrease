@@ -1,5 +1,4 @@
-const baseURL = "";
-const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 export type DeliveryOption = "STANDARD" | "EXPRESS";
 
@@ -112,9 +111,8 @@ async function readError(res: Response, fallback: string): Promise<string> {
 }
 
 export async function createOrderCheckout(payload: CreateCheckoutPayload): Promise<CreateCheckoutResponse> {
-    const res = await fetch(`${baseURL}${apiPrefix}/order/checkout`, {
+    const res = await fetch(apiURL(`${apiPrefix}/order/checkout`), {
         method: "POST",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
@@ -128,12 +126,13 @@ export async function createOrderCheckout(payload: CreateCheckoutPayload): Promi
 }
 
 export async function listMyOrders(params?: { filter?: "active" | "recent"; page?: number; limit?: number }): Promise<ListOrdersResponse> {
-    const url = new URL(`${baseURL}${apiPrefix}/order/me`);
-    if (params?.filter) url.searchParams.set("filter", params.filter);
-    if (params?.page) url.searchParams.set("page", params.page.toString());
-    if (params?.limit) url.searchParams.set("limit", params.limit.toString());
+    const url = apiURL(`${apiPrefix}/order/me`, {
+        ...(params?.filter ? { filter: params.filter } : {}),
+        ...(params?.page ? { page: params.page } : {}),
+        ...(params?.limit ? { limit: params.limit } : {}),
+    });
 
-    const res = await fetch(url.toString(), { credentials: "include" });
+    const res = await fetch(url);
 
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to list orders"));
@@ -144,9 +143,8 @@ export async function listMyOrders(params?: { filter?: "active" | "recent"; page
 }
 
 export async function cancelMyOrder(orderId: string): Promise<ApiOrder> {
-    const res = await fetch(`${baseURL}${apiPrefix}/order/me/${orderId}/cancel`, {
+    const res = await fetch(apiURL(`${apiPrefix}/order/me/${orderId}/cancel`), {
         method: "PATCH",
-        credentials: "include",
     });
 
     if (!res.ok) {
@@ -158,9 +156,8 @@ export async function cancelMyOrder(orderId: string): Promise<ApiOrder> {
 }
 
 export async function retryOrderPayment(orderId: string): Promise<{ url: string }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/order/me/${orderId}/retry-payment`, {
+    const res = await fetch(apiURL(`${apiPrefix}/order/me/${orderId}/retry-payment`), {
         method: "POST",
-        credentials: "include",
     });
 
     if (!res.ok) {
@@ -172,9 +169,8 @@ export async function retryOrderPayment(orderId: string): Promise<{ url: string 
 }
 
 export async function requestOrderReturn(orderId: string): Promise<ApiOrder> {
-    const res = await fetch(`${baseURL}${apiPrefix}/order/me/${orderId}/return`, {
+    const res = await fetch(apiURL(`${apiPrefix}/order/me/${orderId}/return`), {
         method: "POST",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
     });

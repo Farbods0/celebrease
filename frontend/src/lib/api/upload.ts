@@ -1,13 +1,11 @@
-export const baseURL = "";
-export const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 export async function uploadImage(file: File): Promise<string> {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`${baseURL}${apiPrefix}/upload/image`, {
+    const response = await fetch(apiURL(`${apiPrefix}/upload/image`), {
         method: "POST",
-        credentials: "include",
         body: formData,
     });
 
@@ -20,9 +18,8 @@ export async function uploadImage(file: File): Promise<string> {
 }
 
 export async function deleteImage(url: string): Promise<void> {
-    const response = await fetch(`${baseURL}${apiPrefix}/upload/image?url=${encodeURIComponent(url)}`, {
+    const response = await fetch(apiURL(`${apiPrefix}/upload/image?url=${encodeURIComponent(url)}`), {
         method: "DELETE",
-        credentials: "include",
     });
 
     if (!response.ok) {

@@ -1,5 +1,4 @@
-const baseURL = "";
-const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 async function readError(res: Response, fallback: string): Promise<string> {
     try {
@@ -85,46 +84,10 @@ export type ApiHolidayDetail = {
     updatedAt: string;
 };
 
-import { events } from "@/data/index";
-
-const mockHolidays: ApiHoliday[] = events.map((e, i) => ({
-    id: e.id,
-    name: e.title,
-    image: `/${e.image}`,
-    category: e.type.toUpperCase().replace("-", "_") as HolidayCategory,
-    description: e.description,
-    sortOrder: i,
-    isActive: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    kits: [
-        {
-            id: `kit-${e.id}-starter`,
-            sku: `${e.id}-STARTER`,
-            tier: "STARTER",
-            price30Day: e.price.basic.split("-")[0] || "30",
-            price60Day: "50",
-            deposit: "25",
-            items: [],
-            previewItems: []
-        },
-        {
-            id: `kit-${e.id}-premium`,
-            sku: `${e.id}-PREMIUM`,
-            tier: "PREMIUM",
-            price30Day: e.price.premium.split("-")[0] || "50",
-            price60Day: "80",
-            deposit: "40",
-            items: [],
-            previewItems: []
-        }
-    ]
-}));
-
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays`, { cache: "no-store" });
+    const res = await fetch(apiURL(`${apiPrefix}/holidays`), { cache: "no-store" });
     if (!res.ok) {
-        return { items: mockHolidays };
+        throw new Error(await readError(res, "Failed to load holidays"));
     }
     return res.json();
 }
@@ -132,29 +95,23 @@ export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
 export async function getHolidayById(
     id: string,
 ): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}`, { cache: "no-store" });
+    const res = await fetch(apiURL(`${apiPrefix}/holidays/${id}`), { cache: "no-store" });
     if (!res.ok) {
-        const holiday = mockHolidays.find(h => h.id === id) || mockHolidays[0];
-        return {
-            holiday: holiday as ApiHolidayDetail,
-            kits: holiday.kits,
-            addOns: [],
-            holidays: mockHolidays
-        };
+        throw new Error(await readError(res, "Failed to load holiday"));
     }
     return res.json();
 }
 
 export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/loves`, { cache: "no-store" });
+    const res = await fetch(apiURL(`${apiPrefix}/holidays/loves`), { cache: "no-store" });
     if (!res.ok) {
-        return { items: mockHolidays.slice(0, 4) };
+        return { items: [] };
     }
     return res.json();
 }
 
 export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/loves`, { credentials: "include" });
+    const res = await fetch(apiURL(`${apiPrefix}/holidays/me/loves`));
     if (!res.ok) {
         return { holidayIds: [] };
     }
@@ -162,7 +119,7 @@ export async function getMyHolidayLoves(): Promise<{ holidayIds: string[] }> {
 }
 
 export async function getMyWishlist(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/me/wishlist`, { credentials: "include" });
+    const res = await fetch(apiURL(`${apiPrefix}/holidays/me/wishlist`));
     if (!res.ok) {
         return { items: [] };
     }
@@ -170,9 +127,8 @@ export async function getMyWishlist(): Promise<{ items: ApiHoliday[] }> {
 }
 
 export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
+    const res = await fetch(apiURL(`${apiPrefix}/holidays/${id}/love`), {
         method: "POST",
-        credentials: "include",
     });
     if (!res.ok) {
         const errorMsg = await readError(res, "Failed to save to wishlist");
@@ -182,9 +138,8 @@ export async function loveHoliday(id: string): Promise<{ loved: boolean; loveCou
 }
 
 export async function unloveHoliday(id: string): Promise<{ loved: boolean; loveCount: number }> {
-    const res = await fetch(`${baseURL}${apiPrefix}/holidays/${id}/love`, {
+    const res = await fetch(apiURL(`${apiPrefix}/holidays/${id}/love`), {
         method: "DELETE",
-        credentials: "include",
     });
     if (!res.ok) {
         const errorMsg = await readError(res, "Failed to remove from wishlist");

@@ -1,5 +1,4 @@
-const baseURL = "";
-const apiPrefix = "/api/v1";
+import { apiPrefix, apiURL } from "./base";
 
 export type ApiAddress = {
     id: string;
@@ -38,32 +37,25 @@ async function readError(res: Response, fallback: string): Promise<string> {
 }
 
 export async function getMyAddress(): Promise<ApiAddress | null> {
-    const res = await fetch(`${baseURL}${apiPrefix}/address/me`, { credentials: "include" });
-
+    const res = await fetch(apiURL(`${apiPrefix}/address/me`));
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to get address"));
     }
-
     try {
-        const data = await res.json();
-        return data;
+        return await res.json();
     } catch {
         return null;
     }
 }
 
 export async function upsertMyAddress(payload: UpsertAddressPayload): Promise<ApiAddress> {
-    const res = await fetch(`${baseURL}${apiPrefix}/address/me`, {
+    const res = await fetch(apiURL(`${apiPrefix}/address/me`), {
         method: "PATCH",
-        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
     });
-
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to save address"));
     }
-
-    const data = await res.json();
-    return data;
+    return res.json();
 }

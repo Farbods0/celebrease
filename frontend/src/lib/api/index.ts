@@ -8,3 +8,4 @@ export * from "./newsletter";
 export * from "./upload";
 export * from "./review";
 export * from "./subscriptions";
+export { getBaseURL as baseURL } from "./base";

@@ -1,6 +1,7 @@
 import Provider from "@/app/provider";
 import Navbar from "@/components/main/navbar";
 import { Toaster } from "@/components/ui/sonner";
+import NextTopLoader from 'nextjs-toploader';
 import type { Metadata } from "next";
 
 // Vendored fonts (self-hosted via @fontsource) — replaces next/font/google,
@@ -34,6 +35,7 @@ export default function RootLayout({
                 <link rel="preload" as="image" href="/gradient/footer.png" fetchPriority="high" />
             </head>
             <body className="min-h-screen flex flex-col">
+                <NextTopLoader color="#9B2FC9" showSpinner={false} speed={300} shadow="0 0 10px #9B2FC9,0 0 5px #9B2FC9" />
                 <Provider>
                     <Navbar />
                     {children}

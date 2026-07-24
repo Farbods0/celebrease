@@ -1,4 +1,14 @@
-import { getHolidayById, ApiHoliday, baseURL, HolidayCategory } from "@/lib/api";
+import {
+    ApiHoliday,
+    ApiHolidayAddOn,
+    ApiHolidayKit,
+    ApiKitItem,
+    KitTier,
+    baseURL,
+    getHolidayById,
+    ApiHolidayDetail,
+    HolidayCategory,
+} from "@/lib/api";
 import Link from "next/link";
 import { HolidayDetails } from "./holiday-details";
 import { Button } from "@/components/ui/button";
@@ -23,7 +33,7 @@ const img = (path?: string | null) => (path ? `${baseURL}${path}` : "");
 
 export default async function CatalogDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    let data = { holiday: null, kits: [] as ApiHolidayKit[], addOns: [] as ApiHolidayAddOn[], holidays: [] as ApiHoliday[] };
+    let data: { holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] } = { holiday: null, kits: [], addOns: [], holidays: [] };
     try {
         data = await getHolidayById(id);
     } catch (e) {

@@ -7,15 +7,15 @@ import { auth } from "@/lib/auth";
 import { getMySubscription, type ApiSubscription } from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 // Lazy-load heavy tab components to ensure instant tab switching
-const ActiveRentals = dynamic(() => import("@/components/account/active-rentals"), { ssr: false });
-const AddressCard = dynamic(() => import("@/components/account/address-card"), { ssr: false });
-const PaymentCard = dynamic(() => import("@/components/account/payment-card"), { ssr: false });
-const RecentRentals = dynamic(() => import("@/components/account/recent-rentals"), { ssr: false });
-const SubscriptionCard = dynamic(() => import("@/components/account/subscription-card"), { ssr: false });
+const ActiveRentals = dynamic(() => import("@/components/account/active-rentals"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
+const AddressCard = dynamic(() => import("@/components/account/address-card"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
+const PaymentCard = dynamic(() => import("@/components/account/payment-card"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
+const RecentRentals = dynamic(() => import("@/components/account/recent-rentals"), { ssr: false, loading: () => <div className="animate-pulse h-48 bg-gray-200 rounded-xl" /> });
+const SubscriptionCard = dynamic(() => import("@/components/account/subscription-card"), { ssr: false, loading: () => <div className="animate-pulse h-64 bg-gray-200 rounded-xl" /> });
 
 function getInitials(name?: string | null) {
     if (!name) return "?";
@@ -101,8 +101,6 @@ export default function AccountClient() {
         { id: "settings", icon: "⚙️", label: "Settings" },
     ];
 
-    const [isPending, startTransition] = useTransition();
-
     return (
         <div className="cb">
             <style>{`
@@ -115,10 +113,6 @@ export default function AccountClient() {
                     grid-template-columns: 240px 1fr;
                     gap: 32px;
                     align-items: start;
-                    transition: opacity 0.2s;
-                }
-                .acct-wrap.pending {
-                    opacity: 0.7;
                 }
                 /* Sidebar */
                 .acct-sidebar {
@@ -510,7 +504,7 @@ export default function AccountClient() {
             `}</style>
 
             <div className="acct-page">
-                <div className={`acct-wrap ${isPending ? "pending" : ""}`}>
+                <div className="acct-wrap">
 
                     {/* SIDEBAR */}
                     <aside className="acct-sidebar" aria-label="Account navigation">
@@ -532,7 +526,7 @@ export default function AccountClient() {
                                 <button
                                     key={item.id}
                                     className={`acct-nav-link${activeTab === item.id ? " active" : ""}`}
-                                    onClick={() => startTransition(() => setActiveTab(item.id))}
+                                    onClick={() => setActiveTab(item.id)}
                                     aria-current={activeTab === item.id ? "page" : undefined}
                                 >
                                     <span className="nav-ic" aria-hidden="true">{item.icon}</span>

@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { useMemo, Suspense } from "react";
+import { useMemo, Suspense, useState } from "react";
 import { CatalogFilter, type SortValue } from "./catalog-filter";
 
 const CATEGORY_LABEL: Record<HolidayCategory, string> = {
@@ -26,9 +26,11 @@ const CATEGORY_CLS: Record<HolidayCategory, string> = {
 
 function HolidayGridContent({ initialData }: { initialData?: any }) {
     const searchParams = useSearchParams();
-    const category = searchParams.get("category") || "";
-    const searchQuery = searchParams.get("search")?.trim().toLowerCase() || "";
-    const sort = (searchParams.get("sort") as SortValue) || "popular";
+    
+    // Use local state for instant UI updates, initialize from URL
+    const [category, setCategory] = useState(searchParams.get("category") || "");
+    const [searchQuery, setSearchQuery] = useState(searchParams.get("search")?.trim().toLowerCase() || "");
+    const [sort, setSort] = useState<SortValue>((searchParams.get("sort") as SortValue) || "popular");
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["holidays"],
@@ -64,12 +66,16 @@ function HolidayGridContent({ initialData }: { initialData?: any }) {
         return list;
     }, [allHolidays, category, searchQuery, sort]);
 
+    // Pass the local state and setters to CatalogFilter
     return (
         <>
             <CatalogFilter
                 category={category as HolidayCategory | ""}
-                search={searchParams.get("search") || ""}
+                setCategory={setCategory}
+                search={searchQuery}
+                setSearchQuery={setSearchQuery}
                 sort={sort}
+                setSort={setSort}
                 visibleCount={filtered.length}
             />
 

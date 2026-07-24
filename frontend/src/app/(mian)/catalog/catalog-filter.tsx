@@ -15,17 +15,26 @@ export type SortValue = "popular" | "az" | "price-asc" | "price-desc";
 
 type CatalogFilterProps = {
     category: HolidayCategory | "";
+    setCategory: (c: string) => void;
     search: string;
+    setSearchQuery: (s: string) => void;
     sort: SortValue;
+    setSort: (s: SortValue) => void;
     visibleCount: number;
 };
 
-export function CatalogFilter({ category, search, sort, visibleCount }: CatalogFilterProps) {
+export function CatalogFilter({ category, setCategory, search, setSearchQuery, sort, setSort, visibleCount }: CatalogFilterProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
     const update = useCallback(
         (key: string, value: string) => {
+            // Instantly update local state for UI
+            if (key === "category") setCategory(value);
+            if (key === "search") setSearchQuery(value);
+            if (key === "sort") setSort(value as SortValue);
+
+            // Passively update URL
             const params = new URLSearchParams(searchParams.toString());
             if (value === "" || value === "popular") {
                 params.delete(key);
@@ -36,7 +45,7 @@ export function CatalogFilter({ category, search, sort, visibleCount }: CatalogF
             const newUrl = `${pathname}${qs ? `?${qs}` : ""}`;
             window.history.pushState(null, "", newUrl);
         },
-        [searchParams, pathname],
+        [searchParams, pathname, setCategory, setSearchQuery, setSort],
     );
 
     return (

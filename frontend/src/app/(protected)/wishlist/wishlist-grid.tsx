@@ -1,6 +1,6 @@
 "use client";
 
-import { baseURL, getMyWishlist, type ApiHoliday, type HolidayCategory } from "@/lib/api";
+import { baseURL, getHolidays, getMyWishlist, type ApiHoliday, type HolidayCategory } from "@/lib/api";
 import { useLovesStore } from "@/lib/loves-store";
 import { toNumber } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -47,14 +47,16 @@ export function WishlistGrid() {
     const [items, setItems] = useState<ApiHoliday[]>([]);
     const router = useRouter();
 
-    useEffect(() => {
-        if (data?.items) setItems(data.items);
-    }, [data?.items]);
+    const { data: catalogData } = useQuery({
+        queryKey: ["holidays"],
+        queryFn: () => getHolidays(),
+    });
 
     useEffect(() => {
         if (!hydrated) return;
-        setItems((prev) => prev.filter((h) => loved.has(h.id)));
-    }, [loved, hydrated]);
+        const catalogList = catalogData?.items ?? data?.items ?? [];
+        setItems(catalogList.filter((h) => loved.has(h.id)));
+    }, [loved, hydrated, catalogData?.items, data?.items]);
 
     const count = items.length;
 

@@ -53,10 +53,16 @@ export function WishlistGrid() {
     });
 
     useEffect(() => {
+        if (data?.items && data.items.length > 0) {
+            setItems(data.items);
+            return;
+        }
         if (!hydrated) return;
-        const catalogList = catalogData?.items ?? data?.items ?? [];
-        setItems(catalogList.filter((h) => loved.has(h.id)));
-    }, [loved, hydrated, catalogData?.items, data?.items]);
+        const catalogList = catalogData?.items ?? [];
+        if (catalogList.length > 0) {
+            setItems(catalogList.filter((h) => loved.has(h.id)));
+        }
+    }, [data?.items, loved, hydrated, catalogData?.items]);
 
     const count = items.length;
 

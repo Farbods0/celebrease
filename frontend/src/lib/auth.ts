@@ -5,10 +5,12 @@ import { toast } from "sonner";
 export const auth = createAuthClient({
     fetchOptions: {
         onError(e) {
-            if (e.error.status === 429) {
+            if (e.error?.status === 429) {
                 toast.error("Too many requests. Please try again later.");
+            } else if (e.error?.message) {
+                toast.error(e.error.message);
             } else {
-                toast.error(e.error.message ?? "Something went wrong.");
+                toast.error("Network error: Could not reach the backend server.");
             }
         },
     },
@@ -33,7 +35,7 @@ export const auth = createAuthClient({
             },
         }),
     ],
-    baseURL: process.env.NEXT_PUBLIC_APP_SERVER,
+    baseURL: process.env.NEXT_PUBLIC_APP_SERVER || "https://celebrease-backend-production-4778.up.railway.app",
 });
 
 export type Session = typeof auth.$Infer.Session;

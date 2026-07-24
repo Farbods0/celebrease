@@ -4,8 +4,8 @@ import { createAuthClient } from "better-auth/react";
 import { toast } from "sonner";
 
 const API_URL = import.meta.env.DEV
-    ? (import.meta.env.VITE_APP_SERVER || "https://api.celebrease.com")
-    : "https://api.celebrease.com";
+    ? (import.meta.env.VITE_APP_SERVER || "https://celebrease-backend-production-4778.up.railway.app")
+    : "https://celebrease-backend-production-4778.up.railway.app";
 
 export const auth = createAuthClient({
     fetchOptions: {

@@ -1,6 +1,6 @@
 export const baseURL = import.meta.env.DEV
-    ? ((import.meta.env.VITE_APP_SERVER as string) || "https://api.celebrease.com")
-    : "https://api.celebrease.com";
+    ? ((import.meta.env.VITE_APP_SERVER as string) || "https://celebrease-backend-production-4778.up.railway.app")
+    : "https://celebrease-backend-production-4778.up.railway.app";
 export const apiPrefix = "/api/v1";
 
 export type Paginated<T> = {

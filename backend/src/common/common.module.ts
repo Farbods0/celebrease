@@ -59,6 +59,12 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                             },
                         },
                     },
+                    socialProviders: {
+                        google: {
+                            clientId: configService.get<string>("google.clientId") || process.env.GOOGLE_CLIENT_ID || "",
+                            clientSecret: configService.get<string>("google.clientSecret") || process.env.GOOGLE_CLIENT_SECRET || "",
+                        },
+                    },
                     trustedOrigins: configService.get<string>("client")?.split(",") || [],
                     advanced: {
                         defaultCookieAttributes: {

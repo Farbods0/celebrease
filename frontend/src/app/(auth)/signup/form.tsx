@@ -630,7 +630,16 @@ export function SignupForm() {
                     type="button"
                     className="cb-auth-oauth-btn"
                     aria-label="Sign up with Google"
-                    onClick={() => toast.info("Google sign-in coming soon!")}
+                    onClick={async () => {
+                        try {
+                            await auth.signIn.social({
+                                provider: "google",
+                                callbackURL: `${window.location.origin}/account`,
+                            });
+                        } catch (err: any) {
+                            toast.error(err?.message || "Could not initiate Google sign in");
+                        }
+                    }}
                 >
                     <svg
                         width="18"

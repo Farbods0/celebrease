@@ -29,4 +29,9 @@ export const config = () => ({
         apiKey: process.env.BREVO_API_KEY,
         listId: process.env.BREVO_LIST_ID,
     },
+
+    google: {
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
 });

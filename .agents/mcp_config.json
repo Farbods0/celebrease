@@ -8,9 +8,9 @@
       ]
     },
     "railway": {
-      "command": "/Users/farbodjahan/.railway/bin/railway",
+      "command": "node",
       "args": [
-        "mcp"
+        "/Users/farbodjahan/Documents/celebrease/.agents/railway_mcp_wrapper.js"
       ]
     }
   }

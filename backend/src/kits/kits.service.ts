@@ -82,6 +82,7 @@ export class KitsService {
                 visibleOnPdp: dto.visibleOnPdp ?? true,
                 addOnsEnabled: dto.addOnsEnabled ?? true,
                 limitInventory: dto.limitInventory ?? false,
+                images: dto.images ?? [],
             },
         });
     }
@@ -123,6 +124,7 @@ export class KitsService {
                 ...(dto.visibleOnPdp !== undefined && { visibleOnPdp: dto.visibleOnPdp }),
                 ...(dto.addOnsEnabled !== undefined && { addOnsEnabled: dto.addOnsEnabled }),
                 ...(dto.limitInventory !== undefined && { limitInventory: dto.limitInventory }),
+                ...(dto.images !== undefined && { images: dto.images }),
             },
         });
     }

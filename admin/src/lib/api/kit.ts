@@ -29,6 +29,7 @@ export type ApiKit = {
     visibleOnPdp: boolean;
     addOnsEnabled: boolean;
     limitInventory: boolean;
+    images: string[];
     items: ApiKitItem[];
     previewItems: ApiKitPreviewItem[];
     createdAt: string;
@@ -43,12 +44,13 @@ export type CreateKitPayload = {
     price30Day: number;
     price60Day: number;
     deposit: number;
-    seasonStart?: string;
-    seasonEnd?: string;
+    seasonStart?: string | null;
+    seasonEnd?: string | null;
     alwaysVisible?: boolean;
     visibleOnPdp?: boolean;
     addOnsEnabled?: boolean;
     limitInventory?: boolean;
+    images?: string[];
 };
 
 export type UpdateKitPayload = Partial<CreateKitPayload>;

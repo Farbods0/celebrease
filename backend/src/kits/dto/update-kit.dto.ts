@@ -1,6 +1,6 @@
 import { KitStatus, KitTier } from "@/generated/prisma/enums";
 import { Type } from "class-transformer";
-import { IsBoolean, IsDateString, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, Min, MinLength } from "class-validator";
+import { IsArray, IsBoolean, IsDateString, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, Min, MinLength } from "class-validator";
 
 export class UpdateKitDto {
     @IsOptional()
@@ -63,4 +63,9 @@ export class UpdateKitDto {
     @IsOptional()
     @IsBoolean()
     limitInventory?: boolean;
+
+    @IsOptional()
+    @IsArray()
+    @IsString({ each: true })
+    images?: string[];
 }

@@ -44,6 +44,10 @@ const formSchema = z
         visibleOnPdp: z.boolean(),
         addOnsEnabled: z.boolean(),
         limitInventory: z.boolean(),
+        image1: z.string().optional(),
+        image2: z.string().optional(),
+        image3: z.string().optional(),
+        image4: z.string().optional(),
     })
     .refine((d) => !d.seasonStart || !d.seasonEnd || d.seasonStart <= d.seasonEnd, {
         message: "Season end must be on or after start",
@@ -71,6 +75,10 @@ export function KitsForm({ kit, holidays, defaultHolidayId, defaultTier, onClose
             visibleOnPdp: kit?.visibleOnPdp ?? true,
             addOnsEnabled: kit?.addOnsEnabled ?? true,
             limitInventory: kit?.limitInventory ?? false,
+            image1: kit?.images?.[0] ?? "",
+            image2: kit?.images?.[1] ?? "",
+            image3: kit?.images?.[2] ?? "",
+            image4: kit?.images?.[3] ?? "",
         },
         validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
@@ -89,6 +97,7 @@ export function KitsForm({ kit, holidays, defaultHolidayId, defaultTier, onClose
                     visibleOnPdp: value.visibleOnPdp,
                     addOnsEnabled: value.addOnsEnabled,
                     limitInventory: value.limitInventory,
+                    images: [value.image1, value.image2, value.image3, value.image4].filter((s) => s && s.trim() !== ""),
                 };
 
                 if (isEdit && kit) {
@@ -139,6 +148,15 @@ export function KitsForm({ kit, holidays, defaultHolidayId, defaultTier, onClose
                 <form.AppField name="status">
                     {(field) => <field.FormSelect label="Status" options={STATUSES} placeholder="Select Status" />}
                 </form.AppField>
+
+                {/* Gallery Images */}
+                <p className="text-xs text-muted-foreground uppercase tracking-wide">Gallery Images</p>
+                <div className="grid grid-cols-2 gap-3">
+                    <form.AppField name="image1">{(field) => <field.FormImage label="Main Image" folder="holidays" />}</form.AppField>
+                    <form.AppField name="image2">{(field) => <field.FormImage label="Angle 2" folder="holidays" />}</form.AppField>
+                    <form.AppField name="image3">{(field) => <field.FormImage label="Angle 3" folder="holidays" />}</form.AppField>
+                    <form.AppField name="image4">{(field) => <field.FormImage label="Angle 4" folder="holidays" />}</form.AppField>
+                </div>
 
                 {/* Pricing */}
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">Pricing</p>

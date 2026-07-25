@@ -43,6 +43,7 @@ export type ApiHolidayKit = {
     price30Day: string;
     price60Day: string;
     deposit: string;
+    images: string[];
     items: Array<ApiKitItem>;
     previewItems: Array<ApiKitPreviewItem>;
 };

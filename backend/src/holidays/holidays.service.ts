@@ -14,6 +14,7 @@ const holidayKitInclude = {
             price30Day: true,
             price60Day: true,
             deposit: true,
+            images: true,
         },
     },
 };

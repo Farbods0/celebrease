@@ -283,6 +283,7 @@ model Kit {
     holidayId String
     holiday   Holiday   @relation(fields: [holidayId], references: [id])
     status    KitStatus @default(DRAFT)
+    images    String[]  @default([])
 
     price30Day Decimal @db.Decimal(10, 2)
     price60Day Decimal @db.Decimal(10, 2)

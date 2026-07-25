@@ -129,13 +129,19 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
 
     /* ---- gallery images ----------------------------------------------------- */
 
-    const galleryImages: { src: string; alt: string }[] = [
-        { src: img(holiday.image), alt: holiday.name },
-        ...(selectedKit?.previewItems?.slice(0, 4).map((p) => ({
-            src: img(p.item.image),
-            alt: p.item.name,
-        })) ?? []),
-    ];
+    const galleryImages: { src: string; alt: string }[] =
+        selectedKit?.images && selectedKit.images.length > 0
+            ? selectedKit.images.map((image, i) => ({
+                  src: img(image),
+                  alt: `${holiday.name} - ${selectedKit.tier} Image ${i + 1}`,
+              }))
+            : [
+                  { src: img(holiday.image), alt: holiday.name },
+                  ...(selectedKit?.previewItems?.slice(0, 4).map((p) => ({
+                      src: img(p.item.image),
+                      alt: p.item.name,
+                  })) ?? []),
+              ];
 
     const mainImage = galleryImages[activeThumb] ?? galleryImages[0];
 

@@ -1,4 +1,4 @@
-import { apiGet } from "./base";
+import { apiPrefix, apiURL } from "./base";
 
 export type ApiSiteSettings = {
     companyName: string;
@@ -13,7 +13,9 @@ export type ApiSiteSettings = {
 
 export async function getSiteSettings(): Promise<ApiSiteSettings> {
     try {
-        return await apiGet<ApiSiteSettings>("/settings");
+        const res = await fetch(apiURL(`${apiPrefix}/settings`), { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to load settings");
+        return await res.json();
     } catch (e) {
         return {
             companyName: "CeleBrease",

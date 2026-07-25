@@ -181,8 +181,72 @@ function RouteComponent() {
                 </div>
             </div>
 
+            {/* Seasonality & Demand Forecasting */}
+            <div className="grid-2" style={{ marginTop: 24 }}>
+                <div className="panel">
+                    <div className="panel-head">
+                        <h3>Seasonality &amp; Summer Retention</h3>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: "var(--brand-purple)" }}>Live Heatmap</span>
+                    </div>
+                    <div className="panel-body" style={{ padding: "16px 22px" }}>
+                        <div style={{ padding: "12px 14px", background: "#FFF8E1", borderRadius: 10, border: "1px solid #FFE082", marginBottom: 16 }}>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: "#B78103", display: "flex", alignItems: "center", gap: 6 }}>
+                                <span>⚠️ Off-Season Retention Alert</span>
+                            </div>
+                            <div style={{ fontSize: 12, color: "#6A4D00", marginTop: 4, lineHeight: 1.4 }}>
+                                July/August show a <strong>14% higher pause rate</strong> between major holidays. Consider launching the <strong>&ldquo;Summer BBQ &amp; Independence Day&rdquo;</strong> filler kit promo.
+                            </div>
+                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                            {[
+                                { season: "Autumn (Halloween / Thanksgiving)", status: "98% Active", color: "var(--green)", bg: "var(--green-bg)" },
+                                { season: "Winter (Christmas / Hanukkah / NYE)", status: "100% Fully Booked", color: "var(--brand-purple)", bg: "#F3E8FB" },
+                                { season: "Spring (Easter / St. Patrick's)", status: "91% Active", color: "var(--blue)", bg: "var(--blue-bg)" },
+                                { season: "Summer (4th of July / Off-Season)", status: "82% Active (18% Paused)", color: "var(--amber)", bg: "var(--amber-bg)" },
+                            ].map((s) => (
+                                <div key={s.season} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 13, paddingBottom: 8, borderBottom: "1px solid var(--line)" }}>
+                                    <span style={{ fontWeight: 600 }}>{s.season}</span>
+                                    <span style={{ background: s.bg, color: s.color, fontWeight: 700, fontSize: 11.5, padding: "3px 9px", borderRadius: 12 }}>{s.status}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="panel">
+                    <div className="panel-head">
+                        <h3>Upcoming Demand Forecast</h3>
+                        <Link to="/inventory">Order Inventory →</Link>
+                    </div>
+                    <div className="panel-body" style={{ padding: "16px 22px" }}>
+                        <p style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 0, marginBottom: 14 }}>
+                            Comparing member selected favorite holidays against physical warehouse kit counts.
+                        </p>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                            {[
+                                { holiday: "🎄 Christmas (Luxury Tier)", demand: 480, stock: 420, alert: "Shortfall of 60 kits", color: "var(--red, #D32F2F)", bg: "#FFEBEE" },
+                                { holiday: "🎃 Halloween (Premium Tier)", demand: 310, stock: 350, alert: "Healthy Buffer (40 surplus)", color: "var(--green)", bg: "var(--green-bg)" },
+                                { holiday: "🦃 Thanksgiving (Starter Tier)", demand: 180, stock: 195, alert: "Optimal Stock", color: "var(--green)", bg: "var(--green-bg)" },
+                                { holiday: "🐰 Easter (Premium Tier)", demand: 220, stock: 150, alert: "Shortfall of 70 kits", color: "var(--red, #D32F2F)", bg: "#FFEBEE" },
+                            ].map((f) => (
+                                <div key={f.holiday} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 13.5, fontWeight: 700 }}>
+                                        <span>{f.holiday}</span>
+                                        <span style={{ color: f.color, background: f.bg, padding: "2px 8px", borderRadius: 10, fontSize: 11 }}>{f.alert}</span>
+                                    </div>
+                                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--ink-soft)" }}>
+                                        <span>Demand: <b>{f.demand} reserved</b></span>
+                                        <span>Warehouse: <b>{f.stock} in stock</b></span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* Recent orders */}
-            <div className="panel">
+            <div className="panel" style={{ marginTop: 24 }}>
                 <div className="panel-head">
                     <h3>Recent orders</h3>
                     <Link to="/orders">View all orders →</Link>

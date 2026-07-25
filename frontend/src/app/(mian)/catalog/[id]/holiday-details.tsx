@@ -131,15 +131,12 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
 
     const galleryImages: { src: string; alt: string }[] = [
         { src: img(holiday.image), alt: holiday.name },
-        ...(selectedKit?.previewItems?.slice(0, 3).map((p) => ({
+        ...(selectedKit?.previewItems?.slice(0, 4).map((p) => ({
             src: img(p.item.image),
             alt: p.item.name,
         })) ?? []),
     ];
-    // ensure at least 3 thumbs by padding with the main holiday image
-    while (galleryImages.length < 3) {
-        galleryImages.push({ src: img(holiday.image), alt: holiday.name });
-    }
+
     const mainImage = galleryImages[activeThumb] ?? galleryImages[0];
 
     /* ---- add to cart -------------------------------------------------------- */
@@ -227,7 +224,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                         </div>
                         {/* Thumbs */}
                         <div className="cb-gallery-thumbs" role="list" aria-label="Kit photo gallery">
-                            {galleryImages.slice(0, 3).map((g, i) => (
+                            {galleryImages.map((g, i) => (
                                 <button
                                     key={i}
                                     role="listitem"
@@ -294,7 +291,10 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                             key={k.id}
                                             type="button"
                                             className={`cb-tier-card${isSelected ? " selected" : ""}`}
-                                            onClick={() => setSelectedKitId(k.id)}
+                                            onClick={() => {
+                                                setSelectedKitId(k.id);
+                                                setActiveThumb(0);
+                                            }}
                                             role="radio"
                                             aria-checked={isSelected}
                                             aria-label={`${TIER_LABEL[k.tier]} tier, from $${Number(k.price30Day)}`}
@@ -346,7 +346,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
 
                     {/* Price + Deposit */}
                     <div className="cb-price-row" aria-live="polite" aria-label="Current price">
-                        <span className="cb-price-main">${currentPrice}</span>
+                        <span className="cb-price-main">${currentPrice + addonTotal}</span>
                         <span className="cb-price-period">/ rental period</span>
                     </div>
                     <div className="cb-deposit-line">
@@ -385,7 +385,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                             className="cb-btn-cart"
                             onClick={handleAddToCart}
                             disabled={submitting || !selectedKit}
-                            aria-label={`Add ${holiday.name} kit to cart for $${currentPrice}`}
+                            aria-label={`Add ${holiday.name} kit to cart for $${currentPrice + addonTotal}`}
                         >
                             {submitting ? "Adding…" : `Add to Cart — $${currentPrice + addonTotal}`}
                         </button>

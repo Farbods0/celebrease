@@ -663,14 +663,14 @@ export default function OrderConfirmationPage() {
                         {[
                             {
                                 tier: "Starter",
-                                price: "$29",
+                                price: "$199",
                                 count: "3 holidays per year",
                                 feat: "Designer-curated starter kits with full deposit protection and free shipping both ways.",
                                 elevated: false,
                             },
                             {
                                 tier: "Premium",
-                                price: "$49",
+                                price: "$349",
                                 count: "6 holidays per year",
                                 feat: "Premium kits, priority shipping, and free add-ons worth up to $25 every season.",
                                 elevated: true,
@@ -678,8 +678,8 @@ export default function OrderConfirmationPage() {
                             },
                             {
                                 tier: "Ultimate",
-                                price: "$89",
-                                count: "Unlimited holidays",
+                                price: "$599",
+                                count: "8 holidays per year",
                                 feat: "Every kit tier, a dedicated stylist, and first access to limited seasonal drops.",
                                 elevated: false,
                             },
@@ -697,7 +697,7 @@ export default function OrderConfirmationPage() {
                                 )}
                                 <span className="cb-plan-tier">{plan.tier}</span>
                                 <div className="cb-plan-price">
-                                    {plan.price}<span className="small">/mo</span>
+                                    {plan.price}<span className="small">/year</span>
                                 </div>
                                 <p className="cb-plan-count">{plan.count}</p>
                                 <p className="cb-plan-feat">{plan.feat}</p>

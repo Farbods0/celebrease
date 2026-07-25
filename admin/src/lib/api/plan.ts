@@ -19,6 +19,8 @@ export type ApiPlan = {
     kitDiscount: number;
     addOnDiscount: number;
     isActive: boolean;
+    isPopular: boolean;
+    buttonLabel: string | null;
     sortOrder: number;
     stripePriceMonthlyId: string | null;
     stripePriceYearlyId: string | null;
@@ -38,6 +40,8 @@ export type CreatePlanPayload = {
     kitDiscount?: number;
     addOnDiscount?: number;
     isActive?: boolean;
+    isPopular?: boolean;
+    buttonLabel?: string;
     sortOrder?: number;
     features: string[];
 };
@@ -51,6 +55,8 @@ export type UpdatePlanPayload = {
     kitDiscount?: number;
     addOnDiscount?: number;
     isActive?: boolean;
+    isPopular?: boolean;
+    buttonLabel?: string;
     sortOrder?: number;
     features?: string[];
 };

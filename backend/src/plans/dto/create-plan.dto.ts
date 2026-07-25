@@ -75,4 +75,13 @@ export class CreatePlanDto {
     @IsString({ each: true })
     @MaxLength(200, { each: true })
     features: string[];
+
+    @IsOptional()
+    @IsBoolean()
+    isPopular?: boolean = false;
+
+    @IsOptional()
+    @IsString()
+    @MaxLength(64)
+    buttonLabel?: string;
 }

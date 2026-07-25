@@ -19,6 +19,8 @@ export type ApiPlan = {
     kitDiscount: number;
     addOnDiscount: number;
     isActive: boolean;
+    isPopular: boolean;
+    buttonLabel: string | null;
     sortOrder: number;
     features: ApiPlanFeature[];
 };

@@ -24,6 +24,7 @@ const PUBLIC_FIELDS: Record<string, boolean> = {
     announcementBanner: true,
     announcementBannerActive: true,
     yearlyDiscountPercent: true,
+    aLaCarteStartingPrice: true,
 };
 
 @Injectable()

@@ -81,6 +81,8 @@ export class PlansService {
                 kitDiscount: dto.kitDiscount ?? 0,
                 addOnDiscount: dto.addOnDiscount ?? 0,
                 isActive: dto.isActive ?? true,
+                isPopular: dto.isPopular ?? false,
+                buttonLabel: dto.buttonLabel ?? null,
                 sortOrder: dto.sortOrder ?? 0,
                 stripeProductId: product.id,
                 stripePriceMonthlyId: monthlyPrice.id,
@@ -122,6 +124,8 @@ export class PlansService {
             if (dto.kitDiscount !== undefined) updateData.kitDiscount = dto.kitDiscount;
             if (dto.addOnDiscount !== undefined) updateData.addOnDiscount = dto.addOnDiscount;
             if (dto.isActive !== undefined) updateData.isActive = dto.isActive;
+            if (dto.isPopular !== undefined) updateData.isPopular = dto.isPopular;
+            if (dto.buttonLabel !== undefined) updateData.buttonLabel = dto.buttonLabel;
             if (dto.sortOrder !== undefined) updateData.sortOrder = dto.sortOrder;
 
             if (plan.stripeProductId && (dto.name !== undefined || dto.description !== undefined)) {

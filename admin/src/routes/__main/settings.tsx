@@ -540,6 +540,7 @@ const DEFAULT_SETTINGS: ApiSiteSettings = {
     smtpFromName: "CeleBrease",
     taxRate: 0.08,
     yearlyDiscountPercent: 20,
+    aLaCarteStartingPrice: 79.00,
     shippingStandard: 15,
     shippingExpress: 25,
     logoUrl: "",
@@ -590,6 +591,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                 smtpFromName: settings.smtpFromName,
                 taxRate: settings.taxRate,
                 yearlyDiscountPercent: settings.yearlyDiscountPercent,
+                aLaCarteStartingPrice: settings.aLaCarteStartingPrice,
                 shippingStandard: settings.shippingStandard,
                 shippingExpress: settings.shippingExpress,
                 logoUrl: settings.logoUrl,
@@ -808,6 +810,16 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                                 onChange={(e) => update("yearlyDiscountPercent", Number(e.target.value))}
                             />
                             <div className="hint">Applied automatically when users select yearly billing.</div>
+                        </div>
+                        <div className="field" style={{ maxWidth: 200 }}>
+                            <label>A-La-Carte Starting Price ($)</label>
+                            <input
+                                type="number"
+                                value={settings.aLaCarteStartingPrice}
+                                min={0}
+                                onChange={(e) => update("aLaCarteStartingPrice", Number(e.target.value))}
+                            />
+                            <div className="hint">Displayed on the pricing grid as the "starting at" price.</div>
                         </div>
                     </div>
 

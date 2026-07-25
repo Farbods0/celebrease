@@ -32,6 +32,8 @@ export type ApiSiteSettings = {
     // Announcement banner
     announcementBanner: string;
     announcementBannerActive: boolean;
+    yearlyDiscountPercent: number;
+    aLaCarteStartingPrice: number;
     updatedAt: string;
 };
 

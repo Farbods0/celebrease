@@ -34,6 +34,8 @@ const formSchema = z.object({
         .refine((v) => v === "" || (Number.isInteger(Number(v)) && Number(v) >= 0 && Number(v) <= 100), "Must be between 0 and 100"),
     sortOrder: z.string().refine((v) => Number.isInteger(Number(v)) && Number(v) >= 0, "Must be 0 or greater"),
     isActive: z.boolean(),
+    isPopular: z.boolean(),
+    buttonLabel: z.string().max(64),
 });
 
 export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
@@ -58,6 +60,8 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
             addOnDiscount: String(plan?.addOnDiscount ?? 0),
             sortOrder: String(plan?.sortOrder ?? 0),
             isActive: plan?.isActive ?? true,
+            isPopular: plan?.isPopular ?? false,
+            buttonLabel: plan?.buttonLabel ?? "",
         },
         validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
@@ -79,6 +83,8 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                         kitDiscount: Number(value.kitDiscount),
                         addOnDiscount: Number(value.addOnDiscount),
                         isActive: value.isActive,
+                        isPopular: value.isPopular,
+                        buttonLabel: value.buttonLabel,
                         sortOrder: Number(value.sortOrder),
                         features: cleaned,
                     });
@@ -142,9 +148,13 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                     {(field) => <field.FormTextarea label="Retail Value / Promo Badge Text" placeholder="e.g. Up to $750/yr equivalent retail value" />}
                 </form.AppField>
 
+                <form.AppField name="buttonLabel">
+                    {(field) => <field.FormInput label="Button Label" placeholder="e.g. Choose Plan" />}
+                </form.AppField>
+
                 <div className="grid grid-cols-1 gap-3">
                     <form.AppField name="monthlyPrice">
-                        {(field) => <field.FormInput type="number" label="Monthly Price ($)" placeholder="25.00" />}
+                        {(field) => <field.FormInput type="number" label="Annual Price ($)" placeholder="199.00" />}
                     </form.AppField>
                 </div>
 
@@ -199,6 +209,17 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                         <Field orientation="horizontal">
                             <FieldContent>
                                 <FieldLabel htmlFor={field.name}>Visible to customers</FieldLabel>
+                            </FieldContent>
+                            <Switch id={field.name} checked={field.state.value} onCheckedChange={field.handleChange} />
+                        </Field>
+                    )}
+                </form.AppField>
+
+                <form.AppField name="isPopular">
+                    {(field) => (
+                        <Field orientation="horizontal">
+                            <FieldContent>
+                                <FieldLabel htmlFor={field.name}>Highlight as Most Popular</FieldLabel>
                             </FieldContent>
                             <Switch id={field.name} checked={field.state.value} onCheckedChange={field.handleChange} />
                         </Field>

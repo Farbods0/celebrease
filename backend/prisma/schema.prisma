@@ -382,6 +382,8 @@ model Plan {
     kitDiscount          Int      @default(0)
     addOnDiscount        Int      @default(0)
     isActive             Boolean  @default(true)
+    isPopular            Boolean  @default(false)
+    buttonLabel          String?
     sortOrder            Int      @default(0)
     stripePriceMonthlyId String?  @unique
     stripePriceYearlyId  String?  @unique
@@ -705,6 +707,7 @@ model SiteSettings {
     announcementBanner      String   @default("")
     announcementBannerActive Boolean @default(false)
     yearlyDiscountPercent   Int      @default(20)
+    aLaCarteStartingPrice   Float    @default(79.00)
     updatedAt               DateTime @updatedAt
 
     @@map("site_settings")

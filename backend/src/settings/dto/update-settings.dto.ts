@@ -114,4 +114,9 @@ export class UpdateSettingsDto {
     @Max(100)
     @IsOptional()
     yearlyDiscountPercent?: number;
+
+    @IsNumber()
+    @Min(0)
+    @IsOptional()
+    aLaCarteStartingPrice?: number;
 }

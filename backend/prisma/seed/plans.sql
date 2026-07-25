@@ -1,11 +1,11 @@
 BEGIN;
 
 -- Plans (upsert by unique code)
-INSERT INTO "plan" ("id", "code", "name", "description", "monthlyPrice", "yearlyPrice", "holidaysPerYear", "kitDiscount", "addOnDiscount", "isActive", "sortOrder", "updatedAt")
+INSERT INTO "plan" ("id", "code", "name", "description", "monthlyPrice", "yearlyPrice", "holidaysPerYear", "kitDiscount", "addOnDiscount", "isActive", "isPopular", "buttonLabel", "sortOrder", "updatedAt")
 VALUES
-    ('plan_starter',  'STARTER',  'Starter',  NULL, 41.00,  396.00, 3, 0,  10, true, 0, NOW()),
-    ('plan_premium',  'PREMIUM',  'Premium',  NULL, 72.00,  684.00, 5, 10, 20, true, 1, NOW()),
-    ('plan_ultimate', 'ULTIMATE', 'Ultimate', NULL, 99.00,  948.00, 8, 15, 25, true, 2, NOW())
+    ('plan_starter',  'STARTER',  'Starter',  'Up to $350/yr equivalent retail value', 199.00,  199.00, 3, 0,  10, true, false, 'Start with Starter', 0, NOW()),
+    ('plan_premium',  'PREMIUM',  'Premium',  'Up to $750/yr equivalent retail value', 349.00,  349.00, 5, 10, 20, true, true, 'Go Premium', 1, NOW()),
+    ('plan_ultimate', 'ULTIMATE', 'Ultimate', 'Up to $1,500/yr equivalent retail value', 599.00,  599.00, 8, 15, 25, true, false, 'Go Ultimate', 2, NOW())
 ON CONFLICT ("code") DO UPDATE SET
     "name"            = EXCLUDED."name",
     "description"     = EXCLUDED."description",
@@ -15,6 +15,8 @@ ON CONFLICT ("code") DO UPDATE SET
     "kitDiscount"     = EXCLUDED."kitDiscount",
     "addOnDiscount"   = EXCLUDED."addOnDiscount",
     "isActive"        = EXCLUDED."isActive",
+    "isPopular"       = EXCLUDED."isPopular",
+    "buttonLabel"     = EXCLUDED."buttonLabel",
     "sortOrder"       = EXCLUDED."sortOrder",
     "updatedAt"       = NOW();
 

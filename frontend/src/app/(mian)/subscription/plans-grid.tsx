@@ -14,38 +14,16 @@ type BillingCycle = "Monthly" | "Yearly";
 
 type PlansGridProps = {
     plans: ApiPlan[];
-    settings?: { yearlyDiscountPercent?: number };
+    settings?: { yearlyDiscountPercent?: number; aLaCarteStartingPrice?: number };
 };
 
-const HIGHLIGHT_CODE = "PREMIUM";
-
-function priceFor(plan: ApiPlan, cycle: BillingCycle, discountPercent = 20) {
-    const monthly = Number(plan.monthlyPrice);
-    if (cycle === "Yearly") {
-        const totalYearly = Math.round(monthly * 12 * (1 - discountPercent / 100));
-        return {
-            amount: totalYearly,
-            period: "/year",
-            billedLabel: `yearly (${discountPercent}% discount applied)`,
-        };
-    }
-    return {
-        amount: monthly,
-        period: "/month",
-        billedLabel: "monthly",
-    };
-}
 
 export default function PlansGrid({ plans, settings }: PlansGridProps) {
-    const discountPercent = settings?.yearlyDiscountPercent ?? 20;
-    const [cycle, setCycle] = useState<BillingCycle>("Monthly");
     const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
     const [subscription, setSubscription] = useState<ApiSubscription | null>(null);
     const [subLoading, setSubLoading] = useState(false);
     const { data: session, isPending: sessionLoading } = auth.useSession();
     const router = useRouter();
-
-    const maxDiscount = discountPercent;
 
     useEffect(() => {
         if (sessionLoading) return;
@@ -81,7 +59,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
         try {
             const { url } = await createSubscriptionCheckout({
                 planId,
-                billingCycle: cycle === "Yearly" ? "YEARLY" : "MONTHLY",
+                billingCycle: "YEARLY",
             });
             if (!url) throw new Error("Stripe did not return a redirect URL");
             window.location.href = url;
@@ -93,43 +71,16 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
 
     return (
         <>
-            <div className="mt-5 lg:mt-6 flex items-center justify-center gap-3">
-                <div className="p-1.5 lg:p-2 bg-muted w-fit rounded-full flex">
-                    {(["Monthly", "Yearly"] as BillingCycle[]).map((item) => (
-                        <button
-                            key={item}
-                            type="button"
-                            onClick={() => setCycle(item)}
-                            className={`px-6 py-1.5 lg:px-7 lg:py-2 rounded-full whitespace-nowrap transition-colors ${
-                                cycle === item ? "bg-white shadow-lg" : ""
-                            }`}
-                        >
-                            {item}
-                        </button>
-                    ))}
-                </div>
-                {cycle === "Yearly" && maxDiscount > 0 && (
-                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-full">
-                        Save up to {maxDiscount}%
-                    </span>
-                )}
-            </div>
-
             <div className="grid lg:grid-cols-3 gap-6 mt-8">
                 {plans.length === 0 ? (
                     <p className="lg:col-span-3 text-center text-muted-foreground py-10">Plans are not available right now.</p>
                 ) : (
                     plans.map((plan) => {
-                        const highlight = plan.code === HIGHLIGHT_CODE;
-                        const { amount, period, billedLabel } = priceFor(plan, cycle, discountPercent);
+                        const highlight = plan.isPopular;
+                        const amount = Math.round(Number(plan.yearlyPrice || plan.monthlyPrice));
                         const isCurrentPlan = subscription?.plan.id === plan.id;
                         const hasOtherSub = !!subscription && !isCurrentPlan;
-                        const defaultLabel =
-                            plan.code === "STARTER"
-                                ? "Start with Starter"
-                                : plan.code === "PREMIUM"
-                                  ? "Go Premium"
-                                  : "Go Ultimate";
+                        const defaultLabel = plan.buttonLabel || "Select Plan";
                         const buttonLabel = subLoading
                             ? "Loading..."
                             : isCurrentPlan
@@ -159,12 +110,14 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                                         </div>
                                         <div className="flex items-baseline gap-1">
                                             <span className="text-4xl lg:text-5xl font-semibold">${amount}</span>
-                                            <span className="text-muted-foreground">{period}</span>
+                                            <span className="text-muted-foreground">/year</span>
                                         </div>
-                                        <p className="text-sm text-green-600">Billed {billedLabel}</p>
-                                        <p className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 flex items-center gap-1">
-                                            ✨ {plan.description ? plan.description : `${plan.code === "STARTER" ? "Up to $350/yr" : plan.code === "PREMIUM" ? "Up to $750/yr" : "Up to $1,500/yr"} equivalent retail value`}
-                                        </p>
+                                        <p className="text-sm text-green-600 capitalize">Billed annually</p>
+                                        {plan.description && (
+                                            <p className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 flex items-center gap-1">
+                                                ✨ {plan.description}
+                                            </p>
+                                        )}
                                     </div>
 
                                     <div className="space-y-3 flex-1">
@@ -200,7 +153,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                     <span className="text-xs uppercase tracking-wider font-extrabold text-pink-400">A-La-Carte Rental Option</span>
                     <h4 className="text-xl font-bold">Just hosting a single holiday event?</h4>
                     <p className="text-sm text-purple-200">
-                        One-time individual holiday décor rentals start at <strong className="text-white">$79 / kit</strong>. Save significantly per holiday by choosing an all-inclusive membership above!
+                        One-time individual holiday décor rentals start at <strong className="text-white">${settings?.aLaCarteStartingPrice ?? 79} / kit</strong>. Save significantly per holiday by choosing an all-inclusive membership above!
                     </p>
                 </div>
                 <Button

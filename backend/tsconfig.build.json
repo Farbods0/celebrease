@@ -4,6 +4,7 @@
         "node_modules",
         "dist",
         "prisma.config.ts",
-        "check-db.ts"
+        "check-db.ts",
+        "test.ts"
     ]
 }

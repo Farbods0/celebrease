@@ -2,11 +2,19 @@ import { PlanCard } from "@/components/plans/plan-card";
 import { PlanForm } from "@/components/plans/plan-form";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { plansApi, type ApiPlan } from "@/lib/api";
-import { createFileRoute } from "@tanstack/react-router";
+import { settingsApi } from "@/lib/api/settings";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/__main/plans")({
-    loader: () => plansApi.list(),
+    loader: async () => {
+        const [plans, settings] = await Promise.all([
+            plansApi.list(),
+            settingsApi.get().catch(() => ({ yearlyDiscountPercent: 20 })),
+        ]);
+        return { items: plans.items, settings };
+    },
     component: RouteComponent,
 });
 
@@ -83,15 +91,38 @@ function money(value: string | null) {
 
 function RouteComponent() {
     const data = Route.useLoaderData();
+    const router = useRouter();
 
     const [createOpen, setCreateOpen] = useState(false);
     const [editItem, setEditItem] = useState<ApiPlan | null>(null);
+    const [discountPct, setDiscountPct] = useState<number>(data.settings?.yearlyDiscountPercent ?? 20);
+    const [savingDiscount, setSavingDiscount] = useState(false);
 
     const items = [...data.items].sort(
         (a, b) => (TIER_ORDER[a.code] ?? 99) - (TIER_ORDER[b.code] ?? 99) || a.sortOrder - b.sortOrder,
     );
     const existingCodes = data.items.map((p) => p.code);
     const canAddMore = existingCodes.length < 3;
+
+    const saveDiscount = async () => {
+        setSavingDiscount(true);
+        try {
+            await settingsApi.update({ yearlyDiscountPercent: discountPct });
+            for (const item of items) {
+                const m = Number(item.monthlyPrice);
+                if (!Number.isNaN(m) && m > 0) {
+                    const computedY = Math.round(m * 12 * (1 - (discountPct / 100)));
+                    await plansApi.update(item.id, { yearlyPrice: String(computedY) });
+                }
+            }
+            toast.success(`Global ${discountPct}% discount applied & synced to all subscription plans!`);
+            await router.invalidate();
+        } catch (e) {
+            toast.error(e instanceof Error ? e.message : "Failed to sync discount");
+        } finally {
+            setSavingDiscount(false);
+        }
+    };
 
     return (
         <div className="content">
@@ -112,13 +143,40 @@ function RouteComponent() {
                 </Dialog>
             </div>
 
+            <div className="panel" style={{ marginBottom: 28, background: "var(--card)", border: "1px solid var(--brand-purple)", borderRadius: "var(--radius)", padding: "16px 20px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+                    <div>
+                        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: "var(--ink)", display: "flex", alignItems: "center", gap: 6 }}>
+                            ⚡ Automated Yearly Discount Engine
+                        </h3>
+                        <div style={{ fontSize: 13, color: "var(--ink-muted)", marginTop: 4, maxWidth: 620 }}>
+                            Power all annual pricing across the consumer site dynamically. Set one global discount percentage to automatically compute yearly costs from monthly base prices—zero hardcoding or manual math required.
+                        </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <label style={{ fontSize: 13.5, fontWeight: 700, color: "var(--ink)" }}>Global Discount (%):</label>
+                        <input
+                            type="number"
+                            value={discountPct}
+                            min={0}
+                            max={100}
+                            onChange={(e) => setDiscountPct(Number(e.target.value))}
+                            style={{ width: 76, padding: "8px 12px", borderRadius: 8, border: "2px solid var(--brand-purple)", fontWeight: 800, fontSize: 15, textAlign: "center" }}
+                        />
+                        <button type="button" className="btn-grad" onClick={saveDiscount} disabled={savingDiscount} style={{ cursor: "pointer", padding: "10px 18px", fontSize: 13.5 }}>
+                            {savingDiscount ? "Syncing..." : "Apply & Sync Live"}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div className="section-label">Plan configuration</div>
 
             <div className="plan-cards">
                 {items.length === 0 ? (
                     <div className="plan-empty">No plans yet — add up to 3 subscription tiers.</div>
                 ) : (
-                    items.map((item) => <PlanCard key={item.id} item={item} onEdit={setEditItem} />)
+                    items.map((item) => <PlanCard key={item.id} item={item} discountPercent={discountPct} onEdit={setEditItem} />)
                 )}
             </div>
 
@@ -167,10 +225,11 @@ function RouteComponent() {
                                         ))}
                                     </tr>
                                     <tr>
-                                        <td style={{ fontWeight: 600, color: "var(--ink-muted)" }}>Yearly price</td>
-                                        {items.map((p) => (
-                                            <td key={p.id} className="amt">{money(p.yearlyPrice)}</td>
-                                        ))}
+                                        <td style={{ fontWeight: 600, color: "var(--ink-muted)" }}>Yearly price (computed @ {discountPct}% off)</td>
+                                        {items.map((p) => {
+                                            const computed = Math.round(Number(p.monthlyPrice) * 12 * (1 - (discountPct / 100)));
+                                            return <td key={p.id} className="amt">{money(String(computed))}</td>;
+                                        })}
                                     </tr>
                                     <tr>
                                         <td style={{ fontWeight: 600, color: "var(--ink-muted)" }}>Features listed</td>

@@ -31,10 +31,11 @@ function maskStripeId(id: string | null) {
 
 type PlanCardProps = {
     item: ApiPlan;
+    discountPercent?: number;
     onEdit: (item: ApiPlan) => void;
 };
 
-export function PlanCard({ item, onEdit }: PlanCardProps) {
+export function PlanCard({ item, discountPercent = 20, onEdit }: PlanCardProps) {
     const router = useRouter();
     const [toggling, setToggling] = useState(false);
     const [removing, setRemoving] = useState(false);
@@ -99,7 +100,11 @@ export function PlanCard({ item, onEdit }: PlanCardProps) {
                         {item.monthlyPrice ? Math.round(Number(item.monthlyPrice)) : "—"}
                     </div>
                     <span className="plan-period">/ month</span>
-                    {item.yearlyPrice && <span className="plan-yearly">{formatMoney(item.yearlyPrice)} / yr</span>}
+                    {item.monthlyPrice && (
+                        <span className="plan-yearly" title={`Computed dynamically at ${discountPercent}% discount`}>
+                            {formatMoney(String(Math.round(Number(item.monthlyPrice) * 12 * (1 - discountPercent / 100))))} / yr
+                        </span>
+                    )}
                 </div>
                 <div className="plan-toggle">
                     <button
@@ -124,10 +129,18 @@ export function PlanCard({ item, onEdit }: PlanCardProps) {
                         </div>
                     </div>
                     <div className="plan-field">
-                        <label>Yearly price</label>
-                        <div className="field-row">
+                        <label style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span>Yearly price</span>
+                            <span style={{ fontSize: 11, color: "var(--brand-purple)", fontWeight: 700 }}>⚡ Auto @ {discountPercent}% off</span>
+                        </label>
+                        <div className="field-row" style={{ background: "rgba(155,47,201,.03)", border: "1px dashed var(--brand-purple)" }}>
                             <span className="field-prefix">$</span>
-                            <input className="field-input" readOnly value={item.yearlyPrice ? Number(item.yearlyPrice) : ""} />
+                            <input
+                                className="field-input"
+                                readOnly
+                                value={item.monthlyPrice ? Math.round(Number(item.monthlyPrice) * 12 * (1 - discountPercent / 100)) : ""}
+                                style={{ background: "transparent", fontWeight: 700 }}
+                            />
                         </div>
                     </div>
                 </div>

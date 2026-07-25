@@ -96,11 +96,31 @@ export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
 export async function getHolidayById(
     id: string,
 ): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
-    const res = await fetch(apiURL(`${apiPrefix}/holidays/${id}`), { cache: "no-store" });
-    if (!res.ok) {
-        throw new Error(await readError(res, "Failed to load holiday"));
+    const [resOne, resAll] = await Promise.all([
+        fetch(apiURL(`${apiPrefix}/holidays/${id}`), { cache: "no-store" }),
+        fetch(apiURL(`${apiPrefix}/holidays`), { cache: "no-store" })
+    ]);
+
+    if (!resOne.ok) {
+        throw new Error(await readError(resOne, "Failed to load holiday"));
     }
-    return res.json();
+    
+    const data = await resOne.json();
+
+    if (resAll.ok) {
+        const allData = await resAll.json();
+        const thisHoliday = allData.items.find((h: any) => h.id === id);
+        if (thisHoliday && thisHoliday.kits) {
+            for (const kit of data.kits) {
+                const matchedKit = thisHoliday.kits.find((k: any) => k.id === kit.id);
+                if (matchedKit && matchedKit.images) {
+                    kit.images = matchedKit.images;
+                }
+            }
+        }
+    }
+
+    return data;
 }
 
 export async function getHolidaysByLoves(): Promise<{ items: ApiHoliday[] }> {

@@ -4,6 +4,7 @@ packages:
   - 'frontend'
 allowBuilds:
   '@prisma/engines': true
+  canvas: set this to true or false
   esbuild: true
   prisma: true
   sharp: true

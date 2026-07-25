@@ -317,9 +317,9 @@ export default async function SubscriptionPage() {
     const premium = plans.find((p) => p.code === "PREMIUM");
     const ultimate = plans.find((p) => p.code === "ULTIMATE");
 
-    const starterPrice = starter ? `$${Number(starter.yearlyPrice || starter.monthlyPrice).toFixed(0)}/year` : "$199/year";
-    const premiumPrice = premium ? `$${Number(premium.yearlyPrice || premium.monthlyPrice).toFixed(0)}/year` : "$349/year";
-    const ultimatePrice = ultimate ? `$${Number(ultimate.yearlyPrice || ultimate.monthlyPrice).toFixed(0)}/year` : "$599/year";
+    const starterPrice = starter ? `$${Number(starter.monthlyPrice).toFixed(0)}/mo` : "$49/mo";
+    const premiumPrice = premium ? `$${Number(premium.monthlyPrice).toFixed(0)}/mo` : "$79/mo";
+    const ultimatePrice = ultimate ? `$${Number(ultimate.monthlyPrice).toFixed(0)}/mo` : "$119/mo";
 
     return (
         <div className="cb">
@@ -337,7 +337,7 @@ export default async function SubscriptionPage() {
                     <br />
                     <span className="gradient-text">you celebrate</span>
                 </h1>
-                <p>Every plan is billed annually. Cancel your renewal anytime. All deposits fully refundable. Free shipping both ways, always.</p>
+                <p>Every plan is an annual membership. Choose to pay monthly, or pay for the full year upfront for a 20% discount.</p>
                 <div className="sub-hero-proof">
                     <span className="proof-stars">★★★★★</span>
                     <span>

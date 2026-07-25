@@ -152,9 +152,12 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                     {(field) => <field.FormInput label="Button Label" placeholder="e.g. Choose Plan" />}
                 </form.AppField>
 
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                     <form.AppField name="monthlyPrice">
-                        {(field) => <field.FormInput type="number" label="Annual Price ($)" placeholder="199.00" />}
+                        {(field) => <field.FormInput type="number" label="Monthly Price ($)" placeholder="49.00" />}
+                    </form.AppField>
+                    <form.AppField name="yearlyPrice">
+                        {(field) => <field.FormInput type="number" label="Yearly Price ($)" placeholder="468.00" />}
                     </form.AppField>
                 </div>
 

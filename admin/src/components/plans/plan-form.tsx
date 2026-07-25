@@ -139,12 +139,12 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
                 <form.AppField name="name">{(field) => <field.FormInput label="Name" placeholder="e.g. Starter" />}</form.AppField>
 
                 <form.AppField name="description">
-                    {(field) => <field.FormTextarea label="Retail Value / Promo Badge Text" placeholder="e.g. Up to $2,400/yr equivalent retail value" />}
+                    {(field) => <field.FormTextarea label="Retail Value / Promo Badge Text" placeholder="e.g. Up to $750/yr equivalent retail value" />}
                 </form.AppField>
 
                 <div className="grid grid-cols-1 gap-3">
                     <form.AppField name="monthlyPrice">
-                        {(field) => <field.FormInput type="number" label="Monthly Price ($)" placeholder="41.00" />}
+                        {(field) => <field.FormInput type="number" label="Monthly Price ($)" placeholder="25.00" />}
                     </form.AppField>
                 </div>
 

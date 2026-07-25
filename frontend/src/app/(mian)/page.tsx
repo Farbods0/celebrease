@@ -224,7 +224,7 @@ export default async function HomePage() {
                         {plans && plans.length > 0 ? (
                             plans.map((p) => {
                                 const isPop = p.code === "PREMIUM";
-                                const desc = p.description ? p.description : `${p.code === "STARTER" ? "Up to $1,200/yr" : p.code === "PREMIUM" ? "Up to $2,400/yr" : "Up to $4,000/yr"} equivalent retail value`;
+                                const desc = p.description ? p.description : `${p.code === "STARTER" ? "Up to $350/yr" : p.code === "PREMIUM" ? "Up to $750/yr" : "Up to $1,500/yr"} equivalent retail value`;
                                 return (
                                     <div key={p.id} className={`cb-plan-card${isPop ? " elevated" : ""}`}>
                                         {isPop && <span className="cb-plan-ribbon">★ Most loved</span>}
@@ -245,26 +245,26 @@ export default async function HomePage() {
                             <>
                                 <div className="cb-plan-card">
                                     <span className="cb-plan-tier">Starter</span>
-                                    <div className="cb-plan-price">$41<span className="small">/mo</span></div>
+                                    <div className="cb-plan-price">$15<span className="small">/mo</span></div>
                                     <p className="cb-plan-count">3 holidays per year</p>
-                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $1,200/yr retail value</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $350/yr retail value</p>
                                     <p className="cb-plan-feat">Designer-curated starter kits with full deposit protection and free shipping both ways.</p>
                                     <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Starter</Link>
                                 </div>
                                 <div className="cb-plan-card elevated">
                                     <span className="cb-plan-ribbon">★ Most loved</span>
                                     <span className="cb-plan-tier">Premium</span>
-                                    <div className="cb-plan-price">$72<span className="small">/mo</span></div>
+                                    <div className="cb-plan-price">$25<span className="small">/mo</span></div>
                                     <p className="cb-plan-count">5 holidays per year</p>
-                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $2,400/yr retail value</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $750/yr retail value</p>
                                     <p className="cb-plan-feat">Premium kits, priority shipping, and 20% off all seasonal decor add-ons.</p>
                                     <Link href="/subscription" className="btn-fill-grad" style={{ marginTop: "auto" }}>Choose Premium</Link>
                                 </div>
                                 <div className="cb-plan-card">
                                     <span className="cb-plan-tier">Ultimate</span>
-                                    <div className="cb-plan-price">$99<span className="small">/mo</span></div>
+                                    <div className="cb-plan-price">$40<span className="small">/mo</span></div>
                                     <p className="cb-plan-count">8 holidays per year</p>
-                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $4,000/yr retail value</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $1,500/yr retail value</p>
                                     <p className="cb-plan-feat">Luxury collection kits, dedicated concierge support, and 25% off all add-ons.</p>
                                     <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Ultimate</Link>
                                 </div>

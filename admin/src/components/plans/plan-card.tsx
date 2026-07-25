@@ -154,7 +154,7 @@ export function PlanCard({ item, discountPercent = 20, onEdit }: PlanCardProps) 
                         <input
                             className="field-input"
                             readOnly
-                            value={item.description || (item.code === "STARTER" ? "Up to $1,200/yr equivalent retail value" : item.code === "PREMIUM" ? "Up to $2,400/yr equivalent retail value" : "Up to $4,000/yr equivalent retail value")}
+                            value={item.description || (item.code === "STARTER" ? "Up to $350/yr equivalent retail value" : item.code === "PREMIUM" ? "Up to $750/yr equivalent retail value" : "Up to $1,500/yr equivalent retail value")}
                             style={{ width: "100%", fontSize: "12px" }}
                         />
                     </div>

@@ -163,7 +163,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                                         </div>
                                         <p className="text-sm text-green-600">Billed {billedLabel}</p>
                                         <p className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 flex items-center gap-1">
-                                            ✨ {plan.code === "STARTER" ? "Up to $1,200/yr" : plan.code === "PREMIUM" ? "Up to $2,400/yr" : "Up to $4,000/yr"} equivalent retail value
+                                            ✨ {plan.description ? plan.description : `${plan.code === "STARTER" ? "Up to $1,200/yr" : plan.code === "PREMIUM" ? "Up to $2,400/yr" : "Up to $4,000/yr"} equivalent retail value`}
                                         </p>
                                     </div>
 

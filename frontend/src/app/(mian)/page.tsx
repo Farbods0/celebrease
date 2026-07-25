@@ -1,5 +1,5 @@
 import { FaqAccordion } from "@/components/main/faq-accordion";
-import { ApiHoliday, baseURL, getHolidaysByLoves } from "@/lib/api";
+import { ApiHoliday, ApiPlan, baseURL, getHolidaysByLoves, getPlans } from "@/lib/api";
 import Link from "next/link";
 
 const CATEGORY = {
@@ -29,12 +29,16 @@ const img = (path?: string | null) => {
 
 export default async function HomePage() {
     let data = { items: [] as ApiHoliday[] };
+    let plansData = { items: [] as ApiPlan[] };
     try {
-        data = await getHolidaysByLoves();
+        const [hRes, pRes] = await Promise.all([getHolidaysByLoves(), getPlans()]);
+        data = hRes;
+        plansData = pRes;
     } catch (e) {
-        console.error("Failed to fetch holidays:", e);
+        console.error("Failed to fetch holidays or plans:", e);
     }
     const holidays = data.items;
+    const plans = plansData.items;
     const featured = holidays.slice(0, 6);
     const hero0 = holidays[0] ?? null;
     const hero1 = holidays[1] ?? holidays[0] ?? null;
@@ -217,31 +221,55 @@ export default async function HomePage() {
                         <p>Switch or cancel anytime. Every plan includes free two-way shipping and full deposit protection.</p>
                     </div>
                     <div className="cb-pricing-grid">
-                        <div className="cb-plan-card">
-                            <span className="cb-plan-tier">Starter</span>
-                            <div className="cb-plan-price">$41<span className="small">/mo</span></div>
-                            <p className="cb-plan-count">3 holidays per year</p>
-                            <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $1,200/yr retail value</p>
-                            <p className="cb-plan-feat">Designer-curated starter kits with full deposit protection and free shipping both ways.</p>
-                            <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Starter</Link>
-                        </div>
-                        <div className="cb-plan-card elevated">
-                            <span className="cb-plan-ribbon">★ Most loved</span>
-                            <span className="cb-plan-tier">Premium</span>
-                            <div className="cb-plan-price">$72<span className="small">/mo</span></div>
-                            <p className="cb-plan-count">5 holidays per year</p>
-                            <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $2,400/yr retail value</p>
-                            <p className="cb-plan-feat">Premium kits, priority shipping, and 20% off all seasonal decor add-ons.</p>
-                            <Link href="/subscription" className="btn-fill-grad" style={{ marginTop: "auto" }}>Choose Premium</Link>
-                        </div>
-                        <div className="cb-plan-card">
-                            <span className="cb-plan-tier">Ultimate</span>
-                            <div className="cb-plan-price">$99<span className="small">/mo</span></div>
-                            <p className="cb-plan-count">8 holidays per year</p>
-                            <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $4,000/yr retail value</p>
-                            <p className="cb-plan-feat">Luxury collection kits, dedicated concierge support, and 25% off all add-ons.</p>
-                            <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Ultimate</Link>
-                        </div>
+                        {plans && plans.length > 0 ? (
+                            plans.map((p) => {
+                                const isPop = p.code === "PREMIUM";
+                                const desc = p.description ? p.description : `${p.code === "STARTER" ? "Up to $1,200/yr" : p.code === "PREMIUM" ? "Up to $2,400/yr" : "Up to $4,000/yr"} equivalent retail value`;
+                                return (
+                                    <div key={p.id} className={`cb-plan-card${isPop ? " elevated" : ""}`}>
+                                        {isPop && <span className="cb-plan-ribbon">★ Most loved</span>}
+                                        <span className="cb-plan-tier">{p.name}</span>
+                                        <div className="cb-plan-price">${Math.round(Number(p.monthlyPrice))}<span className="small">/mo</span></div>
+                                        <p className="cb-plan-count">{p.holidaysPerYear} holidays per year</p>
+                                        <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ {desc}</p>
+                                        <p className="cb-plan-feat">
+                                            {p.features && p.features.length > 0
+                                                ? p.features.slice(0, 2).map((f) => f.text).join(" · ") + "."
+                                                : "Designer-curated holiday kits with free two-way shipping and deposit protection."}
+                                        </p>
+                                        <Link href="/subscription" className={isPop ? "btn-fill-grad" : "btn-out-grad"} style={{ marginTop: "auto" }}>Choose {p.name}</Link>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <>
+                                <div className="cb-plan-card">
+                                    <span className="cb-plan-tier">Starter</span>
+                                    <div className="cb-plan-price">$41<span className="small">/mo</span></div>
+                                    <p className="cb-plan-count">3 holidays per year</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $1,200/yr retail value</p>
+                                    <p className="cb-plan-feat">Designer-curated starter kits with full deposit protection and free shipping both ways.</p>
+                                    <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Starter</Link>
+                                </div>
+                                <div className="cb-plan-card elevated">
+                                    <span className="cb-plan-ribbon">★ Most loved</span>
+                                    <span className="cb-plan-tier">Premium</span>
+                                    <div className="cb-plan-price">$72<span className="small">/mo</span></div>
+                                    <p className="cb-plan-count">5 holidays per year</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $2,400/yr retail value</p>
+                                    <p className="cb-plan-feat">Premium kits, priority shipping, and 20% off all seasonal decor add-ons.</p>
+                                    <Link href="/subscription" className="btn-fill-grad" style={{ marginTop: "auto" }}>Choose Premium</Link>
+                                </div>
+                                <div className="cb-plan-card">
+                                    <span className="cb-plan-tier">Ultimate</span>
+                                    <div className="cb-plan-price">$99<span className="small">/mo</span></div>
+                                    <p className="cb-plan-count">8 holidays per year</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $4,000/yr retail value</p>
+                                    <p className="cb-plan-feat">Luxury collection kits, dedicated concierge support, and 25% off all add-ons.</p>
+                                    <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Ultimate</Link>
+                                </div>
+                            </>
+                        )}
                     </div>
                     <p style={{ textAlign: "center", marginTop: "30px" }}><Link href="/subscription" style={{ color: "var(--cb-purple)", fontWeight: 700 }}>Compare all plans in detail or view A-La-Carte pricing →</Link></p>
                 </div>

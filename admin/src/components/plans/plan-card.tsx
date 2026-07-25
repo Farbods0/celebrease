@@ -145,6 +145,21 @@ export function PlanCard({ item, discountPercent = 20, onEdit }: PlanCardProps) 
                     </div>
                 </div>
 
+                <div className="plan-field">
+                    <label style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span>Retail Value / Promo Badge Text</span>
+                        <span style={{ fontSize: 11, color: "var(--brand-purple)" }}>Live on consumer site</span>
+                    </label>
+                    <div className="field-row" style={{ background: "rgba(155,47,201,.02)" }}>
+                        <input
+                            className="field-input"
+                            readOnly
+                            value={item.description || (item.code === "STARTER" ? "Up to $1,200/yr equivalent retail value" : item.code === "PREMIUM" ? "Up to $2,400/yr equivalent retail value" : "Up to $4,000/yr equivalent retail value")}
+                            style={{ width: "100%", fontSize: "12px" }}
+                        />
+                    </div>
+                </div>
+
                 <div className="plan-field-grid">
                     <div className="plan-field">
                         <label>Holidays / year</label>

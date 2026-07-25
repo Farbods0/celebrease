@@ -3,9 +3,9 @@ BEGIN;
 -- Plans (upsert by unique code)
 INSERT INTO "plan" ("id", "code", "name", "description", "monthlyPrice", "yearlyPrice", "holidaysPerYear", "kitDiscount", "addOnDiscount", "isActive", "isPopular", "buttonLabel", "sortOrder", "updatedAt")
 VALUES
-    ('plan_starter',  'STARTER',  'Starter',  'Up to $350/yr equivalent retail value', 49.00,  470.00, 3, 0,  10, true, false, 'Start with Starter', 0, NOW()),
-    ('plan_premium',  'PREMIUM',  'Premium',  'Up to $750/yr equivalent retail value', 79.00,  758.00, 5, 10, 20, true, true, 'Go Premium', 1, NOW()),
-    ('plan_ultimate', 'ULTIMATE', 'Ultimate', 'Up to $1,500/yr equivalent retail value', 119.00,  1142.00, 8, 15, 25, true, false, 'Go Ultimate', 2, NOW())
+    ('plan_starter',  'STARTER',  'Starter',  'Experience over $1,500/yr in luxury retail decor', 49.00,  470.00, 3, 0,  10, true, false, 'Start with Starter', 0, NOW()),
+    ('plan_premium',  'PREMIUM',  'Premium',  'Experience over $3,500/yr in luxury retail decor', 79.00,  758.00, 5, 10, 20, true, true, 'Go Premium', 1, NOW()),
+    ('plan_ultimate', 'ULTIMATE', 'Ultimate', 'Experience over $7,000/yr in designer retail decor', 119.00,  1142.00, 8, 15, 25, true, false, 'Go Ultimate', 2, NOW())
 ON CONFLICT ("code") DO UPDATE SET
     "name"            = EXCLUDED."name",
     "description"     = EXCLUDED."description",

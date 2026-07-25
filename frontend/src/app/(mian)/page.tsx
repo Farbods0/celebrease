@@ -247,7 +247,7 @@ export default async function HomePage() {
                                     <span className="cb-plan-tier">Starter</span>
                                     <div className="cb-plan-price">$49<span className="small">/mo</span></div>
                                     <p className="cb-plan-count">3 holidays per year</p>
-                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $350/yr retail value</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Experience over $1,500/yr in luxury retail decor</p>
                                     <p className="cb-plan-feat">Designer-curated starter kits with full deposit protection and free shipping both ways.</p>
                                     <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Starter</Link>
                                 </div>
@@ -256,7 +256,7 @@ export default async function HomePage() {
                                     <span className="cb-plan-tier">Premium</span>
                                     <div className="cb-plan-price">$79<span className="small">/mo</span></div>
                                     <p className="cb-plan-count">5 holidays per year</p>
-                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $750/yr retail value</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Experience over $3,500/yr in luxury retail decor</p>
                                     <p className="cb-plan-feat">Premium kits, priority shipping, and 20% off all seasonal decor add-ons.</p>
                                     <Link href="/subscription" className="btn-fill-grad" style={{ marginTop: "auto" }}>Choose Premium</Link>
                                 </div>
@@ -264,7 +264,7 @@ export default async function HomePage() {
                                     <span className="cb-plan-tier">Ultimate</span>
                                     <div className="cb-plan-price">$119<span className="small">/mo</span></div>
                                     <p className="cb-plan-count">8 holidays per year</p>
-                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $1,500/yr retail value</p>
+                                    <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Experience over $7,000/yr in designer retail decor</p>
                                     <p className="cb-plan-feat">Luxury collection kits, dedicated concierge support, and 25% off all add-ons.</p>
                                     <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Ultimate</Link>
                                 </div>

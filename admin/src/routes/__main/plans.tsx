@@ -22,7 +22,7 @@ const PLAN_STYLES = `
 .plan-tier{display:flex;align-items:center;gap:10px}
 .plan-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .plan-name{font-size:18px;font-weight:800;letter-spacing:-0.02em}
-.plan-badge{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-left:auto}
+.plan-badge{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
 .badge-pop{background:linear-gradient(135deg,rgba(155,47,201,.15),rgba(220,0,117,.12));color:var(--brand-purple)}
 .badge-new{background:var(--green-bg);color:var(--green)}
 

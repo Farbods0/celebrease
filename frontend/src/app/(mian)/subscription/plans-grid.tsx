@@ -30,7 +30,7 @@ function priceFor(plan: ApiPlan, cycle: BillingCycle) {
     }
     return {
         perMonth: monthly,
-        billedLabel: `$${(monthly * 12).toFixed(0)}/year`,
+        billedLabel: "Billed monthly",
     };
 }
 
@@ -41,6 +41,16 @@ export default function PlansGrid({ plans }: PlansGridProps) {
     const [subLoading, setSubLoading] = useState(false);
     const { data: session, isPending: sessionLoading } = auth.useSession();
     const router = useRouter();
+
+    const maxDiscount = plans.reduce((max, plan) => {
+        const monthly = Number(plan.monthlyPrice);
+        const yearly = plan.yearlyPrice ? Number(plan.yearlyPrice) : monthly * 12;
+        if (monthly > 0 && yearly < monthly * 12) {
+            const discount = Math.round(((monthly * 12 - yearly) / (monthly * 12)) * 100);
+            return discount > max ? discount : max;
+        }
+        return max;
+    }, 0);
 
     useEffect(() => {
         if (sessionLoading) return;
@@ -103,9 +113,9 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                         </button>
                     ))}
                 </div>
-                {cycle === "Yearly" && (
+                {cycle === "Yearly" && maxDiscount > 0 && (
                     <span className="text-xs font-semibold text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-full">
-                        Save up to 20%
+                        Save up to {maxDiscount}%
                     </span>
                 )}
             </div>

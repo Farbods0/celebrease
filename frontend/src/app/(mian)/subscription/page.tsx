@@ -1,5 +1,5 @@
 import { FaqAccordion } from "@/components/main/faq-accordion";
-import { ApiHoliday, ApiPlan, baseURL, getHolidays, getPlans } from "@/lib/api";
+import { ApiHoliday, ApiPlan, baseURL, getHolidays, getPlans, getSiteSettings, ApiSiteSettings } from "@/lib/api";
 import Link from "next/link";
 import PlansGrid from "./plans-grid";
 
@@ -292,13 +292,16 @@ function CompareCell({ value }: { value: string }) {
 export default async function SubscriptionPage() {
     let plansData = { items: [] as ApiPlan[] };
     let holidaysData = { items: [] as ApiHoliday[] };
+    let settings: ApiSiteSettings = { yearlyDiscountPercent: 20 } as ApiSiteSettings;
     try {
-        const [p, h] = await Promise.all([
+        const [p, h, s] = await Promise.all([
             getPlans(),
             getHolidays(),
+            getSiteSettings(),
         ]);
         plansData = p;
         holidaysData = h;
+        settings = s;
     } catch (e) {
         console.error("Failed to fetch subscription data:", e);
     }
@@ -347,7 +350,7 @@ export default async function SubscriptionPage() {
             <section className="plans-section" aria-labelledby="plans-heading">
                 <h2 id="plans-heading" className="sr-only">Subscription plans</h2>
                 <div className="plans-grid-wrap">
-                    <PlansGrid plans={plans} />
+                    <PlansGrid plans={plans} settings={settings} />
                 </div>
 
                 {/* Trust strip */}

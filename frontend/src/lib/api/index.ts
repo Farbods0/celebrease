@@ -10,3 +10,4 @@ export * from "./review";
 export * from "./subscriptions";
 import { getBaseURL } from "./base";
 export const baseURL = getBaseURL();
+export * from "./settings";

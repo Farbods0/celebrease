@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      pg:
+        specifier: ^8.22.0
+        version: 8.22.0
 
   admin:
     dependencies:
@@ -183,7 +187,7 @@ importers:
         specifier: ^8.0.5
         version: 8.0.11
       pg:
-        specifier: ^8.20.0
+        specifier: ^8.22.0
         version: 8.22.0
       reflect-metadata:
         specifier: ^0.2.2

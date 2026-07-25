@@ -14,27 +14,30 @@ type BillingCycle = "Monthly" | "Yearly";
 
 type PlansGridProps = {
     plans: ApiPlan[];
+    settings?: { yearlyDiscountPercent?: number };
 };
 
 const HIGHLIGHT_CODE = "PREMIUM";
 
-function priceFor(plan: ApiPlan, cycle: BillingCycle) {
+function priceFor(plan: ApiPlan, cycle: BillingCycle, discountPercent = 20) {
     const monthly = Number(plan.monthlyPrice);
-    const yearly = plan.yearlyPrice ? Number(plan.yearlyPrice) : null;
-
-    if (cycle === "Yearly" && yearly !== null) {
+    if (cycle === "Yearly") {
+        const totalYearly = Math.round(monthly * 12 * (1 - discountPercent / 100));
         return {
-            perMonth: Math.round((yearly / 12) * 100) / 100,
-            billedLabel: `$${yearly}/year`,
+            amount: totalYearly,
+            period: "/year",
+            billedLabel: `yearly (${discountPercent}% discount applied)`,
         };
     }
     return {
-        perMonth: monthly,
-        billedLabel: "Billed monthly",
+        amount: monthly,
+        period: "/month",
+        billedLabel: "monthly",
     };
 }
 
-export default function PlansGrid({ plans }: PlansGridProps) {
+export default function PlansGrid({ plans, settings }: PlansGridProps) {
+    const discountPercent = settings?.yearlyDiscountPercent ?? 20;
     const [cycle, setCycle] = useState<BillingCycle>("Monthly");
     const [pendingPlanId, setPendingPlanId] = useState<string | null>(null);
     const [subscription, setSubscription] = useState<ApiSubscription | null>(null);
@@ -42,15 +45,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
     const { data: session, isPending: sessionLoading } = auth.useSession();
     const router = useRouter();
 
-    const maxDiscount = plans.reduce((max, plan) => {
-        const monthly = Number(plan.monthlyPrice);
-        const yearly = plan.yearlyPrice ? Number(plan.yearlyPrice) : monthly * 12;
-        if (monthly > 0 && yearly < monthly * 12) {
-            const discount = Math.round(((monthly * 12 - yearly) / (monthly * 12)) * 100);
-            return discount > max ? discount : max;
-        }
-        return max;
-    }, 0);
+    const maxDiscount = discountPercent;
 
     useEffect(() => {
         if (sessionLoading) return;
@@ -126,7 +121,7 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                 ) : (
                     plans.map((plan) => {
                         const highlight = plan.code === HIGHLIGHT_CODE;
-                        const { perMonth, billedLabel } = priceFor(plan, cycle);
+                        const { amount, period, billedLabel } = priceFor(plan, cycle, discountPercent);
                         const isCurrentPlan = subscription?.plan.id === plan.id;
                         const hasOtherSub = !!subscription && !isCurrentPlan;
                         const defaultLabel =
@@ -163,8 +158,8 @@ export default function PlansGrid({ plans }: PlansGridProps) {
                                             )}
                                         </div>
                                         <div className="flex items-baseline gap-1">
-                                            <span className="text-4xl lg:text-5xl font-semibold">${perMonth}</span>
-                                            <span className="text-muted-foreground">/month</span>
+                                            <span className="text-4xl lg:text-5xl font-semibold">${amount}</span>
+                                            <span className="text-muted-foreground">{period}</span>
                                         </div>
                                         <p className="text-sm text-green-600">Billed {billedLabel}</p>
                                     </div>

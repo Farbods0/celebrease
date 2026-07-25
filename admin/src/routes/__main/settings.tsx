@@ -539,6 +539,7 @@ const DEFAULT_SETTINGS: ApiSiteSettings = {
     smtpFromEmail: "",
     smtpFromName: "CeleBrease",
     taxRate: 0.08,
+    yearlyDiscountPercent: 20,
     shippingStandard: 15,
     shippingExpress: 25,
     logoUrl: "",
@@ -588,6 +589,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                 smtpFromEmail: settings.smtpFromEmail,
                 smtpFromName: settings.smtpFromName,
                 taxRate: settings.taxRate,
+                yearlyDiscountPercent: settings.yearlyDiscountPercent,
                 shippingStandard: settings.shippingStandard,
                 shippingExpress: settings.shippingExpress,
                 logoUrl: settings.logoUrl,
@@ -791,6 +793,21 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                                 </div>
                                 <div className="hint">Applied at checkout for priority shipping.</div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="form-section">
+                        <div className="form-section-title">Subscription Settings</div>
+                        <div className="field" style={{ maxWidth: 200 }}>
+                            <label>Global Yearly Discount (%)</label>
+                            <input
+                                type="number"
+                                value={settings.yearlyDiscountPercent}
+                                min={0}
+                                max={100}
+                                onChange={(e) => update("yearlyDiscountPercent", Number(e.target.value))}
+                            />
+                            <div className="hint">Applied automatically when users select yearly billing.</div>
                         </div>
                     </div>
 

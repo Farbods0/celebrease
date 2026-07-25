@@ -23,6 +23,7 @@ const PUBLIC_FIELDS: Record<string, boolean> = {
     tagline: true,
     announcementBanner: true,
     announcementBannerActive: true,
+    yearlyDiscountPercent: true,
 };
 
 @Injectable()

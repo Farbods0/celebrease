@@ -1,5 +1,10 @@
 {
   "name": "celebrease-monorepo",
   "private": true,
-  "workspaces": ["backend"]
+  "workspaces": [
+    "backend"
+  ],
+  "dependencies": {
+    "pg": "^8.22.0"
+  }
 }

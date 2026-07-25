@@ -3,9 +3,9 @@ BEGIN;
 -- Plans (upsert by unique code)
 INSERT INTO "plan" ("id", "code", "name", "description", "monthlyPrice", "yearlyPrice", "holidaysPerYear", "kitDiscount", "addOnDiscount", "isActive", "sortOrder", "updatedAt")
 VALUES
-    ('plan_starter',  'STARTER',  'Starter',  NULL, 41.00,  492.00, 3, 0,  10, true, 0, NOW()),
-    ('plan_premium',  'PREMIUM',  'Premium',  NULL, 72.00,  864.00, 5, 10, 20, true, 1, NOW()),
-    ('plan_ultimate', 'ULTIMATE', 'Ultimate', NULL, 99.00, 1188.00, 8, 15, 25, true, 2, NOW())
+    ('plan_starter',  'STARTER',  'Starter',  NULL, 41.00,  396.00, 3, 0,  10, true, 0, NOW()),
+    ('plan_premium',  'PREMIUM',  'Premium',  NULL, 72.00,  684.00, 5, 10, 20, true, 1, NOW()),
+    ('plan_ultimate', 'ULTIMATE', 'Ultimate', NULL, 99.00,  948.00, 8, 15, 25, true, 2, NOW())
 ON CONFLICT ("code") DO UPDATE SET
     "name"            = EXCLUDED."name",
     "description"     = EXCLUDED."description",

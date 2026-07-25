@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString, IsInt, Min, Max } from "class-validator";
 
 export class UpdateSettingsDto {
     @IsString()
@@ -108,4 +108,10 @@ export class UpdateSettingsDto {
     @IsBoolean()
     @IsOptional()
     announcementBannerActive?: boolean;
+
+    @IsInt()
+    @Min(0)
+    @Max(100)
+    @IsOptional()
+    yearlyDiscountPercent?: number;
 }

@@ -704,6 +704,7 @@ model SiteSettings {
     tagline                 String   @default("Celebrate beautifully, without the storage.")
     announcementBanner      String   @default("")
     announcementBannerActive Boolean @default(false)
+    yearlyDiscountPercent   Int      @default(20)
     updatedAt               DateTime @updatedAt
 
     @@map("site_settings")

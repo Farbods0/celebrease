@@ -162,6 +162,9 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                                             <span className="text-muted-foreground">{period}</span>
                                         </div>
                                         <p className="text-sm text-green-600">Billed {billedLabel}</p>
+                                        <p className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 flex items-center gap-1">
+                                            ✨ {plan.code === "STARTER" ? "Up to $1,200/yr" : plan.code === "PREMIUM" ? "Up to $2,400/yr" : "Up to $4,000/yr"} equivalent retail value
+                                        </p>
                                     </div>
 
                                     <div className="space-y-3 flex-1">
@@ -190,6 +193,23 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                         );
                     })
                 )}
+            </div>
+
+            <div className="mt-12 p-6 rounded-2xl bg-linear-to-r from-slate-900 to-purple-950 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="space-y-1 text-center md:text-left">
+                    <span className="text-xs uppercase tracking-wider font-extrabold text-pink-400">A-La-Carte Rental Option</span>
+                    <h4 className="text-xl font-bold">Just hosting a single holiday event?</h4>
+                    <p className="text-sm text-purple-200">
+                        One-time individual holiday décor rentals start at <strong className="text-white">$249 / kit</strong>. Save over 65% per kit by choosing a membership plan above!
+                    </p>
+                </div>
+                <Button
+                    variant="outline"
+                    className="bg-white text-purple-950 hover:bg-purple-100 border-none font-bold px-6 py-3 whitespace-nowrap"
+                    onClick={() => router.push("/catalog")}
+                >
+                    Browse A-La-Carte Catalog →
+                </Button>
             </div>
         </>
     );

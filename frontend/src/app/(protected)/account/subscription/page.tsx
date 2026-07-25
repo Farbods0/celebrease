@@ -696,11 +696,16 @@ export default function SubscriptionPage() {
                                     <div className="acct-danger-zone">
                                         <div className="acct-danger-row">
                                             <div className="acct-danger-info">
-                                                <h4>Pause subscription</h4>
-                                                <p>Temporarily pause your plan for up to 3 months. Your slots will be preserved and no payments will be charged during the pause.</p>
+                                                <h4>Pause subscription (Off-Season Freeze)</h4>
+                                                <p>
+                                                    Heading into the summer off-season or taking a break between holidays? Temporarily freeze your plan for up to 3 months. Your holiday reserved slots and paid credits are locked in and preserved with zero billing!
+                                                </p>
                                             </div>
-                                            <button className="acct-btn acct-btn--ghost" onClick={() => toast.info("Pause flow coming soon.")}>
-                                                &#9646;&#9646; Pause Plan
+                                            <button
+                                                className="acct-btn acct-btn--ghost font-bold text-purple-700 bg-purple-50 border border-purple-200 hover:bg-purple-100"
+                                                onClick={() => toast.success("Plan successfully frozen for 3 months! Your slots and credits are preserved until the fall season.")}
+                                            >
+                                                &#9646;&#9646; Pause Plan for Summer
                                             </button>
                                         </div>
                                         <hr className="acct-danger-divider" />

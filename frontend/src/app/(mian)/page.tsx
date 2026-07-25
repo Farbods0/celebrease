@@ -177,6 +177,37 @@ export default async function HomePage() {
                 </div>
             </section>
 
+            {/* ZERO STORAGE TIMELINE */}
+            <section style={{ background: "#faf7fc", padding: "80px 0", borderTop: "1px solid #f0e6f5", borderBottom: "1px solid #f0e6f5" }}>
+                <div className="cb-container">
+                    <div className="sec-head" style={{ marginBottom: "40px" }}>
+                        <span className="eyebrow">The Zero-Storage Lifestyle</span>
+                        <h2>Always celebrating. Never storing totes in the attic.</h2>
+                        <p>See how seamlessly CeleBrease fits into your holiday calendar. Your favorite season arrives exactly when you need it and vanishes right after.</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+                        {[
+                            { date: "Oct 15", title: "🎃 Halloween Drop", desc: "Your spooky porch and mantel kit arrives styled & ready." },
+                            { date: "Nov 05", title: "🦃 Thanksgiving Swap", desc: "Repack Halloween in the reusable box. Doorstep courier picks it up & hands over Thanksgiving!" },
+                            { date: "Dec 03", title: "🎄 Christmas Wonderland", desc: "No untangling attic lights. A fresh designer holiday landscape delivered to your living room." },
+                            { date: "Jan 05", title: "✨ Effortless Pickup", desc: "Season ends. We collect the boxes & refund 100% of your deposit within 5 days." },
+                        ].map((s, idx) => (
+                            <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-purple-100 flex flex-col justify-between relative">
+                                {idx < 3 && <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full bg-purple-600 text-white items-center justify-center font-bold text-xs shadow-md">→</div>}
+                                <div>
+                                    <span className="text-xs font-black uppercase tracking-wider text-pink-600 bg-pink-50 px-3 py-1 rounded-full">{s.date}</span>
+                                    <h3 className="font-bold text-lg text-slate-900 mt-4 mb-2">{s.title}</h3>
+                                    <p className="text-sm text-slate-600 leading-relaxed">{s.desc}</p>
+                                </div>
+                                <div className="mt-6 pt-3 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-emerald-700">
+                                    <span>✓ ZERO storage required</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* PRICING */}
             <section className="cb-pricing">
                 <div className="cb-container">
@@ -188,28 +219,31 @@ export default async function HomePage() {
                     <div className="cb-pricing-grid">
                         <div className="cb-plan-card">
                             <span className="cb-plan-tier">Starter</span>
-                            <div className="cb-plan-price">$29<span className="small">/mo</span></div>
+                            <div className="cb-plan-price">$41<span className="small">/mo</span></div>
                             <p className="cb-plan-count">3 holidays per year</p>
+                            <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $1,200/yr retail value</p>
                             <p className="cb-plan-feat">Designer-curated starter kits with full deposit protection and free shipping both ways.</p>
                             <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Starter</Link>
                         </div>
                         <div className="cb-plan-card elevated">
                             <span className="cb-plan-ribbon">★ Most loved</span>
                             <span className="cb-plan-tier">Premium</span>
-                            <div className="cb-plan-price">$49<span className="small">/mo</span></div>
-                            <p className="cb-plan-count">6 holidays per year</p>
-                            <p className="cb-plan-feat">Premium kits, priority shipping, and free add-ons worth up to $25 every season.</p>
+                            <div className="cb-plan-price">$72<span className="small">/mo</span></div>
+                            <p className="cb-plan-count">5 holidays per year</p>
+                            <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $2,400/yr retail value</p>
+                            <p className="cb-plan-feat">Premium kits, priority shipping, and 20% off all seasonal decor add-ons.</p>
                             <Link href="/subscription" className="btn-fill-grad" style={{ marginTop: "auto" }}>Choose Premium</Link>
                         </div>
                         <div className="cb-plan-card">
                             <span className="cb-plan-tier">Ultimate</span>
-                            <div className="cb-plan-price">$89<span className="small">/mo</span></div>
-                            <p className="cb-plan-count">Unlimited holidays</p>
-                            <p className="cb-plan-feat">Every kit tier, a dedicated stylist, and first access to limited seasonal drops.</p>
+                            <div className="cb-plan-price">$99<span className="small">/mo</span></div>
+                            <p className="cb-plan-count">8 holidays per year</p>
+                            <p className="text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 mb-3 text-center">✨ Up to $4,000/yr retail value</p>
+                            <p className="cb-plan-feat">Luxury collection kits, dedicated concierge support, and 25% off all add-ons.</p>
                             <Link href="/subscription" className="btn-out-grad" style={{ marginTop: "auto" }}>Choose Ultimate</Link>
                         </div>
                     </div>
-                    <p style={{ textAlign: "center" }}><Link href="/subscription" style={{ color: "var(--cb-purple)", fontWeight: 600 }}>Compare all plans in detail →</Link></p>
+                    <p style={{ textAlign: "center", marginTop: "30px" }}><Link href="/subscription" style={{ color: "var(--cb-purple)", fontWeight: 700 }}>Compare all plans in detail or view A-La-Carte pricing →</Link></p>
                 </div>
             </section>
 

@@ -51,6 +51,7 @@ const holidayKitSelect = {
     price30Day: true,
     price60Day: true,
     deposit: true,
+    images: true,
     items: {
         select: {
             qty: true,

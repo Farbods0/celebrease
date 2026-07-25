@@ -13,6 +13,7 @@ const router = createRouter({
     defaultPreload: "intent",
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
+    defaultStaleTime: 30000,
     defaultPendingMs: 50,
     defaultPendingMinMs: 300,
     defaultPendingComponent: PendingComp,

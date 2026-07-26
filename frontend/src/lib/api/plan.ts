@@ -68,7 +68,7 @@ async function readError(res: Response, fallback: string): Promise<string> {
 }
 
 export async function getPlans(): Promise<{ items: ApiPlan[] }> {
-    const res = await fetch(apiURL(`${apiPrefix}/plan`), { cache: "no-store" });
+    const res = await fetch(apiURL(`${apiPrefix}/plan`), { next: { revalidate: 3600 } });
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to get plans"));
     }

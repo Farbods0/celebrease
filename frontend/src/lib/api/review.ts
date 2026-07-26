@@ -20,7 +20,7 @@ export type ApiReview = {
 };
 
 export async function getActiveReviews(): Promise<{ items: ApiReview[] }> {
-    const res = await fetch(apiURL(`${apiPrefix}/review/active`), { cache: "no-store" });
+    const res = await fetch(apiURL(`${apiPrefix}/review/active`), { next: { revalidate: 3600 } });
 
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to get reviews"));

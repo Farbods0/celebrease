@@ -14,7 +14,7 @@ export type ApiSiteSettings = {
 
 export async function getSiteSettings(): Promise<ApiSiteSettings> {
     try {
-        const res = await fetch(apiURL(`${apiPrefix}/settings`), { cache: "no-store" });
+        const res = await fetch(apiURL(`${apiPrefix}/settings`), { next: { revalidate: 3600 } });
         if (!res.ok) throw new Error("Failed to load settings");
         return await res.json();
     } catch (e) {

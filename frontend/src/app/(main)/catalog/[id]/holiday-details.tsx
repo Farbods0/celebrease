@@ -18,6 +18,7 @@ import { useLovesStore } from "@/lib/loves-store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import Image from "next/image";
 
 /* ---- helpers ---------------------------------------------------------------- */
 
@@ -250,7 +251,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                     <div className="cb-gallery">
                         {/* Main image */}
                         <div className="cb-gallery-main">
-                            <img src={mainImage.src} alt={mainImage.alt} loading="eager" />
+                            <Image src={mainImage.src} alt={mainImage.alt} loading="eager" width={800} height={800} className="object-cover w-full h-full" />
                         </div>
                         {/* Thumbs */}
                         <div className="cb-gallery-thumbs" role="list" aria-label="Kit photo gallery">
@@ -263,7 +264,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     onClick={() => setActiveThumb(i)}
                                     aria-label={`View ${g.alt}`}
                                 >
-                                    <img src={g.src} alt="" />
+                                    <Image src={g.src} alt="" width={100} height={100} className="object-cover w-full h-full" />
                                 </button>
                             ))}
                         </div>
@@ -492,7 +493,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                             {pieces.map(({ item, qty }) => (
                                 <div key={item.id} className="cb-piece-card" role="listitem">
                                     <div className="cb-piece-thumb">
-                                        <img src={img(item.image)} alt={item.name} />
+                                        <Image src={img(item.image)} alt={item.name} width={200} height={200} className="object-cover w-full h-full" />
                                     </div>
                                     <div className="cb-piece-info">
                                         <div className="cb-piece-name">{item.name}</div>
@@ -522,7 +523,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                             aria-label={`View details for ${addOn.name}`}
                                         >
                                             {img(addOn.image) ? (
-                                                <img src={img(addOn.image)} alt={addOn.name} />
+                                                <Image src={img(addOn.image)} alt={addOn.name} width={400} height={400} className="object-cover w-full h-full" />
                                             ) : (
                                                 <span className="cb-addon-media-ph" aria-hidden="true">🎁</span>
                                             )}
@@ -571,7 +572,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                             <div className="cb-qv">
                                 <div className="cb-qv-media">
                                     {img(quickViewAddOn.addOn.image) ? (
-                                        <img src={img(quickViewAddOn.addOn.image)} alt={quickViewAddOn.addOn.name} />
+                                        <Image src={img(quickViewAddOn.addOn.image)} alt={quickViewAddOn.addOn.name} width={400} height={400} className="object-cover w-full h-full" />
                                     ) : (
                                         <span className="cb-addon-media-ph" aria-hidden="true">🎁</span>
                                     )}

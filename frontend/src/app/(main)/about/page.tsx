@@ -1,5 +1,6 @@
 import { ApiHoliday, baseURL, getHolidays } from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
 const img = (path?: string | null) => {
     if (!path) return "";
@@ -176,9 +177,10 @@ export default async function AboutPage() {
                                 boxShadow: "var(--cb-shadow-lg)",
                             }}
                         >
-                            <img
+                            <Image
                                 src={img(mosaic0.image)}
                                 alt={`${mosaic0.name} decorated home`}
+                                width={800} height={1200}
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 loading="eager"
                             />
@@ -194,9 +196,10 @@ export default async function AboutPage() {
                                     boxShadow: "var(--cb-shadow-sm)",
                                 }}
                             >
-                                <img
+                                <Image
                                     src={img(h.image)}
                                     alt={`${h.name} décor`}
+                                    width={400} height={400}
                                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                     loading="eager"
                                 />
@@ -314,9 +317,10 @@ export default async function AboutPage() {
                     {/* Image */}
                     <div style={{ position: "relative" }}>
                         {mosaic0 && (
-                            <img
+                            <Image
                                 src={img(mosaic0.image)}
                                 alt="CeleBrease team assembling a holiday décor kit"
+                                width={800} height={1000}
                                 style={{
                                     width: "100%",
                                     aspectRatio: "4/5",
@@ -340,9 +344,10 @@ export default async function AboutPage() {
                                     boxShadow: "var(--cb-shadow-md)",
                                 }}
                             >
-                                <img
+                                <Image
                                     src={img(mosaic1.image)}
                                     alt="Curated décor collection detail"
+                                    width={400} height={400}
                                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 />
                             </div>
@@ -457,9 +462,10 @@ export default async function AboutPage() {
                                         cursor: "pointer",
                                     }}
                                 >
-                                    <img
+                                    <Image
                                         src={img(cell.h.image)}
                                         alt={`${cell.label} holiday collection`}
+                                        width={600} height={400}
                                         style={{
                                             width: "100%",
                                             height: "100%",
@@ -551,9 +557,10 @@ export default async function AboutPage() {
                                 }}
                             >
                                 {card.h && (
-                                    <img
+                                    <Image
                                         src={img(card.h.image)}
                                         alt={card.title}
+                                        width={600} height={400}
                                         style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover" }}
                                     />
                                 )}
@@ -620,9 +627,10 @@ export default async function AboutPage() {
                                         boxShadow: "var(--cb-shadow-sm)",
                                     }}
                                 >
-                                    <img
+                                    <Image
                                         src={img(m.h.image)}
                                         alt={`${m.label} holiday collection`}
+                                        width={400} height={500}
                                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                     />
                                     <div

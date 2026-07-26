@@ -10,6 +10,7 @@ import {
     HolidayCategory,
 } from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 import { HolidayDetails } from "./holiday-details";
 import { Button } from "@/components/ui/button";
 
@@ -109,7 +110,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
                                         role="listitem"
                                         aria-label={`${h.name} kit${price !== null ? `, from $${price}` : ""}`}
                                     >
-                                        <img src={img(h.image)} alt={`${h.name} décor kit`} />
+                                        <Image src={img(h.image)} alt={`${h.name} décor kit`} width={600} height={400} className="w-full h-full object-cover" />
                                         <div className="scrim" aria-hidden="true" />
                                         <span className={`cb-cat-badge ${catCls}`}>{cat}</span>
                                         <div className="meta">

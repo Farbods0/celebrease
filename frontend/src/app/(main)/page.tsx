@@ -1,6 +1,7 @@
 import { FaqAccordion } from "@/components/main/faq-accordion";
 import { ApiHoliday, ApiPlan, baseURL, getHolidaysByLoves, getPlans } from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
 const CATEGORY = {
     TRADITIONAL: { label: "Traditional", cls: "" },
@@ -73,11 +74,11 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-hero-art">
                         <div className="img-main">
-                            {hero0 && <img src={img(hero0.image)} alt={`${hero0.name} décor`} />}
+                            {hero0 && <Image src={img(hero0.image)} alt={`${hero0.name} décor`} width={1000} height={800} className="w-full h-full object-cover" />}
                         </div>
                         <div className="cb-kit-float">
                             <div className="kf-row">
-                                {hero0 && <img className="kf-thumb" src={img(hero0.image)} alt="" />}
+                                {hero0 && <Image className="kf-thumb" src={img(hero0.image)} alt="" width={64} height={64} style={{ objectFit: "cover" }} />}
                                 <div>
                                     <div className="kf-tier">Premium Kit</div>
                                     <div className="kf-name">{hero0?.name ?? "Christmas"}</div>
@@ -89,7 +90,7 @@ export default async function HomePage() {
                             </div>
                         </div>
                         <div className="img-sub">
-                            {hero1 && <img src={img(hero1.image)} alt={`${hero1.name} décor`} />}
+                            {hero1 && <Image src={img(hero1.image)} alt={`${hero1.name} décor`} width={600} height={400} className="w-full h-full object-cover" />}
                         </div>
                     </div>
                 </div>
@@ -147,7 +148,7 @@ export default async function HomePage() {
                             const price = lowestPrice(h.kits);
                             return (
                                 <Link key={h.id} href={`/catalog/${h.id}`} className="cb-holiday-card">
-                                    <img src={img(h.image)} alt={`${h.name} décor kit`} />
+                                    <Image src={img(h.image)} alt={`${h.name} décor kit`} width={600} height={400} className="w-full h-full object-cover" />
                                     <div className="scrim" />
                                     <span className={`cb-cat-badge ${cat.cls}`}>{cat.label}</span>
                                     <div className="meta">
@@ -170,7 +171,7 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-trio-images">
                         {featured.slice(0, 3).map((h) => (
-                            <img key={h.id} src={img(h.image)} alt={`Home dressed for ${h.name}`} />
+                            <Image key={h.id} src={img(h.image)} alt={`Home dressed for ${h.name}`} width={600} height={400} className="w-full h-full object-cover" />
                         ))}
                     </div>
                     <div className="cb-trio-grid">
@@ -289,7 +290,7 @@ export default async function HomePage() {
                             { img: featured[2]?.image, q: "The kit arrived styled and ready. I literally just placed each piece. Done.", a: "Priya K., New York" },
                         ].map((t, i) => (
                             <div key={i} className="cb-testi-card">
-                                <img src={img(t.img)} alt="" />
+                                <Image src={img(t.img)} alt="" width={100} height={100} className="object-cover" />
                                 <div className="cb-testi-body">
                                     <div className="cb-testi-stars">★★★★★</div>
                                     <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>

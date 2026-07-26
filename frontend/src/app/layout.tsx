@@ -19,7 +19,30 @@ import "./globals.css";
 import "./celebrease.css";
 
 export const metadata: Metadata = {
-    title: "CeleBrease",
+    title: "CeleBrease | Holiday Décor, Delivered",
+    description: "Designer-curated holiday decoration kits delivered to your door. Decorate beautifully. Store nothing. Get your deposit back, every time.",
+    keywords: ["holiday decor", "decor subscription", "christmas decor rental", "halloween decor rental", "event decor", "diwali decor", "home styling"],
+    openGraph: {
+        title: "CeleBrease | Holiday Décor, Delivered",
+        description: "Designer-curated holiday decoration kits delivered to your door. Decorate beautifully. Store nothing.",
+        url: "https://celebrease.com",
+        siteName: "CeleBrease",
+        images: [
+            {
+                url: "https://celebrease.com/uploads/og-image.png",
+                width: 1200,
+                height: 630,
+                alt: "CeleBrease Holiday Décor",
+            }
+        ],
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "CeleBrease | Holiday Décor, Delivered",
+        description: "Designer-curated holiday decoration kits delivered to your door. Decorate beautifully. Store nothing.",
+        images: ["https://celebrease.com/uploads/og-image.png"],
+    },
 };
 
 export default function RootLayout({

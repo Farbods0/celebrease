@@ -67,8 +67,8 @@ export function AddOnTable({ items, onEdit }: AddOnTableProps) {
                             <tr>
                                 <td>
                                     <div className="cust">
-                                        <img
-                                            className="th"
+                                        <img loading="lazy" decoding="async"
+className="th"
                                             src={`${baseURL}${item.image}`}
                                             alt={item.name}
                                             style={{ width: 36, height: 36, borderRadius: 8, objectFit: "cover" }}

@@ -19,8 +19,8 @@ export function HolidayCard({ item, onEdit }: HolidayCardProps) {
         <div className="panel" style={{ padding: 16, opacity: item.isActive ? 1 : 0.65 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                 <div className="hol-cell">
-                    <img
-                        className="hol-thumb"
+                    <img loading="lazy" decoding="async"
+className="hol-thumb"
                         src={`${baseURL}${item.image}`}
                         alt={item.name}
                         style={item.isActive ? undefined : { filter: "grayscale(.4)" }}

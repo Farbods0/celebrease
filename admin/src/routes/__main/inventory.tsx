@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { InventoryCard } from "@/components/inventory/inventory-card";
 import { initialFilterState, InventoryFilters, type InventoryFilterState } from "@/components/inventory/inventory-filters";
 import { InventoryForm } from "@/components/inventory/inventory-form";
@@ -14,6 +15,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/__main/inventory")({
     loader: () => inventoryApi.listAll(),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const PAGE_CSS = `

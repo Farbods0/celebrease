@@ -203,7 +203,7 @@ export function InventoryTable({ items, onView, onEdit }: InventoryTableProps) {
                                             </td>
                                             <td>
                                                 <div className="item-cell">
-                                                    <img className="item-thumb" src={img(item.image)} alt="" />
+                                                    <img loading="lazy" decoding="async" className="item-thumb" src={img(item.image)} alt="" />
                                                     <div>
                                                         <div className="item-name">{item.name}</div>
                                                         <div className="item-sku">{item.sku}</div>
@@ -216,8 +216,8 @@ export function InventoryTable({ items, onView, onEdit }: InventoryTableProps) {
                                             <td>
                                                 <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
                                                     {hol.image && (
-                                                        <img
-                                                            src={img(hol.image)}
+                                                        <img loading="lazy" decoding="async"
+src={img(hol.image)}
                                                             alt=""
                                                             style={{ width: 22, height: 22, borderRadius: 5, objectFit: "cover" }}
                                                         />

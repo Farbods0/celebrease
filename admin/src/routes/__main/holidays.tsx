@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { HolidayCard } from "@/components/holidays/holiday-card";
 import { HolidayForm } from "@/components/holidays/holiday-form";
 import { HolidayTable } from "@/components/holidays/holiday-table";
@@ -9,6 +10,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/__main/holidays")({
     loader: () => holidaysApi.listAll(),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const CATEGORY_TABS = [

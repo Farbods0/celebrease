@@ -16,7 +16,7 @@ export function ReturnCard({ item, onView }: ReturnCardProps) {
     return (
         <article className="panel" style={{ padding: 16 }}>
             <div className="kit-cell">
-                <img src={img(item.holiday.image)} alt="" />
+                <img loading="lazy" decoding="async" src={img(item.holiday.image)} alt="" />
                 <div style={{ flex: 1 }}>
                     <div className="kn">{item.holiday.name} · {formatTier(item.kit.tier)}</div>
                     <div className="ks">{formatDuration(item.duration)} rental · {item.kit.sku}</div>

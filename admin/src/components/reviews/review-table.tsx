@@ -94,7 +94,7 @@ export function ReviewTable({ items, onEdit }: ReviewTableProps) {
                                 <span className="rv-name">{item.name}</span>
                                 {item.image ? (
                                     <span className="rv-kit">
-                                        <img className="kit-thumb" src={`${baseURL}${item.image}`} alt="" />
+                                        <img loading="lazy" decoding="async" className="kit-thumb" src={`${baseURL}${item.image}`} alt="" />
                                     </span>
                                 ) : null}
                                 <span className="rv-date">{formatDate(item.createdAt)}</span>

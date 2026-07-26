@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewTable } from "@/components/reviews/review-table";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/__main/reviews")({
     loaderDeps: ({ search }) => search,
     loader: ({ deps }) => reviewsApi.list(deps),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 type StatusFilter = "all" | "approved" | "hidden";

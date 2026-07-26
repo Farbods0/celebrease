@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { PlanCard } from "@/components/plans/plan-card";
 import { PlanForm } from "@/components/plans/plan-form";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/__main/plans")({
         return { items: plans.items, settings };
     },
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const PLAN_STYLES = `

@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { OrderCard } from "@/components/orders/order-card";
 import { OrderTable } from "@/components/orders/order-table";
 import { OrderView } from "@/components/orders/order-view";
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/__main/orders")({
         return ordersApi.list(params);
     },
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const FILTER_TABS: { label: string; value: "all" | "active" | "returns" | "completed" }[] = [

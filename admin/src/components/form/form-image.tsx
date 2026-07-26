@@ -81,8 +81,8 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
                 </button>
             ) : (
                 <div className="relative h-40 rounded-xl border border-border overflow-hidden bg-muted group">
-                    <img
-                        src={previewUrl}
+                    <img loading="lazy" decoding="async"
+src={previewUrl}
                         alt={field.state.value || undefined}
                         crossOrigin="anonymous"
                         className="h-full w-full object-cover"

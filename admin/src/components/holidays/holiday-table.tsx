@@ -92,8 +92,8 @@ export function HolidayTable({ items, onEdit }: HolidayTableProps) {
                                         <td className="row-num">{idx + 1}</td>
                                         <td>
                                             <div className="hol-cell">
-                                                <img
-                                                    className="hol-thumb"
+                                                <img loading="lazy" decoding="async"
+className="hol-thumb"
                                                     src={`${baseURL}${item.image}`}
                                                     alt={item.name}
                                                     style={item.isActive ? undefined : { filter: "grayscale(.4)" }}

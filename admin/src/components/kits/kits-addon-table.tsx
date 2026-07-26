@@ -26,7 +26,7 @@ export function KitsAddonTable({ items, onRemove, removing }: KitsAddonTableProp
                     <tr key={addon.addOn.id}>
                         <td>
                             <div className="it-cell">
-                                <img className="th" src={`${baseURL}${addon.addOn.image}`} alt="" />
+                                <img loading="lazy" decoding="async" className="th" src={`${baseURL}${addon.addOn.image}`} alt="" />
                                 <span className="nm">{addon.addOn.name}</span>
                             </div>
                         </td>

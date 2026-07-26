@@ -60,7 +60,7 @@ export function ReturnTable({ items, onView }: ReturnTableProps) {
                                     </td>
                                     <td>
                                         <div className="kit-cell">
-                                            <img src={img(item.holiday.image)} alt="" />
+                                            <img loading="lazy" decoding="async" src={img(item.holiday.image)} alt="" />
                                             <div>
                                                 <div className="kn">{item.holiday.name} · {formatTier(item.kit.tier)}</div>
                                                 <div className="ks">{formatDuration(item.duration)} rental · {item.kit.sku}</div>

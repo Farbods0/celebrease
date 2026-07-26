@@ -32,7 +32,7 @@ export function KitsHolidayList({ holidays, isLoading, selectedHolidayId, onSele
                                 onClick={() => onSelect(holiday.id)}
                                 className={active ? "holiday-item on" : "holiday-item"}
                             >
-                                {holiday.image && <img className="th" src={`${baseURL}${holiday.image}`} alt="" />}
+                                {holiday.image && <img loading="lazy" decoding="async" className="th" src={`${baseURL}${holiday.image}`} alt="" />}
                                 {holiday.name}
                             </button>
                         );

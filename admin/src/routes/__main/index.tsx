@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { orderStatusPill } from "@/lib/admin-status";
 import {
     baseURL,
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/__main/")({
         return { stats, orders, inventory };
     },
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 function money(value: string | number) {
@@ -161,7 +163,7 @@ function RouteComponent() {
                                 const pct = total > 0 ? Math.round((avail / total) * 100) : 0;
                                 return (
                                     <div className="li" key={it.id}>
-                                        <img className="th" src={img(it.image)} alt="" />
+                                        <img loading="lazy" decoding="async" className="th" src={img(it.image)} alt="" />
                                         <div style={{ minWidth: 0 }}>
                                             <div className="nm">{it.name}</div>
                                             <div className="meta">

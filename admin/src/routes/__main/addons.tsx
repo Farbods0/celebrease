@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { AddOnCard } from "@/components/addons/addon-card";
 import { AddonForm } from "@/components/addons/addon-form";
 import { AddOnTable } from "@/components/addons/addon-table";
@@ -9,6 +10,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/__main/addons")({
     loader: () => addOnsApi.listAll(),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 type StatusFilter = "all" | "active" | "inactive";

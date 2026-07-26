@@ -77,7 +77,7 @@ export function FormAvatar({
                 className="group relative size-16 overflow-hidden rounded-full border border-border cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
                 aria-label="Change avatar"
             >
-                <img src={previewUrl} alt="Avatar" crossOrigin="anonymous" className="h-full w-full object-cover" />
+                <img loading="lazy" decoding="async" src={previewUrl} alt="Avatar" crossOrigin="anonymous" className="h-full w-full object-cover" />
                 <span className="absolute inset-0 flex items-center justify-center bg-black/40 text-white opacity-0 transition-opacity group-hover:opacity-100">
                     {isUploading ? <Spinner className="text-white" /> : <Upload className="size-5" />}
                 </span>

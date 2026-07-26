@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { ReturnCard } from "@/components/returns/return-card";
 import { ReturnTable } from "@/components/returns/return-table";
 import { ReturnView } from "@/components/returns/return-view";
@@ -9,6 +10,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/__main/returns")({
     loader: () => ordersApi.list({ filter: "returns" }),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 type ReturnTab = "awaiting" | "inspecting";

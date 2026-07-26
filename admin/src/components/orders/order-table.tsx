@@ -60,7 +60,7 @@ export function OrderTable({ items, onView }: OrderTableProps) {
                                     </td>
                                     <td>
                                         <div className="tbl-kit">
-                                            <img src={`${baseURL}${item.holiday.image}`} alt="" />
+                                            <img loading="lazy" decoding="async" src={`${baseURL}${item.holiday.image}`} alt="" />
                                             <div>
                                                 <div className="kit-name">{item.holiday.name}</div>
                                                 <div className="kit-tier">{formatTier(item.kit.tier)}</div>

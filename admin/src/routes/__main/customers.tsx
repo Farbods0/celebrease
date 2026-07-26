@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { CustomerCard } from "@/components/customers/customer-card";
 import { CustomerTable } from "@/components/customers/customer-table";
 import { CustomerView } from "@/components/customers/customer-view";
@@ -9,6 +10,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/__main/customers")({
     loader: () => customersApi.list(),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const PAGE_CSS = `

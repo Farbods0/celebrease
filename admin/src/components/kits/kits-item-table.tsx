@@ -38,7 +38,7 @@ export function KitsItemTable({ items, onRemove, removing }: KitsItemTableProps)
                     <tr key={item.item.id}>
                         <td>
                             <div className="it-cell">
-                                <img className="th" src={`${baseURL}${item.item.image}`} alt="" />
+                                <img loading="lazy" decoding="async" className="th" src={`${baseURL}${item.item.image}`} alt="" />
                                 <span className="nm">{item.item.name}</span>
                             </div>
                         </td>

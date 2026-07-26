@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { baseURL, apiPrefix } from "@/lib/api/base";
 import { settingsApi, type ApiSiteSettings } from "@/lib/api/settings";
 import { auth } from "@/lib/auth";
@@ -7,6 +8,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/__main/settings")({
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const SETTINGS_CSS = `
@@ -355,7 +357,7 @@ function ProfileSection(props: {
                 <div className="avatar-row">
                     <div style={{ position: "relative" }}>
                         <div className="avatar-lg">
-                            {avatarSrc ? <img src={avatarSrc} alt={user.name} /> : initials}
+                            {avatarSrc ? <img loading="lazy" decoding="async" src={avatarSrc} alt={user.name} /> : initials}
                         </div>
                         <button
                             type="button"
@@ -637,7 +639,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                         <div className="avatar-row">
                             <div className="logo-box">
                                 {settings.logoUrl ? (
-                                    <img src={settings.logoUrl.startsWith("http") ? settings.logoUrl : `${baseURL}${settings.logoUrl}`} alt="Logo" />
+                                    <img loading="lazy" decoding="async" src={settings.logoUrl.startsWith("http") ? settings.logoUrl : `${baseURL}${settings.logoUrl}`} alt="Logo" />
                                 ) : (
                                     <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>No logo</span>
                                 )}

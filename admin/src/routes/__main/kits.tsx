@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { KitsContent } from "@/components/kits/kits-content";
 import { KitsForm } from "@/components/kits/kits-form";
 import { KitsHolidayList, KitsSidebar } from "@/components/kits/kits-sidebar";
@@ -115,6 +116,7 @@ export const Route = createFileRoute("/__main/kits")({
         return { holidays: holidays.items, kits: kits.items, items: items.items, addOns: addOns.items, frontendUrl: settings.websiteUrl || "" };
     },
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const TIERS: { value: KitTier; label: string }[] = [

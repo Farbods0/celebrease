@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { SubscriptionCard } from "@/components/subscriptions/subscription-card";
 import { SubscriptionTable } from "@/components/subscriptions/subscription-table";
 import { SubscriptionView } from "@/components/subscriptions/subscription-view";
@@ -9,6 +10,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/__main/subscriptions")({
     loader: () => subscriptionsApi.list(),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const TABS: { value: SubscriptionStatus | "ALL"; label: string }[] = [

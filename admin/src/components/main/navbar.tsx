@@ -122,7 +122,7 @@ export function Navbar({ user }: { user: Session["user"] }) {
 
                 {/* Logo + Admin badge */}
                 <Link to="/" className="shrink-0 flex items-center gap-2">
-                    <img src="/logo.png" alt="Logo" width={142} height={21.54} />
+                    <img loading="lazy" decoding="async" src="/logo.png" alt="Logo" width={142} height={21.54} />
                     <span
                         className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full"
                         style={{ background: "#FEF3C7", color: "#B45309" }}

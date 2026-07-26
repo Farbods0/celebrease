@@ -1,3 +1,4 @@
+import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { UserCard } from "@/components/users/user-card";
 import { UserForm } from "@/components/users/user-form";
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/__main/users")({
     loaderDeps: ({ search }) => search,
     loader: ({ deps }) => usersApi.list(deps),
     component: RouteComponent,
+    pendingComponent: RouteSkeleton,
 });
 
 const STYLES = `

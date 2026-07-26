@@ -6,7 +6,13 @@ const BACKEND_URL =
 
 const nextConfig: NextConfig = {
     images: {
-        remotePatterns: [],
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "celebrease-backend-production-4778.up.railway.app",
+                pathname: "/uploads/**",
+            },
+        ],
     },
     reactCompiler: true,
     async rewrites() {

@@ -7,6 +7,7 @@ import { useLovesStore } from "@/lib/loves-store";
 import { toNumber } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useMemo, Suspense, useState } from "react";
@@ -201,11 +202,10 @@ function CatalogCard({ holiday }: { holiday: ApiHoliday }) {
 
     return (
         <Link href={`/catalog/${holiday.id}`} className="cb-holiday-card">
-            <img
+            <Image
                 src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/uploads") ? `${baseURL}${holiday.image}` : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
                 alt={`${holiday.name} — holiday décor kit`}
-                className="w-full h-full object-cover"
-                loading="lazy"
+                fill style={{ objectFit: "cover" }}
             />
             <div className="scrim" />
             <span className={`cb-cat-badge${catCls ? ` ${catCls}` : ""}`}>{catLabel}</span>

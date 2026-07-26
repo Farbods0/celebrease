@@ -36,6 +36,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const antigravityTracker_1 = require("./antigravityTracker");
 const claudeTracker_1 = require("./claudeTracker");
 const dashboardPanel_1 = require("./dashboardPanel");
@@ -110,7 +112,8 @@ async function refreshUsageData(antigravityTracker, claudeTracker) {
             antigravityStatusBar.show();
         }
         catch (e) {
-            antigravityStatusBar.text = '$(sparkle) AGY: Error';
+            fs.writeFileSync(path.join(__dirname, '..', 'ag-error.log'), String(e.stack || e));
+            antigravityStatusBar.text = '$(sparkle) AG: Error';
             antigravityStatusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
             antigravityStatusBar.show();
         }
@@ -126,6 +129,7 @@ async function refreshUsageData(antigravityTracker, claudeTracker) {
             claudeStatusBar.show();
         }
         catch (e) {
+            fs.writeFileSync(path.join(__dirname, '..', 'claude-error.log'), String(e.stack || e));
             claudeStatusBar.text = '$(hubot) Claude: Error';
             claudeStatusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
             claudeStatusBar.show();
@@ -139,6 +143,9 @@ async function refreshUsageData(antigravityTracker, claudeTracker) {
 }
 function updateAntigravityStatusBar(data) {
     const totalTokensK = Math.round(data.totalTokens / 1000);
+    const displayTokens = data.totalTokens >= 1000000
+        ? (data.totalTokens / 1000000).toFixed(1) + 'M'
+        : `${totalTokensK}K`;
     const pct = data.budgetLimit > 0
         ? Math.round((data.totalTokens / data.budgetLimit) * 100)
         : 0;
@@ -152,25 +159,36 @@ function updateAntigravityStatusBar(data) {
         icon = '$(alert)';
         bg = new vscode.ThemeColor('statusBarItem.warningBackground');
     }
-    antigravityStatusBar.text = `${icon} AGY: ${totalTokensK}K tokens`;
+    antigravityStatusBar.text = `${icon} AG: ${displayTokens}`;
     antigravityStatusBar.backgroundColor = bg;
     if (data.budgetLimit > 0) {
-        const remainK = Math.round((data.budgetLimit - data.totalTokens) / 1000);
+        const remaining = data.budgetLimit - data.totalTokens;
+        const remainStr = remaining <= 0
+            ? '0K (Limit Exceeded)'
+            : remaining >= 1000000
+                ? (remaining / 1000000).toFixed(1) + 'M tokens'
+                : Math.round(remaining / 1000) + 'K tokens';
+        const budgetStr = data.budgetLimit >= 1000000
+            ? (data.budgetLimit / 1000000).toFixed(1) + 'M'
+            : Math.round(data.budgetLimit / 1000) + 'K';
         antigravityStatusBar.tooltip = `Antigravity Token Usage\n` +
-            `Used: ${totalTokensK}K / ${Math.round(data.budgetLimit / 1000)}K (${pct}%)\n` +
-            `Remaining: ${remainK}K tokens\n` +
+            `Used: ${displayTokens} / ${budgetStr} (${pct}%)\n` +
+            `Remaining: ${remainStr}\n` +
             `Sessions today: ${data.sessionsToday}\n\n` +
             `Click for detailed dashboard`;
     }
 }
 function updateClaudeStatusBar(data) {
     const totalTokensK = Math.round(data.totalTokens / 1000);
+    const displayTokens = data.totalTokens >= 1000000
+        ? (data.totalTokens / 1000000).toFixed(1) + 'M'
+        : `${totalTokensK}K`;
     const costStr = data.estimatedCost.toFixed(2);
     let icon = '$(hubot)';
     let bg;
     const config = vscode.workspace.getConfiguration('aiTokenTracker');
     const budget = config.get('claude.monthlyBudget', 100);
-    if (budget > 0) {
+    if (budget > 0 && data.totalTokens > 0) {
         const pct = Math.round((data.estimatedCost / budget) * 100);
         if (pct >= 90) {
             icon = '$(warning)';
@@ -181,10 +199,15 @@ function updateClaudeStatusBar(data) {
             bg = new vscode.ThemeColor('statusBarItem.warningBackground');
         }
     }
-    claudeStatusBar.text = `${icon} Claude: ${totalTokensK}K · $${costStr}`;
+    if (data.totalTokens === 0) {
+        claudeStatusBar.text = `${icon} Claude: $0.00`;
+    }
+    else {
+        claudeStatusBar.text = `${icon} Claude: ${displayTokens} · $${costStr}`;
+    }
     claudeStatusBar.backgroundColor = bg;
     claudeStatusBar.tooltip = `Claude Token Usage\n` +
-        `Total tokens: ${totalTokensK}K\n` +
+        `Total tokens: ${displayTokens}\n` +
         `Estimated cost: $${costStr}\n` +
         `Sessions today: ${data.sessionsToday}\n\n` +
         `Click for detailed dashboard`;

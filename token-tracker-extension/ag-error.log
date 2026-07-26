@@ -1,0 +1,11 @@
+TypeError: userDir.startsWith is not a function
+    at AntigravityTracker.resolveDataDirs (C:\Users\farbo\Documents\celebrease\token-tracker-extension\out\antigravityTracker.js:50:25)
+    at AntigravityTracker.getUsageData (C:\Users\farbo\Documents\celebrease\token-tracker-extension\out\antigravityTracker.js:128:31)
+    at refreshUsageData (C:\Users\farbo\Documents\celebrease\token-tracker-extension\out\extension.js:110:54)
+    at Object.activate (C:\Users\farbo\Documents\celebrease\token-tracker-extension\out\extension.js:87:5)
+    at [eval]:1:668
+    at runScriptInThisContext (node:internal/vm:219:10)
+    at node:internal/process/execution:451:12
+    at [eval]-wrapper:6:24
+    at runScriptInContext (node:internal/process/execution:449:60)
+    at evalFunction (node:internal/process/execution:283:30)

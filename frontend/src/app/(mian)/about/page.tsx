@@ -276,23 +276,22 @@ export default async function AboutPage() {
                             id="story-heading"
                             style={{ fontSize: "clamp(1.9rem,3.5vw,2.8rem)", lineHeight: 1.1, fontWeight: 700 }}
                         >
-                            A Christmas tree that lived in the attic 360 days a year.
+                            Celebrate everything. Store nothing.
                         </h2>
                         <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.72 }}>
-                            It started with a tree we paid too much for, used twice, and watched collect dust in the
-                            attic for six years. Then a Halloween box. Then Easter. By the time the kids outgrew it
-                            all, we&apos;d spent thousands on décor that lived 99% of its life in storage.
+                            I have always loved bringing people together. Having a birthday on December 31st turned me into a natural host, and kicking off every new year with a massive celebration set the tone for how I view gatherings.
                         </p>
                         <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.72 }}>
-                            We knew there had to be a better way. Renting a tuxedo for one night made obvious sense —
-                            why not the same for décor used three weeks a year? CeleBrease was the answer:
-                            designer-curated kits, professionally maintained, delivered the week before the holiday and
-                            picked up the week after.
+                            That passion for hosting quickly bled into the rest of the year. Whether I am designing a complex multi-course menu, prepping clear ice and custom garnishes for a cocktail night, or bringing friends and family together for a big weekend, I believe the atmosphere of the room should always match the effort put into the event itself.
                         </p>
                         <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.72 }}>
-                            Today, our design team has built collections for 19 holidays across traditions — from quiet
-                            Diwali tabletops to over-the-top Halloween tableaux — all assembled, cleaned, and styled
-                            in our facility before they ship to your door.
+                            But hosting back-to-back events with completely different aesthetics revealed a massive flaw in how we celebrate. To get the vibe exactly right, we end up spending thousands of dollars on high-end decor for specific milestones, only to stuff it all into a closet the next morning. You should never have to choose between a compromised aesthetic and a lifelong commitment to storing party supplies.
+                        </p>
+                        <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.72 }}>
+                            CeleBrease was built to fundamentally change how we host. We believe that if you can rent a tuxedo for a gala, you should be able to rent professional-grade decor for your biggest life events.
+                        </p>
+                        <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.72 }}>
+                            We offer designer-curated collections for 19 different holidays and milestones. We deliver them perfectly styled right before your celebration, and we pick them up when the party is over. You get a magazine-worthy atmosphere, and we handle the logistics, the cleaning, and the storage.
                         </p>
                         <blockquote
                             style={{
@@ -308,8 +307,7 @@ export default async function AboutPage() {
                                 marginTop: 4,
                             }}
                         >
-                            &ldquo;Every kit we ship is a reminder that the best celebrations don&apos;t need to be
-                            complicated — or permanent.&rdquo;
+                            &ldquo;We believe the best moments in life should be unforgettable, not permanent.&rdquo;
                         </blockquote>
                     </div>
 

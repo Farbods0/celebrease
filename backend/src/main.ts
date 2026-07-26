@@ -56,3 +56,5 @@ async function bootstrap() {
     logger.log(`Application is running on: ${await app.getUrl()}`);
 }
 void bootstrap();
+
+// trigger redeploy

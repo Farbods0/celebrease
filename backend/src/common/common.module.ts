@@ -69,10 +69,12 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
                     },
                     trustedOrigins: configService.get<string>("client")?.split(",") || [],
                     advanced: {
-                        defaultCookieAttributes: {
-                            sameSite: "none",
-                            secure: true,
-                        },
+                        // Production (HTTPS): cross-site cookies require sameSite=none + secure.
+                        // Development (HTTP localhost): secure=true cookies are silently dropped by
+                        // the browser, so we must use sameSite=lax + secure=false.
+                        defaultCookieAttributes: configService.get<string>("nodeEnv") === "production"
+                            ? { sameSite: "none" as const, secure: true }
+                            : { sameSite: "lax" as const, secure: false },
                     },
                 }),
             }),

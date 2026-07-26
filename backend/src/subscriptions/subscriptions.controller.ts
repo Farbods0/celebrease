@@ -43,6 +43,11 @@ export class SubscriptionsController {
         return this.subscriptions.assignHolidaySlot(id, slotId, dto.holidayId);
     }
 
+    @Post("/slots/:slotId/assign")
+    assignMyHolidaySlot(@Param("slotId") slotId: string, @Body() dto: AssignHolidaySlotDto, @Session() session: UserSession) {
+        return this.subscriptions.assignMyHolidaySlot(session, slotId, dto.holidayId);
+    }
+
     @Post("/checkout")
     createCheckout(@Body() dto: CreateCheckoutDto, @Session() session: UserSession) {
         return this.subscriptions.createCheckout(dto, session);

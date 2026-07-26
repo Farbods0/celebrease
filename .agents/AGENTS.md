@@ -1,6 +1,7 @@
 # Behavior Customizations
 
 - Do not ask for permission before making changes. Avoid creating implementation plans that block on user approval (`request_feedback = true`) unless absolutely necessary or explicitly requested. Execute changes immediately and directly without asking for permission.
+- **Production-Only Testing Rule**: ALL browser-based validation and E2E testing MUST be done against the live production URL (e.g. `https://celebrease.com`). NEVER test against localhost or any local dev server. Local testing is not a substitute for production validation. If a fix only works locally but not in production, it is NOT fixed.
 - **Mandatory E2E Browser Testing & Deployment Verification**:
   1. **Never declare a fix complete prematurely**: Do NOT tell the user a fix is resolved, and do NOT ask them to validate it, until you have personally confirmed it works on the live production URL.
   2. **Verify Deployments**: If your fix requires a deployment (e.g. Netlify/Vercel), you MUST wait for the deployment to finish and verify it was successful before proceeding. Do not assume your pushed code compiled successfully.

@@ -169,6 +169,18 @@ export class SubscriptionsService {
         return this.getById(subscriptionId);
     }
 
+    async assignMyHolidaySlot(session: UserSession, slotId: string, holidayId: string) {
+        const sub = await this.getMine(session);
+        if (!sub) throw new NotFoundException("Active subscription not found");
+
+        // The method above requires `subscriptionId` matching
+        // But `this.getById` at the end of `assignHolidaySlot` might return the full admin include.
+        // Wait, it is okay since it's just returning it, and our controller doesn't leak sensitive data,
+        // but maybe we should just return `getMine` format.
+        await this.assignHolidaySlot(sub.id, slotId, holidayId);
+        return this.getMine(session);
+    }
+
     async createCheckout(dto: CreateCheckoutDto, session: UserSession) {
         const existingActive = await this.prisma.subscription.findFirst({
             where: { userId: session.user.id, status: { in: ACTIVE_SUBSCRIPTION_STATUSES } },

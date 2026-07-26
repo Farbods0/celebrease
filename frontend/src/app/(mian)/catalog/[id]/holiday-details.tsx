@@ -5,7 +5,10 @@ import {
     ApiHolidayAddOn,
     ApiHolidayDetail,
     ApiHolidayKit,
+    ApiSubscription,
+    assignMyHolidaySlot,
     baseURL,
+    getMySubscription,
     HolidayCategory,
     KitTier,
 } from "@/lib/api";
@@ -13,7 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { auth } from "@/lib/auth";
 import { useLovesStore } from "@/lib/loves-store";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 /* ---- helpers ---------------------------------------------------------------- */
@@ -90,6 +93,14 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
     const loved = useLovesStore((s) => s.loved.has(holiday.id));
     const toggleLove = useLovesStore((s) => s.toggle);
 
+    const [subscription, setSubscription] = useState<ApiSubscription | null>(null);
+
+    useEffect(() => {
+        if (session?.user) {
+            getMySubscription().then(setSubscription).catch(() => {});
+        }
+    }, [session?.user]);
+
     const onToggleLove = () => {
         if (!session?.user) {
             router.push("/signin");
@@ -145,9 +156,12 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
 
     const mainImage = galleryImages[activeThumb] ?? galleryImages[0];
 
-    /* ---- add to cart -------------------------------------------------------- */
+    /* ---- add to cart / assign slot ------------------------------------------ */
 
-    const handleAddToCart = async () => {
+    const pendingSlots = subscription?.holidaySlots?.filter(s => s.status === "PENDING") ?? [];
+    const canAssign = pendingSlots.length > 0;
+
+    const handleAction = async () => {
         if (!session?.user) {
             router.push("/signin");
             return;
@@ -160,20 +174,30 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
             toast.error("Pick a valid start date");
             return;
         }
+        
         setSubmitting(true);
         try {
-            await addToCart({
-                holidayId: holiday.id,
-                kitId: selectedKit.id,
-                duration: duration === 60 ? "SIXTY_DAY" : "THIRTY_DAY",
-                startDate,
-                endDate,
-                addOns: [...selectedAddons].map((addOnId) => ({ addOnId, qty: 1 })),
-            });
-            toast.success("Added to cart!");
-            router.push("/cart");
+            if (canAssign) {
+                // Assign to first pending slot
+                const slotToAssign = pendingSlots[0];
+                await assignMyHolidaySlot(slotToAssign.id, holiday.id);
+                toast.success(`Assigned to your subscription (Slot ${slotToAssign.slotNumber})!`);
+                router.push("/account/subscription");
+            } else {
+                // Normal cart flow
+                await addToCart({
+                    holidayId: holiday.id,
+                    kitId: selectedKit.id,
+                    duration: duration === 60 ? "SIXTY_DAY" : "THIRTY_DAY",
+                    startDate,
+                    endDate,
+                    addOns: [...selectedAddons].map((addOnId) => ({ addOnId, qty: 1 })),
+                });
+                toast.success("Added to cart!");
+                router.push("/cart");
+            }
         } catch (e) {
-            toast.error(e instanceof Error ? e.message : "Failed to add to cart");
+            toast.error(e instanceof Error ? e.message : "Action failed");
         } finally {
             setSubmitting(false);
         }
@@ -386,15 +410,42 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
 
                     {/* CTA Buttons */}
                     <div className="cb-cta-group">
-                        <button
-                            type="button"
-                            className="cb-btn-cart"
-                            onClick={handleAddToCart}
-                            disabled={submitting || !selectedKit}
-                            aria-label={`Add ${holiday.name} kit to cart for $${currentPrice + addonTotal}`}
-                        >
-                            {submitting ? "Adding…" : `Add to Cart — $${currentPrice + addonTotal}`}
-                        </button>
+                        {subscription ? (
+                            canAssign ? (
+                                <button
+                                    type="button"
+                                    className="cb-btn-cart"
+                                    onClick={handleAction}
+                                    disabled={submitting || !selectedKit}
+                                    style={{ background: "linear-gradient(to right, #15803D, #16A34A)", boxShadow: "0 4px 16px rgba(21,128,61,0.2)" }}
+                                >
+                                    {submitting ? "Assigning…" : `Assign to Holiday Slot (Slot ${pendingSlots[0].slotNumber})`}
+                                </button>
+                            ) : (
+                                <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%" }}>
+                                    <button
+                                        type="button"
+                                        className="cb-btn-cart"
+                                        onClick={handleAction}
+                                        disabled={submitting || !selectedKit}
+                                    >
+                                        {submitting ? "Adding…" : `Add to Cart A La Carte — $${currentPrice + addonTotal}`}
+                                    </button>
+                                    <p style={{ fontSize: 13, color: "#92400E", textAlign: "center", fontWeight: 500, backgroundColor: "#FEF3C7", padding: "6px 12px", borderRadius: 8 }}>
+                                        All your subscription slots for this year are full.
+                                    </p>
+                                </div>
+                            )
+                        ) : (
+                            <button
+                                type="button"
+                                className="cb-btn-cart"
+                                onClick={handleAction}
+                                disabled={submitting || !selectedKit}
+                            >
+                                {submitting ? "Adding…" : `Add to Cart — $${currentPrice + addonTotal}`}
+                            </button>
+                        )}
                         <button
                             type="button"
                             className={`cb-btn-wishlist${loved ? " active" : ""}`}

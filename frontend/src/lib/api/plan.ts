@@ -94,3 +94,15 @@ export async function createSubscriptionCheckout(args: { planId: string; billing
     }
     return res.json();
 }
+
+export async function assignMyHolidaySlot(slotId: string, holidayId: string): Promise<ApiSubscription> {
+    const res = await fetch(apiURL(`${apiPrefix}/subscription/slots/${slotId}/assign`), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ holidayId }),
+    });
+    if (!res.ok) {
+        throw new Error(await readError(res, "Failed to assign holiday"));
+    }
+    return res.json();
+}

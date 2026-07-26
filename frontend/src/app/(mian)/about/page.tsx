@@ -288,7 +288,7 @@ export default async function AboutPage() {
                             But hosting back-to-back events with completely different aesthetics revealed a massive flaw in how we celebrate. To get the vibe exactly right, we end up spending thousands of dollars on high-end decor for specific milestones, only to stuff it all into a closet the next morning. You should never have to choose between a compromised aesthetic and a lifelong commitment to storing party supplies.
                         </p>
                         <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.72 }}>
-                            CeleBrease was built to fundamentally change how we host. We believe that if you can rent a tuxedo for a gala, you should be able to rent professional-grade decor for your biggest life events.
+                            CeleBrease was built to fundamentally change how we host. We believe that if you can rent a tuxedo for a wedding, you should be able to rent professional-grade decor for your biggest life events.
                         </p>
                         <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.72 }}>
                             We offer designer-curated collections for 19 different holidays and milestones. We deliver them perfectly styled right before your celebration, and we pick them up when the party is over. You get a magazine-worthy atmosphere, and we handle the logistics, the cleaning, and the storage.

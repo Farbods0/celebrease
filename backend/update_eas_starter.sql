@@ -1,1 +1,0 @@
-UPDATE kit SET images = ARRAY['/events/eas-starter-2026_angle1.jpg', '/events/eas-starter-2026_angle2.jpg', '/events/eas-starter-2026_angle3.jpg', '/events/eas-starter-2026_angle4.jpg'] WHERE sku = 'EAS-STARTER-2026';

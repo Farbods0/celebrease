@@ -1,9 +1,29 @@
 const { spawn } = require('child_process');
 const readline = require('readline');
 
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+
+const isWin = process.platform === 'win32';
+const macPath = '/Users/farbodjahan/.railway/bin/railway';
+const winPath = path.join(os.homedir(), '.railway', 'bin', 'railway.exe');
+
+let cmd = 'npx';
+let args = ['@railway/cli', 'mcp'];
+
+if (fs.existsSync(macPath)) {
+  cmd = macPath;
+  args = ['mcp'];
+} else if (fs.existsSync(winPath)) {
+  cmd = winPath;
+  args = ['mcp'];
+}
+
 // Start the actual railway mcp process
-const railway = spawn('/Users/farbodjahan/.railway/bin/railway', ['mcp'], {
-  stdio: ['pipe', 'pipe', process.stderr]
+const railway = spawn(cmd, args, {
+  stdio: ['pipe', 'pipe', process.stderr],
+  shell: isWin && cmd === 'npx'
 });
 
 // Read from stdin (Antigravity) and forward to railway, 

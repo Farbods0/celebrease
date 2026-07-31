@@ -5,6 +5,7 @@
     "backend"
   ],
   "dependencies": {
-    "pg": "^8.22.0"
+    "pg": "^8.22.0",
+    "playwright": "^1.62.1"
   }
 }

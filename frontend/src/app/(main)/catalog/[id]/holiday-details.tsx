@@ -255,7 +255,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     key={i}
                                     src={g.src} 
                                     alt={g.alt} 
-                                    priority={i === 0}
+                                    priority={true}
                                     width={800} 
                                     height={800} 
                                     className="object-cover w-full h-full" 

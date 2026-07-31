@@ -34,6 +34,10 @@ async function upload() {
         try {
             const res = await fetch(url, {
                 method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer super_agent_token_xyz123',
+                    'Cookie': 'better-auth.session_token=super_agent_token_xyz123'
+                },
                 body: formData
             });
             const text = await res.text();

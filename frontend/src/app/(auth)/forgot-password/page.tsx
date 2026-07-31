@@ -267,7 +267,7 @@ export default function ForgotPassword() {
                         <p className="cb-afp-brand-attr">&#8212; Priya K., Premium member</p>
                         <ul className="cb-afp-feat-list">
                             <li><span className="chk">&#10003;</span> Designer kits for every holiday</li>
-                            <li><span className="chk">&#10003;</span> Free two-way shipping, always</li>
+                            <li><span className="chk">&#10003;</span> Free two way shipping, always</li>
                             <li><span className="chk">&#10003;</span> Full deposit refunded on return</li>
                             <li><span className="chk">&#10003;</span> Skip or cancel anytime</li>
                         </ul>

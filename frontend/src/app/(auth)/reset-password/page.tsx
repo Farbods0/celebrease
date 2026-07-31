@@ -230,7 +230,7 @@ export default async function ResetPassword() {
                         <p className="cb-auth-brand-attr">&mdash; Melissa T., Ultimate member</p>
                         <ul className="cb-auth-feature-list">
                             <li><span className="check">&#10003;</span> Designer kits for every holiday</li>
-                            <li><span className="check">&#10003;</span> Free two-way shipping, always</li>
+                            <li><span className="check">&#10003;</span> Free two way shipping, always</li>
                             <li><span className="check">&#10003;</span> Full deposit refunded on return</li>
                             <li><span className="check">&#10003;</span> Skip or cancel anytime</li>
                         </ul>

@@ -264,7 +264,7 @@ export default function CheckoutCancelClient() {
                                 Cart is still saved
                             </h4>
                             <p style={{ fontSize: 13.5, color: "var(--cb-ink-muted)", lineHeight: 1.55 }}>
-                                Your kits, add-ons, and selections are saved. Return to checkout whenever you&apos;re
+                                Your kits, add ons, and selections are saved. Return to checkout whenever you&apos;re
                                 ready, no need to start over.
                             </p>
                         </div>

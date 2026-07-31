@@ -109,16 +109,16 @@ export default function PrivacyPage() {
                             </h2>
                             <p>
                                 We collect information you give us directly, information we receive automatically when
-                                you use our Service, and information from third-party partners.
+                                you use our Service, and information from third party partners.
                             </p>
 
                             <h3>Information you provide directly</h3>
                             <ul>
                                 <li><span><strong>Account information:</strong> name, email address, phone number, and password when you create an account.</span></li>
                                 <li><span><strong>Delivery &amp; billing details:</strong> shipping address, billing address, and payment card information (processed securely through Stripe, we never store your full card number).</span></li>
-                                <li><span><strong>Subscription preferences:</strong> which holidays you select, kit tier preferences, rental duration, and any add-ons you choose.</span></li>
+                                <li><span><strong>Subscription preferences:</strong> which holidays you select, kit tier preferences, rental duration, and any add ons you choose.</span></li>
                                 <li><span><strong>Communications:</strong> messages you send us via contact forms, support requests, or email, including feedback and reviews you submit.</span></li>
-                                <li><span><strong>Newsletter opt-in:</strong> your email address if you subscribe to seasonal inspiration updates.</span></li>
+                                <li><span><strong>Newsletter opt in:</strong> your email address if you subscribe to seasonal inspiration updates.</span></li>
                             </ul>
 
                             <h3>Information collected automatically</h3>
@@ -126,7 +126,7 @@ export default function PrivacyPage() {
                                 <li><span><strong>Usage data:</strong> pages viewed, links clicked, time on page, scroll depth, and navigation paths.</span></li>
                                 <li><span><strong>Device &amp; technical data:</strong> IP address, browser type and version, operating system, device identifiers, and referring URLs.</span></li>
                                 <li><span><strong>Cookies and similar tracking technologies:</strong> session cookies, preference cookies, and analytics cookies (detailed in Section 5).</span></li>
-                                <li><span><strong>Location data:</strong> approximate location derived from your IP address to provide region-appropriate shipping options and holiday timing.</span></li>
+                                <li><span><strong>Location data:</strong> approximate location derived from your IP address to provide region appropriate shipping options and holiday timing.</span></li>
                             </ul>
 
                             <h3>Information from third parties</h3>
@@ -178,7 +178,7 @@ export default function PrivacyPage() {
                                     </tr>
                                     <tr>
                                         <td>Sending promotional emails and seasonal inspiration (newsletter)</td>
-                                        <td>Consent (opt-in only; unsubscribe anytime)</td>
+                                        <td>Consent (opt in only; unsubscribe anytime)</td>
                                     </tr>
                                     <tr>
                                         <td>Analysing usage to improve product design and kit curation</td>
@@ -284,7 +284,7 @@ export default function PrivacyPage() {
                                 <li><span><strong>Deposit records:</strong> retained for 3 years after the final deposit is settled.</span></li>
                                 <li><span><strong>Support communications:</strong> retained for 2 years after the conversation closes.</span></li>
                                 <li><span><strong>Newsletter / marketing preferences:</strong> retained until you unsubscribe or request deletion.</span></li>
-                                <li><span><strong>Analytics data:</strong> aggregated and anonymised after 13 months; no individual-level retention beyond that point.</span></li>
+                                <li><span><strong>Analytics data:</strong> aggregated and anonymised after 13 months; no individual level retention beyond that point.</span></li>
                             </ul>
 
                             <p>
@@ -308,7 +308,7 @@ export default function PrivacyPage() {
                                 <li><span><strong>Access:</strong> request a copy of the personal data we hold about you.</span></li>
                                 <li><span><strong>Correction:</strong> ask us to fix inaccurate or incomplete information in your account.</span></li>
                                 <li><span><strong>Deletion:</strong> request that we delete your account and associated personal data (subject to our legal retention obligations above).</span></li>
-                                <li><span><strong>Portability:</strong> receive your data in a machine-readable format (JSON or CSV) to transfer to another service.</span></li>
+                                <li><span><strong>Portability:</strong> receive your data in a machine readable format (JSON or CSV) to transfer to another service.</span></li>
                                 <li><span><strong>Restriction:</strong> ask us to stop processing your data in certain ways without deleting it.</span></li>
                                 <li><span><strong>Objection:</strong> object to processing based on legitimate interests, including personalised recommendations.</span></li>
                                 <li><span><strong>Withdrawal of consent:</strong> unsubscribe from marketing at any time via the link in any email or by updating your account settings. Withdrawal does not affect the lawfulness of processing prior to withdrawal.</span></li>
@@ -363,7 +363,7 @@ export default function PrivacyPage() {
                             <ul>
                                 <li><span>TLS encryption for all data in transit between your browser and our servers.</span></li>
                                 <li><span>Payment card data is processed entirely by Stripe (PCI DSS Level 1 compliant), CeleBrease never touches or stores raw card numbers.</span></li>
-                                <li><span>Passwords are stored using a strong one-way hash (bcrypt). We cannot recover your plain-text password.</span></li>
+                                <li><span>Passwords are stored using a strong one way hash (bcrypt). We cannot recover your plain text password.</span></li>
                                 <li><span>Access to production databases is restricted to authorised personnel and logged.</span></li>
                                 <li><span>Regular security audits and dependency vulnerability scanning.</span></li>
                             </ul>

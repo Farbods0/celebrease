@@ -311,7 +311,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                         )}
                         {!holiday.description && (
                             <p className="cb-kit-short-desc">
-                                Designer-curated {holiday.name} décor kit, styled pieces, delivered to your door, picked up when the season ends. Decorate beautifully, store nothing.
+                                Designer curated {holiday.name} décor kit, styled pieces, delivered to your door, picked up when the season ends. Decorate beautifully, store nothing.
                             </p>
                         )}
                         <span className={`cb-cat-badge ${catCls}`} style={{ position: "static", display: "inline-block", marginBottom: 4 }}>
@@ -363,7 +363,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                 onClick={() => setDuration(30)}
                                 role="radio"
                                 aria-checked={duration === 30}
-                                aria-label="30-day rental"
+                                aria-label="30 day rental"
                             >
                                 <div className="cb-dur-days">30 days</div>
                                 <div className="cb-dur-price">${price30}</div>
@@ -503,7 +503,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                             {pieces.map(({ item, qty }) => (
                                 <div key={item.id} className="cb-piece-card" role="listitem">
                                     <div className="cb-piece-thumb">
-                                        <Image src={img(item.image)} alt={item.name} width={400} height={400} className="object-cover w-full h-full" />
+                                        <Image src={img(item.image)} alt={item.name} width={400} height={400} sizes="(max-width: 768px) 50vw, 25vw" className="object-cover w-full h-full" />
                                     </div>
                                     <div className="cb-piece-info">
                                         <div className="cb-piece-name">{item.name}</div>
@@ -515,12 +515,12 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                     </section>
                 )}
 
-                {/* Add-Ons */}
+                {/* Add Ons */}
                 {addOns.length > 0 && (
                     <section className="cb-addons-section" aria-labelledby="addons-heading">
                         <div className="cb-sec-label">Elevate your kit</div>
-                        <h2 id="addons-heading">Optional add-ons</h2>
-                        <div className="cb-addons-grid" role="group" aria-label="Optional add-ons">
+                        <h2 id="addons-heading">Optional add ons</h2>
+                        <div className="cb-addons-grid" role="group" aria-label="Optional add ons">
                             {addOns.map(({ addOn }) => {
                                 const checked = selectedAddons.has(addOn.id);
                                 const deposit = Number(addOn.deposit);
@@ -533,7 +533,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                             aria-label={`View details for ${addOn.name}`}
                                         >
                                             {img(addOn.image) ? (
-                                                <Image src={img(addOn.image)} alt={addOn.name} width={400} height={400} className="object-cover w-full h-full" />
+                                                <Image src={img(addOn.image)} alt={addOn.name} width={400} height={400} sizes="(max-width: 768px) 50vw, 25vw" className="object-cover w-full h-full" />
                                             ) : (
                                                 <span className="cb-addon-media-ph" aria-hidden="true">🎁</span>
                                             )}
@@ -570,7 +570,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                     </section>
                 )}
 
-                {/* Add-on quick-view modal */}
+                {/* Add on quick-view modal */}
                 <Dialog
                     open={quickViewId !== null}
                     onOpenChange={(open) => {
@@ -582,7 +582,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                             <div className="cb-qv">
                                 <div className="cb-qv-media">
                                     {img(quickViewAddOn.addOn.image) ? (
-                                        <Image src={img(quickViewAddOn.addOn.image)} alt={quickViewAddOn.addOn.name} width={400} height={400} className="object-cover w-full h-full" />
+                                        <Image src={img(quickViewAddOn.addOn.image)} alt={quickViewAddOn.addOn.name} width={400} height={400} sizes="(max-width: 768px) 50vw, 25vw" className="object-cover w-full h-full" />
                                     ) : (
                                         <span className="cb-addon-media-ph" aria-hidden="true">🎁</span>
                                     )}
@@ -628,10 +628,10 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                         <div className="cb-upsell-copy">
                             <div className="cb-upsell-eyebrow">Save up to 30% per kit</div>
                             <h2>Celebrate every holiday for one monthly price</h2>
-                            <p>CeleBrease members get priority access, free add-ons every season, and never pay per-kit shipping. Join over 2,400 families who decorate without the clutter.</p>
+                            <p>CeleBrease members get priority access, free add ons every season, and never pay per kit shipping. Join over 2,400 families who decorate without the clutter.</p>
                             <div className="cb-upsell-perks">
                                 <div className="cb-upsell-perk">6 holidays / year</div>
-                                <div className="cb-upsell-perk">Free two-way shipping</div>
+                                <div className="cb-upsell-perk">Free two way shipping</div>
                                 <div className="cb-upsell-perk">Full deposit protection</div>
                                 <div className="cb-upsell-perk">Cancel anytime</div>
                             </div>

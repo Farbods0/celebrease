@@ -657,7 +657,7 @@ export default function OrderConfirmationPage() {
                     <div className="sec-head">
                         <span className="eyebrow">Membership</span>
                         <h2 id="plans-heading">Unlock more celebrations</h2>
-                        <p>Switch or cancel anytime. Every plan includes free two-way shipping and full deposit protection.</p>
+                        <p>Switch or cancel anytime. Every plan includes free two way shipping and full deposit protection.</p>
                     </div>
                     <div className="cb-pricing-grid">
                         {[
@@ -665,14 +665,14 @@ export default function OrderConfirmationPage() {
                                 tier: "Starter",
                                 price: "$49",
                                 count: "3 holidays per year",
-                                feat: "Designer-curated starter kits with full deposit protection and free shipping both ways.",
+                                feat: "Designer curated starter kits with full deposit protection and free shipping both ways.",
                                 elevated: false,
                             },
                             {
                                 tier: "Premium",
                                 price: "$79",
                                 count: "6 holidays per year",
-                                feat: "Premium kits, priority shipping, and free add-ons worth up to $25 every season.",
+                                feat: "Premium kits, priority shipping, and free add ons worth up to $25 every season.",
                                 elevated: true,
                                 ribbon: "&#9733; Most loved",
                             },

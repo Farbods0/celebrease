@@ -42,7 +42,7 @@ const COMPARE_ROWS: Array<{
     { label: "Kit tiers included",      starter: "Starter",     premium: "Starter + Premium",  ultimate: "All tiers" },
     { label: "Free shipping both ways", starter: "✓",           premium: "✓",                  ultimate: "✓" },
     { label: "Priority shipping",       starter: ", ",           premium: "3-day",              ultimate: "Same-week" },
-    { label: "Add-on credit",           starter: ", ",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
+    { label: "Add on credit",           starter: ", ",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
     { label: "Holiday swaps",           starter: "1 per year",  premium: "3 per year",         ultimate: "Unlimited" },
     { label: "Dedicated stylist",       starter: ", ",           premium: "Email / chat",       ultimate: "Video call (1×/yr)" },
     { label: "Early access to drops",   starter: ", ",           premium: ", ",                  ultimate: "✓" },
@@ -341,7 +341,7 @@ export default async function SubscriptionPage() {
                 <div className="sub-hero-proof">
                     <span className="proof-stars">★★★★★</span>
                     <span>
-                        <strong>4.9</strong> · 2,400+ families celebrating · 30-day money-back guarantee
+                        <strong>4.9</strong> · 2,400+ families celebrating · 30 day money back guarantee
                     </span>
                 </div>
             </section>
@@ -358,7 +358,7 @@ export default async function SubscriptionPage() {
                     <span><span className="check" aria-hidden="true">✓</span> Deposit fully refundable</span>
                     <span><span className="check" aria-hidden="true">✓</span> Free shipping &amp; returns</span>
                     <span><span className="check" aria-hidden="true">✓</span> Cancel anytime, no fees</span>
-                    <span><span className="check" aria-hidden="true">✓</span> 30-day money-back guarantee</span>
+                    <span><span className="check" aria-hidden="true">✓</span> 30 day money back guarantee</span>
                 </div>
             </section>
 

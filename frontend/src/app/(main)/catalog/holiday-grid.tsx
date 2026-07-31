@@ -223,7 +223,7 @@ function CatalogCard({ holiday, index }: { holiday: ApiHoliday; index?: number }
             <div className="meta">
                 <div className="name">{holiday.name}</div>
                 <div className="price">
-                    {price !== null ? `From $${price.toFixed(0)} · 30-day rental` : "Coming soon"}
+                    {price !== null ? `From $${price.toFixed(0)} · 30 day rental` : "Coming soon"}
                 </div>
             </div>
         </Link>

@@ -83,7 +83,7 @@ export default function CartPage() {
                     <div style={{display:"flex",flexDirection:"column",alignItems:"center",textAlign:"center",padding:"clamp(60px,8vw,100px) 24px",border:"1px dashed rgba(155,47,201,0.2)",borderRadius:"var(--cb-r-lg)",background:"var(--cb-lavender)"}}>
                         <div style={{width:"80px",height:"80px",borderRadius:"50%",background:"var(--cb-gradient-soft)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"38px",marginBottom:"22px"}}>&#128713;</div>
                         <h2 style={{fontSize:"2rem",marginBottom:"12px",fontFamily:"'Playfair Display',Georgia,serif"}}>Your cart is empty</h2>
-                        <p style={{color:"var(--cb-ink-muted)",fontSize:"16px",maxWidth:"360px",lineHeight:1.6,marginBottom:"28px"}}>Browse our holiday kits and add one to get started. Every kit includes free two-way shipping and full deposit protection.</p>
+                        <p style={{color:"var(--cb-ink-muted)",fontSize:"16px",maxWidth:"360px",lineHeight:1.6,marginBottom:"28px"}}>Browse our holiday kits and add one to get started. Every kit includes free two way shipping and full deposit protection.</p>
                         <Link href="/catalog" className="btn-primary" style={{width:"auto"}}>Browse Holiday Kits &#8594;</Link>
                     </div>
                 </div>

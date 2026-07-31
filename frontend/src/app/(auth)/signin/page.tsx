@@ -332,7 +332,7 @@ export default function Signin() {
                             </h2>
 
                             <p className="cb-brand-sub">
-                                Designer-curated kits delivered to your door. Decorate beautifully, store nothing, get your deposit back every time.
+                                Designer curated kits delivered to your door. Decorate beautifully, store nothing, get your deposit back every time.
                             </p>
 
                             {/* Social proof */}

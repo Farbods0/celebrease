@@ -128,7 +128,7 @@ export default function TermsPage() {
                                     rent Starter or Premium kits).
                                 </li>
                                 <li>
-                                    Tiered discounts on kit rental prices and optional add-ons as specified on the
+                                    Tiered discounts on kit rental prices and optional add ons as specified on the
                                     Subscription page.
                                 </li>
                                 <li>
@@ -152,7 +152,7 @@ export default function TermsPage() {
                             </ul>
 
                             <p>
-                                Subscription benefits are non-transferable and may only be used by the account holder.
+                                Subscription benefits are non transferable and may only be used by the account holder.
                                 Sharing account credentials to allow third parties to benefit from your subscription is
                                 prohibited.
                             </p>
@@ -552,7 +552,7 @@ export default function TermsPage() {
                                     results directly from our negligence.
                                 </li>
                                 <li>
-                                    Delays in delivery or return transit caused by third-party carriers.
+                                    Delays in delivery or return transit caused by third party carriers.
                                 </li>
                                 <li>
                                     Unauthorized access to or alteration of your account or data.
@@ -577,7 +577,7 @@ export default function TermsPage() {
                             </p>
                             <p>
                                 These Terms are governed by the laws of the State of Delaware, without regard to
-                                conflict-of-law principles. Any dispute not resolved through our support process shall
+                                conflict of law principles. Any dispute not resolved through our support process shall
                                 be subject to binding arbitration in accordance with the American Arbitration
                                 Association&apos;s Consumer Arbitration Rules, or, where arbitration is unavailable,
                                 the exclusive jurisdiction of the state and federal courts of Delaware.

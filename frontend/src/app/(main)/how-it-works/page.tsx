@@ -289,7 +289,7 @@ export default function HowItWorksPage() {
                                     "Starter, Premium, or Ultimate kit tiers to match your space",
                                     "Styling card with room-by-room placement guide included",
                                     "Professionally cleaned and inspected before every rental",
-                                    "Optional add-ons (candles, table runners, scent kits) available",
+                                    "Optional add ons (candles, table runners, scent kits) available",
                                 ].map((item) => (
                                     <li key={item} style={{
                                         display: "flex",
@@ -452,7 +452,7 @@ export default function HowItWorksPage() {
                                 {[
                                     "Free standard shipping (2, 4 days) or express (1, 2 days)",
                                     "Kits arrive 5 days before your holiday for easy setup",
-                                    "30-day and 60-day rental durations available",
+                                    "30 day and 60-day rental durations available",
                                     "Extend anytime from your dashboard, prorated daily rate",
                                 ].map((item) => (
                                     <li key={item} style={{

@@ -255,7 +255,7 @@ export default function ReturnPolicyPage() {
                             <div className="rp-highlight">
                                 <strong>The short version:</strong> Return your kit within the rental window, in the same condition it arrived, using the prepaid label we provide. We inspect within 2 business days and refund your deposit within 5 business days of clearance, no phone calls needed.
                             </div>
-                            <p>At CeleBrease, every kit is professionally cleaned, inspected, and photographed before it ships to you. Our deposit system is designed to be fair and transparent: you know exactly what you paid, exactly what condition standards apply, and exactly when your money comes back. This policy covers all CeleBrease holiday kit rentals, add-on items, and accessories included in your order.</p>
+                            <p>At CeleBrease, every kit is professionally cleaned, inspected, and photographed before it ships to you. Our deposit system is designed to be fair and transparent: you know exactly what you paid, exactly what condition standards apply, and exactly when your money comes back. This policy covers all CeleBrease holiday kit rentals, add on items, and accessories included in your order.</p>
                             <p>This policy forms part of your Rental Agreement. By accepting delivery of a CeleBrease kit, you agree to the return and deposit terms described here.</p>
                         </section>
 
@@ -277,7 +277,7 @@ export default function ReturnPolicyPage() {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>30-day rental</td>
+                                        <td>30 day rental</td>
                                         <td>Day 30 from delivery (11:59 PM local time)</td>
                                         <td>$12/day, capped at 14 days</td>
                                     </tr>
@@ -400,7 +400,7 @@ export default function ReturnPolicyPage() {
                                 </div>
                                 <div className="rp-ccard">
                                     <span className="rp-badge rp-badge-damaged">Damaged</span>
-                                    <h4>Damaged / Non-Restorable</h4>
+                                    <h4>Damaged / Non Restorable</h4>
                                     <p>Broken structural components, deep stains, burn marks, missing principal pieces, or irreparable alteration. Item cannot be re-rented.</p>
                                     <div className="rp-deposit-note"><strong>Deposit outcome:</strong> Deduction up to 90% of the item&apos;s deposit share (see Section 6). Replacement cost capped at full deposit amount.</div>
                                 </div>
@@ -423,7 +423,7 @@ export default function ReturnPolicyPage() {
                             <ul>
                                 <li><strong>Restoration cleaning:</strong> $15, $45 per item, depending on the extent of cleaning required. Applied for &ldquo;Worn&rdquo; rated items where standard cleaning is insufficient.</li>
                                 <li><strong>Component replacement:</strong> Cost of the specific damaged component (e.g., a broken ornament holder, a snapped garland clip), not the full kit. Itemised in your inspection report.</li>
-                                <li><strong>Full item replacement:</strong> Applied only when an item is rated &ldquo;Damaged / Non-Restorable.&rdquo; Charged at up to 90% of that item&apos;s listed wholesale replacement value.</li>
+                                <li><strong>Full item replacement:</strong> Applied only when an item is rated &ldquo;Damaged / Non Restorable.&rdquo; Charged at up to 90% of that item&apos;s listed wholesale replacement value.</li>
                             </ul>
 
                             <div className="rp-highlight">
@@ -438,8 +438,8 @@ export default function ReturnPolicyPage() {
 
                             <h3>Items exempt from damage charges</h3>
                             <ul>
-                                <li>Candles, consumable items, and single-use decorations marked as &ldquo;keep after use&rdquo; in your packing slip.</li>
-                                <li>Items pre-noted as having minor cosmetic wear in your departure inspection report (already reflected in their condition rating at shipment).</li>
+                                <li>Candles, consumable items, and single use decorations marked as &ldquo;keep after use&rdquo; in your packing slip.</li>
+                                <li>Items pre noted as having minor cosmetic wear in your departure inspection report (already reflected in their condition rating at shipment).</li>
                                 <li>Packaging material, boxes, tissue, and wrapping paper are expected to show wear and are not charged.</li>
                             </ul>
                         </section>
@@ -450,7 +450,7 @@ export default function ReturnPolicyPage() {
                                 <span className="rp-num" aria-hidden="true">7</span>
                                 Lost or Unreturned Kits
                             </h2>
-                            <p>If a kit is not returned within the late-return window (14 days past your rental deadline) and we have received no communication from you, it is classified as unreturned. We understand that life happens, if you need more time, contact us before your deadline and we will do our best to accommodate.</p>
+                            <p>If a kit is not returned within the late return window (14 days past your rental deadline) and we have received no communication from you, it is classified as unreturned. We understand that life happens, if you need more time, contact us before your deadline and we will do our best to accommodate.</p>
 
                             <ul>
                                 <li><strong>Late return fees:</strong> $12 per day per order, beginning the day after your rental deadline, for up to 14 days. These fees are charged to the payment method on file.</li>

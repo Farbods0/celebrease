@@ -357,7 +357,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                                         <span className="cb-cart-slot-used">No slots remaining &mdash; billed at full price</span>
                                     )}
                                     {(cart.addOns ?? []).length > 0 && (
-                                        <div className="cb-cart-item-addons" aria-label="Add-ons">
+                                        <div className="cb-cart-item-addons" aria-label="Add ons">
                                             {(cart.addOns ?? []).map((a) => (
                                                 <div key={a.addOn?.id ?? a.addOn?.name} className="cb-cart-addon-line">
                                                     <span>+ {a.addOn?.name ?? ""}{a.qty > 1 ? ` (x${a.qty})` : ""}</span>

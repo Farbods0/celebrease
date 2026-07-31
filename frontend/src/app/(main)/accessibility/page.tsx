@@ -305,7 +305,7 @@ export default function AccessibilityPage() {
                                         { principle: <><strong>Perceivable</strong>, 1.x</>, status: "Substantially met", notes: "All images have alt text; colour contrast meets AA on core pages; captions provided where video is used" },
                                         { principle: <><strong>Operable</strong>, 2.x</>, status: "Substantially met", notes: "Full keyboard navigation supported; skip-to-content link present; no seizure-triggering animations" },
                                         { principle: <><strong>Understandable</strong>, 3.x</>, status: "Substantially met", notes: "Language attribute set on all pages; error messages are descriptive; form labels are explicit" },
-                                        { principle: <><strong>Robust</strong>, 4.x</>, status: "Partially met", notes: "Core flows validated with NVDA, JAWS, and VoiceOver; some third-party widgets have outstanding issues (see Known Limitations)" },
+                                        { principle: <><strong>Robust</strong>, 4.x</>, status: "Partially met", notes: "Core flows validated with NVDA, JAWS, and VoiceOver; some third party widgets have outstanding issues (see Known Limitations)" },
                                     ].map((row, i) => (
                                         <tr key={i}>
                                             <td style={{ padding: "12px 16px", border: "1px solid var(--cb-line)", color: "var(--cb-ink-muted)", lineHeight: 1.55, verticalAlign: "top" }}>{row.principle}</td>
@@ -316,7 +316,7 @@ export default function AccessibilityPage() {
                                 </tbody>
                             </table>
 
-                            <p>Our last comprehensive third-party audit was completed in March 2026. We conduct internal automated scans with axe-core on every deployment.</p>
+                            <p>Our last comprehensive third party audit was completed in March 2026. We conduct internal automated scans with axe-core on every deployment.</p>
                         </LegalSection>
 
                         {/* 3. Accessibility Features */}
@@ -335,7 +335,7 @@ export default function AccessibilityPage() {
                             <LegalList items={[
                                 <>All meaningful images carry descriptive <code>alt</code> text matched to their context. Decorative images use empty <code>alt=&quot;&quot;</code> so screen readers skip them.</>,
                                 <>Holiday kit photography is described in accompanying card text, ensuring product information is not conveyed by images alone.</>,
-                                <>No auto-playing video or audio is present anywhere on the site.</>,
+                                <>No auto playing video or audio is present anywhere on the site.</>,
                             ]} />
 
                             <h3 style={h3Style}>Keyboard &amp; focus</h3>
@@ -355,7 +355,7 @@ export default function AccessibilityPage() {
 
                             <h3 style={h3Style}>Forms &amp; error handling</h3>
                             <LegalList items={[
-                                <>Every form input has an explicit, visible <code>&lt;label&gt;</code> element, no placeholder-only labelling.</>,
+                                <>Every form input has an explicit, visible <code>&lt;label&gt;</code> element, no placeholder only labelling.</>,
                                 <>Required fields are marked both visually and programmatically with <code>aria-required=&quot;true&quot;</code>.</>,
                                 <>Inline error messages are associated with their fields via <code>aria-describedby</code> and are announced immediately to screen readers using <code>aria-live</code> regions.</>,
                                 <>The checkout summary page provides a clear review step before any payment is submitted.</>,
@@ -376,7 +376,7 @@ export default function AccessibilityPage() {
                                     {
                                         tag: "In progress",
                                         content: (
-                                            <><strong>Stripe payment iframe:</strong>{" "}The embedded Stripe Checkout frame is a third-party component. Some screen readers may announce card field labels inconsistently. Workaround: Stripe&apos;s hosted payment page at checkout is fully accessible and will be offered as an alternative by contacting support.</>
+                                            <><strong>Stripe payment iframe:</strong>{" "}The embedded Stripe Checkout frame is a third party component. Some screen readers may announce card field labels inconsistently. Workaround: Stripe&apos;s hosted payment page at checkout is fully accessible and will be offered as an alternative by contacting support.</>
                                         ),
                                     },
                                     {
@@ -447,7 +447,7 @@ export default function AccessibilityPage() {
 
                             <LegalList items={[
                                 <><strong>Email:</strong>{" "}<a href="mailto:accessibility@celebrease.com" style={{ color: "var(--cb-purple)", fontWeight: 600 }}>accessibility@celebrease.com</a></>,
-                                <><strong>Response time:</strong> We acknowledge all accessibility-related reports within 2 business days and aim to resolve critical barriers within 10 business days.</>,
+                                <><strong>Response time:</strong> We acknowledge all accessibility related reports within 2 business days and aim to resolve critical barriers within 10 business days.</>,
                                 <><strong>Phone:</strong> +1 (800) 555-0180, available Monday to Friday, 9 am, 5 pm PT. Relay service callers are welcome.</>,
                                 <><strong>Postal address:</strong> CeleBrease, Inc. · Accessibility Team · [Address on file at launch]</>,
                             ]} />
@@ -498,7 +498,7 @@ export default function AccessibilityPage() {
 
                             <HighlightBox>
                                 <strong style={{ color: "var(--cb-purple)", fontWeight: 700 }}>Formal accessibility assessments</strong>{" "}
-                                are conducted by our internal team supplemented by third-party reviews from specialist accessibility consultants. This statement was last reviewed on June 15, 2026.
+                                are conducted by our internal team supplemented by third party reviews from specialist accessibility consultants. This statement was last reviewed on June 15, 2026.
                             </HighlightBox>
                         </LegalSection>
 

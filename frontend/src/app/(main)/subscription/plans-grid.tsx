@@ -193,7 +193,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
 
             <div className="mt-12 p-6 rounded-2xl bg-linear-to-r from-slate-900 to-purple-950 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-1 text-center md:text-left">
-                    <span className="text-xs uppercase tracking-wider font-extrabold text-pink-400">A-La-Carte Rental Option</span>
+                    <span className="text-xs uppercase tracking-wider font-extrabold text-pink-400">A La Carte Rental Option</span>
                     <h4 className="text-xl font-bold">Just hosting a single holiday event?</h4>
                     <p className="text-sm text-purple-200">
                         One-time individual holiday décor rentals start at <strong className="text-white">${settings?.aLaCarteStartingPrice ?? 79} / kit</strong>. Save significantly per holiday by choosing an all-inclusive membership above!
@@ -204,7 +204,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                     className="bg-white text-purple-950 hover:bg-purple-100 border-none font-bold px-6 py-3 whitespace-nowrap"
                     onClick={() => router.push("/catalog")}
                 >
-                    Browse A-La-Carte Catalog →
+                    Browse A La Carte Catalog →
                 </Button>
             </div>
         </>

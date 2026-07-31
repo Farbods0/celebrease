@@ -257,9 +257,9 @@ export default function RentalAgreementPage() {
                             <ul>
                                 <li><strong>&ldquo;Kit&rdquo;</strong>, a curated holiday decoration bundle offered by CeleBrease, comprising one or more Items selected by our design team for a specific holiday occasion.</li>
                                 <li><strong>&ldquo;Item&rdquo; or &ldquo;Items&rdquo;</strong>, individual physical decoration pieces included within a Kit, including props, textiles, lighting, signage, and any other décor components.</li>
-                                <li><strong>&ldquo;Rental Period&rdquo;</strong>, the agreed duration (30-day or 60-day) beginning on the date of delivery to Customer&apos;s address as confirmed by our logistics partner.</li>
+                                <li><strong>&ldquo;Rental Period&rdquo;</strong>, the agreed duration (30 day or 60-day) beginning on the date of delivery to Customer&apos;s address as confirmed by our logistics partner.</li>
                                 <li><strong>&ldquo;Deposit&rdquo;</strong>, a refundable security amount collected at the time of reservation to cover potential damage or loss of Items, as detailed in Section 6.</li>
-                                <li><strong>&ldquo;Add-Ons&rdquo;</strong>, optional supplementary items available for inclusion with a Kit rental at additional cost.</li>
+                                <li><strong>&ldquo;Add Ons&rdquo;</strong>, optional supplementary items available for inclusion with a Kit rental at additional cost.</li>
                                 <li><strong>&ldquo;Platform&rdquo;</strong>, the CeleBrease website, web application, and any associated digital services at celebrease.com.</li>
                             </ul>
                         </section>
@@ -286,7 +286,7 @@ export default function RentalAgreementPage() {
                                 <span className="cb-legal-num" aria-hidden="true">3</span>
                                 Title &amp; Ownership
                             </h2>
-                            <p>All Items and Kits made available through the CeleBrease Platform are and shall remain the exclusive property of CeleBrease, Inc. at all times. This Agreement conveys a limited, non-exclusive, non-transferable license to use the Items during the Rental Period only and for the purposes described in Section 4. No title, ownership interest, or proprietary right in any Item passes to you at any point.</p>
+                            <p>All Items and Kits made available through the CeleBrease Platform are and shall remain the exclusive property of CeleBrease, Inc. at all times. This Agreement conveys a limited, non exclusive, non transferable license to use the Items during the Rental Period only and for the purposes described in Section 4. No title, ownership interest, or proprietary right in any Item passes to you at any point.</p>
                             <p>You may not sell, sublease, pledge, encumber, or otherwise transfer any Item or any interest in any Item to any third party. Any attempt to do so is null and void and constitutes a material breach of this Agreement.</p>
                             <div className="cb-legal-highlight">
                                 <strong>Important:</strong> Because Items remain CeleBrease property throughout the rental, you are responsible for their safekeeping from delivery to pickup. Treat every Item as you would a valuable personal loan from a trusted source.
@@ -300,10 +300,10 @@ export default function RentalAgreementPage() {
                                 <span className="cb-legal-num" aria-hidden="true">4</span>
                                 Permitted Use
                             </h2>
-                            <p>Items may be used solely for personal, non-commercial holiday decoration at the residential delivery address on file in your order. The following uses are expressly <strong>prohibited</strong>:</p>
+                            <p>Items may be used solely for personal, non commercial holiday decoration at the residential delivery address on file in your order. The following uses are expressly <strong>prohibited</strong>:</p>
                             <ul>
-                                <li>Commercial use, including staging for real-estate photography, event rentals to third parties, or use in commercial film or photography productions without prior written consent from CeleBrease.</li>
-                                <li>Outdoor installation beyond covered porches or entryways unless Items are specifically designated as outdoor-rated in the Kit description.</li>
+                                <li>Commercial use, including staging for real estate photography, event rentals to third parties, or use in commercial film or photography productions without prior written consent from CeleBrease.</li>
+                                <li>Outdoor installation beyond covered porches or entryways unless Items are specifically designated as outdoor rated in the Kit description.</li>
                                 <li>Modification, painting, drilling, or structural alteration of any Item.</li>
                                 <li>Use of electrical Items with extension cords, power strips, or adapters not approved in the Kit&apos;s care guide.</li>
                                 <li>Allowing pets unsupervised access to Items that include small components, fragile glass, or electrical elements.</li>
@@ -322,7 +322,7 @@ export default function RentalAgreementPage() {
 
                             <h3>Your care obligations include</h3>
                             <ul>
-                                <li>Storing Items in a clean, dry, temperature-stable environment when not in active display.</li>
+                                <li>Storing Items in a clean, dry, temperature stable environment when not in active display.</li>
                                 <li>Keeping Items away from open flame, direct heat sources, and excessive moisture unless otherwise specified in the care guide.</li>
                                 <li>Handling fragile Items, including glass ornaments, resin figurines, and ceramic pieces, with appropriate care and padding when moving them.</li>
                                 <li>Repacking Items in the original packaging materials provided at delivery in preparation for return.</li>
@@ -450,7 +450,7 @@ export default function RentalAgreementPage() {
                                 <span className="cb-legal-num" aria-hidden="true">9</span>
                                 Governing Law
                             </h2>
-                            <p>This Agreement is governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict-of-law principles. Any dispute arising out of or relating to this Agreement that cannot be resolved informally shall be submitted to binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules, with proceedings conducted in English in Dover, Delaware.</p>
+                            <p>This Agreement is governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of law principles. Any dispute arising out of or relating to this Agreement that cannot be resolved informally shall be submitted to binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules, with proceedings conducted in English in Dover, Delaware.</p>
                             <p>Notwithstanding the foregoing, either party may seek injunctive or other equitable relief in any court of competent jurisdiction to prevent the actual or threatened infringement, misappropriation, or violation of intellectual property rights or to compel return of Items.</p>
                             <p>You and CeleBrease agree that any dispute resolution proceedings will be conducted only on an individual basis and not in a class, consolidated, or representative action. If for any reason a claim proceeds in court rather than in arbitration, you waive any right to a jury trial.</p>
                             <div className="cb-legal-highlight">

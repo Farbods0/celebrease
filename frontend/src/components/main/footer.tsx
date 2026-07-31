@@ -7,7 +7,7 @@ export default function Footer() {
                 <div className="cb-footer-col">
                     <div className="cb-footer-brand">CeleBrease</div>
                     <p className="cb-footer-tagline">
-                        Designer-curated holiday décor kits, delivered. Decorate big, store nothing.
+                        Designer curated holiday décor kits, delivered. Decorate big, store nothing.
                     </p>
                     <div className="cb-footer-social">
                         <a href="#" aria-label="Instagram">📷</a>

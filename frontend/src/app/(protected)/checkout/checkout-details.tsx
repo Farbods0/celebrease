@@ -611,7 +611,7 @@ export default function CheckoutDetails({
                                 </div>
                             ))}
 
-                            {/* Add-ons summary per cart */}
+                            {/* Add ons summary per cart */}
                             {priced.map(({ cart }) =>
                                 (cart.addOns?.length ?? 0) > 0 ? (
                                     <div key={`addons-${cart.id}`} style={{ paddingBottom: 12, borderBottom: "1px solid var(--cb-line)", marginBottom: 12 }}>
@@ -630,7 +630,7 @@ export default function CheckoutDetails({
                                                     <div style={{ width: 40, height: 40, borderRadius: 10, background: "var(--cb-lavender)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>✨</div>
                                                 )}
                                                 <div style={{ flex: 1, minWidth: 0 }}>
-                                                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--cb-ink)" }}>{ao.addOn?.name ?? "Add-on"}</div>
+                                                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--cb-ink)" }}>{ao.addOn?.name ?? "Add on"}</div>
                                                 </div>
                                                 <span style={{ fontSize: 13, fontWeight: 700, flexShrink: 0 }}>{fmtMoney(Number(ao.price ?? 0))}</span>
                                             </div>
@@ -677,13 +677,13 @@ export default function CheckoutDetails({
                                         )}
                                         {(cart.addOns?.length ?? 0) > 0 && (
                                             <div className="co-line">
-                                                <span className="lbl">{cart.addOns?.length ?? 0} Add-on{(cart.addOns?.length ?? 0) === 1 ? "" : "s"}</span>
+                                                <span className="lbl">{cart.addOns?.length ?? 0} Add on{(cart.addOns?.length ?? 0) === 1 ? "" : "s"}</span>
                                                 <span className="val">{fmtMoney(addOnBase)}</span>
                                             </div>
                                         )}
                                         {addOnDiscount > 0 && (
                                             <div className="co-line">
-                                                <span className="lbl">Add-on discount</span>
+                                                <span className="lbl">Add on discount</span>
                                                 <span className="val val-discount">-{fmtMoney(addOnDiscount)}</span>
                                             </div>
                                         )}

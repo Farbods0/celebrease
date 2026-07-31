@@ -53,7 +53,7 @@ export default async function HomePage() {
                         <span className="cb-hero-eyebrow"><span className="dot" /> Holiday décor, by subscription</span>
                         <h1>Your home, <span className="gradient-text">dressed</span> for every holiday.</h1>
                         <p className="cb-hero-sub">
-                            Designer-curated decoration kits delivered to your door, then picked up when the season ends.
+                            Beautifully curated decoration kits delivered to your door, then picked up when the season ends.
                             Decorate beautifully. Store nothing. Get your deposit back, every time.
                         </p>
                         <div className="cb-hero-ctas">

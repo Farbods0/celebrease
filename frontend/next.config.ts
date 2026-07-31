@@ -15,7 +15,6 @@ const nextConfig: NextConfig = {
         ],
     },
     reactCompiler: true,
-    output: 'standalone',
     async rewrites() {
         return [
             // Proxy all better-auth routes so cookies are same-site

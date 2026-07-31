@@ -16,7 +16,6 @@
         "@fontsource/playfair-display": "^5.2.8",
         "@hugeicons/core-free-icons": "^4.0.0",
         "@hugeicons/react": "^1.1.6",
-        "@netlify/plugin-nextjs": "^5.15.11",
         "@tanstack/react-form": "^1.28.5",
         "@tanstack/react-query": "^5.100.9",
         "better-auth": "^1.6.9",

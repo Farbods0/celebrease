@@ -255,7 +255,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     key={i}
                                     src={g.src} 
                                     alt={g.alt} 
-                                    priority={true}
+                                    priority={i === 0}
                                     width={800} 
                                     height={800} 
                                     className="object-cover w-full h-full" 
@@ -274,7 +274,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     onClick={() => setActiveThumb(i)}
                                     aria-label={`View ${g.alt}`}
                                 >
-                                    <Image src={g.src} alt="" width={100} height={100} className="object-cover w-full h-full" />
+                                    <Image src={g.src} alt="" width={300} height={300} className="object-cover w-full h-full" />
                                 </button>
                             ))}
                         </div>
@@ -503,7 +503,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                             {pieces.map(({ item, qty }) => (
                                 <div key={item.id} className="cb-piece-card" role="listitem">
                                     <div className="cb-piece-thumb">
-                                        <Image src={img(item.image)} alt={item.name} width={200} height={200} className="object-cover w-full h-full" />
+                                        <Image src={img(item.image)} alt={item.name} width={400} height={400} className="object-cover w-full h-full" />
                                     </div>
                                     <div className="cb-piece-info">
                                         <div className="cb-piece-name">{item.name}</div>

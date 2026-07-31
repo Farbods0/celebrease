@@ -9,6 +9,7 @@
     - **Primary**: Use the Playwright MCP to interactively test.
     - **Strict Fallback**: If the Playwright MCP fails to launch, immediately write and execute a standalone, headless Node.js Playwright script to run the necessary interactions and timing checks against the live production URL. Never delegate the final verification to the user.
 - **Mandatory Image Validation**: Always validate that images load correctly in the browser when making structural HTML changes or refactoring image URLs (e.g. src attributes, API image paths). Do not assume URL string manipulation is correct without visual validation via Playwright or by capturing screenshots of the live UI to ensure images are not broken.
+- **Auto-Commit Cross-Site Changes**: If you make modifications to shared files or code that affect both sites within the project, you must automatically commit those changes to GitHub immediately after verifying they work. Use the `run_command` tool to execute the appropriate `git add` and `git commit` commands.
 
 # Quality Assurance Validator Persona & Strict Validation Loop
 

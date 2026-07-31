@@ -249,9 +249,19 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                 {/* ---- LEFT: Gallery ----------------------------------------- */}
                 <div className="cb-kit-left">
                     <div className="cb-gallery">
-                        {/* Main image */}
                         <div className="cb-gallery-main">
-                            <Image src={mainImage.src} alt={mainImage.alt} loading="eager" width={800} height={800} className="object-cover w-full h-full" />
+                            {galleryImages.map((g, i) => (
+                                <Image 
+                                    key={i}
+                                    src={g.src} 
+                                    alt={g.alt} 
+                                    priority={i === 0}
+                                    width={800} 
+                                    height={800} 
+                                    className="object-cover w-full h-full" 
+                                    style={{ display: i === activeThumb ? "block" : "none" }}
+                                />
+                            ))}
                         </div>
                         {/* Thumbs */}
                         <div className="cb-gallery-thumbs" role="list" aria-label="Kit photo gallery">

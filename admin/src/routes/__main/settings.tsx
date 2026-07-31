@@ -186,9 +186,11 @@ function RouteComponent() {
     const handleProfileSave = async () => {
         setProfileLoading(true);
         try {
-            await auth.updateUser({ name, phone: phone || undefined, region: region || undefined });
+            await Promise.all([
+                auth.updateUser({ name, phone: phone || undefined, region: region || undefined }),
+                router.invalidate(),
+            ]);
             toast.success("Profile updated");
-            await router.invalidate();
         } catch (e) {
             toast.error(e instanceof Error ? e.message : "Failed to update profile");
         } finally {

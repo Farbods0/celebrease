@@ -1,8 +1,10 @@
 {
   "mcpServers": {
     "playwright": {
-      "command": "npx",
+      "command": "cmd.exe",
       "args": [
+        "/c",
+        "npx",
         "-y",
         "@playwright/mcp@latest"
       ]
@@ -10,19 +12,23 @@
     "railway": {
       "command": "node",
       "args": [
-        "/Users/farbodjahan/Documents/celebrease/.agents/railway_mcp_wrapper.js"
+        "C:\\Users\\farbo\\Documents\\celebrease\\.agents\\railway_mcp_wrapper.js"
       ]
     },
     "netlify": {
-      "command": "npx",
+      "command": "cmd.exe",
       "args": [
+        "/c",
+        "npx",
         "-y",
         "@netlify/mcp"
       ]
     },
     "stripe": {
-      "command": "npx",
+      "command": "cmd.exe",
       "args": [
+        "/c",
+        "npx",
         "-y",
         "@stripe/mcp"
       ]

@@ -27,14 +27,14 @@ type InventoryCardProps = {
 
 function holidayLabel(item: ApiItem): string {
     const names = Array.from(new Set(item.kitItems.map((ki) => ki.kit.holiday.name)));
-    if (names.length === 0) return "—";
+    if (names.length === 0) return ", ";
     if (names.length === 1) return names[0];
     return `${names[0]} +${names.length - 1}`;
 }
 
 function kitTierLabel(item: ApiItem): string {
     const tiers = Array.from(new Set(item.kitItems.map((ki) => ki.kit.tier)));
-    if (tiers.length === 0) return "—";
+    if (tiers.length === 0) return ", ";
     return tiers.map((t) => formatKitTier(t)).join(", ");
 }
 

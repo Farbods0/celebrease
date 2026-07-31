@@ -79,7 +79,7 @@ export const customersApi = {
 // ─── Helpers ──────────────────────────────────────────────────
 
 export function formatCustomerDate(value: string | null | undefined) {
-    if (!value) return "—";
+    if (!value) return ", ";
     return new Date(value).toLocaleDateString(undefined, {
         year: "numeric",
         month: "short",
@@ -92,7 +92,7 @@ export function formatDeposit(value: number) {
 }
 
 export function formatOnTimeReturns(completedCount: number, orderCount: number) {
-    if (orderCount === 0) return "—";
+    if (orderCount === 0) return ", ";
     return `${Math.round((completedCount / orderCount) * 100)}%`;
 }
 

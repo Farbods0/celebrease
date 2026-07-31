@@ -564,7 +564,7 @@ export default function AccountClient() {
                                         <p className="greeting-sub">
                                             {openSlots > 0
                                                 ? `You have ${openSlots} open slot${openSlots !== 1 ? "s" : ""} remaining this season.`
-                                                : "All your holiday slots are reserved — you're all set!"}
+                                                : "All your holiday slots are reserved, you're all set!"}
                                         </p>
                                     )}
                                     {!sub && (
@@ -585,7 +585,7 @@ export default function AccountClient() {
                                         <div className="stat-label">Open slots remaining</div>
                                     </div>
                                     <div className="stat-card">
-                                        <div className="stat-num">{sub ? sub.plan?.name ?? "—" : "None"}</div>
+                                        <div className="stat-num">{sub ? sub.plan?.name ?? ", " : "None"}</div>
                                         <div className="stat-label">Current plan</div>
                                     </div>
                                     <div className="stat-card">

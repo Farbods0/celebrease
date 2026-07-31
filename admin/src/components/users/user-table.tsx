@@ -12,7 +12,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "2
 
 function formatDate(value: string) {
     const d = new Date(value);
-    if (Number.isNaN(d.getTime())) return "—";
+    if (Number.isNaN(d.getTime())) return ", ";
     return dateFormatter.format(d);
 }
 
@@ -103,7 +103,7 @@ export function UserTable({ items, onEdit, onDelete, currentUserId }: UserTableP
                                         <span className={`status ${status.cls}`}>{status.label}</span>
                                     </td>
                                     <td>
-                                        <span className="last-active">{item.region || "—"}</span>
+                                        <span className="last-active">{item.region || ", "}</span>
                                     </td>
                                     <td>
                                         <span className="last-active">{formatDate(item.createdAt)}</span>

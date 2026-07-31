@@ -54,7 +54,7 @@ export type InventoryItem = {
 export const INVENTORY: InventoryItem[] = [
     {
         id: "1",
-        name: "LED String Lights – Warm White",
+        name: "LED String Lights, Warm White",
         sku: "LED-WW-001",
         holiday: "Christmas",
         kitType: "Starter",
@@ -97,7 +97,7 @@ export const INVENTORY: InventoryItem[] = [
     },
     {
         id: "4",
-        name: "Lantern Set – Gold",
+        name: "Lantern Set, Gold",
         sku: "LNT-GD-004",
         holiday: "Diwali",
         kitType: "Premium",
@@ -717,7 +717,7 @@ export const KIT_ITEMS: KitItem[] = [
         status: "Active",
     },
     {
-        name: "LED String Lights – Warm White",
+        name: "LED String Lights, Warm White",
         qty: 2,
         sku: "SKU-XY-ZA-002",
         category: "Lighting",

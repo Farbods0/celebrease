@@ -40,7 +40,7 @@ export default async function CatalogPage() {
                             lineHeight: 1.65,
                         }}
                     >
-                        Every celebration you love — styled, curated, and delivered. Browse our full collection of
+                        Every celebration you love, styled, curated, and delivered. Browse our full collection of
                         holiday kits, then choose the ones that feel like you.
                     </p>
                     <div
@@ -75,7 +75,7 @@ export default async function CatalogPage() {
                 </div>
             </header>
 
-            {/* HOLIDAY GRID (client — handles filter + search + sort) */}
+            {/* HOLIDAY GRID (client, handles filter + search + sort) */}
             <HolidayGrid initialData={initialData} />
         </div>
     );

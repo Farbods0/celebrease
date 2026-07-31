@@ -84,7 +84,7 @@ function currentStep(order: ApiOrder) {
     if (order.status === "CANCELLED") return 1;
     const idx = TIMELINE_STATUSES.indexOf(order.status);
     if (idx >= 0) return idx + 1;
-    // Order is in a return stage — forward timeline is fully completed.
+    // Order is in a return stage, forward timeline is fully completed.
     if (RETURN_STATUSES.has(order.status)) return TIMELINE_STATUSES.length;
     return 1;
 }
@@ -158,7 +158,7 @@ export function OrderView({ item, onUpdated }: { item: ApiOrder; onUpdated?: (up
                     <Field label="Order #" value={item.orderNumber} />
                     <Field label="Customer" value={item.user.name} />
                     <Field label="Email" value={item.user.email} />
-                    <Field label="Phone" value={item.user.phone ?? item.user.address?.phone ?? "—"} />
+                    <Field label="Phone" value={item.user.phone ?? item.user.address?.phone ?? ", "} />
                     <Field label="Holiday" value={item.holiday.name} />
                     <Field label="Kit" value={formatTier(item.kit.tier)} />
                     <Field label="Duration" value={formatDuration(item.duration)} />

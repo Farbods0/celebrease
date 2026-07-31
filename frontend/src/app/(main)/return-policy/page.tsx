@@ -253,7 +253,7 @@ export default function ReturnPolicyPage() {
                                 Overview
                             </h2>
                             <div className="rp-highlight">
-                                <strong>The short version:</strong> Return your kit within the rental window, in the same condition it arrived, using the prepaid label we provide. We inspect within 2 business days and refund your deposit within 5 business days of clearance — no phone calls needed.
+                                <strong>The short version:</strong> Return your kit within the rental window, in the same condition it arrived, using the prepaid label we provide. We inspect within 2 business days and refund your deposit within 5 business days of clearance, no phone calls needed.
                             </div>
                             <p>At CeleBrease, every kit is professionally cleaned, inspected, and photographed before it ships to you. Our deposit system is designed to be fair and transparent: you know exactly what you paid, exactly what condition standards apply, and exactly when your money comes back. This policy covers all CeleBrease holiday kit rentals, add-on items, and accessories included in your order.</p>
                             <p>This policy forms part of your Rental Agreement. By accepting delivery of a CeleBrease kit, you agree to the return and deposit terms described here.</p>
@@ -291,7 +291,7 @@ export default function ReturnPolicyPage() {
 
                             <h3>How to initiate a return</h3>
                             <ol>
-                                <li>Log in to your account and go to <strong>Orders → Request Return</strong>. You can do this any time during your rental window — you do not need to wait until the last day.</li>
+                                <li>Log in to your account and go to <strong>Orders → Request Return</strong>. You can do this any time during your rental window, you do not need to wait until the last day.</li>
                                 <li>Select the items you are returning. If you are returning the full kit, select &ldquo;Return entire order.&rdquo;</li>
                                 <li>Download or print your prepaid return label from the confirmation screen. It is also emailed to you automatically.</li>
                                 <li>Pack items securely in the original packaging or comparable protective wrapping. Loose items should be individually wrapped to prevent transit damage.</li>
@@ -299,7 +299,7 @@ export default function ReturnPolicyPage() {
                             </ol>
 
                             <div className="rp-highlight">
-                                <strong>Important:</strong> Your return window is measured from the carrier&apos;s scan of the outgoing package, not from when items arrive at our facility. As long as you drop off before your deadline, you are on time — even if transit takes a few days.
+                                <strong>Important:</strong> Your return window is measured from the carrier&apos;s scan of the outgoing package, not from when items arrive at our facility. As long as you drop off before your deadline, you are on time, even if transit takes a few days.
                             </div>
                         </section>
 
@@ -309,12 +309,12 @@ export default function ReturnPolicyPage() {
                                 <span className="rp-num" aria-hidden="true">3</span>
                                 Prepaid Return Labels &amp; Pickup
                             </h2>
-                            <p>Every CeleBrease rental includes one complimentary prepaid return label. You never pay return shipping on a standard return — it is included in your rental fee.</p>
+                            <p>Every CeleBrease rental includes one complimentary prepaid return label. You never pay return shipping on a standard return, it is included in your rental fee.</p>
 
                             <ul>
                                 <li><strong>Label generation:</strong> Labels are created automatically when you initiate a return through your account dashboard. They are valid for 10 days from the date of generation.</li>
-                                <li><strong>Carrier:</strong> We match the carrier to your region for fastest transit — typically UPS for residential addresses and FedEx for business addresses. Your label will specify the carrier clearly.</li>
-                                <li><strong>Scheduled pickup:</strong> If dropping off at a carrier location is inconvenient, you may request a free home pickup by selecting &ldquo;Schedule Pickup&rdquo; after generating your label. Pickups are available Monday–Saturday, 8 AM–8 PM, and can be booked up to 5 days in advance.</li>
+                                <li><strong>Carrier:</strong> We match the carrier to your region for fastest transit, typically UPS for residential addresses and FedEx for business addresses. Your label will specify the carrier clearly.</li>
+                                <li><strong>Scheduled pickup:</strong> If dropping off at a carrier location is inconvenient, you may request a free home pickup by selecting &ldquo;Schedule Pickup&rdquo; after generating your label. Pickups are available Monday, Saturday, 8 AM, 8 PM, and can be booked up to 5 days in advance.</li>
                                 <li><strong>Replacement labels:</strong> If your label is lost or expires before use, log in to your order and select &ldquo;Reissue Label.&rdquo; One replacement is provided at no charge; subsequent replacements are $4 each.</li>
                                 <li><strong>Oversized kits:</strong> Ultimate-tier kits shipping to addresses without standard carrier access may require freight pickup. We will arrange this at no additional cost and contact you 7 days before your return deadline.</li>
                             </ul>
@@ -328,7 +328,7 @@ export default function ReturnPolicyPage() {
                                 <span className="rp-num" aria-hidden="true">4</span>
                                 Deposit Refund Timeline
                             </h2>
-                            <p>Your deposit is held in full when your order is placed and is refunded — in full or in part, depending on item condition — after our inspection team reviews the returned kit.</p>
+                            <p>Your deposit is held in full when your order is placed and is refunded, in full or in part, depending on item condition, after our inspection team reviews the returned kit.</p>
 
                             <table className="rp-table">
                                 <thead>
@@ -340,7 +340,7 @@ export default function ReturnPolicyPage() {
                                 <tbody>
                                     <tr>
                                         <td>Package received at CeleBrease facility</td>
-                                        <td>Typically 1–3 business days after carrier pickup</td>
+                                        <td>Typically 1, 3 business days after carrier pickup</td>
                                     </tr>
                                     <tr>
                                         <td>Inspection completed</td>
@@ -362,7 +362,7 @@ export default function ReturnPolicyPage() {
                             </table>
 
                             <div className="rp-highlight">
-                                <strong>5 business days guaranteed:</strong> We commit to initiating your deposit refund within 5 business days of your package arriving at our facility — or we will add a $10 courtesy credit to your CeleBrease account automatically.
+                                <strong>5 business days guaranteed:</strong> We commit to initiating your deposit refund within 5 business days of your package arriving at our facility, or we will add a $10 courtesy credit to your CeleBrease account automatically.
                             </div>
 
                             <p>
@@ -383,7 +383,7 @@ export default function ReturnPolicyPage() {
                                 <div className="rp-ccard">
                                     <span className="rp-badge rp-badge-mint">Mint</span>
                                     <h4>Mint Condition</h4>
-                                    <p>Item is returned exactly as shipped — no marks, scuffs, missing pieces, or odors. Original packaging intact.</p>
+                                    <p>Item is returned exactly as shipped, no marks, scuffs, missing pieces, or odors. Original packaging intact.</p>
                                     <div className="rp-deposit-note"><strong>Deposit outcome:</strong> Full refund. No deductions.</div>
                                 </div>
                                 <div className="rp-ccard">
@@ -396,7 +396,7 @@ export default function ReturnPolicyPage() {
                                     <span className="rp-badge rp-badge-worn">Worn</span>
                                     <h4>Worn / Needs Refresh</h4>
                                     <p>Visible scratches, missing non-structural accessories (e.g., ribbon, clips), or light staining that requires professional cleaning beyond standard.</p>
-                                    <div className="rp-deposit-note"><strong>Deposit outcome:</strong> Partial deduction — typically 15–35% of the item&apos;s deposit share, depending on restoration cost.</div>
+                                    <div className="rp-deposit-note"><strong>Deposit outcome:</strong> Partial deduction, typically 15, 35% of the item&apos;s deposit share, depending on restoration cost.</div>
                                 </div>
                                 <div className="rp-ccard">
                                     <span className="rp-badge rp-badge-damaged">Damaged</span>
@@ -418,29 +418,29 @@ export default function ReturnPolicyPage() {
                                 <span className="rp-num" aria-hidden="true">6</span>
                                 Damage &amp; Replacement Charges
                             </h2>
-                            <p>Damage charges are calculated per item and are always proportional — we do not charge replacement value for items that can be professionally restored. Our charge structure:</p>
+                            <p>Damage charges are calculated per item and are always proportional, we do not charge replacement value for items that can be professionally restored. Our charge structure:</p>
 
                             <ul>
-                                <li><strong>Restoration cleaning:</strong> $15–$45 per item, depending on the extent of cleaning required. Applied for &ldquo;Worn&rdquo; rated items where standard cleaning is insufficient.</li>
+                                <li><strong>Restoration cleaning:</strong> $15, $45 per item, depending on the extent of cleaning required. Applied for &ldquo;Worn&rdquo; rated items where standard cleaning is insufficient.</li>
                                 <li><strong>Component replacement:</strong> Cost of the specific damaged component (e.g., a broken ornament holder, a snapped garland clip), not the full kit. Itemised in your inspection report.</li>
                                 <li><strong>Full item replacement:</strong> Applied only when an item is rated &ldquo;Damaged / Non-Restorable.&rdquo; Charged at up to 90% of that item&apos;s listed wholesale replacement value.</li>
                             </ul>
 
                             <div className="rp-highlight">
-                                <strong>Charge cap:</strong> Total damage and replacement charges for any single order will never exceed the deposit amount you paid at checkout — regardless of the number or cost of damaged items. Your deposit is your maximum liability.
+                                <strong>Charge cap:</strong> Total damage and replacement charges for any single order will never exceed the deposit amount you paid at checkout, regardless of the number or cost of damaged items. Your deposit is your maximum liability.
                             </div>
 
                             <h3>Dispute process</h3>
                             <p>
                                 If you disagree with an inspection finding, you have 7 days from receipt of your inspection report to submit a dispute by emailing{" "}
-                                <a href="mailto:returns@celebrease.com">returns@celebrease.com</a> with the subject line &ldquo;Inspection Dispute — [Order #].&rdquo; Please include any photos you took upon delivery or during the rental period. A senior inspector will review the dispute within 3 business days and issue a revised finding. Dispute outcomes are final.
+                                <a href="mailto:returns@celebrease.com">returns@celebrease.com</a> with the subject line &ldquo;Inspection Dispute, [Order #].&rdquo; Please include any photos you took upon delivery or during the rental period. A senior inspector will review the dispute within 3 business days and issue a revised finding. Dispute outcomes are final.
                             </p>
 
                             <h3>Items exempt from damage charges</h3>
                             <ul>
                                 <li>Candles, consumable items, and single-use decorations marked as &ldquo;keep after use&rdquo; in your packing slip.</li>
                                 <li>Items pre-noted as having minor cosmetic wear in your departure inspection report (already reflected in their condition rating at shipment).</li>
-                                <li>Packaging material — boxes, tissue, and wrapping paper are expected to show wear and are not charged.</li>
+                                <li>Packaging material, boxes, tissue, and wrapping paper are expected to show wear and are not charged.</li>
                             </ul>
                         </section>
 
@@ -450,7 +450,7 @@ export default function ReturnPolicyPage() {
                                 <span className="rp-num" aria-hidden="true">7</span>
                                 Lost or Unreturned Kits
                             </h2>
-                            <p>If a kit is not returned within the late-return window (14 days past your rental deadline) and we have received no communication from you, it is classified as unreturned. We understand that life happens — if you need more time, contact us before your deadline and we will do our best to accommodate.</p>
+                            <p>If a kit is not returned within the late-return window (14 days past your rental deadline) and we have received no communication from you, it is classified as unreturned. We understand that life happens, if you need more time, contact us before your deadline and we will do our best to accommodate.</p>
 
                             <ul>
                                 <li><strong>Late return fees:</strong> $12 per day per order, beginning the day after your rental deadline, for up to 14 days. These fees are charged to the payment method on file.</li>
@@ -460,7 +460,7 @@ export default function ReturnPolicyPage() {
                             </ul>
 
                             <div className="rp-highlight">
-                                <strong>Communication is key.</strong> If you are experiencing an issue — delivery delay, illness, damage in transit — reach out before your deadline. We have never sent a kit replacement charge to a customer who communicated proactively.
+                                <strong>Communication is key.</strong> If you are experiencing an issue, delivery delay, illness, damage in transit, reach out before your deadline. We have never sent a kit replacement charge to a customer who communicated proactively.
                             </div>
                         </section>
 
@@ -473,14 +473,14 @@ export default function ReturnPolicyPage() {
                             <p>Our returns team is here to make the process smooth. Whether you need a replacement label, want to extend your rental, or have a question about a deposit deduction, reach out:</p>
 
                             <ul>
-                                <li><strong>Email (preferred):</strong> <a href="mailto:returns@celebrease.com">returns@celebrease.com</a> — responses within 1 business day.</li>
-                                <li><strong>Live chat:</strong> Available in your account dashboard, Monday–Friday 9 AM–6 PM ET.</li>
-                                <li><strong>Inspection disputes:</strong> Email <a href="mailto:returns@celebrease.com">returns@celebrease.com</a> with subject &ldquo;Inspection Dispute — [Order #]&rdquo; within 7 days of your inspection report.</li>
+                                <li><strong>Email (preferred):</strong> <a href="mailto:returns@celebrease.com">returns@celebrease.com</a>, responses within 1 business day.</li>
+                                <li><strong>Live chat:</strong> Available in your account dashboard, Monday, Friday 9 AM, 6 PM ET.</li>
+                                <li><strong>Inspection disputes:</strong> Email <a href="mailto:returns@celebrease.com">returns@celebrease.com</a> with subject &ldquo;Inspection Dispute, [Order #]&rdquo; within 7 days of your inspection report.</li>
                                 <li><strong>Mailing address:</strong> CeleBrease, Inc. · Returns Team · [Address on file at launch]</li>
                             </ul>
 
                             <div className="rp-highlight">
-                                We want your deposit back in your account as quickly as possible — and we want you excited to rent again. If anything about this process feels unclear or unfair, tell us and we will make it right.
+                                We want your deposit back in your account as quickly as possible, and we want you excited to rent again. If anything about this process feels unclear or unfair, tell us and we will make it right.
                             </div>
                         </section>
 

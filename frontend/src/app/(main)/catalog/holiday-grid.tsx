@@ -204,7 +204,7 @@ function CatalogCard({ holiday, index }: { holiday: ApiHoliday; index?: number }
         <Link href={`/catalog/${holiday.id}`} className="cb-holiday-card">
             <Image
                 src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/uploads") ? `${baseURL}${holiday.image}` : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
-                alt={`${holiday.name} — holiday décor kit`}
+                alt={`${holiday.name}, holiday décor kit`}
                 fill style={{ objectFit: "cover" }}
                 sizes="(max-width: 720px) 100vw, (max-width: 980px) 33vw, 25vw"
                 priority={typeof index === 'number' && index < 8}

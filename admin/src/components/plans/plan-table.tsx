@@ -13,9 +13,9 @@ type PlanTableProps = {
 };
 
 function formatMoney(value: string | null) {
-    if (!value) return "—";
+    if (!value) return ", ";
     const n = Number(value);
-    if (Number.isNaN(n)) return "—";
+    if (Number.isNaN(n)) return ", ";
     return `$${n.toFixed(2)}`;
 }
 

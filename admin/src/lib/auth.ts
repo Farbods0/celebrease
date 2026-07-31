@@ -63,7 +63,7 @@ export const validateSession = async () => {
         if (error && typeof error === "object" && "to" in error) {
             throw error;
         }
-        // Network errors, CORS failures, etc. — redirect to signin
+        // Network errors, CORS failures, etc., redirect to signin
         console.error("Session validation failed:", error);
         throw redirect({ to: "/signin" });
     }

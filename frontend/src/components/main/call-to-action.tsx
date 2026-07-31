@@ -41,7 +41,7 @@ export default function CallToAction() {
                         {loading ? "Subscribing…" : "Subscribe"}
                     </button>
                 </form>
-                <p className="cb-cta-fine">No spam — just seasonal inspiration. Unsubscribe anytime.</p>
+                <p className="cb-cta-fine">No spam, just seasonal inspiration. Unsubscribe anytime.</p>
             </div>
         </section>
     );

@@ -103,7 +103,7 @@ export function CustomerView({ item }: { item: ApiCustomer }) {
                                 <p className="text-xs text-muted-foreground">Deposits Held</p>
                             </div>
                             <div className="rounded-lg bg-secondary/10 p-3 text-center">
-                                <p className="text-2xl font-bold">{detail.region ?? "—"}</p>
+                                <p className="text-2xl font-bold">{detail.region ?? ", "}</p>
                                 <p className="text-xs text-muted-foreground">Region</p>
                             </div>
                         </div>

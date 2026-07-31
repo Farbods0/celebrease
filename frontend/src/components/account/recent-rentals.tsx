@@ -67,8 +67,7 @@ export default function RecentRentals() {
                                     <HugeiconsIcon icon={CalendarIcon} size={14} />
                                     {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(
                                         new Date(order.startDate),
-                                    )}{" "}
-                                    –{" "}
+                                    )}{" "}, {" "}
                                     {new Intl.DateTimeFormat("en-US", {
                                         month: "short",
                                         day: "numeric",

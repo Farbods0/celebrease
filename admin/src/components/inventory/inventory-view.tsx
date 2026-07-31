@@ -21,7 +21,7 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
 
 const fmtMoney = (raw: string | number) => {
     const n = typeof raw === "string" ? Number(raw) : raw;
-    return Number.isFinite(n) ? `$${n.toFixed(2)}` : "—";
+    return Number.isFinite(n) ? `$${n.toFixed(2)}` : ", ";
 };
 
 const fmtDate = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -104,7 +104,7 @@ export default function InventoryView({ item, onEdit }: { item: ApiItem; onEdit?
                 <h3 className="text-sm uppercase font-medium mb-2.5">Item Details</h3>
                 <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
                     <Field label="SKU" value={item.sku} />
-                    <Field label="Category" value={item.category ?? "—"} />
+                    <Field label="Category" value={item.category ?? ", "} />
                     <Field label="Cost per unit" value={fmtMoney(item.costPerUnit)} />
                     <Field label="Total Qty" value={totalQty} />
                     <Field label="Low-stock at" value={item.lowStockThreshold} />

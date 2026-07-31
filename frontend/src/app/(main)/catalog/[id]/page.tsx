@@ -73,7 +73,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
 
     return (
         <div className="cb">
-            {/* Main kit detail — client component for interactivity */}
+            {/* Main kit detail, client component for interactivity */}
             <HolidayDetails
                 holiday={data.holiday}
                 kits={data.kits}

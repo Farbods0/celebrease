@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FaqAccordion } from "@/components/main/faq-accordion";
 
-export const metadata: Metadata = { title: "How It Works — CeleBrease" };
+export const metadata: Metadata = { title: "How It Works, CeleBrease" };
 
 const HIW_FAQS = [
     {
         q: "How does the rental period work?",
-        a: "Rental periods are 30 or 60 days, depending on the kit tier. Your period starts when the kit is delivered — not when it ships. We email reminders 7 and 3 days before your return date so there are no surprises.",
+        a: "Rental periods are 30 or 60 days, depending on the kit tier. Your period starts when the kit is delivered, not when it ships. We email reminders 7 and 3 days before your return date so there are no surprises.",
     },
     {
         q: "What if something breaks?",
-        a: "Accidents happen. Minor wear is covered automatically — no action needed. For major damage, our deposit protection covers up to 90% of replacement cost. You'll never owe more than your original deposit amount.",
+        a: "Accidents happen. Minor wear is covered automatically, no action needed. For major damage, our deposit protection covers up to 90% of replacement cost. You'll never owe more than your original deposit amount.",
     },
     {
         q: "How does the deposit refund work?",
@@ -19,7 +19,7 @@ const HIW_FAQS = [
     },
     {
         q: "Can I skip a holiday?",
-        a: "Absolutely. Skip any holiday from your account dashboard up to 14 days before the rental starts. Skipped slots roll forward to next year — no slot is ever lost from your plan.",
+        a: "Absolutely. Skip any holiday from your account dashboard up to 14 days before the rental starts. Skipped slots roll forward to next year, no slot is ever lost from your plan.",
     },
     {
         q: "Can I extend my rental?",
@@ -27,19 +27,19 @@ const HIW_FAQS = [
     },
     {
         q: "What if I don't love the kit when it arrives?",
-        a: "Contact us within 48 hours of delivery. We'll send a replacement, swap it for a different holiday kit, or credit your account — no questions asked. We want every holiday to feel right.",
+        a: "Contact us within 48 hours of delivery. We'll send a replacement, swap it for a different holiday kit, or credit your account, no questions asked. We want every holiday to feel right.",
     },
     {
         q: "Are kits child- and pet-safe?",
-        a: "All kits use non-toxic finishes and are tested for durability. Fragile items are clearly labelled. For homes with small children or curious pets, use the \"Kid-Friendly\" filter when browsing — these kits contain no breakables.",
+        a: "All kits use non-toxic finishes and are tested for durability. Fragile items are clearly labelled. For homes with small children or curious pets, use the \"Kid-Friendly\" filter when browsing, these kits contain no breakables.",
     },
     {
         q: "Do you offer gift subscriptions?",
-        a: "Yes. Buy a 3-, 6-, or 12-month gift subscription from your account. The recipient chooses their own holidays — perfect for new homeowners, hosts, and grandparents who love a beautifully dressed home.",
+        a: "Yes. Buy a 3-, 6-, or 12-month gift subscription from your account. The recipient chooses their own holidays, perfect for new homeowners, hosts, and grandparents who love a beautifully dressed home.",
     },
     {
         q: "What's the cancellation policy?",
-        a: "Cancel a reservation up to 14 days before the rental start date for a full refund. Within 14 days, we credit your account for a future booking. Subscriptions can be cancelled anytime from your dashboard — no penalty, no fine print.",
+        a: "Cancel a reservation up to 14 days before the rental start date for a full refund. Within 14 days, we credit your account for a future booking. Subscriptions can be cancelled anytime from your dashboard, no penalty, no fine print.",
     },
 ];
 
@@ -117,7 +117,7 @@ export default function HowItWorksPage() {
                         maxWidth: 620,
                         margin: "0 auto 32px",
                     }}>
-                        Pick a plan, tell us your holidays, and we do the rest — from designer curation to doorstep pickup.
+                        Pick a plan, tell us your holidays, and we do the rest, from designer curation to doorstep pickup.
                         Decorate beautifully. Store nothing. Get your deposit back, every time.
                     </p>
                     <div style={{
@@ -219,14 +219,14 @@ export default function HowItWorksPage() {
                                 Pick the holidays that matter to <span className="gradient-text">your home.</span>
                             </h2>
                             <p style={{ fontSize: "clamp(15.5px,1.2vw,17px)", color: "var(--cb-ink-muted)", lineHeight: 1.7 }}>
-                                Choose a plan, then select the celebrations you want this year — across any tradition, faith, or season.
+                                Choose a plan, then select the celebrations you want this year, across any tradition, faith, or season.
                                 Mix Christmas with Diwali, Hanukkah with Halloween, or Eid with a birthday bash. Your slots roll over if life gets busy.
                             </p>
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
                                 {[
                                     "19 curated holidays to choose from",
                                     "Starter: 3 slots · Premium: 6 slots · Ultimate: unlimited",
-                                    "Unused slots never expire — they carry to next year",
+                                    "Unused slots never expire, they carry to next year",
                                     "Swap any slot from your account dashboard before it ships",
                                 ].map((item) => (
                                     <li key={item} style={{
@@ -280,7 +280,7 @@ export default function HowItWorksPage() {
                                 We hand-pick every piece. You just <span className="gradient-text">open the box.</span>
                             </h2>
                             <p style={{ fontSize: "clamp(15.5px,1.2vw,17px)", color: "var(--cb-ink-muted)", lineHeight: 1.7 }}>
-                                Our in-house stylists — each with 5+ years of holiday design experience — assemble 10 to 25 décor pieces
+                                Our in-house stylists, each with 5+ years of holiday design experience, assemble 10 to 25 décor pieces
                                 for each holiday. Every item is professionally cleaned, inspected, and packed with a printed styling card
                                 so you know exactly where each piece goes.
                             </p>
@@ -369,7 +369,7 @@ export default function HowItWorksPage() {
                                 }}>2</div>
                                 <div style={{ fontSize: 13, color: "var(--cb-ink-muted)", lineHeight: 1.3 }}>
                                     <strong style={{ color: "var(--cb-ink)", display: "block", fontSize: 14, marginBottom: 1 }}>We curate your kit</strong>
-                                    10–25 designer-picked pieces
+                                    10, 25 designer-picked pieces
                                 </div>
                             </div>
                         </div>
@@ -446,14 +446,14 @@ export default function HowItWorksPage() {
                             </h2>
                             <p style={{ fontSize: "clamp(15.5px,1.2vw,17px)", color: "var(--cb-ink-muted)", lineHeight: 1.7 }}>
                                 Your kit arrives fully staged and ready to place. Follow the styling card and most spaces are decorated
-                                in under 30 minutes — no decorating skills required. Then celebrate. We&apos;ll handle the rest when you&apos;re done.
+                                in under 30 minutes, no decorating skills required. Then celebrate. We&apos;ll handle the rest when you&apos;re done.
                             </p>
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
                                 {[
-                                    "Free standard shipping (2–4 days) or express (1–2 days)",
+                                    "Free standard shipping (2, 4 days) or express (1, 2 days)",
                                     "Kits arrive 5 days before your holiday for easy setup",
                                     "30-day and 60-day rental durations available",
-                                    "Extend anytime from your dashboard — prorated daily rate",
+                                    "Extend anytime from your dashboard, prorated daily rate",
                                 ].map((item) => (
                                     <li key={item} style={{
                                         display: "flex",
@@ -501,13 +501,13 @@ export default function HowItWorksPage() {
                             </h2>
                             <p style={{ fontSize: "clamp(15.5px,1.2vw,17px)", color: "var(--cb-ink-muted)", lineHeight: 1.7 }}>
                                 We email a prepaid return label 3 days before your rental ends. Pack everything back in the original box,
-                                leave it at your door, and we schedule a free pickup. Once we receive and inspect the kit — usually within
-                                24 hours — your full deposit is on its way back to you.
+                                leave it at your door, and we schedule a free pickup. Once we receive and inspect the kit, usually within
+                                24 hours, your full deposit is on its way back to you.
                             </p>
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
                                 {[
-                                    "Prepaid return label emailed automatically — no printing needed",
-                                    "Free doorstep pickup — no trips to a post office",
+                                    "Prepaid return label emailed automatically, no printing needed",
+                                    "Free doorstep pickup, no trips to a post office",
                                     "Inspection completed within 24 hours of receipt",
                                     "Full deposit refunded within 5 business days",
                                 ].map((item) => (
@@ -607,9 +607,9 @@ export default function HowItWorksPage() {
                             Your deposit is always<br /><span className="gradient-text">protected.</span>
                         </h2>
                         <p style={{ color: "var(--cb-ink-muted)", fontSize: 16, lineHeight: 1.7 }}>
-                            We hold a refundable deposit — typically $50 — when you reserve a kit. It isn&apos;t a charge; it&apos;s a trust
+                            We hold a refundable deposit, typically $50, when you reserve a kit. It isn&apos;t a charge; it&apos;s a trust
                             handshake. Return the kit in good condition and every cent comes back. Minor wear is covered automatically.
-                            For accidents, our deposit protection covers up to 90% of replacement cost — you&apos;ll never owe more than
+                            For accidents, our deposit protection covers up to 90% of replacement cost, you&apos;ll never owe more than
                             your deposit.
                         </p>
                     </div>

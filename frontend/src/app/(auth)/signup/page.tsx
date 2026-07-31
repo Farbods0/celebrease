@@ -16,7 +16,7 @@ export default function Signup() {
                     line-height: 1.55;
                     -webkit-font-smoothing: antialiased;
                 }
-                /* Brand panel — right */
+                /* Brand panel, right */
                 .cb-auth-brand {
                     position: relative;
                     overflow: hidden;
@@ -109,7 +109,7 @@ export default function Signup() {
                     color: #fff;
                     font-size: 14px;
                 }
-                /* Form panel — left */
+                /* Form panel, left */
                 .cb-auth-form-panel {
                     order: 1;
                     display: flex;
@@ -157,9 +157,9 @@ export default function Signup() {
                     <div className="cb-auth-brand-content">
                         <div className="cb-auth-monogram">CB</div>
                         <p className="cb-auth-quote">
-                            "I haven't bought a single decoration in two years. CeleBrease handles everything — beautifully."
+                            "I haven't bought a single decoration in two years. CeleBrease handles everything, beautifully."
                         </p>
-                        <p className="cb-auth-attr">— Priya K., New York, Premium member</p>
+                        <p className="cb-auth-attr">, Priya K., New York, Premium member</p>
                         <div className="cb-auth-perks">
                             <div className="cb-auth-perk">
                                 <span className="perk-ico">🛡️</span>
@@ -172,7 +172,7 @@ export default function Signup() {
                                 <span className="perk-ico">🚚</span>
                                 <div className="perk-text">
                                     <strong>Free shipping both ways</strong>
-                                    We handle delivery and pickup — no fees ever.
+                                    We handle delivery and pickup, no fees ever.
                                 </div>
                             </div>
                             <div className="cb-auth-perk">

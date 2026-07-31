@@ -207,7 +207,7 @@ export function ReturnView({ item, onUpdated }: { item: ApiOrder; onUpdated?: (u
                 lines: payload,
                 ...(inspectNotes ? { inspectionNotes: inspectNotes } : {}),
             });
-            toast.success(`Inspection complete — refunded ${formatMoney(updated.depositRefunded)}`);
+            toast.success(`Inspection complete, refunded ${formatMoney(updated.depositRefunded)}`);
             onUpdated?.(updated);
             setShowInspect(false);
         } catch (error) {
@@ -248,7 +248,7 @@ export function ReturnView({ item, onUpdated }: { item: ApiOrder; onUpdated?: (u
                     <Field label="Order #" value={item.orderNumber} />
                     <Field label="Customer" value={item.user.name} />
                     <Field label="Email" value={item.user.email} />
-                    <Field label="Phone" value={item.user.phone ?? item.user.address?.phone ?? "—"} />
+                    <Field label="Phone" value={item.user.phone ?? item.user.address?.phone ?? ", "} />
                     <Field label="Holiday" value={item.holiday.name} />
                     <Field label="Kit" value={formatTier(item.kit.tier)} />
                     <Field label="Duration" value={formatDuration(item.duration)} />
@@ -367,7 +367,7 @@ export function ReturnView({ item, onUpdated }: { item: ApiOrder; onUpdated?: (u
                     <div className="grid grid-cols-3 gap-2 mb-3">
                         <Field label="Refunded" value={formatMoney(item.depositRefunded)} />
                         <Field label="Forfeited" value={formatMoney(item.depositForfeited)} />
-                        <Field label="Inspected" value={item.inspectedAt ? moment(item.inspectedAt).format("MMM DD, YYYY") : "—"} />
+                        <Field label="Inspected" value={item.inspectedAt ? moment(item.inspectedAt).format("MMM DD, YYYY") : ", "} />
                     </div>
                     {item.inspectionNotes && (
                         <p className="text-sm text-muted-foreground border rounded-lg p-2">{item.inspectionNotes}</p>

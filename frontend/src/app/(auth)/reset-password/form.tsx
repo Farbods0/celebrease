@@ -91,8 +91,8 @@ export function ResetPasswordForm() {
 
     const reqItems = [
         { label: "At least 8 characters", met: pwValue.length >= 8 },
-        { label: "One uppercase letter (A–Z)", met: /[A-Z]/.test(pwValue) },
-        { label: "One number (0–9)", met: /[0-9]/.test(pwValue) },
+        { label: "One uppercase letter (A, Z)", met: /[A-Z]/.test(pwValue) },
+        { label: "One number (0, 9)", met: /[0-9]/.test(pwValue) },
         { label: "One special character (!@#$%&*)", met: /[!@#$%&*^()_+\-=[\]{}|;':",./<>?]/.test(pwValue) },
     ];
 

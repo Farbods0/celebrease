@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 const fmtMoney = (raw: string | number) => {
     const n = typeof raw === "string" ? Number(raw) : raw;
-    return Number.isFinite(n) ? `$${n.toFixed(2)}` : "—";
+    return Number.isFinite(n) ? `$${n.toFixed(2)}` : ", ";
 };
 
 type AddOnTableProps = {
@@ -78,11 +78,11 @@ className="th"
                                 </td>
                                 <td className="amt">{fmtMoney(item.price)}</td>
                                 <td style={{ color: "var(--ink-muted)" }}>{fmtMoney(item.deposit)}</td>
-                                <td className="oid">{item?.inventory?.availableQty ?? "—"}</td>
+                                <td className="oid">{item?.inventory?.availableQty ?? ", "}</td>
                                 <td>
                                     <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                                         {item.holidays.length === 0 ? (
-                                            <span style={{ color: "var(--ink-soft)" }}>—</span>
+                                            <span style={{ color: "var(--ink-soft)" }}>, </span>
                                         ) : (
                                             item.holidays.map(({ holiday }) => (
                                                 <span key={holiday.id} className="kit-count">{holiday.name}</span>

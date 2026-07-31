@@ -133,7 +133,7 @@ export function ContactForm() {
                             <label htmlFor="cmessage">Your message</label>
                             <textarea
                                 id="cmessage"
-                                placeholder="Tell us how we can help — the more detail, the faster we can assist."
+                                placeholder="Tell us how we can help, the more detail, the faster we can assist."
                                 value={field.state.value}
                                 onChange={(e) => field.handleChange(e.target.value)}
                                 onBlur={field.handleBlur}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-    title: "Terms of Service & Rental Agreement — CeleBrease",
+    title: "Terms of Service & Rental Agreement, CeleBrease",
     description:
         "Read CeleBrease's Terms of Service and Rental Agreement governing subscriptions, kit rentals, deposits, shipping, and customer obligations.",
 };
@@ -113,15 +113,14 @@ export default function TermsPage() {
                             </h2>
                             <p>
                                 CeleBrease operates as a subscription-based rental service. To rent decoration kits
-                                you must hold an active subscription plan. We currently offer three plan tiers —{" "}
-                                <strong>Starter</strong>, <strong>Premium</strong>, and <strong>Ultimate</strong> —
-                                each available on monthly or annual billing cycles.
+                                you must hold an active subscription plan. We currently offer three plan tiers, {" "}
+                                <strong>Starter</strong>, <strong>Premium</strong>, and <strong>Ultimate</strong>, each available on monthly or annual billing cycles.
                             </p>
 
                             <h3>What your plan includes</h3>
                             <ul>
                                 <li>
-                                    A fixed number of <strong>holiday slots</strong> per subscription year — the
+                                    A fixed number of <strong>holiday slots</strong> per subscription year, the
                                     occasions you can decorate under your plan.
                                 </li>
                                 <li>
@@ -140,7 +139,7 @@ export default function TermsPage() {
                             <h3>What your plan does not include</h3>
                             <ul>
                                 <li>
-                                    Kit rental deposits — these are held separately and refunded on clean return (see
+                                    Kit rental deposits, these are held separately and refunded on clean return (see
                                     Section 5).
                                 </li>
                                 <li>
@@ -182,7 +181,7 @@ export default function TermsPage() {
                                 <li>
                                     Unused slots at the end of a subscription year <strong>do not roll over</strong> to
                                     the following year unless you are on an annual plan and have not yet completed your
-                                    full allocation — in that case, unused slots expire at the end of the annual term.
+                                    full allocation, in that case, unused slots expire at the end of the annual term.
                                 </li>
                                 <li>
                                     Kit inventory is limited and allocated on a first-come, first-served basis.
@@ -191,7 +190,7 @@ export default function TermsPage() {
                             </ul>
                             <div className="cb-highlight-box">
                                 <strong>Tip:</strong> You can reassign a Pending slot to a different holiday at any
-                                time from your account dashboard — no fee, no waiting. Only slots that have already
+                                time from your account dashboard, no fee, no waiting. Only slots that have already
                                 been reserved (i.e., a kit has been ordered) are subject to the cancellation terms in
                                 Section 8.
                             </div>
@@ -277,7 +276,7 @@ export default function TermsPage() {
                             </ul>
                             <div className="cb-highlight-box">
                                 <strong>Our promise:</strong> We will never charge you more than the deposit for
-                                damage — the damage deduction is capped at the deposit. Only in cases of total loss or
+                                damage, the damage deduction is capped at the deposit. Only in cases of total loss or
                                 unreturned items may additional charges apply.
                             </div>
                             <p>
@@ -311,12 +310,12 @@ export default function TermsPage() {
                                 <tbody>
                                     <tr>
                                         <td><strong>Standard (outbound)</strong></td>
-                                        <td>5–7 business days</td>
+                                        <td>5, 7 business days</td>
                                         <td>Free</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Express (outbound)</strong></td>
-                                        <td>2–3 business days</td>
+                                        <td>2, 3 business days</td>
                                         <td>$25 per shipment</td>
                                     </tr>
                                     <tr>
@@ -376,15 +375,15 @@ export default function TermsPage() {
                             </p>
                             <ul>
                                 <li>
-                                    <strong>Normal wear and tear</strong> — minor scuffs or surface dust incidental to
+                                    <strong>Normal wear and tear</strong>, minor scuffs or surface dust incidental to
                                     normal decorative use. No charge.
                                 </li>
                                 <li>
-                                    <strong>Damage requiring repair or cleaning</strong> — staining, broken components,
+                                    <strong>Damage requiring repair or cleaning</strong>, staining, broken components,
                                     missing hardware. Charged at cost of repair, deducted from deposit.
                                 </li>
                                 <li>
-                                    <strong>Total loss</strong> — items destroyed beyond repair or not returned.
+                                    <strong>Total loss</strong>, items destroyed beyond repair or not returned.
                                     Charged at full replacement cost, which may exceed your deposit. Excess charges are
                                     billed to the payment method on file.
                                 </li>
@@ -406,8 +405,8 @@ export default function TermsPage() {
 
                             <h3>Skipping a holiday</h3>
                             <p>
-                                You may skip an upcoming rental — cancelling your kit reservation for a specific
-                                holiday — at no charge, provided you do so at least{" "}
+                                You may skip an upcoming rental, cancelling your kit reservation for a specific
+                                holiday, at no charge, provided you do so at least{" "}
                                 <strong>14 days before the scheduled ship date</strong> for that rental. Skipped slots
                                 are returned to a Pending state and can be reassigned to a different holiday in the
                                 same subscription year.
@@ -457,7 +456,7 @@ export default function TermsPage() {
                                 Billing &amp; Auto-Renewal
                             </h2>
                             <p>
-                                Subscription fees are billed in advance on a recurring basis — monthly or annually
+                                Subscription fees are billed in advance on a recurring basis, monthly or annually
                                 depending on your chosen billing cycle. All prices are in U.S. dollars and are
                                 exclusive of applicable sales tax, which is calculated and displayed at checkout.
                             </p>
@@ -572,7 +571,7 @@ export default function TermsPage() {
                             </div>
                             <p>
                                 The Service and all rental items are provided &ldquo;as is&rdquo; and &ldquo;as
-                                available.&rdquo; We make no warranty — express or implied — that the Service will be
+                                available.&rdquo; We make no warranty, express or implied, that the Service will be
                                 uninterrupted, error-free, or that rental items will be free from defects beyond what
                                 is disclosed on the kit detail page.
                             </p>
@@ -606,7 +605,7 @@ export default function TermsPage() {
                                 </li>
                                 <li>
                                     <strong>Damage disputes:</strong>{" "}
-                                    <a href="mailto:support@celebrease.com">support@celebrease.com</a> — include your
+                                    <a href="mailto:support@celebrease.com">support@celebrease.com</a>, include your
                                     order number and photographs.
                                 </li>
                                 <li>
@@ -620,7 +619,7 @@ export default function TermsPage() {
                             </ul>
                             <div className="cb-highlight-box">
                                 Before escalating a dispute, we strongly encourage you to contact our support team
-                                first. The vast majority of issues — from deposit questions to late fees — are resolved
+                                first. The vast majority of issues, from deposit questions to late fees, are resolved
                                 quickly and fairly when you reach out directly.
                             </div>
                         </section>

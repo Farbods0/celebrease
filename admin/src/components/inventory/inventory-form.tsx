@@ -244,7 +244,7 @@ export function InventoryForm({ item, onClose }: { item?: ApiItem; onClose: () =
                 </div>
             )}
 
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">Kit Mapping – Assign to Kits</p>
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">Kit Mapping, Assign to Kits</p>
             {selectedHolidays.size === 0 ? (
                 <p className="text-sm text-muted-foreground">Select one or more holidays above to map kits.</p>
             ) : (

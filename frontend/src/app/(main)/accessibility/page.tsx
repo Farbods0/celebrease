@@ -233,7 +233,7 @@ export default function AccessibilityPage() {
                                 <strong style={{ color: "var(--cb-purple)", fontWeight: 700 }}>Celebration is for everyone.</strong>{" "}
                                 CeleBrease is committed to ensuring that our website and service are accessible to all people, including those with disabilities, on equal terms.
                             </HighlightBox>
-                            <p>CeleBrease, Inc. (&ldquo;CeleBrease,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) believes that every customer — regardless of ability — deserves to discover, browse, and rent holiday decoration kits with ease and dignity. We work continuously to improve the accessibility of our digital experience in line with internationally recognised standards.</p>
+                            <p>CeleBrease, Inc. (&ldquo;CeleBrease,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) believes that every customer, regardless of ability, deserves to discover, browse, and rent holiday decoration kits with ease and dignity. We work continuously to improve the accessibility of our digital experience in line with internationally recognised standards.</p>
                             <p>We have invested in ongoing accessibility auditing, user testing with assistive technology users, and a dedicated internal review process for every major product release. Accessibility is not a checkbox for us; it is a design principle embedded from the earliest stages of each feature.</p>
                             <p>This statement applies to our main website at{" "}
                                 <a href="https://www.celebrease.com" style={{ color: "var(--cb-purple)", fontWeight: 600 }}>celebrease.com</a>
@@ -244,7 +244,7 @@ export default function AccessibilityPage() {
                         <LegalSection id="conformance" num={2} title="Conformance Status">
                             <div
                                 role="img"
-                                aria-label="WCAG 2.1 Level AA — Partially conformant"
+                                aria-label="WCAG 2.1 Level AA, Partially conformant"
                                 style={{
                                     display: "inline-flex",
                                     alignItems: "center",
@@ -279,7 +279,7 @@ export default function AccessibilityPage() {
                                         WCAG 2.1 Level AA
                                     </strong>
                                     <span style={{ fontSize: 13, color: "var(--cb-ink-soft)" }}>
-                                        Partially conformant — we are actively working toward full conformance
+                                        Partially conformant, we are actively working toward full conformance
                                     </span>
                                 </div>
                             </div>
@@ -302,10 +302,10 @@ export default function AccessibilityPage() {
                                 </thead>
                                 <tbody>
                                     {[
-                                        { principle: <><strong>Perceivable</strong> — 1.x</>, status: "Substantially met", notes: "All images have alt text; colour contrast meets AA on core pages; captions provided where video is used" },
-                                        { principle: <><strong>Operable</strong> — 2.x</>, status: "Substantially met", notes: "Full keyboard navigation supported; skip-to-content link present; no seizure-triggering animations" },
-                                        { principle: <><strong>Understandable</strong> — 3.x</>, status: "Substantially met", notes: "Language attribute set on all pages; error messages are descriptive; form labels are explicit" },
-                                        { principle: <><strong>Robust</strong> — 4.x</>, status: "Partially met", notes: "Core flows validated with NVDA, JAWS, and VoiceOver; some third-party widgets have outstanding issues (see Known Limitations)" },
+                                        { principle: <><strong>Perceivable</strong>, 1.x</>, status: "Substantially met", notes: "All images have alt text; colour contrast meets AA on core pages; captions provided where video is used" },
+                                        { principle: <><strong>Operable</strong>, 2.x</>, status: "Substantially met", notes: "Full keyboard navigation supported; skip-to-content link present; no seizure-triggering animations" },
+                                        { principle: <><strong>Understandable</strong>, 3.x</>, status: "Substantially met", notes: "Language attribute set on all pages; error messages are descriptive; form labels are explicit" },
+                                        { principle: <><strong>Robust</strong>, 4.x</>, status: "Partially met", notes: "Core flows validated with NVDA, JAWS, and VoiceOver; some third-party widgets have outstanding issues (see Known Limitations)" },
                                     ].map((row, i) => (
                                         <tr key={i}>
                                             <td style={{ padding: "12px 16px", border: "1px solid var(--cb-line)", color: "var(--cb-ink-muted)", lineHeight: 1.55, verticalAlign: "top" }}>{row.principle}</td>
@@ -340,7 +340,7 @@ export default function AccessibilityPage() {
 
                             <h3 style={h3Style}>Keyboard &amp; focus</h3>
                             <LegalList items={[
-                                <>All interactive elements — links, buttons, form fields, dropdowns, and modal dialogs — are fully operable using a keyboard alone.</>,
+                                <>All interactive elements, links, buttons, form fields, dropdowns, and modal dialogs, are fully operable using a keyboard alone.</>,
                                 <>Visible focus indicators with a minimum 3:1 contrast ratio are present on all focusable elements; we use custom focus rings styled with the brand gradient rather than the browser default where needed.</>,
                                 <>The mobile navigation drawer traps focus while open and returns focus to the trigger button when closed.</>,
                                 <>The checkout flow and account forms support full tab order and Enter/Space activation.</>,
@@ -350,12 +350,12 @@ export default function AccessibilityPage() {
                             <LegalList items={[
                                 <>Body text meets a minimum contrast ratio of 4.5:1 against its background (WCAG 1.4.3 AA).</>,
                                 <>Large text and UI components meet the 3:1 ratio requirement (WCAG 1.4.11).</>,
-                                <>Information is never conveyed by colour alone — status badges use both colour and text labels.</>,
+                                <>Information is never conveyed by colour alone, status badges use both colour and text labels.</>,
                             ]} />
 
                             <h3 style={h3Style}>Forms &amp; error handling</h3>
                             <LegalList items={[
-                                <>Every form input has an explicit, visible <code>&lt;label&gt;</code> element — no placeholder-only labelling.</>,
+                                <>Every form input has an explicit, visible <code>&lt;label&gt;</code> element, no placeholder-only labelling.</>,
                                 <>Required fields are marked both visually and programmatically with <code>aria-required=&quot;true&quot;</code>.</>,
                                 <>Inline error messages are associated with their fields via <code>aria-describedby</code> and are announced immediately to screen readers using <code>aria-live</code> regions.</>,
                                 <>The checkout summary page provides a clear review step before any payment is submitted.</>,
@@ -443,12 +443,12 @@ export default function AccessibilityPage() {
 
                         {/* 5. Feedback & Contact */}
                         <LegalSection id="feedback" num={5} title="Feedback &amp; Contact">
-                            <p>We welcome feedback on the accessibility of CeleBrease. If you experience a barrier that prevents you from accessing any part of our website — or if you need content in an alternative format — please contact us and we will do our best to help within 5 business days.</p>
+                            <p>We welcome feedback on the accessibility of CeleBrease. If you experience a barrier that prevents you from accessing any part of our website, or if you need content in an alternative format, please contact us and we will do our best to help within 5 business days.</p>
 
                             <LegalList items={[
                                 <><strong>Email:</strong>{" "}<a href="mailto:accessibility@celebrease.com" style={{ color: "var(--cb-purple)", fontWeight: 600 }}>accessibility@celebrease.com</a></>,
                                 <><strong>Response time:</strong> We acknowledge all accessibility-related reports within 2 business days and aim to resolve critical barriers within 10 business days.</>,
-                                <><strong>Phone:</strong> +1 (800) 555-0180 — available Monday to Friday, 9 am – 5 pm PT. Relay service callers are welcome.</>,
+                                <><strong>Phone:</strong> +1 (800) 555-0180, available Monday to Friday, 9 am, 5 pm PT. Relay service callers are welcome.</>,
                                 <><strong>Postal address:</strong> CeleBrease, Inc. · Accessibility Team · [Address on file at launch]</>,
                             ]} />
 

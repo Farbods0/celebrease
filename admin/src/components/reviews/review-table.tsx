@@ -14,7 +14,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "n
 
 function formatDate(value: string) {
     const d = new Date(value);
-    if (Number.isNaN(d.getTime())) return "—";
+    if (Number.isNaN(d.getTime())) return ", ";
     return dateFormatter.format(d);
 }
 

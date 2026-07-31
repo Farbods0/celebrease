@@ -5,9 +5,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 function formatMoney(value: string | null) {
-    if (!value) return "—";
+    if (!value) return ", ";
     const n = Number(value);
-    if (Number.isNaN(n)) return "—";
+    if (Number.isNaN(n)) return ", ";
     return `$${n.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 }
 
@@ -24,7 +24,7 @@ const TIER_META: Record<string, { icon: string; iconBg: string; featured?: boole
 };
 
 function maskStripeId(id: string | null) {
-    if (!id) return "—";
+    if (!id) return ", ";
     if (id.length <= 12) return id;
     return `${id.slice(0, 10)}••••${id.slice(-2)}`;
 }
@@ -97,7 +97,7 @@ export function PlanCard({ item, discountPercent = 20, onEdit }: PlanCardProps) 
                         }
                     >
                         <sup>$</sup>
-                        {item.monthlyPrice ? Math.round(Number(item.monthlyPrice)) : "—"}
+                        {item.monthlyPrice ? Math.round(Number(item.monthlyPrice)) : ", "}
                     </div>
                     <span className="plan-period">/ month</span>
                     {item.monthlyPrice && (
@@ -181,19 +181,19 @@ export function PlanCard({ item, discountPercent = 20, onEdit }: PlanCardProps) 
                     <label>Add-on discount</label>
                     <div className="field-row">
                         <input className="field-input" readOnly value={item.addOnDiscount} style={{ maxWidth: 100 }} />
-                        <span className="field-suffix">{item.addOnDiscount > 0 ? "% off all add-ons" : `% — no add-on discount`}</span>
+                        <span className="field-suffix">{item.addOnDiscount > 0 ? "% off all add-ons" : `%, no add-on discount`}</span>
                     </div>
                 </div>
 
                 <div className="plan-field">
-                    <label>Stripe Price ID — Monthly</label>
+                    <label>Stripe Price ID, Monthly</label>
                     <div className="stripe-id">
                         <input className="field-input mono" readOnly value={maskStripeId(item.stripePriceMonthlyId)} />
                     </div>
                 </div>
 
                 <div className="plan-field">
-                    <label>Stripe Price ID — Yearly</label>
+                    <label>Stripe Price ID, Yearly</label>
                     <div className="stripe-id">
                         <input className="field-input mono" readOnly value={maskStripeId(item.stripePriceYearlyId)} />
                     </div>

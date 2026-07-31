@@ -33,7 +33,7 @@ function ExpandedCustomerRow({ item }: { item: ApiCustomer }) {
 
     const avgOrderValue = detail && detail.orderCount > 0 && detail.recentOrders.length > 0
         ? `$${(detail.recentOrders.reduce((sum, o) => sum + Number(o.total), 0) / detail.recentOrders.length).toFixed(0)}`
-        : "—";
+        : ", ";
 
     return (
         <tr style={{ background: "var(--bg)" }}>
@@ -56,7 +56,7 @@ function ExpandedCustomerRow({ item }: { item: ApiCustomer }) {
                     <div>
                         <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "var(--ink-soft)", marginBottom: 6 }}>Account Info</p>
                         <div className="text-sm space-y-1">
-                            <p>Last active: <span className="font-medium">{detail ? formatCustomerDate(detail.updatedAt) : "—"}</span></p>
+                            <p>Last active: <span className="font-medium">{detail ? formatCustomerDate(detail.updatedAt) : ", "}</span></p>
                             <p>Avg order value: <span className="font-bold">{avgOrderValue}</span></p>
                             <p>Joined: <span className="font-medium">{formatCustomerDate(item.createdAt)}</span></p>
                         </div>
@@ -163,14 +163,14 @@ export function CustomerTable({ items, onView }: CustomerTableProps) {
                                                 {item.region}
                                             </span>
                                         ) : (
-                                            <span style={{ color: "var(--ink-soft)" }}>—</span>
+                                            <span style={{ color: "var(--ink-soft)" }}>, </span>
                                         )}
                                     </td>
                                     <td>
                                         {item.hasActiveSubscription ? (
                                             <span className="status st-active">Active</span>
                                         ) : (
-                                            <span style={{ color: "var(--ink-soft)" }}>—</span>
+                                            <span style={{ color: "var(--ink-soft)" }}>, </span>
                                         )}
                                     </td>
                                     <td>{item.orderCount}</td>

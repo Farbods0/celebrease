@@ -34,7 +34,7 @@ export function CustomerCard({ item, onView }: CustomerCardProps) {
                 <Field label="Orders" value={item.orderCount} />
                 <Field label="On-Time Returns" value={formatOnTimeReturns(item.completedCount, item.orderCount)} />
                 <Field label="Deposits Held" value={formatDeposit(item.depositsHeld)} />
-                <Field label="Region" value={item.region ?? "—"} />
+                <Field label="Region" value={item.region ?? ", "} />
                 <Field
                     label="Subscription"
                     value={<StatusBadge status={item.hasActiveSubscription ? "Active" : "Hidden"} />}

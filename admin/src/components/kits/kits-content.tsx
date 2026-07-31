@@ -43,9 +43,9 @@ const fmtMoney = (raw: string | number) => {
 };
 
 const fmtDateRange = (start: string | null, end: string | null) => {
-    if (!start || !end) return "—";
+    if (!start || !end) return ", ";
     const fmt = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-    return `${fmt(start)} – ${fmt(end)}`;
+    return `${fmt(start)}, ${fmt(end)}`;
 };
 
 const STATUS_LABEL: Record<ApiKit["status"], string> = {
@@ -194,7 +194,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                 <div className="kit-detail-head">
                     <div>
                         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                            <h2>{holiday.name} — {formatKitTier(kit.tier)} Kit</h2>
+                            <h2>{holiday.name}, {formatKitTier(kit.tier)} Kit</h2>
                             <span className={TIER_BADGE_CLASS[kit.tier]}>{formatKitTier(kit.tier)}</span>
                         </div>
                         <div className="sub">
@@ -344,7 +344,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                     <div className="panel-body table-wrap">
                         {kit.items.length === 0 ? (
                             <p className="panel-empty">
-                                No items added yet — click &apos;Add item&apos; to include decoration pieces in this kit.
+                                No items added yet, click &apos;Add item&apos; to include decoration pieces in this kit.
                             </p>
                         ) : (
                             <KitsItemTable
@@ -368,7 +368,7 @@ export function KitsContent({ kit, holiday, holidays, items, addOns, selectedTie
                     <div className="panel-body table-wrap">
                         {holiday.addOns.length === 0 ? (
                             <p className="panel-empty">
-                                No add-ons linked — use the Add item button to associate extras with this holiday.
+                                No add-ons linked, use the Add item button to associate extras with this holiday.
                             </p>
                         ) : (
                             <KitsAddonTable

@@ -41,7 +41,7 @@ const FILTER_TABS: { label: string; value: "all" | "active" | "returns" | "compl
 ];
 
 const PAGE_STYLE = `
-/* KPI strip override — 5 columns for orders metrics */
+/* KPI strip override, 5 columns for orders metrics */
 .kpis-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 .kpis-5 .kpi .val{font-size:24px}
 
@@ -155,7 +155,7 @@ function RouteComponent() {
             <div className="page-head">
                 <div>
                     <h1>Orders</h1>
-                    <div className="sub">All rental orders across every customer and holiday — {today}</div>
+                    <div className="sub">All rental orders across every customer and holiday, {today}</div>
                 </div>
                 <button type="button" className="btn-grad" onClick={() => toast.success("Export started")}>
                     ⬇ Export CSV
@@ -300,7 +300,7 @@ function RouteComponent() {
                 {data.total > 0 && (
                     <div className="pagination" role="navigation" aria-label="Pagination">
                         <div className="pag-info">
-                            Showing <b>{start}–{end}</b> of <b>{data.total}</b> orders
+                            Showing <b>{start}, {end}</b> of <b>{data.total}</b> orders
                         </div>
                         <div className="pag-btns">
                             <button

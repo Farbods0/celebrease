@@ -21,7 +21,7 @@ const steps: Step[] = [
             </svg>
         ),
         title: "Choose Your Holidays",
-        description: "Pick from 13+ holidays — no commitment required.",
+        description: "Pick from 13+ holidays, no commitment required.",
     },
     {
         icon: (
@@ -32,7 +32,7 @@ const steps: Step[] = [
             </svg>
         ),
         title: "Pick Your Kit Tier",
-        description: "Choose Starter, Premium, or Ultimate — each designer-curated for maximum visual impact.",
+        description: "Choose Starter, Premium, or Ultimate, each designer-curated for maximum visual impact.",
     },
     {
         icon: (
@@ -54,7 +54,7 @@ const steps: Step[] = [
             </svg>
         ),
         title: "We Deliver, You Unbox",
-        description: "Your kit arrives cleaned and packaged — setup takes under 20 minutes.",
+        description: "Your kit arrives cleaned and packaged, setup takes under 20 minutes.",
     },
     {
         icon: (
@@ -63,7 +63,7 @@ const steps: Step[] = [
             </svg>
         ),
         title: "Celebrate",
-        description: "Enjoy your beautifully decorated space — we send return reminders so you never forget.",
+        description: "Enjoy your beautifully decorated space, we send return reminders so you never forget.",
     },
     {
         icon: (
@@ -133,7 +133,7 @@ const faqs: Array<{ q: string; a: string }> = [
     },
     {
         q: "How long is the rental period?",
-        a: "You choose — 30 days or 60 days. The 60-day option is great for extended celebrations or holidays with a longer decorating season.",
+        a: "You choose, 30 days or 60 days. The 60-day option is great for extended celebrations or holidays with a longer decorating season.",
     },
     {
         q: "Do you deliver everywhere?",

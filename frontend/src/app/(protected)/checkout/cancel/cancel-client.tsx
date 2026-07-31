@@ -198,7 +198,7 @@ export default function CheckoutCancelClient() {
                         margin: "0 auto 36px",
                     }}
                 >
-                    No worries — nothing was charged to your card. Your cart is saved exactly as you left it,
+                    No worries, nothing was charged to your card. Your cart is saved exactly as you left it,
                     so you can pick up right where you stopped.
                 </p>
 
@@ -239,7 +239,7 @@ export default function CheckoutCancelClient() {
                     <div className="sec-head" style={{ marginBottom: 40 }}>
                         <span className="eyebrow">You&apos;re in good hands</span>
                         <h2 id="reassure-heading">Nothing to worry about</h2>
-                        <p>We want every celebration to go smoothly — from booking to return.</p>
+                        <p>We want every celebration to go smoothly, from booking to return.</p>
                     </div>
 
                     <div
@@ -254,7 +254,7 @@ export default function CheckoutCancelClient() {
                             </h4>
                             <p style={{ fontSize: 13.5, color: "var(--cb-ink-muted)", lineHeight: 1.55 }}>
                                 Your payment was cancelled before any amount was processed. Your card has not been
-                                charged — not even a pending hold.
+                                charged, not even a pending hold.
                             </p>
                         </div>
 
@@ -265,7 +265,7 @@ export default function CheckoutCancelClient() {
                             </h4>
                             <p style={{ fontSize: 13.5, color: "var(--cb-ink-muted)", lineHeight: 1.55 }}>
                                 Your kits, add-ons, and selections are saved. Return to checkout whenever you&apos;re
-                                ready — no need to start over.
+                                ready, no need to start over.
                             </p>
                         </div>
 

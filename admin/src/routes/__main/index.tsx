@@ -63,7 +63,7 @@ function RouteComponent() {
             <div className="page-head">
                 <div>
                     <h1>{greeting}, {firstName()} 👋</h1>
-                    <div className="sub">Here's what's happening across CeleBrease today — {today}.</div>
+                    <div className="sub">Here's what's happening across CeleBrease today, {today}.</div>
                 </div>
                 <div className="seg">
                     <button className={range === "7" ? "on" : ""} onClick={() => setRange("7")}>7 days</button>
@@ -118,7 +118,7 @@ function RouteComponent() {
                     <div className="panel-body">
                         {trend.length === 0 ? (
                             <div style={{ height: 230, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--ink-soft)", fontSize: 14 }}>
-                                No revenue data yet — it will appear as orders come in.
+                                No revenue data yet, it will appear as orders come in.
                             </div>
                         ) : (
                             <>

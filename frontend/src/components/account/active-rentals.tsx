@@ -101,7 +101,7 @@ function OrderActions({ order }: { order: ApiOrder }) {
 
     const isPending = cancelMutation.isPending || retryMutation.isPending || returnMutation.isPending;
 
-    // Payment pending — show Pay Now + Cancel
+    // Payment pending, show Pay Now + Cancel
     if (order.paymentStatus === "PENDING" && order.status !== "CANCELLED") {
         return (
             <>
@@ -122,7 +122,7 @@ function OrderActions({ order }: { order: ApiOrder }) {
         );
     }
 
-    // Shipped — Track Package + Return Label
+    // Shipped, Track Package + Return Label
     if (order.status === "SHIPPED") {
         return (
             <>
@@ -151,7 +151,7 @@ function OrderActions({ order }: { order: ApiOrder }) {
         );
     }
 
-    // Delivered — show Request Return
+    // Delivered, show Request Return
     if (order.status === "DELIVERED") {
         return (
             <>
@@ -167,7 +167,7 @@ function OrderActions({ order }: { order: ApiOrder }) {
         );
     }
 
-    // Return Requested — waiting on label / drop-off
+    // Return Requested, waiting on label / drop-off
     if (order.status === "RETURN_REQUESTED") {
         return order.returnLabelUrl ? (
             <Button
@@ -188,7 +188,7 @@ function OrderActions({ order }: { order: ApiOrder }) {
         );
     }
 
-    // Return In Transit — track the return shipment
+    // Return In Transit, track the return shipment
     if (order.status === "RETURN_IN_TRANSIT") {
         return order.returnTrackingUrl ? (
             <Button
@@ -209,7 +209,7 @@ function OrderActions({ order }: { order: ApiOrder }) {
         );
     }
 
-    // Return Received / Inspected — wait for refund finalization
+    // Return Received / Inspected, wait for refund finalization
     if (order.status === "RETURN_RECEIVED" || order.status === "INSPECTED") {
         return (
             <Button variant="outline" disabled>

@@ -18,7 +18,7 @@ function formatRange(start: string, end: string): string {
     const s = new Date(start);
     const e = new Date(end);
     if (Number.isNaN(s.getTime()) || Number.isNaN(e.getTime())) return "";
-    return `${dateFmt.format(s)} – ${dateFmt.format(e)}`;
+    return `${dateFmt.format(s)}, ${dateFmt.format(e)}`;
 }
 
 function fmtMoney(value: string | number): string {
@@ -478,7 +478,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                                 className="cb-also-card"
                                 role="listitem"
                                 style={{background: s.bg}}
-                                aria-label={`${s.name} — ${s.price}`}
+                                aria-label={`${s.name}, ${s.price}`}
                             >
                                 <div className="cb-also-card-scrim" aria-hidden="true" />
                                 <div className="cb-also-card-meta">

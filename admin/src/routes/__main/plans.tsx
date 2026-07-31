@@ -85,9 +85,9 @@ const PLAN_STYLES = `
 const TIER_ORDER: Record<string, number> = { STARTER: 0, PREMIUM: 1, ULTIMATE: 2 };
 
 function money(value: string | null) {
-    if (!value) return "—";
+    if (!value) return ", ";
     const n = Number(value);
-    if (Number.isNaN(n)) return "—";
+    if (Number.isNaN(n)) return ", ";
     return `$${n.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 }
 
@@ -152,7 +152,7 @@ function RouteComponent() {
                             ⚡ Automated Yearly Discount Engine
                         </h3>
                         <div style={{ fontSize: 13, color: "var(--ink-muted)", marginTop: 4, maxWidth: 620 }}>
-                            Power all annual pricing across the consumer site dynamically. Set one global discount percentage to automatically compute yearly costs from monthly base prices—zero hardcoding or manual math required.
+                            Power all annual pricing across the consumer site dynamically. Set one global discount percentage to automatically compute yearly costs from monthly base prices, zero hardcoding or manual math required.
                         </div>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -176,7 +176,7 @@ function RouteComponent() {
 
             <div className="plan-cards">
                 {items.length === 0 ? (
-                    <div className="plan-empty">No plans yet — add up to 3 subscription tiers.</div>
+                    <div className="plan-empty">No plans yet, add up to 3 subscription tiers.</div>
                 ) : (
                     items.map((item) => <PlanCard key={item.id} item={item} discountPercent={discountPct} onEdit={setEditItem} />)
                 )}
@@ -198,8 +198,7 @@ function RouteComponent() {
                                         {items.map((p) => (
                                             <th key={p.id}>
                                                 {p.name}{" "}
-                                                <span style={{ fontWeight: 400, color: "var(--ink-muted)", textTransform: "none", letterSpacing: 0 }}>
-                                                    — {money(p.monthlyPrice)}/mo
+                                                <span style={{ fontWeight: 400, color: "var(--ink-muted)", textTransform: "none", letterSpacing: 0 }}>, {money(p.monthlyPrice)}/mo
                                                 </span>
                                             </th>
                                         ))}
@@ -222,7 +221,7 @@ function RouteComponent() {
                                         <td style={{ fontWeight: 600, color: "var(--ink-muted)" }}>Add-on discount</td>
                                         {items.map((p) => (
                                             <td key={p.id} style={p.addOnDiscount === 0 ? { color: "var(--ink-soft)" } : undefined}>
-                                                {p.addOnDiscount === 0 ? "—" : `${p.addOnDiscount}%`}
+                                                {p.addOnDiscount === 0 ? ", " : `${p.addOnDiscount}%`}
                                             </td>
                                         ))}
                                     </tr>

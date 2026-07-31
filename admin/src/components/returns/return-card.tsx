@@ -28,7 +28,7 @@ export function ReturnCard({ item, onView }: ReturnCardProps) {
                 <div className="ret-date">
                     <span className="oid">{item.orderNumber}</span>
                     <br />
-                    {returnedAt ? moment(returnedAt).format("MMM D, YYYY") : "—"}
+                    {returnedAt ? moment(returnedAt).format("MMM D, YYYY") : ", "}
                 </div>
                 <div className="dep-cell" style={{ alignItems: "flex-end" }}>
                     <span className="dep-full">{formatMoney(totalDeposit(item))}</span>

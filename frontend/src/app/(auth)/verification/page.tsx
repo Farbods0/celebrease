@@ -442,7 +442,7 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                             <span className="cb-auth-email-chip">{user}</span>
                         </p>
 
-                        {/* All better-auth logic lives in VerificationForm — untouched */}
+                        {/* All better-auth logic lives in VerificationForm, untouched */}
                         <VerificationForm user={user} type={type} />
 
                         <p className="cb-auth-wrong-email">

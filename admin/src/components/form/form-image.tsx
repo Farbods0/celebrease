@@ -77,7 +77,7 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
                             <>Click to upload or drag &amp; drop</>
                         )}
                     </p>
-                    <p className="mt-1 text-xs text-muted-foreground">PNG, JPG, WebP — max 10MB</p>
+                    <p className="mt-1 text-xs text-muted-foreground">PNG, JPG, WebP, max 10MB</p>
                 </button>
             ) : (
                 <div className="relative h-40 rounded-xl border border-border overflow-hidden bg-muted group">

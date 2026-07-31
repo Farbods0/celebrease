@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 function holidayCell(item: ApiItem): { name: string; image: string } {
     const first = item.kitItems[0]?.kit;
-    return { name: first?.holiday.name ?? "—", image: item.image };
+    return { name: first?.holiday.name ?? ", ", image: item.image };
 }
 
 function primaryTier(item: ApiItem): KitTier | null {

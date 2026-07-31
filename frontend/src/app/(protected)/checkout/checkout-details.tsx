@@ -42,7 +42,7 @@ function formatRange(start: string, end: string): string {
     const s = new Date(start);
     const e = new Date(end);
     if (Number.isNaN(s.getTime()) || Number.isNaN(e.getTime())) return "";
-    return `${dateFmt.format(s)} – ${dateFmt.format(e)}`;
+    return `${dateFmt.format(s)}, ${dateFmt.format(e)}`;
 }
 
 function fmtMoney(value: string | number): string {
@@ -503,7 +503,7 @@ export default function CheckoutDetails({
                                             label: "Standard Delivery",
                                             badge: subscription ? "Free with plan" : "Standard",
                                             badgeClass: "co-ship-badge-std",
-                                            eta: "Arrives in 3–5 business days · Prepaid return label included",
+                                            eta: "Arrives in 3, 5 business days · Prepaid return label included",
                                             price: subscription ? "FREE" : "$15.00",
                                             isFree: !!subscription || false,
                                         },
@@ -512,7 +512,7 @@ export default function CheckoutDetails({
                                             label: "Express Delivery",
                                             badge: "Fastest",
                                             badgeClass: "co-ship-badge-exp",
-                                            eta: "Arrives in 1–2 business days · Signature required",
+                                            eta: "Arrives in 1, 2 business days · Signature required",
                                             price: subscription ? "FREE" : "$25.00",
                                             isFree: !!subscription,
                                         },
@@ -639,7 +639,7 @@ export default function CheckoutDetails({
                                 ) : null
                             )}
 
-                            {/* Rental dates — show for first cart */}
+                            {/* Rental dates, show for first cart */}
                             {priced[0] && (
                                 <div className="co-dates">
                                     <div className="co-dates-label">Rental period</div>
@@ -656,7 +656,7 @@ export default function CheckoutDetails({
                                 <span aria-hidden="true">📦</span>
                                 <span>
                                     {deliveryType === "EXPRESS" ? "Express Delivery" : "Standard Delivery"}
-                                    {" — "}
+                                    {", "}
                                     {shippingFee === 0 ? "FREE" : fmtMoney(shippingFee)}
                                 </span>
                             </div>
@@ -772,7 +772,7 @@ export default function CheckoutDetails({
                                 disabled={!agreed1 || !agreed2 || !agreed3}
                             >
                                 <span aria-hidden="true">🎁</span>
-                                Place Reservation — {fmtMoney(dueToday)} →
+                                Place Reservation, {fmtMoney(dueToday)} →
                             </button>
 
                             {/* Secure note */}

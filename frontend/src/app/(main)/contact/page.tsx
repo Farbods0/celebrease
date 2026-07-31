@@ -11,8 +11,8 @@ const CONTACT_FAQS = [
         a: "Use your account dashboard to request a pickup. We'll email you a prepaid label and arrange doorstep collection within two business days. Your deposit is refunded within five days of our inspection.",
     },
     {
-        q: "Something arrived damaged — what now?",
-        a: "Take a photo and contact us within 48 hours of delivery. We'll send a replacement piece, swap your kit for another holiday, or credit your account — whichever works best for you.",
+        q: "Something arrived damaged, what now?",
+        a: "Take a photo and contact us within 48 hours of delivery. We'll send a replacement piece, swap your kit for another holiday, or credit your account, whichever works best for you.",
     },
     {
         q: "Can I change my subscription plan?",
@@ -65,7 +65,7 @@ export default function ContactPage() {
                         We&apos;d love to <span className="gradient-text">hear from you.</span>
                     </h1>
                     <p style={{ color: "var(--cb-ink-muted)", fontSize: "clamp(16px, 1.4vw, 18px)", lineHeight: 1.65, maxWidth: 540 }}>
-                        Questions about a kit, a return, a partnership, or just want to say hello? Our team responds within hours — not days.
+                        Questions about a kit, a return, a partnership, or just want to say hello? Our team responds within hours, not days.
                     </p>
                 </div>
             </section>
@@ -87,10 +87,10 @@ export default function ContactPage() {
                     }}
                     className="contact-body-inner"
                 >
-                    {/* LEFT — form (client component) */}
+                    {/* LEFT, form (client component) */}
                     <ContactForm />
 
-                    {/* RIGHT — info + FAQ */}
+                    {/* RIGHT, info + FAQ */}
                     <div className="contact-info" style={{ display: "flex", flexDirection: "column", gap: 24 }}>
 
                         {/* Info top card */}
@@ -103,7 +103,7 @@ export default function ContactPage() {
                         >
                             <h2 style={{ fontSize: "clamp(1.3rem, 2vw, 1.7rem)", marginBottom: 8 }}>Reach us directly</h2>
                             <p style={{ color: "var(--cb-ink-muted)", fontSize: 15, lineHeight: 1.6, marginBottom: 28 }}>
-                                We&apos;re a small, passionate team — every message is read by a real person who cares about your celebration.
+                                We&apos;re a small, passionate team, every message is read by a real person who cares about your celebration.
                             </p>
 
                             <div
@@ -130,7 +130,7 @@ export default function ContactPage() {
                                     <div style={{ width: 44, height: 44, borderRadius: 12, background: "var(--cb-gradient-soft)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }} aria-hidden="true">⚡</div>
                                     <div>
                                         <h4 style={{ fontFamily: "inherit", fontSize: 14, fontWeight: 700, color: "var(--cb-ink)", marginBottom: 3 }}>Response time</h4>
-                                        <p style={{ fontSize: 14, color: "var(--cb-ink-muted)", lineHeight: 1.5 }}>Usually within 4 hours — 7 days a week</p>
+                                        <p style={{ fontSize: 14, color: "var(--cb-ink-muted)", lineHeight: 1.5 }}>Usually within 4 hours, 7 days a week</p>
                                     </div>
                                 </div>
 
@@ -140,7 +140,7 @@ export default function ContactPage() {
                                     <div>
                                         <h4 style={{ fontFamily: "inherit", fontSize: 14, fontWeight: 700, color: "var(--cb-ink)", marginBottom: 3 }}>Support hours</h4>
                                         <p style={{ fontSize: 14, color: "var(--cb-ink-muted)", lineHeight: 1.5 }}>
-                                            Mon – Fri 8 am – 8 pm ET<br />Sat – Sun 10 am – 6 pm ET
+                                            Mon, Fri 8 am, 8 pm ET<br />Sat, Sun 10 am, 6 pm ET
                                         </p>
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@ export default function ContactPage() {
                                 <span className="eyebrow">Quick answers</span>
                                 <h3 style={{ fontSize: "1.25rem" }}>Common questions</h3>
                                 <p style={{ fontSize: 14, color: "var(--cb-ink-muted)", lineHeight: 1.55 }}>
-                                    Check below for instant answers — or send us a note above.
+                                    Check below for instant answers, or send us a note above.
                                 </p>
                             </div>
                             <FaqAccordion items={CONTACT_FAQS} />

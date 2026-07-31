@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 const fmtMoney = (raw: string | number) => {
     const n = typeof raw === "string" ? Number(raw) : raw;
-    return Number.isFinite(n) ? `$${n.toFixed(0)}` : "—";
+    return Number.isFinite(n) ? `$${n.toFixed(0)}` : ", ";
 };
 
 type AddOnCardProps = {

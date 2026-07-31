@@ -19,7 +19,7 @@ const CATEGORY_LABEL: Record<HolidayCategory, string> = {
 
 function tierPrice(holiday: ApiHoliday, tier: "STARTER" | "PREMIUM"): string {
     const kit = holiday.kits.find((k) => k.tier === tier);
-    if (!kit) return "—";
+    if (!kit) return ", ";
 
     const price30 = toNumber(kit.price30Day);
     const price60 = toNumber(kit.price60Day);
@@ -38,7 +38,7 @@ function tierPrice(holiday: ApiHoliday, tier: "STARTER" | "PREMIUM"): string {
         return `$${price60.toFixed(0)}`;
     }
 
-    return "—";
+    return ", ";
 }
 
 export function HolidayCard({ holiday, index }: { holiday: ApiHoliday; index?: number }) {

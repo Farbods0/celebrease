@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-    title: "Privacy Policy — CeleBrease",
+    title: "Privacy Policy, CeleBrease",
     description:
         "Read how CeleBrease collects, uses, and protects your personal information when you use our holiday decoration rental subscription service.",
 };
@@ -115,9 +115,9 @@ export default function PrivacyPage() {
                             <h3>Information you provide directly</h3>
                             <ul>
                                 <li><span><strong>Account information:</strong> name, email address, phone number, and password when you create an account.</span></li>
-                                <li><span><strong>Delivery &amp; billing details:</strong> shipping address, billing address, and payment card information (processed securely through Stripe — we never store your full card number).</span></li>
+                                <li><span><strong>Delivery &amp; billing details:</strong> shipping address, billing address, and payment card information (processed securely through Stripe, we never store your full card number).</span></li>
                                 <li><span><strong>Subscription preferences:</strong> which holidays you select, kit tier preferences, rental duration, and any add-ons you choose.</span></li>
-                                <li><span><strong>Communications:</strong> messages you send us via contact forms, support requests, or email — including feedback and reviews you submit.</span></li>
+                                <li><span><strong>Communications:</strong> messages you send us via contact forms, support requests, or email, including feedback and reviews you submit.</span></li>
                                 <li><span><strong>Newsletter opt-in:</strong> your email address if you subscribe to seasonal inspiration updates.</span></li>
                             </ul>
 
@@ -131,7 +131,7 @@ export default function PrivacyPage() {
 
                             <h3>Information from third parties</h3>
                             <ul>
-                                <li><span><strong>Payment processors:</strong> Stripe provides us with transaction confirmations, payment status, and fraud signals — but never your full card details.</span></li>
+                                <li><span><strong>Payment processors:</strong> Stripe provides us with transaction confirmations, payment status, and fraud signals, but never your full card details.</span></li>
                                 <li><span><strong>Authentication providers:</strong> if you sign in with Google or Apple, we receive your name, email, and profile photo from that provider.</span></li>
                                 <li><span><strong>Shipping carriers:</strong> tracking updates and delivery confirmation from our logistics partners.</span></li>
                             </ul>
@@ -209,7 +209,7 @@ export default function PrivacyPage() {
                             </p>
 
                             <ul>
-                                <li><span><strong>Service providers:</strong> trusted vendors who help us operate — Stripe (payments), our logistics carrier partners (shipping), Brevo (newsletter delivery), and our cloud infrastructure provider. Each is bound by a data processing agreement and may use your data only to perform services for us.</span></li>
+                                <li><span><strong>Service providers:</strong> trusted vendors who help us operate, Stripe (payments), our logistics carrier partners (shipping), Brevo (newsletter delivery), and our cloud infrastructure provider. Each is bound by a data processing agreement and may use your data only to perform services for us.</span></li>
                                 <li><span><strong>Kit deposit protection:</strong> where required to assess damage claims, we may share order details with our fulfilment partners.</span></li>
                                 <li><span><strong>Legal requirements:</strong> we may disclose information if required by law, court order, or to protect the rights, property, or safety of CeleBrease, our customers, or the public.</span></li>
                                 <li><span><strong>Business transfers:</strong> if CeleBrease is acquired, merged, or sells substantially all of its assets, your data may transfer as part of that transaction. We will notify you by email before any such transfer takes effect and you will be given the opportunity to delete your account.</span></li>
@@ -245,17 +245,17 @@ export default function PrivacyPage() {
                                     <tr>
                                         <td><strong>Essential</strong></td>
                                         <td>Session authentication, shopping cart state, CSRF protection</td>
-                                        <td>No — required to use the Service</td>
+                                        <td>No, required to use the Service</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Functional</strong></td>
                                         <td>Remembering your holiday preferences and region</td>
-                                        <td>Yes — via account settings</td>
+                                        <td>Yes, via account settings</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Analytics</strong></td>
                                         <td>Understanding page performance and navigation patterns (anonymised)</td>
-                                        <td>Yes — via cookie banner or browser settings</td>
+                                        <td>Yes, via cookie banner or browser settings</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -362,7 +362,7 @@ export default function PrivacyPage() {
 
                             <ul>
                                 <li><span>TLS encryption for all data in transit between your browser and our servers.</span></li>
-                                <li><span>Payment card data is processed entirely by Stripe (PCI DSS Level 1 compliant) — CeleBrease never touches or stores raw card numbers.</span></li>
+                                <li><span>Payment card data is processed entirely by Stripe (PCI DSS Level 1 compliant), CeleBrease never touches or stores raw card numbers.</span></li>
                                 <li><span>Passwords are stored using a strong one-way hash (bcrypt). We cannot recover your plain-text password.</span></li>
                                 <li><span>Access to production databases is restricted to authorised personnel and logged.</span></li>
                                 <li><span>Regular security audits and dependency vulnerability scanning.</span></li>

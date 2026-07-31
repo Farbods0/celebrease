@@ -393,7 +393,7 @@ function ProfileSection(props: {
                     <div className="field">
                         <label>Region</label>
                         <input type="text" value={region} onChange={(e) => setRegion(e.target.value)} placeholder="e.g. US" />
-                        <div className="hint">Optional — e.g. US, CA, UK.</div>
+                        <div className="hint">Optional, e.g. US, CA, UK.</div>
                     </div>
                     <div className="field">
                         <label>Email</label>
@@ -668,7 +668,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                                                 if (!res.ok) throw new Error("Upload failed");
                                                 const data = await res.json();
                                                 update("logoUrl", data.url || data.path);
-                                                toast.success("Logo uploaded — save settings to apply");
+                                                toast.success("Logo uploaded, save settings to apply");
                                             } catch {
                                                 toast.error("Failed to upload logo");
                                             }
@@ -767,7 +767,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                                 <div>
                                     <div className="rc-label">Standard</div>
                                     <div className="rc-name">Ground shipping</div>
-                                    <div className="rc-eta">3–5 business days</div>
+                                    <div className="rc-eta">3, 5 business days</div>
                                 </div>
                                 <div className="rc-amount">${Math.floor(settings.shippingStandard)}<span>.{(settings.shippingStandard % 1).toFixed(2).slice(2)}</span></div>
                             </div>
@@ -776,7 +776,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                                 <div>
                                     <div className="rc-label">Express</div>
                                     <div className="rc-name">Priority shipping</div>
-                                    <div className="rc-eta">1–2 business days</div>
+                                    <div className="rc-eta">1, 2 business days</div>
                                 </div>
                                 <div className="rc-amount">${Math.floor(settings.shippingExpress)}<span>.{(settings.shippingExpress % 1).toFixed(2).slice(2)}</span></div>
                             </div>
@@ -841,7 +841,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                                 <input type="number" value={settings.taxRate} min={0} max={1} step="0.001" onChange={(e) => update("taxRate", Number(e.target.value))} />
                             </div>
                         </div>
-                        <div className="hint">Enter as a decimal — e.g. 0.08 for 8%.</div>
+                        <div className="hint">Enter as a decimal, e.g. 0.08 for 8%.</div>
                     </div>
                 </>
             )}
@@ -881,9 +881,9 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                             </div>
                         </div>
                         {settings.smtpHost ? (
-                            <div className="smtp-status ok">SMTP host configured — save settings to apply.</div>
+                            <div className="smtp-status ok">SMTP host configured, save settings to apply.</div>
                         ) : (
-                            <div className="smtp-status warn">Email not configured — set SMTP host to enable notifications and reminders.</div>
+                            <div className="smtp-status warn">Email not configured, set SMTP host to enable notifications and reminders.</div>
                         )}
                     </div>
                 </>

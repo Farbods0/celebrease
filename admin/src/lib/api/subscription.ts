@@ -101,7 +101,7 @@ export function formatPlanLabel(sub: ApiSubscription) {
 }
 
 export function formatDate(value: string | null) {
-    if (!value) return "—";
+    if (!value) return ", ";
     return new Date(value).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
 }
 
@@ -114,7 +114,7 @@ export function getCurrentSlot(sub: ApiSubscription): ApiSubscriptionHolidaySlot
 }
 
 export function getCurrentHolidayName(sub: ApiSubscription) {
-    return getCurrentSlot(sub)?.holiday?.name ?? "—";
+    return getCurrentSlot(sub)?.holiday?.name ?? ", ";
 }
 
 export function getStageLabel(sub: ApiSubscription) {

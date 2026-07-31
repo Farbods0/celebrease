@@ -70,7 +70,7 @@ type HolidayDetailsProps = {
 };
 
 /* ============================================================================ */
-/* HolidayDetails — main client component                                        */
+/* HolidayDetails, main client component                                        */
 /* ============================================================================ */
 
 export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsProps) {
@@ -311,7 +311,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                         )}
                         {!holiday.description && (
                             <p className="cb-kit-short-desc">
-                                Designer-curated {holiday.name} décor kit — styled pieces, delivered to your door, picked up when the season ends. Decorate beautifully, store nothing.
+                                Designer-curated {holiday.name} décor kit, styled pieces, delivered to your door, picked up when the season ends. Decorate beautifully, store nothing.
                             </p>
                         )}
                         <span className={`cb-cat-badge ${catCls}`} style={{ position: "static", display: "inline-block", marginBottom: 4 }}>
@@ -440,7 +440,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                         onClick={handleAction}
                                         disabled={submitting || !selectedKit}
                                     >
-                                        {submitting ? "Adding…" : `Add to Cart A La Carte — $${currentPrice + addonTotal}`}
+                                        {submitting ? "Adding…" : `Add to Cart A La Carte, $${currentPrice + addonTotal}`}
                                     </button>
                                     <p style={{ fontSize: 13, color: "#92400E", textAlign: "center", fontWeight: 500, backgroundColor: "#FEF3C7", padding: "6px 12px", borderRadius: 8 }}>
                                         All your subscription slots for this year are full.
@@ -454,7 +454,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                 onClick={handleAction}
                                 disabled={submitting || !selectedKit}
                             >
-                                {submitting ? "Adding…" : `Add to Cart — $${currentPrice + addonTotal}`}
+                                {submitting ? "Adding…" : `Add to Cart, $${currentPrice + addonTotal}`}
                             </button>
                         )}
                         <button

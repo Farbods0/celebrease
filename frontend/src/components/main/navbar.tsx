@@ -26,7 +26,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="cb-announce">🎁 <strong>Winter 2026 holidays are now booking</strong> — reserve your kit before slots fill</div>
+            <div className="cb-announce">🎁 <strong>Winter 2026 holidays are now booking</strong>, reserve your kit before slots fill</div>
             <nav className="cb-nav">
                 <div className="cb-nav-inner">
                     <Link href="/" className="cb-logo">

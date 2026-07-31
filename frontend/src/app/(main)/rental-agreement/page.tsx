@@ -248,19 +248,19 @@ export default function RentalAgreementPage() {
                                 Parties &amp; Definitions
                             </h2>
                             <div className="cb-legal-highlight">
-                                <strong>Plain English:</strong> This agreement is between you (the customer) and CeleBrease. It covers every kit you rent through us — the items stay ours, you use them for the agreed period, and we send a prepaid label when it&apos;s time to return them.
+                                <strong>Plain English:</strong> This agreement is between you (the customer) and CeleBrease. It covers every kit you rent through us, the items stay ours, you use them for the agreed period, and we send a prepaid label when it&apos;s time to return them.
                             </div>
                             <p>This Rental Agreement (&ldquo;Agreement&rdquo;) is entered into between <strong>CeleBrease, Inc.</strong> (&ldquo;CeleBrease,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;), a Delaware corporation, and the individual or entity who places a rental order through the CeleBrease platform (&ldquo;Customer,&rdquo; &ldquo;you,&rdquo; or &ldquo;your&rdquo;).</p>
                             <p>By completing checkout for any kit rental, you acknowledge that you have read, understood, and agree to be bound by this Agreement in full. This Agreement incorporates by reference our <Link href="/privacy">Privacy Policy</Link> and any applicable subscription plan terms.</p>
 
                             <h3>Defined terms</h3>
                             <ul>
-                                <li><strong>&ldquo;Kit&rdquo;</strong> — a curated holiday decoration bundle offered by CeleBrease, comprising one or more Items selected by our design team for a specific holiday occasion.</li>
-                                <li><strong>&ldquo;Item&rdquo; or &ldquo;Items&rdquo;</strong> — individual physical decoration pieces included within a Kit, including props, textiles, lighting, signage, and any other décor components.</li>
-                                <li><strong>&ldquo;Rental Period&rdquo;</strong> — the agreed duration (30-day or 60-day) beginning on the date of delivery to Customer&apos;s address as confirmed by our logistics partner.</li>
-                                <li><strong>&ldquo;Deposit&rdquo;</strong> — a refundable security amount collected at the time of reservation to cover potential damage or loss of Items, as detailed in Section 6.</li>
-                                <li><strong>&ldquo;Add-Ons&rdquo;</strong> — optional supplementary items available for inclusion with a Kit rental at additional cost.</li>
-                                <li><strong>&ldquo;Platform&rdquo;</strong> — the CeleBrease website, web application, and any associated digital services at celebrease.com.</li>
+                                <li><strong>&ldquo;Kit&rdquo;</strong>, a curated holiday decoration bundle offered by CeleBrease, comprising one or more Items selected by our design team for a specific holiday occasion.</li>
+                                <li><strong>&ldquo;Item&rdquo; or &ldquo;Items&rdquo;</strong>, individual physical decoration pieces included within a Kit, including props, textiles, lighting, signage, and any other décor components.</li>
+                                <li><strong>&ldquo;Rental Period&rdquo;</strong>, the agreed duration (30-day or 60-day) beginning on the date of delivery to Customer&apos;s address as confirmed by our logistics partner.</li>
+                                <li><strong>&ldquo;Deposit&rdquo;</strong>, a refundable security amount collected at the time of reservation to cover potential damage or loss of Items, as detailed in Section 6.</li>
+                                <li><strong>&ldquo;Add-Ons&rdquo;</strong>, optional supplementary items available for inclusion with a Kit rental at additional cost.</li>
+                                <li><strong>&ldquo;Platform&rdquo;</strong>, the CeleBrease website, web application, and any associated digital services at celebrease.com.</li>
                             </ul>
                         </section>
 
@@ -324,7 +324,7 @@ export default function RentalAgreementPage() {
                             <ul>
                                 <li>Storing Items in a clean, dry, temperature-stable environment when not in active display.</li>
                                 <li>Keeping Items away from open flame, direct heat sources, and excessive moisture unless otherwise specified in the care guide.</li>
-                                <li>Handling fragile Items — including glass ornaments, resin figurines, and ceramic pieces — with appropriate care and padding when moving them.</li>
+                                <li>Handling fragile Items, including glass ornaments, resin figurines, and ceramic pieces, with appropriate care and padding when moving them.</li>
                                 <li>Repacking Items in the original packaging materials provided at delivery in preparation for return.</li>
                                 <li>Notifying CeleBrease within <strong>48 hours</strong> of delivery if any Item arrives damaged, missing, or not as described, by emailing <a href="mailto:support@celebrease.com">support@celebrease.com</a> with photos.</li>
                             </ul>
@@ -341,7 +341,7 @@ export default function RentalAgreementPage() {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Good condition — normal wear only</td>
+                                        <td>Good condition, normal wear only</td>
                                         <td>Full Deposit refunded within 5 business days</td>
                                     </tr>
                                     <tr>
@@ -372,7 +372,7 @@ export default function RentalAgreementPage() {
                             <p>The Deposit authorisation is converted to a charge when your Kit ships. It is held in trust throughout the Rental Period and applied against any damage or loss charges after your return is inspected.</p>
 
                             <h3>Deposit refund</h3>
-                            <p>Provided that all Items are returned in good condition (normal wear accepted), the full Deposit will be refunded to your original payment method within <strong>5 business days</strong> of CeleBrease completing its return inspection. You will receive an email confirmation when your refund is processed. Please allow an additional 3–7 business days for your bank or card issuer to post the credit.</p>
+                            <p>Provided that all Items are returned in good condition (normal wear accepted), the full Deposit will be refunded to your original payment method within <strong>5 business days</strong> of CeleBrease completing its return inspection. You will receive an email confirmation when your refund is processed. Please allow an additional 3, 7 business days for your bank or card issuer to post the credit.</p>
 
                             <h3>Damage charges</h3>
                             <p>If Items are returned with damage beyond normal wear, CeleBrease will:</p>
@@ -474,7 +474,7 @@ export default function RentalAgreementPage() {
                             </ul>
 
                             <div className="cb-legal-highlight">
-                                For the fastest resolution on active rentals — including damage reports, return label requests, or Deposit inquiries — always include your <strong>order number</strong> in your message subject line.
+                                For the fastest resolution on active rentals, including damage reports, return label requests, or Deposit inquiries, always include your <strong>order number</strong> in your message subject line.
                             </div>
                         </section>
 

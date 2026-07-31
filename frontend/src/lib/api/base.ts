@@ -28,7 +28,7 @@ export function apiURL(path: string, params?: Record<string, string | number | u
 
     if (!params) return fullPath;
 
-    // Build query string — skip undefined values
+    // Build query string, skip undefined values
     const qs = Object.entries(params)
         .filter(([, v]) => v !== undefined)
         .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)

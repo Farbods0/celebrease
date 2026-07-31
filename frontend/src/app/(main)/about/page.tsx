@@ -38,7 +38,7 @@ export default async function AboutPage() {
     const mosaic3 = pick(holidays, "nowruz", 3);
     const mosaic4 = pick(holidays, "thanksgiving", 4);
 
-    // Collage section — 8 cells
+    // Collage section, 8 cells
     const c0 = pick(holidays, "christmas", 0);
     const c1 = pick(holidays, "halloween", 2);
     const c2 = pick(holidays, "diwali", 1);
@@ -48,7 +48,7 @@ export default async function AboutPage() {
     const c6 = pick(holidays, "eid", 6);
     const c7 = pick(holidays, "lunar", 7);
 
-    // Press strip — reuse holiday images
+    // Press strip, reuse holiday images
     const press0 = pick(holidays, "valentine", 8) ?? holidays[8];
     const press1 = pick(holidays, "juneteenth", 9) ?? holidays[9];
     const press2 = pick(holidays, "mother", 10) ?? holidays[10];
@@ -150,7 +150,7 @@ export default async function AboutPage() {
                     }}
                 >
                     CeleBrease was built on a simple conviction: every holiday your family marks deserves a
-                    beautifully dressed home — without the boxes, the clutter, or the cost of décor used five
+                    beautifully dressed home, without the boxes, the clutter, or the cost of décor used five
                     days a year.
                 </p>
 
@@ -370,9 +370,9 @@ export default async function AboutPage() {
 
                     <div className="cb-trio-grid">
                         {[
-                            { ic: "✨", title: "Designer curation", body: "Every kit is hand-styled by our in-house team of interior decorators. Never generic, never repeated — fresh looks every season for every holiday." },
-                            { ic: "♻️", title: "Sustainable by design", body: "One kit serves dozens of homes. We've kept literal tons of décor out of landfills — and your attic. Renting cuts holiday décor waste by up to 78%." },
-                            { ic: "🌍", title: "Every tradition belongs", body: "19 holidays across faiths and cultures, designed by people who actually celebrate them. Whether it's Eid, Juneteenth, or Lunar New Year — you'll feel seen." },
+                            { ic: "✨", title: "Designer curation", body: "Every kit is hand-styled by our in-house team of interior decorators. Never generic, never repeated, fresh looks every season for every holiday." },
+                            { ic: "♻️", title: "Sustainable by design", body: "One kit serves dozens of homes. We've kept literal tons of décor out of landfills, and your attic. Renting cuts holiday décor waste by up to 78%." },
+                            { ic: "🌍", title: "Every tradition belongs", body: "19 holidays across faiths and cultures, designed by people who actually celebrate them. Whether it's Eid, Juneteenth, or Lunar New Year, you'll feel seen." },
                         ].map((v) => (
                             <div key={v.title} className="cb-trio-card">
                                 <div className="cb-trio-ic" aria-hidden="true">{v.ic}</div>
@@ -384,7 +384,7 @@ export default async function AboutPage() {
 
                     <div className="cb-trio-grid" style={{ marginTop: 40 }}>
                         {[
-                            { ic: "📦", title: "No clutter, no storage", body: "We deliver, then pick it up. Your attic and closets stay completely yours. Open the box, celebrate, hand it back — that's it." },
+                            { ic: "📦", title: "No clutter, no storage", body: "We deliver, then pick it up. Your attic and closets stay completely yours. Open the box, celebrate, hand it back, that's it." },
                             { ic: "💎", title: "Deposit always refunded", body: "Your deposit is returned in full within five business days of return, every time. No hidden fees, no small print deductions." },
                             { ic: "🚚", title: "Free shipping, both ways", body: "We cover every delivery and pickup with our prepaid label system. Doorstep to doorstep, always included in your plan." },
                         ].map((v) => (
@@ -537,13 +537,13 @@ export default async function AboutPage() {
                                 h: press1,
                                 tag: "Atlanta · June",
                                 title: "A Juneteenth gathering full of meaning",
-                                body: "Our Juneteenth collection — developed with cultural advisors — brought heritage and joy into one family's backyard.",
+                                body: "Our Juneteenth collection, developed with cultural advisors, brought heritage and joy into one family's backyard.",
                             },
                             {
                                 h: press2,
                                 tag: "Seattle · May",
                                 title: "A Mother's Day brunch, magazine-ready",
-                                body: "The styling card made it effortless. Fresh florals, coordinated linens, and a table that looked like it took a day — but took an hour.",
+                                body: "The styling card made it effortless. Fresh florals, coordinated linens, and a table that looked like it took a day, but took an hour.",
                             },
                         ].map((card, i) => (
                             <article
@@ -598,7 +598,7 @@ export default async function AboutPage() {
                         <span className="eyebrow">And many more</span>
                         <h2 id="more-heading">Every faith. Every family. Every reason to celebrate.</h2>
                         <p>
-                            From intimate baby showers to milestone birthdays to Ramadan evenings — we&apos;ve built a
+                            From intimate baby showers to milestone birthdays to Ramadan evenings, we&apos;ve built a
                             collection for every chapter of your home&apos;s story.
                         </p>
                     </div>

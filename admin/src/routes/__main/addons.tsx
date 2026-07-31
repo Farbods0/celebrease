@@ -189,7 +189,7 @@ function RouteComponent() {
                     />
                 </div>
                 <select className="sort-select" value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
-                    <option value="name">Sort: A–Z</option>
+                    <option value="name">Sort: A, Z</option>
                     <option value="price-asc">Sort: Price low→high</option>
                     <option value="price-desc">Sort: Price high→low</option>
                     <option value="recent">Sort: Recently added</option>

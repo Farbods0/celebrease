@@ -218,20 +218,20 @@ export function formatTier(tier: OrderKitTier) {
 }
 
 export function formatMoney(value: string | number | null | undefined) {
-    if (value === null || value === undefined) return "—";
+    if (value === null || value === undefined) return ", ";
     const n = typeof value === "string" ? Number.parseFloat(value) : value;
-    if (Number.isNaN(n)) return "—";
+    if (Number.isNaN(n)) return ", ";
     return `$${n.toFixed(2)}`;
 }
 
 export function formatShipDate(order: ApiOrder) {
     const value = order.shippedAt ?? order.startDate;
-    if (!value) return "—";
+    if (!value) return ", ";
     return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
 export function formatAddOnsSummary(order: ApiOrder) {
-    if (!order.addOns.length) return "—";
+    if (!order.addOns.length) return ", ";
     return order.addOns.map((a) => a.addOn.name).join(", ");
 }
 

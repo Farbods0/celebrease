@@ -167,7 +167,7 @@ export function CatalogFilter({ category, setCategory, search, setSearchQuery, s
                     }}
                 >
                     <option value="popular">Most popular</option>
-                    <option value="az">A – Z</option>
+                    <option value="az">A, Z</option>
                     <option value="price-asc">Price: low to high</option>
                     <option value="price-desc">Price: high to low</option>
                 </select>

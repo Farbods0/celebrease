@@ -42,7 +42,7 @@ export function KitsAddItemDialog({
     const available = useMemo(() => options.filter((o) => !exclude.has(o.id)), [options, exclude]);
 
     const selectOptions = useMemo(
-        () => available.map((o) => ({ value: o.id, label: o.sublabel ? `${o.label} — ${o.sublabel}` : o.label })),
+        () => available.map((o) => ({ value: o.id, label: o.sublabel ? `${o.label}, ${o.sublabel}` : o.label })),
         [available],
     );
 

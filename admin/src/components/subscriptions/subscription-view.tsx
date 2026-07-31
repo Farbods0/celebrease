@@ -169,7 +169,7 @@ export function SubscriptionView({ item, onUpdated }: { item: ApiSubscription; o
                             <div className="flex-1">
                                 <div className="flex items-center justify-between gap-2 flex-wrap">
                                     <h3 className="text-base font-medium">
-                                        Holiday {slot.slotNumber} — {slot.holiday?.name ?? "Not picked"}
+                                        Holiday {slot.slotNumber}, {slot.holiday?.name ?? "Not picked"}
                                     </h3>
                                     <StatusBadge status={formatSlotStatus(slot.status)} />
                                 </div>

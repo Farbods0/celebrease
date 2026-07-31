@@ -17,7 +17,7 @@ type TrashConfirmProps = {
     name: ReactNode;
     /** Title of the confirmation dialog */
     title?: string;
-    /** Description shown before the item name — defaults to "Are you sure you want to remove" */
+    /** Description shown before the item name, defaults to "Are you sure you want to remove" */
     description?: string;
     /** Called when the user confirms the action */
     onConfirm: () => void;

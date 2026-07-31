@@ -313,7 +313,7 @@ export default function OrderConfirmationPage() {
                             </span>
                         </div>
 
-                        {/* Kit row placeholder — no real kit data on this page */}
+                        {/* Kit row placeholder, no real kit data on this page */}
                         <div
                             className="oc-kit-row-inner"
                             style={{

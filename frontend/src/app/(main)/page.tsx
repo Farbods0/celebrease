@@ -10,10 +10,10 @@ const CATEGORY = {
 } as const;
 
 const HOME_FAQS = [
-    { q: "What if I don't like the kit when it arrives?", a: "If you don't love your kit, contact us within 48 hours of delivery. We'll send a replacement, swap it for another holiday, or credit your account — no questions asked." },
-    { q: "What if something breaks?", a: "Accidents happen. Minor wear is covered automatically. For major damage, our deposit protection covers up to 90% of replacement cost — you'll never owe more than your deposit." },
+    { q: "What if I don't like the kit when it arrives?", a: "If you don't love your kit, contact us within 48 hours of delivery. We'll send a replacement, swap it for another holiday, or credit your account, no questions asked." },
+    { q: "What if something breaks?", a: "Accidents happen. Minor wear is covered automatically. For major damage, our deposit protection covers up to 90% of replacement cost, you'll never owe more than your deposit." },
     { q: "How does the deposit work?", a: "Your deposit (typically $50) is held when you reserve a kit and refunded in full within five business days of returning it in good condition. Shipping is free both ways." },
-    { q: "Can I skip a holiday?", a: "Absolutely. Skip any holiday from your account dashboard up to 14 days before the rental starts. Skipped holidays roll forward to next year — no slot is ever lost." },
+    { q: "Can I skip a holiday?", a: "Absolutely. Skip any holiday from your account dashboard up to 14 days before the rental starts. Skipped holidays roll forward to next year, no slot is ever lost." },
 ];
 
 function lowestPrice(kits: ApiHoliday["kits"]): number | null {
@@ -53,7 +53,7 @@ export default async function HomePage() {
                         <span className="cb-hero-eyebrow"><span className="dot" /> Holiday décor, by subscription</span>
                         <h1>Your home, <span className="gradient-text">dressed</span> for every holiday.</h1>
                         <p className="cb-hero-sub">
-                            Designer-curated decoration kits delivered to your door — then picked up when the season ends.
+                            Designer-curated decoration kits delivered to your door, then picked up when the season ends.
                             Decorate beautifully. Store nothing. Get your deposit back, every time.
                         </p>
                         <div className="cb-hero-ctas">
@@ -118,7 +118,7 @@ export default async function HomePage() {
                     <div className="cb-hiw-grid">
                         {[
                             { n: 1, t: "Pick your holidays", d: "Choose the celebrations that matter most to your home this year." },
-                            { n: 2, t: "We curate your kit", d: "Our designers hand-pick 10–25 décor pieces for each holiday you choose." },
+                            { n: 2, t: "We curate your kit", d: "Our designers hand-pick 10, 25 décor pieces for each holiday you choose." },
                             { n: 3, t: "Decorate & celebrate", d: "Open the box, follow the styling card, and host an unforgettable holiday." },
                             { n: 4, t: "Send it back, get refunded", d: "Prepaid label, doorstep pickup, and your full deposit back within five days." },
                         ].map((s) => (
@@ -285,7 +285,7 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-testi-grid">
                         {[
-                            { img: featured[0]?.image, q: "Best Christmas our family has ever had — and I didn't stress once about storage.", a: "Sarah M., Chicago" },
+                            { img: featured[0]?.image, q: "Best Christmas our family has ever had, and I didn't stress once about storage.", a: "Sarah M., Chicago" },
                             { img: featured[1]?.image, q: "Subscribed in October and my Halloween was unbelievable. Already booked Christmas.", a: "James T., Austin" },
                             { img: featured[2]?.image, q: "The kit arrived styled and ready. I literally just placed each piece. Done.", a: "Priya K., New York" },
                         ].map((t, i) => (
@@ -294,7 +294,7 @@ export default async function HomePage() {
                                 <div className="cb-testi-body">
                                     <div className="cb-testi-stars">★★★★★</div>
                                     <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>
-                                    <p className="cb-testi-attr">— {t.a}</p>
+                                    <p className="cb-testi-attr">, {t.a}</p>
                                 </div>
                             </div>
                         ))}

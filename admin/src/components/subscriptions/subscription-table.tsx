@@ -79,7 +79,7 @@ export function SubscriptionTable({ items, onView }: SubscriptionTableProps) {
             <div className="tbl-wrap" style={{ padding: "14px 4px 4px" }}>
                 {items.length === 0 ? (
                     <div style={{ padding: "48px 0", textAlign: "center", color: "var(--ink-soft)", fontSize: 13.5 }}>
-                        No subscriptions found — try adjusting your search or filters.
+                        No subscriptions found, try adjusting your search or filters.
                     </div>
                 ) : (
                     <table>

@@ -24,7 +24,7 @@ type StockAdjustFormProps = {
 };
 
 const FIELDS: { key: keyof Inventory; label: string; help?: string }[] = [
-    { key: "totalQty", label: "Total Owned", help: "Master count — increase when buying new units" },
+    { key: "totalQty", label: "Total Owned", help: "Master count, increase when buying new units" },
     { key: "availableQty", label: "Available" },
     { key: "reservedQty", label: "Reserved" },
     { key: "shippedQty", label: "Shipped" },

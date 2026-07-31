@@ -390,7 +390,7 @@ export function SignupForm() {
                     CeleBrease
                 </Link>
 
-                <h1 className="cb-auth-title">Join CeleBrease — It&apos;s Free to Start</h1>
+                <h1 className="cb-auth-title">Join CeleBrease, It&apos;s Free to Start</h1>
                 <p className="cb-auth-sub">Thousands of families rent their holiday decor. Now it&apos;s your turn.</p>
 
                 {/* Name row */}

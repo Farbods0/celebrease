@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import NextTopLoader from 'nextjs-toploader';
 import type { Metadata } from "next";
 
-// Vendored fonts (self-hosted via @fontsource) — replaces next/font/google,
+// Vendored fonts (self-hosted via @fontsource), replaces next/font/google,
 // which fails to build behind networks that block fonts.gstatic.com.
 import "@fontsource/geist-sans/400.css";
 import "@fontsource/geist-sans/500.css";

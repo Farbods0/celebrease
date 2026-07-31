@@ -16,12 +16,12 @@ const STATUS_LABEL: Record<ApiSubscription["status"], { label: string; tone: str
 };
 
 function formatDate(value: string | null) {
-    if (!value) return "—";
+    if (!value) return ", ";
     return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
 function formatYear(value: string | null) {
-    if (!value) return "—";
+    if (!value) return ", ";
     return new Date(value).getFullYear().toString();
 }
 
@@ -86,7 +86,7 @@ export default function SubscriptionCard() {
                 <div className="space-y-1">
                     <h3 className={`text-lg lg:text-xl font-semibold ${status.tone}`}>{status.label}</h3>
                     <p className="text-sm text-muted-foreground">
-                        {sub.plan.name} — {sub.plan.holidaysPerYear} holidays per year ({sub.billingCycle.toLowerCase()})
+                        {sub.plan.name}, {sub.plan.holidaysPerYear} holidays per year ({sub.billingCycle.toLowerCase()})
                     </p>
                 </div>
             </div>

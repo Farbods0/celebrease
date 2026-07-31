@@ -341,7 +341,7 @@ export function SigninForm() {
                     </Link>
                 </div>
 
-                {/* Submit — wrapped to override button styles */}
+                {/* Submit, wrapped to override button styles */}
                 <div className="cb-submit-wrap">
                     <form.AppForm>
                         <form.FormSubmit label="Sign In →" />

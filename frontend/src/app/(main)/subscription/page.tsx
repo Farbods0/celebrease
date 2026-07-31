@@ -23,11 +23,11 @@ const FAQS = [
     },
     {
         q: "What kits are included in each tier?",
-        a: "Starter kits include 8–12 décor pieces. Premium kits include 15–20 pieces with designer styling cards. Ultimate kits include 25+ pieces, premium materials, and exclusive seasonal drops.",
+        a: "Starter kits include 8, 12 décor pieces. Premium kits include 15, 20 pieces with designer styling cards. Ultimate kits include 25+ pieces, premium materials, and exclusive seasonal drops.",
     },
     {
         q: "Do you ship internationally?",
-        a: "Currently, we ship within the contiguous United States. We're expanding to Canada in late 2026 and select international markets in 2027 — join our newsletter to be first in line.",
+        a: "Currently, we ship within the contiguous United States. We're expanding to Canada in late 2026 and select international markets in 2027, join our newsletter to be first in line.",
     },
 ];
 
@@ -41,11 +41,11 @@ const COMPARE_ROWS: Array<{
     { label: "Holidays per year",       starter: "3",           premium: "6",                  ultimate: "Unlimited" },
     { label: "Kit tiers included",      starter: "Starter",     premium: "Starter + Premium",  ultimate: "All tiers" },
     { label: "Free shipping both ways", starter: "✓",           premium: "✓",                  ultimate: "✓" },
-    { label: "Priority shipping",       starter: "—",           premium: "3-day",              ultimate: "Same-week" },
-    { label: "Add-on credit",           starter: "—",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
+    { label: "Priority shipping",       starter: ", ",           premium: "3-day",              ultimate: "Same-week" },
+    { label: "Add-on credit",           starter: ", ",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
     { label: "Holiday swaps",           starter: "1 per year",  premium: "3 per year",         ultimate: "Unlimited" },
-    { label: "Dedicated stylist",       starter: "—",           premium: "Email / chat",       ultimate: "Video call (1×/yr)" },
-    { label: "Early access to drops",   starter: "—",           premium: "—",                  ultimate: "✓" },
+    { label: "Dedicated stylist",       starter: ", ",           premium: "Email / chat",       ultimate: "Video call (1×/yr)" },
+    { label: "Early access to drops",   starter: ", ",           premium: ", ",                  ultimate: "✓" },
     { label: "Deposit protection",      starter: "✓",           premium: "✓",                  ultimate: "✓" },
     { label: "Cancel anytime",          starter: "✓",           premium: "✓",                  ultimate: "✓" },
 ];
@@ -57,7 +57,7 @@ function imgSrc(path?: string | null) {
     return path.startsWith("/") ? path : `${baseURL}/${path}`;
 }
 
-/* Mosaic card layout — first 2 holidays get span-2 large cards */
+/* Mosaic card layout, first 2 holidays get span-2 large cards */
 function MosaicCard({ holiday, large }: { holiday: ApiHoliday; large?: boolean }) {
     return (
         <div
@@ -281,11 +281,11 @@ function CheckYes() {
     return <span className="check-yes" aria-label="Yes">✓</span>;
 }
 function CheckNo() {
-    return <span className="check-no" aria-label="Not included">—</span>;
+    return <span className="check-no" aria-label="Not included">, </span>;
 }
 function CompareCell({ value }: { value: string }) {
     if (value === "✓") return <CheckYes />;
-    if (value === "—") return <CheckNo />;
+    if (value === ", ") return <CheckNo />;
     return <>{value}</>;
 }
 
@@ -368,7 +368,7 @@ export default async function SubscriptionPage() {
                     <div className="sec-head">
                         <span className="eyebrow">Compare</span>
                         <h2 id="compare-heading">Everything side by side</h2>
-                        <p>Pick the plan that fits your year — every plan includes free shipping and full deposit protection.</p>
+                        <p>Pick the plan that fits your year, every plan includes free shipping and full deposit protection.</p>
                     </div>
                     <div className="compare-scroller" role="region" aria-label="Plan comparison table" tabIndex={0}>
                         <table className="compare-table">

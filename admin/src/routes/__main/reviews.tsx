@@ -148,7 +148,7 @@ function RouteComponent() {
             <div className="page-head">
                 <div>
                     <h1>Reviews</h1>
-                    <div className="sub">Moderate customer feedback — approve, hide, or remove before it goes live.</div>
+                    <div className="sub">Moderate customer feedback, approve, hide, or remove before it goes live.</div>
                 </div>
                 <Dialog open={createOpen} onOpenChange={setCreateOpen}>
                     <DialogTrigger asChild>
@@ -176,7 +176,7 @@ function RouteComponent() {
                         <span className="lbl">Average rating</span>
                         <span className="ic" style={{ background: "var(--green-bg)", color: "var(--green)" }}>★</span>
                     </div>
-                    <div className="val">{avg ? avg.toFixed(1) : "—"}</div>
+                    <div className="val">{avg ? avg.toFixed(1) : ", "}</div>
                     <span className="delta up"><span className="muted">across {items.length} reviews</span></span>
                 </div>
                 <div className="kpi">
@@ -200,7 +200,7 @@ function RouteComponent() {
             {/* RATING OVERVIEW */}
             <div className="panel">
                 <div className="panel-head">
-                    <h3>Rating overview — this page</h3>
+                    <h3>Rating overview, this page</h3>
                 </div>
                 <div className="panel-body" style={{ display: "flex", alignItems: "center", gap: 0, padding: "20px 24px" }}>
                     <div className="avg-block">

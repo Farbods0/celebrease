@@ -299,7 +299,7 @@ export default function SubscriptionPage() {
         <>
             <style>{`
 /* ============================================================
-   ACCOUNT / SUBSCRIPTION PAGE — scoped to .acct-wrap
+   ACCOUNT / SUBSCRIPTION PAGE, scoped to .acct-wrap
    ============================================================ */
 .acct-wrap {
   max-width: 1280px;

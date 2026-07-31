@@ -175,7 +175,7 @@ export function WishlistGrid() {
                                                     ? holiday.image
                                                     : `${baseURL}/${holiday.image}`
                                             }
-                                            alt={`${holiday.name} — holiday decor kit`}
+                                            alt={`${holiday.name}, holiday decor kit`}
                                         />
                                         <div className="scrim" />
                                         <span className={`cb-cat-badge${catCls ? ` ${catCls}` : ""}`}>
@@ -395,7 +395,7 @@ export function WishlistGrid() {
                                 lineHeight: 1.6,
                             }}
                         >
-                            19 curated kits across traditional, cultural, and event-based celebrations — find the next holiday you want to dress your home for.
+                            19 curated kits across traditional, cultural, and event-based celebrations, find the next holiday you want to dress your home for.
                         </p>
                     </div>
                     <Link

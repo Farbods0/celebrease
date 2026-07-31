@@ -5,8 +5,8 @@ import Link from "next/link";
 const timeline = [
     { state: "done",     label: "Payment Confirmed",        sub: "Today" },
     { state: "done",     label: "Booking Secured",          sub: "Today" },
-    { state: "active",   label: "Kit Being Prepared",       sub: "In 1–2 days" },
-    { state: "upcoming", label: "Shipped to You",           sub: "In 3–5 days" },
+    { state: "active",   label: "Kit Being Prepared",       sub: "In 1, 2 days" },
+    { state: "upcoming", label: "Shipped to You",           sub: "In 3, 5 days" },
     { state: "upcoming", label: "Delivered & Celebrate!", sub: "On your start date" },
     { state: "upcoming", label: "Free Pickup Scheduled",    sub: "On your end date" },
     { state: "upcoming", label: "Deposit Refunded",         sub: "Within 5 business days of return" },
@@ -21,7 +21,7 @@ const infoCards = [
     {
         ic: "🛡",
         title: "Deposit Protected",
-        body: "Your deposit is fully secured. Minor wear is never charged. Return in good condition — it’s yours back.",
+        body: "Your deposit is fully secured. Minor wear is never charged. Return in good condition, it’s yours back.",
     },
     {
         ic: "🚚",

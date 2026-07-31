@@ -75,7 +75,7 @@ export function ReturnTable({ items, onView }: ReturnTableProps) {
                                                 {ret.ago}
                                             </>
                                         ) : (
-                                            "—"
+                                            ", "
                                         )}
                                     </td>
                                     <td>

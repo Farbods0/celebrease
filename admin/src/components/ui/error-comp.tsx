@@ -12,7 +12,7 @@ export function ErrorComp(props: ErrorComponentProps) {
                 <div className="grid gap-1.5">
                     <h3 className="text-lg font-semibold text-foreground">Something went wrong</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                        An unexpected error occurred while loading this page. This is usually temporary — please try again.
+                        An unexpected error occurred while loading this page. This is usually temporary, please try again.
                     </p>
                 </div>
                 {props.error?.message && (

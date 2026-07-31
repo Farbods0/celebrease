@@ -34,7 +34,7 @@ export default function WishlistPage() {
                             lineHeight: 1.65,
                         }}
                     >
-                        Holidays you&apos;ve saved — ready to rent whenever the season calls. Add any kit to your cart and start celebrating.
+                        Holidays you&apos;ve saved, ready to rent whenever the season calls. Add any kit to your cart and start celebrating.
                     </p>
                 </div>
             </header>

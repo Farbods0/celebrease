@@ -1,4 +1,4 @@
-import { apiPrefix, apiURL } from "./base";
+import { apiPrefix, apiURL, readError } from "./base";
 import { HolidayCategory, KitTier } from "@/lib/api/holiday";
 
 export type Duration = "THIRTY_DAY" | "SIXTY_DAY";
@@ -43,15 +43,7 @@ export type AddToCartPayload = {
     addOns?: { addOnId: string; qty?: number }[];
 };
 
-async function readError(res: Response, fallback: string): Promise<string> {
-    try {
-        const body = await res.json();
-        if (body && typeof body.message === "string") return body.message;
-    } catch {
-        // not JSON
-    }
-    return `${fallback}: ${res.statusText}`;
-}
+
 
 export async function getMyCarts(): Promise<{ items: ApiCart[] }> {
     const res = await fetch(apiURL(`${apiPrefix}/cart`));

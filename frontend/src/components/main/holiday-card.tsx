@@ -8,6 +8,7 @@ import { cn, toNumber } from "@/lib/utils";
 import { ArrowRight02Icon, Heart } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const CATEGORY_LABEL: Record<HolidayCategory, string> = {
@@ -40,7 +41,7 @@ function tierPrice(holiday: ApiHoliday, tier: "STARTER" | "PREMIUM"): string {
     return "—";
 }
 
-export function HolidayCard({ holiday }: { holiday: ApiHoliday }) {
+export function HolidayCard({ holiday, index }: { holiday: ApiHoliday; index?: number }) {
     const { data } = auth.useSession();
     const router = useRouter();
     const loved = useLovesStore((s) => s.loved.has(holiday.id));
@@ -58,8 +59,15 @@ export function HolidayCard({ holiday }: { holiday: ApiHoliday }) {
 
     return (
         <Link href={`/catalog/${holiday.id}`} className="group border rounded-2xl overflow-hidden flex flex-col">
-            <div className="relative">
-                <img src={`${baseURL}${holiday.image}`} alt={holiday.name} crossOrigin="anonymous" className="h-64 w-full object-cover" />
+            <div className="relative h-64 w-full">
+                <Image 
+                    src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? `${baseURL}${holiday.image}` : `${baseURL}/${holiday.image}`}
+                    alt={holiday.name}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 720px) 100vw, (max-width: 980px) 50vw, 33vw"
+                    priority={typeof index === 'number' && index < 6}
+                />
                 <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                 <div className="absolute top-4 left-4 bg-white px-4 py-1 rounded-full text-sm font-medium">
                     {CATEGORY_LABEL[holiday.category]}

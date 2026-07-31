@@ -331,6 +331,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                         return (
                             <li key={cart.id} className="cb-cart-item">
                                 <img
+                                    loading="lazy"
                                     className="cb-cart-item-thumb"
                                     src={`${baseURL}${cart.holiday?.image ?? ""}`}
                                     alt={cart.holiday?.name ?? "Holiday kit"}

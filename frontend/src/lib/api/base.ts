@@ -38,3 +38,13 @@ export function apiURL(path: string, params?: Record<string, string | number | u
 }
 
 export const apiPrefix = "/api/v1";
+
+export async function readError(res: Response, fallback: string): Promise<string> {
+    try {
+        const body = await res.json();
+        if (body && typeof body.message === "string") return body.message;
+    } catch {
+        // not JSON
+    }
+    return `${fallback}: ${res.statusText}`;
+}

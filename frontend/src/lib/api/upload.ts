@@ -1,4 +1,4 @@
-import { apiPrefix, apiURL } from "./base";
+import { apiPrefix, apiURL, readError } from "./base";
 
 export async function uploadImage(file: File): Promise<string> {
     const formData = new FormData();
@@ -27,12 +27,4 @@ export async function deleteImage(url: string): Promise<void> {
     }
 }
 
-async function readError(response: Response, fallback: string): Promise<string> {
-    try {
-        const body = await response.json();
-        if (body && typeof body.message === "string") return body.message;
-    } catch {
-        // body wasn't JSON
-    }
-    return `${fallback}: ${response.statusText}`;
-}
+

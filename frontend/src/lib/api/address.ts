@@ -1,4 +1,4 @@
-import { apiPrefix, apiURL } from "./base";
+import { apiPrefix, apiURL, readError } from "./base";
 
 export type ApiAddress = {
     id: string;
@@ -26,15 +26,7 @@ export type UpsertAddressPayload = {
     country: string;
 };
 
-async function readError(res: Response, fallback: string): Promise<string> {
-    try {
-        const body = await res.json();
-        if (body && typeof body.message === "string") return body.message;
-    } catch {
-        // not JSON
-    }
-    return `${fallback}: ${res.statusText}`;
-}
+
 
 export async function getMyAddress(): Promise<ApiAddress | null> {
     const res = await fetch(apiURL(`${apiPrefix}/address/me`));

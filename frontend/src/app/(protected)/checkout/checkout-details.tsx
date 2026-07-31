@@ -584,6 +584,7 @@ export default function CheckoutDetails({
                                 <div key={cart.id} className="co-kit-row">
                                     {cart.holiday?.image ? (
                                         <img
+                                            loading="lazy"
                                             src={img(cart.holiday.image)}
                                             alt={cart.holiday?.name ?? "Holiday kit"}
                                             className="co-kit-thumb"
@@ -618,6 +619,7 @@ export default function CheckoutDetails({
                                             <div key={ao.addOn?.id ?? aoIdx} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 0" }}>
                                                 {ao.addOn?.image ? (
                                                     <img
+                                                        loading="lazy"
                                                         src={img(ao.addOn.image)}
                                                         alt={ao.addOn.name}
                                                         style={{ width: 40, height: 40, borderRadius: 10, objectFit: "cover", flexShrink: 0 }}

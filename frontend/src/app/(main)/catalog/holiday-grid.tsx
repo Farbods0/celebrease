@@ -132,8 +132,8 @@ function HolidayGridContent({ initialData }: { initialData?: any }) {
                                 gap: "24px",
                             }}
                         >
-                            {filtered.map((holiday) => (
-                                <CatalogCard key={holiday.id} holiday={holiday} />
+                            {filtered.map((holiday, i) => (
+                                <CatalogCard key={holiday.id} holiday={holiday} index={i} />
                             ))}
                         </div>
                     )}
@@ -180,7 +180,7 @@ function lowestPrice(kits: ApiHoliday["kits"]): number | null {
     }, null);
 }
 
-function CatalogCard({ holiday }: { holiday: ApiHoliday }) {
+function CatalogCard({ holiday, index }: { holiday: ApiHoliday; index?: number }) {
     const { data: session } = auth.useSession();
     const router = useRouter();
     const loved = useLovesStore((s) => s.loved.has(holiday.id));
@@ -206,6 +206,8 @@ function CatalogCard({ holiday }: { holiday: ApiHoliday }) {
                 src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/uploads") ? `${baseURL}${holiday.image}` : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
                 alt={`${holiday.name} — holiday décor kit`}
                 fill style={{ objectFit: "cover" }}
+                sizes="(max-width: 720px) 100vw, (max-width: 980px) 33vw, 25vw"
+                priority={typeof index === 'number' && index < 8}
             />
             <div className="scrim" />
             <span className={`cb-cat-badge${catCls ? ` ${catCls}` : ""}`}>{catLabel}</span>

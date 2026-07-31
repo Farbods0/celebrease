@@ -335,28 +335,28 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                 <div className="cb-auth-brand-panel" aria-hidden="true">
                     <div className="cb-auth-montage">
                         <div className="cb-auth-montage-cell tall">
-                            <img src={holidayImages[0].src} alt="" />
+                            <Image src={holidayImages[0].src} alt="" fill sizes="(max-width: 980px) 50vw, 33vw" priority style={{ objectFit: "cover" }} />
                         </div>
                         <div className="cb-auth-montage-cell">
-                            <img src={holidayImages[1].src} alt="" />
+                            <Image src={holidayImages[1].src} alt="" fill sizes="(max-width: 980px) 50vw, 33vw" priority style={{ objectFit: "cover" }} />
                         </div>
                         <div className="cb-auth-montage-cell">
-                            <img src={holidayImages[2].src} alt="" />
+                            <Image src={holidayImages[2].src} alt="" fill sizes="(max-width: 980px) 50vw, 33vw" priority style={{ objectFit: "cover" }} />
                         </div>
                         <div className="cb-auth-montage-cell">
-                            <img src={holidayImages[3].src} alt="" />
+                            <Image src={holidayImages[3].src} alt="" fill sizes="(max-width: 980px) 50vw, 33vw" style={{ objectFit: "cover" }} />
                         </div>
                         <div className="cb-auth-montage-cell">
-                            <img src={holidayImages[4].src} alt="" />
+                            <Image src={holidayImages[4].src} alt="" fill sizes="(max-width: 980px) 50vw, 33vw" style={{ objectFit: "cover" }} />
                         </div>
                         <div className="cb-auth-montage-cell wide">
-                            <img src={holidayImages[5].src} alt="" />
+                            <Image src={holidayImages[5].src} alt="" fill sizes="(max-width: 980px) 100vw, 66vw" style={{ objectFit: "cover" }} />
                         </div>
                         <div className="cb-auth-montage-cell">
-                            <img src={holidayImages[6].src} alt="" />
+                            <Image src={holidayImages[6].src} alt="" fill sizes="(max-width: 980px) 50vw, 33vw" style={{ objectFit: "cover" }} />
                         </div>
                         <div className="cb-auth-montage-cell">
-                            <img src={holidayImages[7].src} alt="" />
+                            <Image src={holidayImages[7].src} alt="" fill sizes="(max-width: 980px) 50vw, 33vw" style={{ objectFit: "cover" }} />
                         </div>
                     </div>
 
@@ -364,7 +364,7 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                         <div className="cb-auth-holiday-pills">
                             {pills.map((pill) => (
                                 <span key={pill.name} className="cb-auth-h-pill">
-                                    <img src={pill.img} alt="" />
+                                    <Image src={pill.img} alt="" width={20} height={20} style={{ objectFit: "cover", borderRadius: "50%" }} />
                                     {pill.name}
                                 </span>
                             ))}

@@ -1,4 +1,4 @@
-import { apiPrefix, apiURL } from "./base";
+import { apiPrefix, apiURL, readError } from "./base";
 
 export type DeliveryOption = "STANDARD" | "EXPRESS";
 
@@ -100,15 +100,7 @@ export type ListOrdersResponse = {
     total: number;
 };
 
-async function readError(res: Response, fallback: string): Promise<string> {
-    try {
-        const body = await res.json();
-        if (body && typeof body.message === "string") return body.message;
-    } catch {
-        // not JSON
-    }
-    return `${fallback}: ${res.statusText}`;
-}
+
 
 export async function createOrderCheckout(payload: CreateCheckoutPayload): Promise<CreateCheckoutResponse> {
     const res = await fetch(apiURL(`${apiPrefix}/order/checkout`), {

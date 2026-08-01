@@ -137,7 +137,7 @@ export default async function HomePage() {
                 <div className="cb-container">
                     <div className="cb-featured-header">
                         <div>
-                            <span className="eyebrow">Coming up next</span>
+                            <span className="eyebrow">Most popular</span>
                             <h2>Decorate your season</h2>
                         </div>
                         <Link href="/catalog" className="cb-featured-link">Explore all holidays →</Link>

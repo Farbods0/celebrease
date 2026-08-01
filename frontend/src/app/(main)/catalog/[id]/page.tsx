@@ -131,4 +131,4 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
     );
 }
 
-// Trigger deploy
+// Trigger deploy// Trigger deploy 2

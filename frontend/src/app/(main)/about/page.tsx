@@ -437,7 +437,7 @@ export default async function AboutPage() {
                         style={{
                             display: "grid",
                             gridTemplateColumns: "repeat(6,1fr)",
-                            gridTemplateRows: "180px 180px",
+                            gridAutoRows: "180px",
                             gap: 12,
                         }}
                     >
@@ -448,8 +448,8 @@ export default async function AboutPage() {
                             { h: c3, span: 3, label: c3?.name ?? "Thanksgiving" },
                             { h: c4, span: 1, label: c4?.name ?? "Hanukkah" },
                             { h: c5, span: 2, label: c5?.name ?? "Nowruz" },
-                            { h: c6, span: 1, label: c6?.name ?? "Eid" },
-                            { h: c7, span: 3, label: c7?.name ?? "Lunar New Year" },
+                            { h: c6, span: 2, label: c6?.name ?? "Eid" },
+                            { h: c7, span: 4, label: c7?.name ?? "Lunar New Year" },
                         ].map((cell, i) =>
                             cell.h ? (
                                 <div

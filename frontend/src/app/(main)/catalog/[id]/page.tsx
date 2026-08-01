@@ -6,6 +6,7 @@ import {
     KitTier,
     baseURL,
     getHolidayById,
+    getHolidays,
     ApiHolidayDetail,
     HolidayCategory,
 } from "@/lib/api";
@@ -36,6 +37,13 @@ const img = (path?: string | null) => {
     if (path.startsWith("/uploads")) return `${baseURL}${path}`;
     return path.startsWith("/") ? path : `${baseURL}/${path}`;
 };
+
+export async function generateStaticParams() {
+    const { items } = await getHolidays();
+    return items.map((holiday) => ({
+        id: holiday.id,
+    }));
+}
 
 export default async function CatalogDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;

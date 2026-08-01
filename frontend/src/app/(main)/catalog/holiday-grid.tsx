@@ -201,7 +201,7 @@ function CatalogCard({ holiday, index }: { holiday: ApiHoliday; index?: number }
     const catLabel = CATEGORY_LABEL[holiday.category];
 
     return (
-        <Link href={`/catalog/${holiday.id}`} className="cb-holiday-card">
+        <Link href={`/catalog/${holiday.id}`} prefetch={true} className="cb-holiday-card">
             <Image
                 src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/uploads") ? `${baseURL}${holiday.image}` : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
                 alt={`${holiday.name}, holiday décor kit`}

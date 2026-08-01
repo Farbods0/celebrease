@@ -1,5 +1,5 @@
 import { FaqAccordion } from "@/components/main/faq-accordion";
-import { ApiHoliday, ApiPlan, baseURL, getHolidaysByLoves, getPlans } from "@/lib/api";
+import { ApiHoliday, ApiPlan, baseURL, getHolidays, getPlans } from "@/lib/api";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -32,7 +32,7 @@ export default async function HomePage() {
     let data = { items: [] as ApiHoliday[] };
     let plansData = { items: [] as ApiPlan[] };
     try {
-        const [hRes, pRes] = await Promise.all([getHolidaysByLoves(), getPlans()]);
+        const [hRes, pRes] = await Promise.all([getHolidays(), getPlans()]);
         data = hRes;
         plansData = pRes;
     } catch (e) {
@@ -40,9 +40,19 @@ export default async function HomePage() {
     }
     const holidays = data.items;
     const plans = plansData.items;
-    const featured = holidays.slice(0, 6);
-    const hero0 = holidays[0] ?? null;
-    const hero1 = holidays[1] ?? holidays[0] ?? null;
+    
+    const desiredOrderKeys = ["christmas", "new year", "halloween", "thanksgiving", "birthday", "valentine"];
+    const featured = desiredOrderKeys.map(key => 
+        holidays.find(h => h.name.toLowerCase().includes(key))
+    ).filter(Boolean) as ApiHoliday[];
+
+    if (featured.length < 6) {
+        const remaining = holidays.filter(h => !featured.some(f => f.id === h.id) && !h.name.toLowerCase().includes("nowruz"));
+        featured.push(...remaining.slice(0, 6 - featured.length));
+    }
+
+    const hero0 = featured[0] ?? null;
+    const hero1 = featured[1] ?? featured[0] ?? null;
 
     return (
         <div className="cb">

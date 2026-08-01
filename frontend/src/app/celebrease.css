@@ -755,3 +755,52 @@
 @media (max-width: 600px) {
   .faq-contact-inner { gap: 32px; }
 }
+
+/* ============================================================
+   MICRO-ANIMATIONS & FLUID UX
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes cb-fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cb-catalog-grid > *, .cb-card-grid > * {
+  animation: cb-fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.cb-catalog-grid > *:nth-child(1), .cb-card-grid > *:nth-child(1) { animation-delay: 0.04s; }
+.cb-catalog-grid > *:nth-child(2), .cb-card-grid > *:nth-child(2) { animation-delay: 0.08s; }
+.cb-catalog-grid > *:nth-child(3), .cb-card-grid > *:nth-child(3) { animation-delay: 0.12s; }
+.cb-catalog-grid > *:nth-child(4), .cb-card-grid > *:nth-child(4) { animation-delay: 0.16s; }
+.cb-catalog-grid > *:nth-child(5), .cb-card-grid > *:nth-child(5) { animation-delay: 0.20s; }
+.cb-catalog-grid > *:nth-child(6), .cb-card-grid > *:nth-child(6) { animation-delay: 0.24s; }
+.cb-catalog-grid > *:nth-child(7), .cb-card-grid > *:nth-child(7) { animation-delay: 0.28s; }
+.cb-catalog-grid > *:nth-child(8), .cb-card-grid > *:nth-child(8) { animation-delay: 0.32s; }
+.cb-catalog-grid > *:nth-child(n+9), .cb-card-grid > *:nth-child(n+9) { animation-delay: 0.36s; }
+
+.cb-gallery {
+  animation: cb-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.cb-kit-right {
+  animation: cb-fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.cb-hero-copy {
+  animation: cb-fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cb-hero-art {
+  animation: cb-fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.15s;
+  opacity: 0;
+}

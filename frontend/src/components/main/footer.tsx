@@ -9,11 +9,6 @@ export default function Footer() {
                     <p className="cb-footer-tagline">
                         Designer curated holiday décor kits, delivered. Decorate big, store nothing.
                     </p>
-                    <div className="cb-footer-social">
-                        <a href="#" aria-label="Instagram">📷</a>
-                        <a href="#" aria-label="Facebook">f</a>
-                        <a href="#" aria-label="TikTok">♪</a>
-                    </div>
                 </div>
                 <div className="cb-footer-col">
                     <h4>Explore</h4>

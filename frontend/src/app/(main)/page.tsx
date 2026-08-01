@@ -301,7 +301,6 @@ export default async function HomePage() {
                             <div key={i} className="cb-testi-card">
                                 <Image src={img(t.img)} alt="" width={100} height={100} className="object-cover" />
                                 <div className="cb-testi-body">
-                                    <div className="cb-testi-stars">★★★★★</div>
                                     <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>
                                     <p className="cb-testi-attr">, {t.a}</p>
                                 </div>

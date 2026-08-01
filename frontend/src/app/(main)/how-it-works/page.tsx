@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { FaqAccordion } from "@/components/main/faq-accordion";
+import { ApiHoliday, baseURL, getHolidays } from "@/lib/api";
+
+const img = (path?: string | null) => {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    if (path.startsWith("/uploads")) return `${baseURL}${path}`;
+    return path.startsWith("/") ? path : `${baseURL}/${path}`;
+};
 
 export const metadata: Metadata = { title: "How It Works, CeleBrease" };
 
@@ -43,7 +52,20 @@ const HIW_FAQS = [
     },
 ];
 
-export default function HowItWorksPage() {
+export default async function HowItWorksPage() {
+    let holidays: ApiHoliday[] = [];
+    try {
+        const data = await getHolidays();
+        holidays = data.items ?? [];
+    } catch {
+        holidays = [];
+    }
+    
+    const img1 = holidays.find(h => h.name.toLowerCase().includes("christmas")) ?? holidays[0];
+    const img2 = holidays.find(h => h.name.toLowerCase().includes("valentine")) ?? holidays[1];
+    const img3 = holidays.find(h => h.name.toLowerCase().includes("diwali")) ?? holidays[2];
+    const img4 = holidays.find(h => h.name.toLowerCase().includes("halloween")) ?? holidays[3];
+
     return (
         <div className="cb">
             {/* HERO-LITE */}
@@ -166,17 +188,14 @@ export default function HowItWorksPage() {
                                 boxShadow: "var(--cb-shadow-md)",
                                 background: "var(--cb-lavender)",
                             }}>
-                                <div style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    background: "linear-gradient(135deg, #F3E8FF 0%, #FCE7F3 100%)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: 72,
-                                }}>
-                                    🎄
-                                </div>
+                                {img1 && (
+                                    <Image
+                                        src={img(img1.image)}
+                                        alt="Selecting your holiday decorations"
+                                        width={800} height={600}
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    />
+                                )}
                             </div>
                             <div style={{
                                 position: "absolute",
@@ -326,17 +345,14 @@ export default function HowItWorksPage() {
                                 aspectRatio: "4/3",
                                 boxShadow: "var(--cb-shadow-md)",
                             }}>
-                                <div style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    background: "linear-gradient(135deg, #FCE7F3 0%, #F3E8FF 100%)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: 72,
-                                }}>
-                                    🎁
-                                </div>
+                                {img2 && (
+                                    <Image
+                                        src={img(img2.image)}
+                                        alt="Curated holiday kit in a box"
+                                        width={800} height={600}
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    />
+                                )}
                             </div>
                             <div style={{
                                 position: "absolute",
@@ -392,17 +408,14 @@ export default function HowItWorksPage() {
                                 aspectRatio: "4/3",
                                 boxShadow: "var(--cb-shadow-md)",
                             }}>
-                                <div style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    background: "linear-gradient(135deg, #FFF3E0 0%, #FCE7F3 100%)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: 72,
-                                }}>
-                                    🪔
-                                </div>
+                                {img3 && (
+                                    <Image
+                                        src={img(img3.image)}
+                                        alt="Decorated living room for a celebration"
+                                        width={800} height={600}
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    />
+                                )}
                             </div>
                             <div style={{
                                 position: "absolute",
@@ -546,17 +559,14 @@ export default function HowItWorksPage() {
                                 aspectRatio: "4/3",
                                 boxShadow: "var(--cb-shadow-md)",
                             }}>
-                                <div style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    background: "linear-gradient(135deg, #FFF8F0 0%, #F3E8FF 100%)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontSize: 72,
-                                }}>
-                                    📦
-                                </div>
+                                {img4 && (
+                                    <Image
+                                        src={img(img4.image)}
+                                        alt="Holiday kit packed and ready for return"
+                                        width={800} height={600}
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                    />
+                                )}
                             </div>
                             <div style={{
                                 position: "absolute",

@@ -1,5 +1,6 @@
 import { FaqAccordion } from "@/components/main/faq-accordion";
 import { ApiHoliday, ApiPlan, baseURL, getHolidays, getPlans } from "@/lib/api";
+import { slugify } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -156,7 +157,7 @@ export default async function HomePage() {
                             const cat = CATEGORY[h.category as keyof typeof CATEGORY] ?? CATEGORY.TRADITIONAL;
                             const price = lowestPrice(h.kits);
                             return (
-                                <Link key={h.id} href={`/catalog/${h.id}`} className="cb-holiday-card">
+                                <Link key={h.id} href={`/catalog/${slugify(h.name)}`} className="cb-holiday-card">
                                     <Image src={img(h.image)} alt={`${h.name} décor kit`} width={600} height={400} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover" />
                                     <div className="scrim" />
                                     <span className={`cb-cat-badge ${cat.cls}`}>{cat.label}</span>

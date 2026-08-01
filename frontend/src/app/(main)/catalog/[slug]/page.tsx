@@ -10,6 +10,7 @@ import {
     ApiHolidayDetail,
     HolidayCategory,
 } from "@/lib/api";
+import { slugify } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 import { HolidayDetails } from "./holiday-details";
@@ -41,17 +42,25 @@ const img = (path?: string | null) => {
 export async function generateStaticParams() {
     const { items } = await getHolidays();
     return items.map((holiday) => ({
-        id: holiday.id,
+        slug: slugify(holiday.name),
     }));
 }
 
-export default async function CatalogDetailPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+export default async function CatalogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    
+    // Find holiday by slug
+    const { items } = await getHolidays();
+    const matchedHoliday = items.find((h) => slugify(h.name) === slug);
+    
     let data: { holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] } = { holiday: null, kits: [], addOns: [], holidays: [] };
-    try {
-        data = await getHolidayById(id);
-    } catch (e) {
-        console.error("Failed to fetch holiday:", e);
+    
+    if (matchedHoliday) {
+        try {
+            data = await getHolidayById(matchedHoliday.id);
+        } catch (e) {
+            console.error("Failed to fetch holiday:", e);
+        }
     }
 
     if (!data.holiday) {
@@ -113,7 +122,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
                                 return (
                                     <Link
                                         key={h.id}
-                                        href={`/catalog/${h.id}`}
+                                        href={`/catalog/${slugify(h.name)}`}
                                         className="cb-holiday-card"
                                         role="listitem"
                                         aria-label={`${h.name} kit${price !== null ? `, from $${price}` : ""}`}

@@ -139,9 +139,8 @@
 
 /* Trio / value */
 .cb-trio { background:var(--cb-cream); }
-.cb-trio-images { display:grid; grid-template-columns:1.4fr 1fr 1fr; grid-template-rows:200px 200px; gap:16px; max-width:1080px; margin:0 auto 48px; }
+.cb-trio-images { display:grid; grid-template-columns:repeat(3, 1fr); height: 420px; gap:24px; max-width:1080px; margin:0 auto 56px; }
 .cb-trio-images img { width:100%; height:100%; object-fit:cover; border-radius:var(--cb-r-card); box-shadow:var(--cb-shadow-sm); }
-.cb-trio-images img:first-child { grid-row:span 2; }
 .cb-trio-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; max-width:1000px; margin:0 auto; }
 .cb-trio-card { text-align:center; padding:0 8px; }
 .cb-trio-ic { width:54px; height:54px; border-radius:16px; background:var(--cb-gradient-soft); display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 14px; }
@@ -215,7 +214,7 @@
   .cb-hero-art { order:-1; height:clamp(320px,70vw,420px); }
   .cb-hiw-grid { grid-template-columns:repeat(2,1fr); }
   .cb-card-grid { grid-template-columns:repeat(2,1fr); }
-  .cb-trio-images { grid-template-columns:1fr 1fr; grid-template-rows:auto; }
+  .cb-trio-images { grid-template-columns:1fr 1fr; grid-template-rows:auto; height: auto; }
   .cb-trio-images img:first-child { grid-row:auto; grid-column:span 2; height:220px; }
   .cb-pricing-grid { grid-template-columns:1fr; max-width:460px; }
   .cb-testi-grid { grid-template-columns:1fr; max-width:520px; }

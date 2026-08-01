@@ -62,9 +62,9 @@ export default async function HowItWorksPage() {
     }
     
     const img1 = { image: "/hiw-1.jpg" };
-    const img2 = holidays.find(h => h.name.toLowerCase().includes("thanksgiving")) ?? holidays[4] ?? holidays[0];
-    const img3 = holidays.find(h => h.name.toLowerCase().includes("new year")) ?? holidays[5] ?? holidays[1];
-    const img4 = holidays.find(h => h.name.toLowerCase().includes("fourth")) ?? holidays.find(h => h.name.toLowerCase().includes("independence")) ?? holidays[6] ?? holidays[2];
+    const img2 = holidays.find(h => h.name.toLowerCase().includes("engagement")) ?? holidays[4];
+    const img3 = holidays.find(h => h.name.toLowerCase().includes("new year")) ?? holidays[5];
+    const img4 = holidays.find(h => h.name.toLowerCase().includes("easter")) ?? holidays[7];
 
     return (
         <div className="cb">

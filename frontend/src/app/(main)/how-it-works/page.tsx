@@ -149,7 +149,7 @@ export default async function HowItWorksPage() {
                         flexWrap: "wrap",
                     }}>
                         <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "var(--cb-ink-muted)", fontWeight: 500 }}>
-                            <strong style={{ color: "var(--cb-ink)" }}>★ 4.9</strong> from 2,400+ families
+                            Loved by 2,400+ families
                         </span>
                         <span style={{ width: 4, height: 4, borderRadius: "50%", background: "rgba(155,47,201,0.12)", display: "inline-block" }} />
                         <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "var(--cb-ink-muted)", fontWeight: 500 }}>
@@ -682,7 +682,6 @@ export default async function HowItWorksPage() {
                     {[
                         { num: "78%", label: "Less holiday waste", sub: "vs. buying and storing decorations" },
                         { num: "2,400+", label: "Celebrations styled", sub: "across 40+ cities nationwide" },
-                        { num: "4.9★", label: "Average customer rating", sub: "from verified post-rental reviews" },
                         { num: "100%", label: "Deposit returned", sub: "when kit is received in good condition" },
                     ].map((stat) => (
                         <div key={stat.label} style={{ display: "flex", flexDirection: "column", gap: 8 }}>

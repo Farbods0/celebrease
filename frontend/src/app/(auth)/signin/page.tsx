@@ -345,7 +345,7 @@ export default function Signin() {
                                     ))}
                                 </div>
                                 <div className="cb-proof-text">
-                                    <span className="cb-proof-stars">★★★★★</span> <strong>4.9</strong> · Loved by <strong>2,400+ families</strong><br />
+                                    Loved by <strong>2,400+ families</strong><br />
                                     Free shipping both ways · Deposit always refundable
                                 </div>
                             </div>

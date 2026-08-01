@@ -233,7 +233,6 @@ export default async function AboutPage() {
                         { num: "2,400+", label: "Celebrations delivered" },
                         { num: "78%", label: "Less holiday waste per home" },
                         { num: "19", label: "Holiday collections" },
-                        { num: "4.9★", label: "Average customer rating" },
                     ].map((s) => (
                         <div key={s.label}>
                             <div

@@ -77,7 +77,7 @@ export default async function HomePage() {
                                 ))}
                             </div>
                             <div className="cb-proof-text">
-                                <span className="cb-proof-stars">★★★★★</span> <b>4.9</b> · Loved by <b>2,400+ families</b>
+                                Loved by <b>2,400+ families</b>
                                 <br />Free shipping both ways · Deposit always refundable
                             </div>
                         </div>
@@ -96,7 +96,6 @@ export default async function HomePage() {
                             </div>
                             <div className="kf-meta">
                                 <div className="kf-price">${lowestPrice(hero0?.kits) ?? 89} <span>/ 30 days</span></div>
-                                <div className="kf-rate"><b>★ 4.9</b></div>
                             </div>
                         </div>
                         <div className="img-sub">

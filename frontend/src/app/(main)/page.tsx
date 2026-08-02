@@ -180,9 +180,9 @@ export default async function HomePage() {
                         <h2>One mantel. Every holiday. Zero storage.</h2>
                     </div>
                     <div className="cb-trio-images">
-                        {featured.slice(0, 3).map((h) => (
-                            <Image key={h.id} src={img(h.image)} alt={`Home dressed for ${h.name}`} width={600} height={400} unoptimized={Boolean(img(h.image))} className="w-full h-full object-cover" />
-                        ))}
+                        <Image src="/events/trio_always_fresh.jpg" alt="Always fresh designer holiday decor" width={600} height={800} className="w-full h-full object-cover" />
+                        <Image src="/events/trio_no_clutter.jpg" alt="White glove doorstep delivery and pickup" width={600} height={800} className="w-full h-full object-cover" />
+                        <Image src="/events/trio_earth_kind.jpg" alt="Eco-friendly reusable holiday decoration kit" width={600} height={800} className="w-full h-full object-cover" />
                     </div>
                     <div className="cb-trio-grid">
                         <div className="cb-trio-card"><div className="cb-trio-ic">✨</div><h3>Always fresh</h3><p>Brand new designer looks every season. You&apos;ll never repeat the same kit twice.</p></div>

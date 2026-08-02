@@ -1,5 +1,5 @@
 import { TrashConfirm } from "@/components/ui/trash-confirm";
-import { baseURL, type ApiUser } from "@/lib/api";
+import { resolveImageUrl, type ApiUser } from "@/lib/api";
 
 type UserTableProps = {
     items: ApiUser[];
@@ -83,7 +83,7 @@ export function UserTable({ items, onEdit, onDelete, currentUserId }: UserTableP
                                         <div className="user-cell">
                                             <div className={`u-av ${isSuper ? "grad" : avatarTint(item.id)}`}>
                                                 {item.image ? (
-                                                    <img loading="lazy" decoding="async" src={`${baseURL}${item.image}`} alt="" />
+                                                    <img loading="lazy" decoding="async" src={resolveImageUrl(item.image)} alt="" />
                                                 ) : (
                                                     initials(item.name)
                                                 )}

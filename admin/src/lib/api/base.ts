@@ -28,6 +28,14 @@ export async function request<T>(path: string, init?: RequestInit): Promise<T> {
     return res.json() as Promise<T>;
 }
 
+export function resolveImageUrl(url?: string | null): string {
+    if (!url) return "";
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("blob:")) {
+        return url;
+    }
+    return `${baseURL}${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
 export function toQuery(params: Record<string, string | number | boolean | undefined>) {
     const usp = new URLSearchParams();
     for (const [k, v] of Object.entries(params)) {
@@ -37,3 +45,5 @@ export function toQuery(params: Record<string, string | number | boolean | undef
     const s = usp.toString();
     return s ? `?${s}` : "";
 }
+
+

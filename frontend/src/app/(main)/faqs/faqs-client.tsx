@@ -199,7 +199,7 @@ export default function FaqsClient() {
                         role="list"
                         style={{
                             display: "flex",
-                            gap: 10,
+                            gap: 8,
                             flexWrap: "wrap",
                             justifyContent: "center",
                             paddingBottom: 4,
@@ -214,10 +214,10 @@ export default function FaqsClient() {
                                     aria-pressed={isActive}
                                     onClick={() => setActive(cat.key)}
                                     style={{
-                                        height: 40,
-                                        padding: "0 20px",
+                                        height: 38,
+                                        padding: "0 15px",
                                         borderRadius: "var(--cb-r-pill)",
-                                        fontSize: 14,
+                                        fontSize: 13.5,
                                         fontWeight: 600,
                                         color: isActive ? "#fff" : "var(--cb-ink-muted)",
                                         background: isActive ? "var(--cb-gradient-h)" : "var(--cb-lavender)",

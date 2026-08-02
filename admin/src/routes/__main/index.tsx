@@ -36,7 +36,7 @@ function money(value: string | number) {
     return `$${n.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 }
 
-const img = (path?: string | null) => (path ? `${baseURL}${path}` : "");
+const img = (path?: string | null) => (path ? (path.startsWith("http") ? path : `${baseURL}${path}`) : "");
 
 function RouteComponent() {
     const { stats: data, orders, inventory } = Route.useLoaderData();

@@ -167,13 +167,13 @@ export function WishlistGrid() {
                                     >
                                         <img
                                             src={
-                                                holiday.image?.startsWith("http")
+                                                !holiday.image
+                                                    ? "/uploads/christmas.jpg"
+                                                    : holiday.image.startsWith("http")
                                                     ? holiday.image
-                                                    : holiday.image?.startsWith("/uploads")
-                                                    ? `${baseURL}${holiday.image}`
-                                                    : holiday.image?.startsWith("/")
+                                                    : holiday.image.startsWith("/")
                                                     ? holiday.image
-                                                    : `${baseURL}/${holiday.image}`
+                                                    : `/${holiday.image}`
                                             }
                                             alt={`${holiday.name}, holiday decor kit`}
                                         />

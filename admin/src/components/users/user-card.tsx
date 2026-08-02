@@ -1,5 +1,6 @@
-import { baseURL, type ApiUser } from "@/lib/api";
+import { resolveImageUrl, type ApiUser } from "@/lib/api";
 import moment from "moment";
+
 
 type UserCardProps = {
     item: ApiUser;
@@ -51,7 +52,7 @@ export function UserCard({ item, onEdit }: UserCardProps) {
         >
             <div className="user-cell">
                 <div className={`u-av ${isSuper ? "grad" : avatarTint(item.id)}`}>
-                    {item.image ? <img loading="lazy" decoding="async" src={`${baseURL}${item.image}`} alt="" /> : initials(item.name)}
+                    {item.image ? <img loading="lazy" decoding="async" src={resolveImageUrl(item.image)} alt="" /> : initials(item.name)}
                 </div>
                 <div style={{ minWidth: 0 }}>
                     <div className="nm">{item.name}</div>

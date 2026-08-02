@@ -52,7 +52,10 @@ function fmtMoney(value: string | number): string {
 }
 
 function img(path?: string | null): string {
-    return path ? `${baseURL}${path}` : "";
+    if (!path) return "";
+    if (path.startsWith("http://") || path.startsWith("https://")) return path;
+    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    return baseURL ? `${baseURL}${cleanPath}` : cleanPath;
 }
 
 export default function CheckoutDetails({
@@ -503,7 +506,7 @@ export default function CheckoutDetails({
                                             label: "Standard Delivery",
                                             badge: subscription ? "Free with plan" : "Standard",
                                             badgeClass: "co-ship-badge-std",
-                                            eta: "Arrives in 3, 5 business days · Prepaid return label included",
+                                            eta: "Arrives in 3–5 business days · Prepaid return label included",
                                             price: subscription ? "FREE" : "$15.00",
                                             isFree: !!subscription || false,
                                         },
@@ -512,7 +515,7 @@ export default function CheckoutDetails({
                                             label: "Express Delivery",
                                             badge: "Fastest",
                                             badgeClass: "co-ship-badge-exp",
-                                            eta: "Arrives in 1, 2 business days · Signature required",
+                                            eta: "Arrives in 1–2 business days · Signature required",
                                             price: subscription ? "FREE" : "$25.00",
                                             isFree: !!subscription,
                                         },

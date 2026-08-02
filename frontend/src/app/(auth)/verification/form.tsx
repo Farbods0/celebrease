@@ -60,20 +60,21 @@ export function VerificationForm({ user, type }: { user: string; type: "signup" 
                     font-family: inherit;
                     font-size: 14px;
                     color: #9B2FC9;
-                    font-weight: 600;
+                    font-weight: 700;
                     cursor: pointer;
-                    transition: opacity .2s;
+                    transition: color .2s;
                     padding: 0;
-                    text-decoration: none;
+                    margin-left: 4px;
+                    text-decoration: underline;
                 }
                 .cb-verify-resend-btn:hover:not(:disabled) {
-                    text-decoration: underline;
-                    opacity: .82;
+                    color: #DC0075;
                 }
                 .cb-verify-resend-btn:disabled {
                     color: #8979A0;
                     cursor: not-allowed;
                     font-weight: 500;
+                    text-decoration: none;
                 }
                 .cb-verify-resend-timer {
                     font-weight: 600;

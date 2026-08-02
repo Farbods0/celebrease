@@ -15,9 +15,9 @@ export function Protected({ children }: { children: React.ReactNode }) {
 
         if (!data?.user) {
             router.replace("/signin");
-        } else if (!data.user.emailVerified) {
-            const params = new URLSearchParams({ user: data.user.email, type: "signup" });
-            router.replace(`/verification?${params.toString()}`);
+        // } else if (!data.user.emailVerified) {
+        //     const params = new URLSearchParams({ user: data.user.email, type: "signup" });
+        //     router.replace(`/verification?${params.toString()}`);
         } else if (data.user.role === "admin") {
             void auth.signOut();
             toast.error("Admins must use the admin portal.");
@@ -25,7 +25,7 @@ export function Protected({ children }: { children: React.ReactNode }) {
         }
     }, [data, isPending, router]);
 
-    if (isPending || !data?.user || !data.user.emailVerified || data.user.role === "admin") {
+    if (isPending || !data?.user || data.user.role === "admin") {
         return (
             <section className="flex-1 flex flex-col bg-linear-to-b from-primary/10 to-transparent">
                 <div className="h-20" />

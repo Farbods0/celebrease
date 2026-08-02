@@ -160,8 +160,8 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                     width: 36px;
                     height: 36px;
                     border-radius: 50%;
-                    border: 2px solid rgba(255,255,255,0.7);
-                    margin-left: -10px;
+                    border: 2px solid #fff;
+                    margin-left: -12px;
                     background-size: cover;
                     background-position: center;
                     flex-shrink: 0;
@@ -230,15 +230,15 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                     gap: 8px;
                     margin-bottom: 20px;
                 }
-                .cb-auth-card-logo-name {
-                    font-family: 'Playfair Display', Georgia, serif;
-                    font-size: 1.6rem;
-                    font-weight: 800;
-                    background: linear-gradient(to right, #9B2FC9, #DC0075);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    background-clip: text;
-                    letter-spacing: -0.02em;
+                .cb-auth-email-chip {
+                    display: inline-block;
+                    margin-top: 10px;
+                    padding: 4px 12px;
+                    border-radius: 9999px;
+                    background-color: #f3e8ff;
+                    color: #7e22ce;
+                    font-weight: 600;
+                    letter-spacing: -0.01em;
                 }
                 .cb-auth-verify-icon-wrap {
                     display: flex;
@@ -413,9 +413,8 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                         {/* Logo */}
                         <div className="cb-auth-card-logo">
                             <Link href="/" aria-label="CeleBrease home">
-                                <Image src="/logo.png" alt="CeleBrease logo" width={48} height={48} style={{ height: 48, width: "auto" }} />
+                                <Image src="/logo.svg" alt="CeleBrease logo" width={48} height={48} style={{ height: 48, width: "auto" }} />
                             </Link>
-                            <span className="cb-auth-card-logo-name">CeleBrease</span>
                         </div>
 
                         {/* Envelope icon */}

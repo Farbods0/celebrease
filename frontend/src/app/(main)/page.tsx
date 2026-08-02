@@ -85,11 +85,11 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-hero-art">
                         <div className="img-main">
-                            {hero0 && <Image src={img(hero0.image)} alt={`${hero0.name} décor`} width={1000} height={800} sizes="(max-width: 768px) 100vw, 50vw" priority className="w-full h-full object-cover" />}
+                            {hero0 && <Image src={img(hero0.image)} alt={`${hero0.name} décor`} width={1000} height={800} unoptimized={Boolean(img(hero0.image))} sizes="(max-width: 768px) 100vw, 50vw" priority className="w-full h-full object-cover" />}
                         </div>
                         <div className="cb-kit-float">
                             <div className="kf-row">
-                                {hero0 && <Image className="kf-thumb" src={img(hero0.image)} alt="" width={64} height={64} style={{ objectFit: "cover" }} />}
+                                {hero0 && <Image className="kf-thumb" src={img(hero0.image)} alt="" width={64} height={64} unoptimized={Boolean(img(hero0.image))} style={{ objectFit: "cover" }} />}
                                 <div>
                                     <div className="kf-tier">Premium Kit</div>
                                     <div className="kf-name">{hero0?.name ?? "Christmas"}</div>
@@ -100,7 +100,7 @@ export default async function HomePage() {
                             </div>
                         </div>
                         <div className="img-sub">
-                            {hero1 && <Image src={img(hero1.image)} alt={`${hero1.name} décor`} width={600} height={400} sizes="(max-width: 768px) 100vw, 50vw" className="w-full h-full object-cover" />}
+                            {hero1 && <Image src={img(hero1.image)} alt={`${hero1.name} décor`} width={600} height={400} unoptimized={Boolean(img(hero1.image))} sizes="(max-width: 768px) 100vw, 50vw" className="w-full h-full object-cover" />}
                         </div>
                     </div>
                 </div>
@@ -158,7 +158,7 @@ export default async function HomePage() {
                             const price = lowestPrice(h.kits);
                             return (
                                 <Link key={h.id} href={`/catalog/${slugify(h.name)}`} className="cb-holiday-card">
-                                    <Image src={img(h.image)} alt={`${h.name} décor kit`} width={600} height={400} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover" />
+                                    <Image src={img(h.image)} alt={`${h.name} décor kit`} width={600} height={400} unoptimized={Boolean(img(h.image))} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover" />
                                     <div className="scrim" />
                                     <span className={`cb-cat-badge ${cat.cls}`}>{cat.label}</span>
                                     <div className="meta">
@@ -181,7 +181,7 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-trio-images">
                         {featured.slice(0, 3).map((h) => (
-                            <Image key={h.id} src={img(h.image)} alt={`Home dressed for ${h.name}`} width={600} height={400} className="w-full h-full object-cover" />
+                            <Image key={h.id} src={img(h.image)} alt={`Home dressed for ${h.name}`} width={600} height={400} unoptimized={Boolean(img(h.image))} className="w-full h-full object-cover" />
                         ))}
                     </div>
                     <div className="cb-trio-grid">

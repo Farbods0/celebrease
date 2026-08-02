@@ -64,6 +64,7 @@ export function HolidayCard({ holiday, index }: { holiday: ApiHoliday; index?: n
                     src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? `${baseURL}${holiday.image}` : `${baseURL}/${holiday.image}`}
                     alt={holiday.name}
                     fill
+                    unoptimized={Boolean(holiday.image)}
                     style={{ objectFit: "cover" }}
                     sizes="(max-width: 720px) 100vw, (max-width: 980px) 50vw, 33vw"
                     priority={typeof index === 'number' && index < 6}

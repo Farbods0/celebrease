@@ -19,6 +19,6 @@ services:
       - key: BETTER_AUTH_SECRET
         value: "eb0c250ae4a9b1cff684b132a0d857faaf7d6bbf0e294cb3be86c3a1b26735e2"
       - key: BETTER_AUTH_URL
-        value: https://api.celebrease.com
+        value: https://celebrease.com
       - key: JWT_SECRET
         generateValue: true

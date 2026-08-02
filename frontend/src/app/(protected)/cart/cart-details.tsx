@@ -100,7 +100,7 @@ const CART_STYLES = `
 .cb-cart-item-price-original {
   font-size: 14px; color: var(--cb-ink-soft); text-decoration: line-through; line-height: 1;
 }
-.cb-cart-item-deposit { font-size: 11.5px; color: var(--cb-ink-soft); text-align: right; }
+.cb-cart-item-deposit { font-size: 13px; color: var(--cb-purple); font-weight: 600; text-align: right; margin-top: 2px; display: block; }
 .cb-cart-save-badge { font-size: 11px; color: #059669; font-weight: 700; text-align: right; }
 .cb-cart-remove-btn {
   width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;

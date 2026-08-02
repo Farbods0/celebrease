@@ -23,7 +23,7 @@ const FAQS = [
     },
     {
         q: "What kits are included in each tier?",
-        a: "Starter kits include 8, 12 décor pieces. Premium kits include 15, 20 pieces with designer styling cards. Ultimate kits include 25+ pieces, premium materials, and exclusive seasonal drops.",
+        a: "Starter kits include 8-12 décor pieces. Premium kits include 15-20 pieces with designer styling cards. Ultimate kits include 25+ pieces, premium materials, and exclusive seasonal drops.",
     },
     {
         q: "Do you ship internationally?",
@@ -41,11 +41,11 @@ const COMPARE_ROWS: Array<{
     { label: "Holidays per year",       starter: "3",           premium: "6",                  ultimate: "Unlimited" },
     { label: "Kit tiers included",      starter: "Starter",     premium: "Starter + Premium",  ultimate: "All tiers" },
     { label: "Free shipping both ways", starter: "✓",           premium: "✓",                  ultimate: "✓" },
-    { label: "Priority shipping",       starter: ", ",           premium: "3-day",              ultimate: "Same-week" },
-    { label: "Add on credit",           starter: ", ",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
+    { label: "Priority shipping",       starter: "-",           premium: "3-day",              ultimate: "Same-week" },
+    { label: "Add on credit",           starter: "-",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
     { label: "Holiday swaps",           starter: "1 per year",  premium: "3 per year",         ultimate: "Unlimited" },
-    { label: "Dedicated stylist",       starter: ", ",           premium: "Email / chat",       ultimate: "Video call (1×/yr)" },
-    { label: "Early access to drops",   starter: ", ",           premium: ", ",                  ultimate: "✓" },
+    { label: "Dedicated stylist",       starter: "-",           premium: "Email / chat",       ultimate: "Video call (1×/yr)" },
+    { label: "Early access to drops",   starter: "-",           premium: "-",                  ultimate: "✓" },
     { label: "Deposit protection",      starter: "✓",           premium: "✓",                  ultimate: "✓" },
     { label: "Cancel anytime",          starter: "✓",           premium: "✓",                  ultimate: "✓" },
 ];
@@ -432,7 +432,7 @@ export default async function SubscriptionPage() {
                     {mosaic.length > 0 && (
                         <div className="holidays-mosaic" role="list">
                             {mosaic.map((holiday, idx) => (
-                                <MosaicCard key={holiday.id} holiday={holiday} large={idx === 0 || idx === 6} />
+                                <MosaicCard key={holiday.id} holiday={holiday} large={idx === 0 || idx === 5} />
                             ))}
                         </div>
                     )}

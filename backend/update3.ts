@@ -1,4 +1,5 @@
-import { PrismaClient } from './generated/prisma';
+import { PrismaClient } from './src/generated/prisma';
+
 const prisma = new PrismaClient();
 async function main() {
   const kitP = await prisma.kit.findUnique({ where: { sku: 'NOW-PREMIUM-2026' } });

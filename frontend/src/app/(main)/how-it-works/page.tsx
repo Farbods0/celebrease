@@ -384,7 +384,7 @@ export default async function HowItWorksPage() {
                                 }}>2</div>
                                 <div style={{ fontSize: 13, color: "var(--cb-ink-muted)", lineHeight: 1.3 }}>
                                     <strong style={{ color: "var(--cb-ink)", display: "block", fontSize: 14, marginBottom: 1 }}>We curate your kit</strong>
-                                    10, 25 designer-picked pieces
+                                    10-25 designer-picked pieces
                                 </div>
                             </div>
                         </div>

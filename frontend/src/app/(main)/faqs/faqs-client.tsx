@@ -329,9 +329,9 @@ export default function FaqsClient() {
                             <Link
                                 href="/contact"
                                 className="btn-fill-grad"
-                                style={{ width: "fit-content", padding: "0 28px" }}
+                                style={{ width: "fit-content", padding: "0 28px", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
                             >
-                                Send a Message
+                                ✉ Send a Message
                             </Link>
                             <Link
                                 href="/how-it-works"

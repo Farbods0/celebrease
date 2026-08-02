@@ -10,11 +10,24 @@ const img = (path?: string | null) => {
 };
 
 // Pick N holidays from the list by name hint (fallback to index)
-function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number): ApiHoliday | undefined {
-    return (
-        holidays.find((h) => h.name.toLowerCase().includes(hint.toLowerCase())) ??
-        holidays[fallbackIdx]
-    );
+function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, defaultName?: string): ApiHoliday | undefined {
+    const found = holidays.find((h) => h.name.toLowerCase().includes(hint.toLowerCase()));
+    if (found && found.image) return found;
+    
+    // If not found or image is broken, return a fallback with local static image
+    const name = defaultName || hint.charAt(0).toUpperCase() + hint.slice(1);
+    return {
+        id: `mock-${hint}`,
+        name: name,
+        image: `/events/${name}.png`,
+        category: "TRADITIONAL",
+        description: null,
+        sortOrder: 0,
+        isActive: true,
+        createdAt: "",
+        updatedAt: "",
+        kits: []
+    } as ApiHoliday;
 }
 
 export default async function AboutPage() {
@@ -32,34 +45,34 @@ export default async function AboutPage() {
     }
 
     // Mosaic images (hero collage)
-    const mosaic0 = pick(holidays, "christmas", 0);
-    const mosaic1 = pick(holidays, "diwali", 1);
-    const mosaic2 = pick(holidays, "halloween", 2);
-    const mosaic3 = pick(holidays, "nowruz", 3);
-    const mosaic4 = pick(holidays, "thanksgiving", 4);
+    const mosaic0 = pick(holidays, "christmas", 0, "Christmas");
+    const mosaic1 = pick(holidays, "diwali", 1, "Diwali");
+    const mosaic2 = pick(holidays, "halloween", 2, "Halloween");
+    const mosaic3 = pick(holidays, "nowruz", 3, "Nowruz");
+    const mosaic4 = pick(holidays, "thanksgiving", 4, "Birthdays"); // Fallback to Birthday since Thanksgiving image is missing
 
     // Collage section, 8 cells
-    const c0 = pick(holidays, "christmas", 0);
-    const c1 = pick(holidays, "halloween", 2);
-    const c2 = pick(holidays, "diwali", 1);
-    const c3 = pick(holidays, "thanksgiving", 4);
-    const c4 = pick(holidays, "hanukkah", 5);
-    const c5 = pick(holidays, "nowruz", 3);
-    const c6 = pick(holidays, "eid", 6);
-    const c7 = pick(holidays, "lunar", 7);
+    const c0 = pick(holidays, "christmas", 0, "Christmas");
+    const c1 = pick(holidays, "halloween", 2, "Halloween");
+    const c2 = pick(holidays, "diwali", 1, "Diwali");
+    const c3 = pick(holidays, "thanksgiving", 4, "Birthdays");
+    const c4 = pick(holidays, "hanukkah", 5, "Hanukkah");
+    const c5 = pick(holidays, "nowruz", 3, "Nowruz");
+    const c6 = pick(holidays, "eid", 6, "Eid");
+    const c7 = pick(holidays, "lunar", 7, "New Year's"); // Fallback
 
     // Press strip, reuse holiday images
-    const press0 = pick(holidays, "valentine", 8) ?? holidays[8];
-    const press1 = pick(holidays, "juneteenth", 9) ?? holidays[9];
-    const press2 = pick(holidays, "mother", 10) ?? holidays[10];
+    const press0 = pick(holidays, "valentine", 8, "Valentine's Day");
+    const press1 = pick(holidays, "juneteenth", 9, "Eid");
+    const press2 = pick(holidays, "mother", 10, "Baby Showers");
 
     // "And many more" strip
     const more = [
-        { key: "easter", label: "Easter", h: pick(holidays, "easter", 11) ?? holidays[11] },
-        { key: "ramadan", label: "Ramadan", h: pick(holidays, "ramadan", 12) ?? holidays[12] },
-        { key: "new-years", label: "New Year's", h: pick(holidays, "new year", 13) ?? holidays[13] },
-        { key: "birthdays", label: "Birthdays", h: pick(holidays, "birthday", 14) ?? holidays[14] },
-        { key: "engagement", label: "Engagements", h: pick(holidays, "engagement", 15) ?? holidays[15] },
+        { key: "easter", label: "Easter", h: pick(holidays, "easter", 11, "Easter") },
+        { key: "ramadan", label: "Ramadan", h: pick(holidays, "ramadan", 12, "Ramadan") },
+        { key: "new-years", label: "New Year's", h: pick(holidays, "new year", 13, "New Year's") },
+        { key: "birthdays", label: "Birthdays", h: pick(holidays, "birthday", 14, "Birthdays") },
+        { key: "engagement", label: "Engagements", h: pick(holidays, "engagement", 15, "Engagement Parties") },
     ];
 
     return (

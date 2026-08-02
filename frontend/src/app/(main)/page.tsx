@@ -303,7 +303,7 @@ export default async function HomePage() {
                                 <Image src={img(t.img)} alt="" width={100} height={100} className="object-cover" />
                                 <div className="cb-testi-body">
                                     <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>
-                                    <p className="cb-testi-attr">, {t.a}</p>
+                                    <p className="cb-testi-attr">- {t.a}</p>
                                 </div>
                             </div>
                         ))}

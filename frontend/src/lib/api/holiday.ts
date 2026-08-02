@@ -78,7 +78,7 @@ export type ApiHolidayDetail = {
 };
 
 export async function getHolidays(): Promise<{ items: ApiHoliday[] }> {
-    const res = await fetch(apiURL(`${apiPrefix}/holidays`), { next: { revalidate: 0 } });
+    const res = await fetch(apiURL(`${apiPrefix}/holidays`), { next: { revalidate: 3600 } });
     if (!res.ok) {
         throw new Error(await readError(res, "Failed to load holidays"));
     }
@@ -89,8 +89,8 @@ export async function getHolidayById(
     id: string,
 ): Promise<{ holiday: ApiHolidayDetail | null; kits: ApiHolidayKit[]; addOns: ApiHolidayAddOn[]; holidays: ApiHoliday[] }> {
     const [resOne, resAll] = await Promise.all([
-        fetch(apiURL(`${apiPrefix}/holidays/${id}`), { next: { revalidate: 0 } }),
-        fetch(apiURL(`${apiPrefix}/holidays`), { next: { revalidate: 0 } })
+        fetch(apiURL(`${apiPrefix}/holidays/${id}`), { next: { revalidate: 3600 } }),
+        fetch(apiURL(`${apiPrefix}/holidays`), { next: { revalidate: 3600 } })
     ]);
 
     if (!resOne.ok) {

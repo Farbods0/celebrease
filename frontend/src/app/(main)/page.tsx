@@ -128,7 +128,7 @@ export default async function HomePage() {
                     <div className="cb-hiw-grid">
                         {[
                             { n: 1, t: "Pick your holidays", d: "Choose the celebrations that matter most to your home this year." },
-                            { n: 2, t: "We curate your kit", d: "Our designers hand-pick 10, 25 décor pieces for each holiday you choose." },
+                            { n: 2, t: "We curate your kit", d: "Our designers hand-pick 10-25 décor pieces for each holiday you choose." },
                             { n: 3, t: "Decorate & celebrate", d: "Open the box, follow the styling card, and host an unforgettable holiday." },
                             { n: 4, t: "Send it back, get refunded", d: "Prepaid label, doorstep pickup, and your full deposit back within five days." },
                         ].map((s) => (

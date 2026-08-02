@@ -2,7 +2,7 @@ import { CreateUserDto } from "@/users/dto/create-user.dto";
 import { ListUsersDto } from "@/users/dto/list-users.dto";
 import { UpdateUserDto } from "@/users/dto/update-user.dto";
 import { UsersService } from "@/users/users.service";
-import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import type { UserSession } from "@thallesp/nestjs-better-auth";
 import { Roles, Session } from "@thallesp/nestjs-better-auth";
 
@@ -39,5 +39,10 @@ export class UsersController {
     @Patch(":id")
     update(@Param("id") id: string, @Body() dto: UpdateUserDto) {
         return this.usersService.update(id, dto);
+    }
+
+    @Delete(":id")
+    remove(@Param("id") id: string) {
+        return this.usersService.remove(id);
     }
 }

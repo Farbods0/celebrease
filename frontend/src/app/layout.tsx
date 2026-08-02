@@ -19,6 +19,7 @@ import "./globals.css";
 import "./celebrease.css";
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://celebrease.com"),
     title: "CeleBrease | Holiday Décor, Delivered",
     description: "Designer curated holiday decoration kits delivered to your door. Decorate beautifully. Store nothing. Get your deposit back, every time.",
     keywords: ["holiday decor", "decor subscription", "christmas decor rental", "halloween decor rental", "event decor", "diwali decor", "home styling"],

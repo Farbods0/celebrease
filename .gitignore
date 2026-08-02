@@ -17,3 +17,14 @@ build/
 
 # Local Netlify folder
 .netlify
+
+# Uploads & Temp
+backend/uploads/
+
+# Scratch & DB scripts
+scratch_*.js
+fix_*.js
+update_*.js
+upload_*.js
+measure_*.js
+backend/scratch_*.js

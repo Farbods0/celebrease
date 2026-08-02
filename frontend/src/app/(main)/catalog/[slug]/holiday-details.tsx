@@ -255,7 +255,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     key={i}
                                     src={g.src} 
                                     alt={g.alt} 
-                                    priority={i === 0}
+                                    priority={true}
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                     width={800} 
                                     height={800} 
@@ -287,11 +287,6 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
 
                     {/* Meta / rating */}
                     <div className="cb-kit-meta-top">
-                        <div className="cb-kit-rating" aria-label="Rated 4.9 out of 5">
-                            <span className="stars" aria-hidden="true">★★★★★</span>
-                            <span><strong>4.9</strong></span>
-                            <span className="count">(127 reviews)</span>
-                        </div>
                         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                             <h1 className="cb-kit-title-h1">
                                 {holiday.name} {selectedKit ? TIER_LABEL[selectedKit.tier] : ""} Kit

@@ -579,10 +579,6 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                             <span>Easy returns</span>
                         </div>
                         <div className="cb-trust-badge" role="listitem">
-                            <span className="badge-icon" aria-hidden="true">&#11088;</span>
-                            <span>4.9 rating</span>
-                        </div>
-                        <div className="cb-trust-badge" role="listitem">
                             <span className="badge-icon" aria-hidden="true">&#10005;</span>
                             <span>Cancel anytime</span>
                         </div>

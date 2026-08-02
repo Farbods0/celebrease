@@ -1,5 +1,6 @@
 import { FaqAccordion } from "@/components/main/faq-accordion";
-import { ApiHoliday, ApiPlan, baseURL, getHolidaysByLoves, getPlans } from "@/lib/api";
+import { ApiHoliday, ApiPlan, baseURL, getHolidays, getPlans } from "@/lib/api";
+import { slugify } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -32,7 +33,7 @@ export default async function HomePage() {
     let data = { items: [] as ApiHoliday[] };
     let plansData = { items: [] as ApiPlan[] };
     try {
-        const [hRes, pRes] = await Promise.all([getHolidaysByLoves(), getPlans()]);
+        const [hRes, pRes] = await Promise.all([getHolidays(), getPlans()]);
         data = hRes;
         plansData = pRes;
     } catch (e) {
@@ -40,9 +41,19 @@ export default async function HomePage() {
     }
     const holidays = data.items;
     const plans = plansData.items;
-    const featured = holidays.slice(0, 6);
-    const hero0 = holidays[0] ?? null;
-    const hero1 = holidays[1] ?? holidays[0] ?? null;
+    
+    const desiredOrderKeys = ["christmas", "new year", "halloween", "thanksgiving", "birthday", "valentine"];
+    const featured = desiredOrderKeys.map(key => 
+        holidays.find(h => h.name.toLowerCase().includes(key))
+    ).filter(Boolean) as ApiHoliday[];
+
+    if (featured.length < 6) {
+        const remaining = holidays.filter(h => !featured.some(f => f.id === h.id) && !h.name.toLowerCase().includes("nowruz"));
+        featured.push(...remaining.slice(0, 6 - featured.length));
+    }
+
+    const hero0 = featured[0] ?? null;
+    const hero1 = featured[1] ?? featured[0] ?? null;
 
     return (
         <div className="cb">
@@ -67,7 +78,7 @@ export default async function HomePage() {
                                 ))}
                             </div>
                             <div className="cb-proof-text">
-                                <span className="cb-proof-stars">★★★★★</span> <b>4.9</b> · Loved by <b>2,400+ families</b>
+                                Loved by <b>2,400+ families</b>
                                 <br />Free shipping both ways · Deposit always refundable
                             </div>
                         </div>
@@ -86,7 +97,6 @@ export default async function HomePage() {
                             </div>
                             <div className="kf-meta">
                                 <div className="kf-price">${lowestPrice(hero0?.kits) ?? 89} <span>/ 30 days</span></div>
-                                <div className="kf-rate"><b>★ 4.9</b></div>
                             </div>
                         </div>
                         <div className="img-sub">
@@ -147,7 +157,7 @@ export default async function HomePage() {
                             const cat = CATEGORY[h.category as keyof typeof CATEGORY] ?? CATEGORY.TRADITIONAL;
                             const price = lowestPrice(h.kits);
                             return (
-                                <Link key={h.id} href={`/catalog/${h.id}`} className="cb-holiday-card">
+                                <Link key={h.id} href={`/catalog/${slugify(h.name)}`} className="cb-holiday-card">
                                     <Image src={img(h.image)} alt={`${h.name} décor kit`} width={600} height={400} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover" />
                                     <div className="scrim" />
                                     <span className={`cb-cat-badge ${cat.cls}`}>{cat.label}</span>
@@ -292,7 +302,6 @@ export default async function HomePage() {
                             <div key={i} className="cb-testi-card">
                                 <Image src={img(t.img)} alt="" width={100} height={100} className="object-cover" />
                                 <div className="cb-testi-body">
-                                    <div className="cb-testi-stars">★★★★★</div>
                                     <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>
                                     <p className="cb-testi-attr">, {t.a}</p>
                                 </div>

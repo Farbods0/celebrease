@@ -2,7 +2,7 @@
 
 import { baseURL, getHolidays, getMyWishlist, type ApiHoliday, type HolidayCategory } from "@/lib/api";
 import { useLovesStore } from "@/lib/loves-store";
-import { toNumber } from "@/lib/utils";
+import { toNumber, slugify } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -75,7 +75,7 @@ export function WishlistGrid() {
     const handleAddToCart = (e: React.MouseEvent, holiday: ApiHoliday) => {
         e.preventDefault();
         e.stopPropagation();
-        router.push(`/catalog/${holiday.id}`);
+        router.push(`/catalog/${slugify(holiday.name)}`);
     };
 
     if (isLoading) {
@@ -161,7 +161,7 @@ export function WishlistGrid() {
                                 return (
                                     <Link
                                         key={holiday.id}
-                                        href={`/catalog/${holiday.id}`}
+                                        href={`/catalog/${slugify(holiday.name)}`}
                                         className="cb-holiday-card"
                                         aria-label={`View ${holiday.name} kits`}
                                     >

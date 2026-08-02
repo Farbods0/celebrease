@@ -29,7 +29,6 @@ export default function CartPage() {
                 <div className="cb-trust-bar-cart" style={{background:"var(--cb-lavender)",borderBottom:"1px solid var(--cb-line)",height:"40px",display:"flex",alignItems:"center",justifyContent:"center",gap:"clamp(16px,3vw,40px)",fontSize:"13px",fontWeight:500,color:"var(--cb-ink-muted)",padding:"0 24px",flexWrap:"wrap"}}>
                     <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128666; <b style={{color:"var(--cb-purple)"}}>Free</b> shipping both ways</span>
                     <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128179; <b style={{color:"var(--cb-purple)"}}>100%</b> deposit refunded</span>
-                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#11088; <b style={{color:"var(--cb-purple)"}}>4.9</b> &middot; 2,400+ celebrations</span>
                 </div>
                 <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"clamp(36px,4vw,56px) 24px 0"}}>
                     <div style={{height:"16px",width:"120px",marginBottom:"20px"}} className="cb-cart-skeleton" />
@@ -70,7 +69,6 @@ export default function CartPage() {
                 <div style={{background:"var(--cb-lavender)",borderBottom:"1px solid var(--cb-line)",height:"40px",display:"flex",alignItems:"center",justifyContent:"center",gap:"clamp(16px,3vw,40px)",fontSize:"13px",fontWeight:500,color:"var(--cb-ink-muted)",padding:"0 24px",flexWrap:"wrap"}}>
                     <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128666; <b style={{color:"var(--cb-purple)"}}>Free</b> shipping both ways</span>
                     <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128179; <b style={{color:"var(--cb-purple)"}}>100%</b> deposit refunded</span>
-                    <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#11088; <b style={{color:"var(--cb-purple)"}}>4.9</b> &middot; 2,400+ celebrations</span>
                 </div>
                 {/* Page header */}
                 <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"clamp(36px,4vw,56px) 24px 0"}}>
@@ -97,7 +95,6 @@ export default function CartPage() {
             <div style={{background:"var(--cb-lavender)",borderBottom:"1px solid var(--cb-line)",height:"40px",display:"flex",alignItems:"center",justifyContent:"center",gap:"clamp(16px,3vw,40px)",fontSize:"13px",fontWeight:500,color:"var(--cb-ink-muted)",padding:"0 24px",flexWrap:"wrap"}}>
                 <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128666; <b style={{color:"var(--cb-purple)"}}>Free</b> shipping both ways</span>
                 <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#128179; <b style={{color:"var(--cb-purple)"}}>100%</b> deposit refunded</span>
-                <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#11088; <b style={{color:"var(--cb-purple)"}}>4.9</b> &middot; 2,400+ celebrations</span>
                 <span style={{display:"flex",alignItems:"center",gap:"6px",whiteSpace:"nowrap"}}>&#10005; <b style={{color:"var(--cb-purple)"}}>Cancel</b> anytime</span>
             </div>
 

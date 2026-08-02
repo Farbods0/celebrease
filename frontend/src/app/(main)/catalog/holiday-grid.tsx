@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { baseURL, getHolidays, type ApiHoliday, type HolidayCategory } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { useLovesStore } from "@/lib/loves-store";
-import { toNumber } from "@/lib/utils";
+import { toNumber, slugify } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import Image from "next/image";
@@ -201,7 +201,7 @@ function CatalogCard({ holiday, index }: { holiday: ApiHoliday; index?: number }
     const catLabel = CATEGORY_LABEL[holiday.category];
 
     return (
-        <Link href={`/catalog/${holiday.id}`} className="cb-holiday-card">
+        <Link href={`/catalog/${slugify(holiday.name)}`} prefetch={true} className="cb-holiday-card">
             <Image
                 src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/uploads") ? `${baseURL}${holiday.image}` : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
                 alt={`${holiday.name}, holiday décor kit`}

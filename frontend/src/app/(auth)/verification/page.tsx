@@ -400,8 +400,7 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                                 />
                             </div>
                             <div className="cb-auth-proof-text">
-                                <span className="cb-auth-proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>{" "}
-                                <b>4.9</b> &middot; Loved by <b>2,400+ families</b>
+                                Loved by <b>2,400+ families</b>
                                 <br />Free shipping both ways &middot; Deposit always refundable
                             </div>
                         </div>

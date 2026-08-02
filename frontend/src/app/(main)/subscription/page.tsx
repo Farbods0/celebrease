@@ -339,9 +339,8 @@ export default async function SubscriptionPage() {
                 </h1>
                 <p>Every plan is an annual membership. Choose to pay monthly, or pay for the full year upfront for a 20% discount.</p>
                 <div className="sub-hero-proof">
-                    <span className="proof-stars">★★★★★</span>
                     <span>
-                        <strong>4.9</strong> · 2,400+ families celebrating · 30 day money back guarantee
+                        2,400+ families celebrating · 30 day money back guarantee
                     </span>
                 </div>
             </section>

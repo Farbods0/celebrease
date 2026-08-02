@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { baseURL, type ApiHoliday, type HolidayCategory } from "@/lib/api";
 import { auth } from "@/lib/auth";
 import { useLovesStore } from "@/lib/loves-store";
-import { cn, toNumber } from "@/lib/utils";
+import { cn, toNumber, slugify } from "@/lib/utils";
 import { ArrowRight02Icon, Heart } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
@@ -58,7 +58,7 @@ export function HolidayCard({ holiday, index }: { holiday: ApiHoliday; index?: n
     };
 
     return (
-        <Link href={`/catalog/${holiday.id}`} className="group border rounded-2xl overflow-hidden flex flex-col">
+        <Link href={`/catalog/${slugify(holiday.name)}`} className="group border rounded-2xl overflow-hidden flex flex-col">
             <div className="relative h-64 w-full">
                 <Image 
                     src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? `${baseURL}${holiday.image}` : `${baseURL}/${holiday.image}`}

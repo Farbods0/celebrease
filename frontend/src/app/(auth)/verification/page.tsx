@@ -3,6 +3,12 @@ import { z } from "zod";
 import { VerificationForm } from "./form";
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Verify Account | CeleBrease",
+    description: "Verify your CeleBrease account to access your holiday décor subscription and orders.",
+};
 
 const verifySchema = z.object({
     user: z.email("Enter your email address"),

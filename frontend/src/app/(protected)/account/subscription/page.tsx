@@ -223,10 +223,29 @@ function EmptySlotCard({ slotNum }: { slotNum: number }) {
 }
 
 function PaymentMethodCard({ pm }: { pm: ApiPaymentMethod | null }) {
-    const brand = (pm?.brand ?? "CARD").toUpperCase();
-    const last4 = pm?.last4 ?? "----";
-    const expMonth = pm?.expMonth ? String(pm.expMonth).padStart(2, "0") : "--";
-    const expYear = pm?.expYear ?? "----";
+    if (!pm || !pm.last4) {
+        return (
+            <div className="acct-payment-card">
+                <div className="acct-payment-info">
+                    <div className="acct-card-icon" aria-hidden="true">CARD</div>
+                    <div>
+                        <div className="acct-payment-detail">No payment method on file</div>
+                        <div className="acct-payment-sub">Add a credit or debit card for seamless checkout and plan renewals</div>
+                    </div>
+                </div>
+                <div className="acct-payment-actions">
+                    <button className="acct-btn acct-btn--primary" onClick={() => toast.info("Add payment method coming soon.")}>
+                        + Add Payment Method
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    const brand = (pm.brand ?? "CARD").toUpperCase();
+    const last4 = pm.last4;
+    const expMonth = pm.expMonth ? String(pm.expMonth).padStart(2, "0") : "--";
+    const expYear = pm.expYear ?? "----";
 
     return (
         <div className="acct-payment-card">

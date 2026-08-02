@@ -1,0 +1,224 @@
+{
+  "timestamp": "2026-08-02T22:00:20.394Z",
+  "consumer": {
+    "pagesTested": 22,
+    "issues": [
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=128&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459413870-420228229.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=1200&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=1200&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=1200&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=256&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=256&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/",
+        "detail": "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=256&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/catalog",
+        "detail": "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/catalog",
+        "detail": "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/catalog",
+        "detail": "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/catalog",
+        "detail": "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459413870-420228229.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/catalog",
+        "detail": "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/catalog/christmas",
+        "detail": "Broken image on https://celebrease.com/catalog/christmas: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/catalog/christmas",
+        "detail": "Broken image on https://celebrease.com/catalog/christmas: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=3840&q=75\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/subscription",
+        "detail": "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459414479-965605616.jpg\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/subscription",
+        "detail": "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459412914-268775155.jpg\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/subscription",
+        "detail": "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459411681-207521787.jpg\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/subscription",
+        "detail": "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459413870-420228229.jpg\""
+      },
+      {
+        "type": "Broken Image",
+        "location": "https://celebrease.com/subscription",
+        "detail": "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459412305-581602058.jpg\""
+      }
+    ]
+  },
+  "admin": {
+    "pagesTested": 12,
+    "issues": []
+  },
+  "consoleErrors": [
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/catalog)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/catalog)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/catalog)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/catalog)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/catalog)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/kits)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/catalog/christmas)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 404 () (https://celebrease.com/catalog/christmas)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 403 () (https://celebrease.com/verification)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 403 () (https://celebrease.com/about)",
+    "[CONSOLE ERROR] Failed to load resource: the server responded with a status of 403 () (https://celebrease.com/contact)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/holidays)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/kits)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/inventory)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/orders?page=1&limit=20&filter=all)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/signin)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/returns)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/subscriptions)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/plans)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/users)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/reviews)",
+    "[CONSOLE ERROR] Session validation failed: Response (https://admin.celebrease.com/settings)"
+  ],
+  "networkErrors": [
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=750&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=640&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=640&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=64&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=640&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459413870-420228229.jpg&w=640&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=750&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=640&q=75 on page https://celebrease.com/",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=384&q=75 on page https://celebrease.com/catalog",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=384&q=75 on page https://celebrease.com/catalog",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459413870-420228229.jpg&w=384&q=75 on page https://celebrease.com/catalog",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=384&q=75 on page https://celebrease.com/catalog",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=384&q=75 on page https://celebrease.com/catalog",
+    "[NETWORK 404] GET https://celebrease.com/kits on page https://celebrease.com/catalog",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=640&q=75 on page https://celebrease.com/catalog/christmas",
+    "[NETWORK 404] GET https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=640&q=75 on page https://celebrease.com/catalog/christmas",
+    "[NETWORK 403] GET https://celebrease.com/verification on page https://celebrease.com/reset-password",
+    "[NETWORK 403] GET https://celebrease.com/about on page https://celebrease.com/verification",
+    "[NETWORK 403] GET https://celebrease.com/contact on page https://celebrease.com/about"
+  ],
+  "imageErrors": [
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=128&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459413870-420228229.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=1200&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=1200&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=1200&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=256&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=256&q=75\"",
+    "Broken image on https://celebrease.com/: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=256&q=75\"",
+    "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459414479-965605616.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459413870-420228229.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/catalog: src=\"https://celebrease.com/_next/image?url=%2Fuploads%2Fholidays%2F1785459412305-581602058.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/catalog/christmas: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459412914-268775155.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/catalog/christmas: src=\"https://celebrease.com/_next/image?url=https%3A%2F%2Fcelebrease-backend-production-4778.up.railway.app%2Fuploads%2Fholidays%2F1785459411681-207521787.jpg&w=3840&q=75\"",
+    "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459414479-965605616.jpg\"",
+    "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459412914-268775155.jpg\"",
+    "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459411681-207521787.jpg\"",
+    "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459413870-420228229.jpg\"",
+    "Broken image on https://celebrease.com/subscription: src=\"https://celebrease-backend-production-4778.up.railway.app/uploads/holidays/1785459412305-581602058.jpg\""
+  ]
+}

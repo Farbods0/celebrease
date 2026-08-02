@@ -540,7 +540,7 @@ export function SignupForm() {
                 <form.AppField name="confirmPassword">
                     {(field) => {
                         const hasError =
-                            field.state.meta.isTouched &&
+                            (field.state.meta.isTouched || field.state.value.length > 0) &&
                             field.state.meta.errors &&
                             field.state.meta.errors.length > 0;
                         return (

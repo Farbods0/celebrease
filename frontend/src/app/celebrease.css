@@ -670,6 +670,7 @@
   padding: clamp(36px,4vw,56px) clamp(28px,4vw,56px);
   display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
   box-shadow: var(--cb-shadow-glow); position: relative; overflow: hidden;
+  margin-top: 56px; margin-bottom: 56px;
 }
 .cb-upsell-band::before {
   content: ''; position: absolute; width: 340px; height: 340px; right: -80px; bottom: -140px;

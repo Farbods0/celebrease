@@ -35,15 +35,20 @@ function lowestPrice(kits: ApiHoliday["kits"]): number | null {
 const img = (path?: string | null) => {
     if (!path) return "";
     if (path.startsWith("http")) return path;
-    if (path.startsWith("/uploads")) return `${baseURL}${path}`;
-    return path.startsWith("/") ? path : `${baseURL}/${path}`;
+    if (path.startsWith("/")) return path;
+    return `${baseURL}/${path}`;
 };
 
 export async function generateStaticParams() {
-    const { items } = await getHolidays();
-    return items.map((holiday) => ({
-        slug: slugify(holiday.name),
-    }));
+    try {
+        const { items } = await getHolidays();
+        return items.map((holiday) => ({
+            slug: slugify(holiday.name),
+        }));
+    } catch (e) {
+        console.error("Failed generateStaticParams:", e);
+        return [];
+    }
 }
 
 export default async function CatalogDetailPage({ params }: { params: Promise<{ slug: string }> }) {

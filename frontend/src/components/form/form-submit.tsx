@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useFormContext } from "./form-context";
 
-export function FormSubmit({ label }: { label: string }) {
+export function FormSubmit({ label }: { label: React.ReactNode }) {
     const form = useFormContext();
 
     return (

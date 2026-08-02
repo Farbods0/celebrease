@@ -511,12 +511,12 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                     </section>
                 )}
 
-                {/* Add Ons */}
+                {/* Add-ons */}
                 {addOns.length > 0 && (
                     <section className="cb-addons-section" aria-labelledby="addons-heading">
                         <div className="cb-sec-label">Elevate your kit</div>
-                        <h2 id="addons-heading">Optional add ons</h2>
-                        <div className="cb-addons-grid" role="group" aria-label="Optional add ons">
+                        <h2 id="addons-heading">Optional add-ons</h2>
+                        <div className="cb-addons-grid" role="group" aria-label="Optional add-ons">
                             {addOns.map(({ addOn }) => {
                                 const checked = selectedAddons.has(addOn.id);
                                 const deposit = Number(addOn.deposit);
@@ -624,10 +624,10 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                         <div className="cb-upsell-copy">
                             <div className="cb-upsell-eyebrow">Save up to 30% per kit</div>
                             <h2>Celebrate every holiday for one monthly price</h2>
-                            <p>CeleBrease members get priority access, free add ons every season, and never pay per kit shipping. Join over 2,400 families who decorate without the clutter.</p>
+                            <p>CeleBrease members get priority access, free add-ons every season, and never pay per-kit shipping. Join over 2,400 families who decorate without the clutter.</p>
                             <div className="cb-upsell-perks">
                                 <div className="cb-upsell-perk">6 holidays / year</div>
-                                <div className="cb-upsell-perk">Free two way shipping</div>
+                                <div className="cb-upsell-perk">Free two-way shipping</div>
                                 <div className="cb-upsell-perk">Full deposit protection</div>
                                 <div className="cb-upsell-perk">Cancel anytime</div>
                             </div>

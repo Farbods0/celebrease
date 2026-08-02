@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { ArrowRight } from "lucide-react";
 import { z } from "zod";
 
 function getPasswordStrength(password: string): { level: number; label: string; cssClass: string } {
@@ -256,7 +257,7 @@ export function SignupForm() {
                 .cb-auth-terms-row {
                     display: flex;
                     align-items: flex-start;
-                    gap: 10px;
+                    gap: 12px;
                     font-size: 13px;
                     color: #5B4A6B;
                     line-height: 1.5;
@@ -619,7 +620,7 @@ export function SignupForm() {
                                 className="cb-auth-btn-create"
                                 disabled={!canSubmit}
                             >
-                                {isSubmitting ? "Creating your account..." : "Create account →"}
+                                {isSubmitting ? "Creating your account..." : <span className="flex items-center gap-2 justify-center">Create account <ArrowRight className="w-4 h-4" /></span>}
                             </button>
                         )}
                     </form.Subscribe>

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { ArrowRight } from "lucide-react";
 
 const signinSchema = z.object({
     email: z.email("Enter your email address"),
@@ -344,7 +345,7 @@ export function SigninForm() {
                 {/* Submit, wrapped to override button styles */}
                 <div className="cb-submit-wrap">
                     <form.AppForm>
-                        <form.FormSubmit label="Sign In →" />
+                        <form.FormSubmit label={<span className="flex items-center gap-2 justify-center">Sign In <ArrowRight className="w-4 h-4" /></span>} />
                     </form.AppForm>
                 </div>
 

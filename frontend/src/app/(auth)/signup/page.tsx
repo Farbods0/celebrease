@@ -159,7 +159,7 @@ export default function Signup() {
                         <p className="cb-auth-quote">
                             "I haven't bought a single decoration in two years. CeleBrease handles everything, beautifully."
                         </p>
-                        <p className="cb-auth-attr">, Priya K., New York, Premium member</p>
+                        <p className="cb-auth-attr">- Priya K., New York, Premium member</p>
                         <div className="cb-auth-perks">
                             <div className="cb-auth-perk">
                                 <span className="perk-ico">🛡️</span>

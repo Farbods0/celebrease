@@ -190,59 +190,17 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                     })
                 )}
             </div>
-
-            <div
-                style={{
-                    background: "linear-gradient(135deg, #1A0B2E 0%, #2A1047 100%)",
-                    borderRadius: "20px",
-                    padding: "32px 36px",
-                    marginTop: "48px",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "24px",
-                    boxShadow: "0 12px 32px rgba(26,11,46,0.2)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                }}
-                className="flex-col md:flex-row text-center md:text-left"
-            >
+            <div className="cb-alacarte-banner flex-col md:flex-row text-center md:text-left flex items-center justify-between gap-6">
                 <div style={{ flex: 1 }}>
-                    <span
-                        style={{
-                            fontSize: "12px",
-                            fontWeight: 800,
-                            letterSpacing: "0.1em",
-                            textTransform: "uppercase",
-                            color: "#FF5C9D",
-                            display: "block",
-                            marginBottom: "6px",
-                        }}
-                    >
+                    <span className="eyebrow-pink">
                         A La Carte Rental Option
                     </span>
-                    <h3
-                        style={{
-                            fontSize: "22px",
-                            fontWeight: 700,
-                            color: "#FFFFFF",
-                            margin: "0 0 8px 0",
-                            fontFamily: "'Playfair Display', serif",
-                        }}
-                    >
+                    <h3>
                         Just hosting a single holiday event?
                     </h3>
-                    <p
-                        style={{
-                            fontSize: "14.5px",
-                            lineHeight: "1.6",
-                            color: "rgba(255, 255, 255, 0.92)",
-                            margin: 0,
-                            maxWidth: "640px",
-                        }}
-                    >
+                    <p>
                         One-time individual holiday décor rentals start at{" "}
-                        <strong style={{ color: "#FFFFFF", fontWeight: 700 }}>
+                        <strong>
                             ${settings?.aLaCarteStartingPrice ?? 79} / kit
                         </strong>
                         . Save significantly per holiday by choosing an all-inclusive membership above!

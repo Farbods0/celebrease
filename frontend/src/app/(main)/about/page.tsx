@@ -2,6 +2,9 @@ import { ApiHoliday, baseURL, getHolidays } from "@/lib/api";
 import Link from "next/link";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const img = (path?: string | null) => {
     if (!path) return "";
     if (path.includes("/uploads/")) return path.substring(path.indexOf("/uploads/"));

@@ -672,14 +672,48 @@
   box-shadow: var(--cb-shadow-glow); position: relative; overflow: hidden;
   margin-top: 56px; margin-bottom: 56px;
 }
-.cb-upsell-band::before {
-  content: ''; position: absolute; width: 340px; height: 340px; right: -80px; bottom: -140px;
-  background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%); pointer-events: none;
+/* A La Carte Banner */
+.cb-alacarte-banner {
+  background: linear-gradient(135deg, #1A0B2E 0%, #2A1047 100%) !important;
+  border-radius: 20px !important;
+  padding: 32px 36px !important;
+  margin-top: 48px !important;
+  box-shadow: 0 12px 32px rgba(26,11,46,0.25) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+}
+.cb-alacarte-banner h3 {
+  color: #FFFFFF !important;
+  font-family: 'Playfair Display', serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  margin: 0 0 8px 0 !important;
+}
+.cb-alacarte-banner .eyebrow-pink {
+  color: #FF5C9D !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  margin-bottom: 6px !important;
+}
+.cb-alacarte-banner p {
+  color: rgba(255, 255, 255, 0.92) !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+.cb-alacarte-banner p strong {
+  color: #FFFFFF !important;
 }
 .cb-upsell-copy { position: relative; }
 .cb-upsell-eyebrow { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.8); margin-bottom: 10px; }
 .cb-upsell-band h2 { color: #fff; font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 10px; }
 .cb-upsell-band p { color: rgba(255,255,255,0.88); font-size: 15.5px; line-height: 1.55; }
+.cb-upsell-band::before {
+  content: ''; position: absolute; width: 340px; height: 340px; right: -80px; bottom: -140px;
+  background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%); pointer-events: none;
+}
 .cb-upsell-perks { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; }
 .cb-upsell-perk { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.95); font-size: 13.5px; font-weight: 500; }
 .cb-upsell-perk::before {

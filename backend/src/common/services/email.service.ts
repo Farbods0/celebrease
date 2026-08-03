@@ -130,10 +130,10 @@ export class EmailService {
                                                     <td>
                                                         <div class="greeting">Welcome to CeleBrease!</div>
                                                         <div class="message">
-                                                            Thank you for signing up for CeleBrease, your new virtual collaborative whiteboard platform!
-                                                            We're excited to have you join our creative community.
+                                                            Thank you for signing up for CeleBrease, your premium holiday décor rental subscription platform!
+                                                            We're excited to help you dress your home for every celebration without the storage clutter.
                                                             <br /><br />
-                                                            To complete your registration and start collaborating on amazing projects, please verify
+                                                            To complete your registration and choose your holiday kits, please verify
                                                             your email address by clicking the button below:
                                                         </div>
                                                     </td>
@@ -450,7 +450,7 @@ export class EmailService {
                                                         <div class="message">
                                                             We received a request to reset the password for your CeleBrease account.
                                                             <br /><br />
-                                                            To reset your password and regain access to your collaborative whiteboard projects, 
+                                                            To reset your password and regain access to your holiday rental subscriptions, 
                                                             please click the button below:
                                                         </div>
                                                     </td>

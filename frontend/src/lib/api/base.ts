@@ -39,6 +39,13 @@ export function apiURL(path: string, params?: Record<string, string | number | u
 
 export const apiPrefix = "/api/v1";
 
+export function resolveImageUrl(path?: string | null): string {
+    if (!path) return "";
+    if (path.startsWith("http")) return path;
+    if (path.startsWith("/uploads")) return path; // Serve statically from frontend (Netlify)
+    return path.startsWith("/") ? path : `/${path}`;
+}
+
 export async function readError(res: Response, fallback: string): Promise<string> {
     try {
         const body = await res.json();

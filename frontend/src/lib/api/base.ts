@@ -41,8 +41,10 @@ export const apiPrefix = "/api/v1";
 
 export function resolveImageUrl(path?: string | null): string {
     if (!path) return "";
+    if (path.includes("/uploads/")) {
+        return path.substring(path.indexOf("/uploads/"));
+    }
     if (path.startsWith("http")) return path;
-    if (path.startsWith("/uploads")) return path; // Serve statically from frontend (Netlify)
     return path.startsWith("/") ? path : `/${path}`;
 }
 

@@ -14,20 +14,12 @@ function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, default
     const found = holidays.find((h) => h.name.toLowerCase().includes(hint.toLowerCase()));
     if (found && found.image) return found;
     
-    // If not found or image is broken, return a fallback with local static image
-    const name = defaultName || hint.charAt(0).toUpperCase() + hint.slice(1);
-    return {
-        id: `mock-${hint}`,
-        name: name,
-        image: `/events/${name}.png`,
-        category: "TRADITIONAL",
-        description: null,
-        sortOrder: 0,
-        isActive: true,
-        createdAt: "",
-        updatedAt: "",
-        kits: []
-    } as ApiHoliday;
+    // Fallback to valid holiday in list
+    if (holidays.length > 0) {
+        return holidays[fallbackIdx % holidays.length];
+    }
+
+    return undefined;
 }
 
 export default async function AboutPage() {

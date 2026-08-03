@@ -149,10 +149,6 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
               }))
             : [
                   { src: img(holiday.image), alt: holiday.name },
-                  ...(selectedKit?.previewItems?.slice(0, 4).map((p) => ({
-                      src: img(p.item.image),
-                      alt: p.item.name,
-                  })) ?? []),
               ];
 
     const mainImage = galleryImages[activeThumb] ?? galleryImages[0];

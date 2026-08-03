@@ -203,7 +203,7 @@ function CatalogCard({ holiday, index }: { holiday: ApiHoliday; index?: number }
     return (
         <Link href={`/catalog/${slugify(holiday.name)}`} prefetch={true} className="cb-holiday-card">
             <Image
-                src={holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
+                src={holiday.image?.includes("/uploads/") ? holiday.image.substring(holiday.image.indexOf("/uploads/")) : holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
                 alt={`${holiday.name}, holiday décor kit`}
                 fill style={{ objectFit: "cover" }}
                 unoptimized={Boolean(holiday.image)}

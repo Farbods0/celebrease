@@ -16,6 +16,8 @@ import Image from "next/image";
 import { HolidayDetails } from "./holiday-details";
 import { Button } from "@/components/ui/button";
 
+export const revalidate = 0;
+
 const CATEGORY_LABEL: Record<HolidayCategory, string> = {
     TRADITIONAL: "Traditional",
     CULTURAL: "Cultural",

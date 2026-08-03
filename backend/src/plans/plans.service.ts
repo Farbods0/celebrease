@@ -15,18 +15,32 @@ const planInclude = {
 
 @Injectable()
 export class PlansService {
+    private cachedPlansList: { data: any; timestamp: number } | null = null;
+    private CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes in-memory cache
+
     constructor(
         private readonly prisma: PrismaService,
         private readonly stripe: StripeService,
     ) {}
 
+    public clearCache() {
+        this.cachedPlansList = null;
+    }
+
     async list() {
+        const now = Date.now();
+        if (this.cachedPlansList && (now - this.cachedPlansList.timestamp < this.CACHE_TTL_MS)) {
+            return this.cachedPlansList.data;
+        }
+
         const items = await this.prisma.plan.findMany({
             where: { isActive: true },
             include: planInclude,
             orderBy: { sortOrder: "asc" },
         });
-        return { items };
+        const result = { items };
+        this.cachedPlansList = { data: result, timestamp: now };
+        return result;
     }
 
     async listAll() {

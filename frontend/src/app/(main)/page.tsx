@@ -295,12 +295,12 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-testi-grid">
                         {[
-                            { img: featured[0]?.image, q: "Best Christmas our family has ever had, and I didn't stress once about storage.", a: "Sarah M., Chicago" },
-                            { img: featured[1]?.image, q: "Subscribed in October and my Halloween was unbelievable. Already booked Christmas.", a: "James T., Austin" },
-                            { img: featured[2]?.image, q: "The kit arrived styled and ready. I literally just placed each piece. Done.", a: "Priya K., New York" },
+                            { img: "/events/christmas_cover.jpg", q: "Best Christmas our family has ever had, and I didn't stress once about storage.", a: "Sarah M., Chicago" },
+                            { img: "/uploads/holidays/halloween-starter-angle1.jpg", q: "Subscribed in October and my Halloween was unbelievable. Already booked Christmas.", a: "James T., Austin" },
+                            { img: "/uploads/holidays/diwali-starter-angle1.jpg", q: "The kit arrived styled and ready. I literally just placed each piece. Done.", a: "Priya K., New York" },
                         ].map((t, i) => (
                             <div key={i} className="cb-testi-card">
-                                <Image src={img(t.img)} alt="" width={100} height={100} className="object-cover" />
+                                <Image src={t.img} alt={`Living room decor for ${t.a}`} width={600} height={375} sizes="(max-width: 768px) 100vw, 33vw" className="object-cover w-full" style={{ aspectRatio: "16/10" }} />
                                 <div className="cb-testi-body">
                                     <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>
                                     <p className="cb-testi-attr">- {t.a}</p>

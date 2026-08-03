@@ -57,6 +57,7 @@ function addDaysIso(start: string, days: number): string {
 const img = (path?: string | null) => {
     if (!path) return "";
     if (path.startsWith("http")) return path;
+    if (path.startsWith("/uploads")) return `${baseURL}${path}`;
     if (path.startsWith("/")) return path;
     return `${baseURL}/${path}`;
 };

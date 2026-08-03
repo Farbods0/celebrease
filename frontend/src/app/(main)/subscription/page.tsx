@@ -53,6 +53,7 @@ const COMPARE_ROWS: Array<{
 function imgSrc(path?: string | null) {
     if (!path) return "";
     if (path.startsWith("http")) return path;
+    if (path.startsWith("/uploads")) return `${baseURL}${path}`;
     if (path.startsWith("/")) return path;
     return `${baseURL}/${path}`;
 }

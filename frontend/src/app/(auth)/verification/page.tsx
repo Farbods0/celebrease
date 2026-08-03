@@ -378,7 +378,7 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
 
                         <p className="cb-auth-tagline-pre">CeleBrease &middot; Holiday Decor by Subscription</p>
 
-                        <h2 className="cb-auth-headline">Almost there &mdash; your<br />celebrations await.</h2>
+                        <h2 className="cb-auth-headline">Almost there. Your<br />celebrations await.</h2>
 
                         <p className="cb-auth-sub">One quick step and you&apos;ll be choosing your holiday kits. Designer decor delivered, zero storage hassle.</p>
 

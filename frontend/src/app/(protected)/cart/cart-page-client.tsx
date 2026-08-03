@@ -85,7 +85,7 @@ export default function CartPageClient() {
                     <div className="mt-6 bg-linear-to-br from-primary to-secondary rounded-2xl p-6 md:p-8 lg:p-10 text-white">
                         <h3 className="text-2xl md:text-3xl font-semibold font-heading">Want To Celebrate All Year Long?</h3>
                         <p className="mt-2 text-sm text-white/80 max-w-lg">
-                            Join our 3-Holiday Subscription Plan &mdash; choose three holidays per year, with free returns and exclusive
+                            Join our 3-Holiday Subscription Plan to choose three holidays per year, with free returns and exclusive
                             pricing.
                         </p>
                         <ul className="mt-4 space-y-2 text-sm">

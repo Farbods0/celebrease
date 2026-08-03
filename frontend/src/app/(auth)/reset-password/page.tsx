@@ -225,7 +225,7 @@ export default async function ResetPassword() {
                     </div>
                     <div className="cb-auth-brand-content">
                         <p className="cb-auth-brand-quote">
-                            &ldquo;Every Christmas morning, our living room looks like it came straight off a magazine cover &mdash; without lifting a storage box.&rdquo;
+                            &ldquo;Every Christmas morning, our living room looks like it came straight off a magazine cover, without lifting a single storage box.&rdquo;
                         </p>
                         <p className="cb-auth-brand-attr">&mdash; Melissa T., Ultimate member</p>
                         <ul className="cb-auth-feature-list">

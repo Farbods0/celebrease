@@ -272,8 +272,8 @@ export default function CheckoutSuccessClient() {
                         position: "relative",
                     }}
                 >
-                    Payment successful &mdash;<br />
-                    <span className="gradient-text">your celebration is booked!</span>
+                    Payment successful!<br />
+                    <span className="gradient-text">Your celebration is booked!</span>
                 </h1>
 
                 <p
@@ -307,7 +307,7 @@ export default function CheckoutSuccessClient() {
                         border: "1px solid rgba(155,47,201,0.18)",
                     }}
                 >
-                    Payment confirmed &mdash; check your email for the receipt
+                    Payment confirmed! Check your email for your receipt.
                 </div>
             </section>
 
@@ -348,7 +348,7 @@ export default function CheckoutSuccessClient() {
                             <span style={{ fontSize: 22, flexShrink: 0, lineHeight: 1, marginTop: 1 }} aria-hidden="true">&#128156;</span>
                             <p>
                                 <strong>Your deposit is refunded in full</strong> within five business days of your
-                                return &mdash; as long as items arrive in good condition. Minor wear is always covered.
+                                return, provided items arrive in good condition. Minor wear is always covered.
                             </p>
                         </div>
 

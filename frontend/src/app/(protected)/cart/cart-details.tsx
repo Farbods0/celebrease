@@ -354,7 +354,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                                         </span>
                                     )}
                                     {slotIndex === null && subscription && availableSlots.length === 0 && (
-                                        <span className="cb-cart-slot-used">No slots remaining &mdash; billed at full price</span>
+                                        <span className="cb-cart-slot-used">No slots remaining (billed at full price)</span>
                                     )}
                                     {(cart.addOns ?? []).length > 0 && (
                                         <div className="cb-cart-item-addons" aria-label="Add ons">
@@ -452,7 +452,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                         {promoApplied ? "Applied" : "Apply"}
                     </button>
                 </div>
-                {promoApplied && <p style={{fontSize:"12px",color:"#059669",fontWeight:700,marginTop:"6px"}}>&#10003; Promo CELEBRATE10 applied &mdash; 10% off kit rentals!</p>}
+                {promoApplied && <p style={{fontSize:"12px",color:"#059669",fontWeight:700,marginTop:"6px"}}>&#10003; Promo CELEBRATE10 applied: 10% off kit rentals!</p>}
                 {promoError && <p style={{fontSize:"12px",color:"#dc2626",marginTop:"6px"}}>&#10005; Invalid promo code. Please try again.</p>}
 
                 {/* "You may also like" */}
@@ -532,7 +532,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
 
                     <div className="cb-deposit-note">
                         <strong>Your deposit is always safe</strong>
-                        We hold your refundable deposit and return 100% within 5 business days of kit return &mdash; no questions asked.
+                        We hold your refundable deposit and return 100% within 5 business days of kit return, no questions asked.
                     </div>
 
                     {/* Agreements */}

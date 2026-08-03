@@ -6,10 +6,9 @@ import { ApiHoliday, baseURL, getHolidays } from "@/lib/api";
 
 const img = (path?: string | null) => {
     if (!path) return "";
+    if (path.includes("/uploads/")) return path.substring(path.indexOf("/uploads/"));
     if (path.startsWith("http")) return path;
-    if (path.startsWith("/uploads")) return `${baseURL}${path}`;
-    if (path.startsWith("/")) return path;
-    return `${baseURL}/${path}`;
+    return path.startsWith("/") ? path : `/${path}`;
 };
 
 export const metadata: Metadata = { title: "How It Works, CeleBrease" };

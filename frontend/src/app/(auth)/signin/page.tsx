@@ -1,33 +1,31 @@
 import Link from "next/link";
 import { SigninForm } from "./form";
 
-const baseURL = "";
-
 const holidayImages = [
-    { src: `${baseURL}/uploads/holidays/christmas.png`, name: "Christmas", span: "tall" },
-    { src: `${baseURL}/uploads/holidays/halloween.png`, name: "Halloween", span: "" },
-    { src: `${baseURL}/uploads/holidays/diwali.png`, name: "Diwali", span: "" },
-    { src: `${baseURL}/uploads/holidays/nowruz.png`, name: "Nowruz", span: "" },
-    { src: `${baseURL}/uploads/holidays/hanukkah.png`, name: "Hanukkah", span: "" },
-    { src: `${baseURL}/uploads/holidays/easter.png`, name: "Easter", span: "wide" },
-    { src: `${baseURL}/uploads/holidays/eid.png`, name: "Eid", span: "" },
-    { src: `${baseURL}/uploads/holidays/new-years.png`, name: "New Years", span: "" },
+    { src: `/uploads/holidays/christmas.png`, name: "Christmas", span: "tall" },
+    { src: `/uploads/holidays/halloween.png`, name: "Halloween", span: "" },
+    { src: `/uploads/holidays/diwali.png`, name: "Diwali", span: "" },
+    { src: `/uploads/holidays/nowruz.png`, name: "Nowruz", span: "" },
+    { src: `/uploads/holidays/hanukkah.png`, name: "Hanukkah", span: "" },
+    { src: `/uploads/holidays/easter.png`, name: "Easter", span: "wide" },
+    { src: `/uploads/holidays/eid.png`, name: "Eid", span: "" },
+    { src: `/uploads/holidays/new-years.png`, name: "New Years", span: "" },
 ];
 
 const holidayPills = [
-    { src: `${baseURL}/uploads/holidays/christmas.png`, name: "Christmas" },
-    { src: `${baseURL}/uploads/holidays/diwali.png`, name: "Diwali" },
-    { src: `${baseURL}/uploads/holidays/halloween.png`, name: "Halloween" },
-    { src: `${baseURL}/uploads/holidays/hanukkah.png`, name: "Hanukkah" },
-    { src: `${baseURL}/uploads/holidays/nowruz.png`, name: "Nowruz" },
-    { src: `${baseURL}/uploads/holidays/eid.png`, name: "Eid" },
+    { src: `/uploads/holidays/christmas.png`, name: "Christmas" },
+    { src: `/uploads/holidays/diwali.png`, name: "Diwali" },
+    { src: `/uploads/holidays/halloween.png`, name: "Halloween" },
+    { src: `/uploads/holidays/hanukkah.png`, name: "Hanukkah" },
+    { src: `/uploads/holidays/nowruz.png`, name: "Nowruz" },
+    { src: `/uploads/holidays/eid.png`, name: "Eid" },
 ];
 
 const proofImages = [
-    { src: `${baseURL}/uploads/holidays/christmas.png`, label: "" },
-    { src: `${baseURL}/uploads/holidays/diwali.png`, label: "" },
-    { src: `${baseURL}/uploads/holidays/halloween.png`, label: "" },
-    { src: `${baseURL}/uploads/holidays/new-years.png`, label: "" },
+    { src: `/uploads/holidays/christmas.png`, label: "" },
+    { src: `/uploads/holidays/diwali.png`, label: "" },
+    { src: `/uploads/holidays/halloween.png`, label: "" },
+    { src: `/uploads/holidays/new-years.png`, label: "" },
 ];
 
 export default function Signin() {

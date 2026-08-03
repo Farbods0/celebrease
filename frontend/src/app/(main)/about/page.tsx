@@ -186,6 +186,7 @@ export default async function AboutPage() {
                                 src={img(mosaic0.image)}
                                 alt={`${mosaic0.name} decorated home`}
                                 width={800} height={1200}
+                                unoptimized={true}
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 loading="eager"
                             />
@@ -205,6 +206,7 @@ export default async function AboutPage() {
                                     src={img(h.image)}
                                     alt={`${h.name} décor`}
                                     width={400} height={400}
+                                    unoptimized={true}
                                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                     loading="eager"
                                 />
@@ -325,6 +327,7 @@ export default async function AboutPage() {
                                 src={img(mosaic0.image)}
                                 alt="CeleBrease team assembling a holiday décor kit"
                                 width={800} height={1000}
+                                unoptimized={true}
                                 style={{
                                     width: "100%",
                                     aspectRatio: "4/5",
@@ -352,6 +355,7 @@ export default async function AboutPage() {
                                     src={img(mosaic1.image)}
                                     alt="Curated décor collection detail"
                                     width={400} height={400}
+                                    unoptimized={true}
                                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 />
                             </div>
@@ -470,6 +474,7 @@ export default async function AboutPage() {
                                         src={img(cell.h.image)}
                                         alt={`${cell.label} holiday collection`}
                                         width={600} height={400}
+                                        unoptimized={true}
                                         style={{
                                             width: "100%",
                                             height: "100%",
@@ -565,6 +570,7 @@ export default async function AboutPage() {
                                         src={img(card.h.image)}
                                         alt={card.title}
                                         width={600} height={400}
+                                        unoptimized={true}
                                         style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover" }}
                                     />
                                 )}
@@ -635,6 +641,7 @@ export default async function AboutPage() {
                                         src={img(m.h.image)}
                                         alt={`${m.label} holiday collection`}
                                         width={400} height={500}
+                                        unoptimized={true}
                                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                     />
                                     <div

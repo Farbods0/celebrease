@@ -12,9 +12,38 @@ const img = (path?: string | null) => {
 // Pick N holidays from the list by name hint (fallback to index)
 function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, defaultName?: string): ApiHoliday | undefined {
     const found = holidays.find((h) => h.name.toLowerCase().includes(hint.toLowerCase()));
-    if (found && found.image) return found;
+    if (found && found.image && !found.image.includes("_cover.jpg") && !found.image.endsWith(".png")) return found;
     
-    // Fallback to valid holiday in list
+    const uploadMap: Record<string, string> = {
+        christmas: "/uploads/holidays/christmas-starter-angle1.jpg",
+        diwali: "/uploads/holidays/diwali-starter-angle1.jpg",
+        halloween: "/uploads/holidays/halloween-starter-angle1.jpg",
+        nowruz: "/uploads/holidays/nowruz-starter-angle1.jpg",
+        thanksgiving: "/uploads/holidays/thanksgiving-starter-angle1.jpg",
+        hanukkah: "/uploads/holidays/hanukkah-starter-angle1.jpg",
+        eid: "/uploads/holidays/eid-starter-angle1.jpg",
+        lunar: "/uploads/holidays/lunar-new-year-starter-angle1.jpg",
+        valentine: "/uploads/holidays/valentine-s-day-starter-angle1.jpg",
+        juneteenth: "/uploads/holidays/eid-starter-angle1.jpg",
+        mother: "/uploads/holidays/baby-showers-starter-angle1.jpg",
+        easter: "/uploads/holidays/easter-starter-angle1.jpg",
+        ramadan: "/uploads/holidays/ramadan-starter-angle1.jpg",
+        "new year": "/uploads/holidays/new-year-s-starter-angle1.jpg",
+        birthday: "/uploads/holidays/birthdays-starter-angle1.jpg",
+        engagement: "/uploads/holidays/engagement-parties-starter-angle1.jpg",
+    };
+
+    const mappedImage = uploadMap[hint.toLowerCase()];
+    if (mappedImage) {
+        return {
+            id: `mock-${hint}`,
+            name: defaultName || hint,
+            image: mappedImage,
+            category: "TRADITIONAL",
+            kits: [],
+        } as unknown as ApiHoliday;
+    }
+
     if (holidays.length > 0) {
         return holidays[fallbackIdx % holidays.length];
     }

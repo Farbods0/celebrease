@@ -219,7 +219,7 @@ export default function OrderConfirmationPage() {
                         marginBottom: 16,
                     }}
                 >
-                    Thank you &mdash; your<br />
+                    Thank you! Your<br />
                     <span className="gradient-text">celebration is booked!</span>
                 </h1>
 
@@ -462,7 +462,7 @@ export default function OrderConfirmationPage() {
                             </span>
                             <p style={{ fontSize: 13, color: "var(--cb-ink-muted)", lineHeight: 1.5 }}>
                                 <strong style={{ color: "var(--cb-purple)" }}>Deposit refunded in full</strong>{" "}
-                                within five business days of your return &mdash; as long as items arrive in good
+                                within five business days of your return, provided items arrive in good
                                 condition. Minor wear is always covered.
                             </p>
                         </div>

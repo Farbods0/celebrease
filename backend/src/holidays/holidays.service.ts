@@ -98,13 +98,26 @@ const holidayAddOnSelect = {
 
 @Injectable()
 export class HolidaysService {
+    private cachedHolidaysList: { data: any; timestamp: number } | null = null;
+    private CACHE_TTL_MS = 1000 * 60 * 15; // 15 minutes in-memory cache
+
     constructor(
         private readonly prisma: PrismaService,
         private readonly uploadService: UploadService,
     ) {}
 
+    public clearCache() {
+        this.cachedHolidaysList = null;
+    }
+
     async list(query: Record<string, string | undefined>) {
         const addon = query?.addon === "true";
+        const now = Date.now();
+
+        if (!addon && this.cachedHolidaysList && (now - this.cachedHolidaysList.timestamp < this.CACHE_TTL_MS)) {
+            return this.cachedHolidaysList.data;
+        }
+
         const items = await this.prisma.holiday.findMany({
             where: { isActive: true },
             orderBy: { sortOrder: "asc" },
@@ -113,7 +126,14 @@ export class HolidaysService {
                 ...(addon ? holidayAddOnInclude : {}),
             },
         });
-        return { items };
+
+        const result = { items };
+
+        if (!addon) {
+            this.cachedHolidaysList = { data: result, timestamp: now };
+        }
+
+        return result;
     }
 
     async listAll() {
@@ -169,6 +189,7 @@ export class HolidaysService {
         const exists = await this.prisma.holiday.findFirst({ where: { name: dto.name }, select: { id: true } });
         if (exists) throw new ConflictException(`A holiday with name ${dto.name.toLowerCase()} already exists`);
 
+        this.clearCache();
         return this.prisma.holiday.create({
             data: dto,
         });
@@ -185,6 +206,7 @@ export class HolidaysService {
             }
         }
 
+        this.clearCache();
         return this.prisma.holiday.update({
             where: { id },
             data: dto,
@@ -195,6 +217,7 @@ export class HolidaysService {
         const holiday = await this.prisma.holiday.findUnique({ where: { id }, select: { id: true, image: true } });
         if (!holiday) throw new NotFoundException("Holiday not found");
 
+        this.clearCache();
         const deleted = await this.prisma.holiday.delete({ where: { id } });
         if (holiday.image) {
             await this.uploadService.deleteImage(holiday.image);

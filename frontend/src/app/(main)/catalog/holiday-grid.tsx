@@ -37,6 +37,7 @@ function HolidayGridContent({ initialData }: { initialData?: any }) {
         queryKey: ["holidays"],
         queryFn: () => getHolidays(),
         initialData: initialData,
+        staleTime: 1000 * 60 * 5,
     });
 
     const allHolidays: ApiHoliday[] = useMemo(() => data?.items ?? [], [data]);
@@ -203,12 +204,11 @@ function CatalogCard({ holiday, index }: { holiday: ApiHoliday; index?: number }
     return (
         <Link href={`/catalog/${slugify(holiday.name)}`} prefetch={true} className="cb-holiday-card">
             <Image
-                src={holiday.image?.includes("/uploads/") ? holiday.image.substring(holiday.image.indexOf("/uploads/")) : holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}
+                src={holiday.image?.includes("/uploads/") ? holiday.image.substring(holiday.image.indexOf("/uploads/")) : holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? holiday.image : `/${holiday.image}`}
                 alt={`${holiday.name}, holiday décor kit`}
                 fill style={{ objectFit: "cover" }}
-                unoptimized={Boolean(holiday.image)}
                 sizes="(max-width: 720px) 100vw, (max-width: 980px) 33vw, 25vw"
-                priority={typeof index === 'number' && index < 8}
+                priority={typeof index === 'number' && index < 4}
             />
             <div className="scrim" />
             <span className={`cb-cat-badge${catCls ? ` ${catCls}` : ""}`}>{catLabel}</span>

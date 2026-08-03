@@ -12,7 +12,22 @@ const nextConfig: NextConfig = {
             {
                 protocol: "https",
                 hostname: "celebrease-backend-production-4778.up.railway.app",
-                pathname: "/uploads/**",
+                pathname: "/**",
+            },
+            {
+                protocol: "https",
+                hostname: "celebrease.com",
+                pathname: "/**",
+            },
+            {
+                protocol: "https",
+                hostname: "www.celebrease.com",
+                pathname: "/**",
+            },
+            {
+                protocol: "https",
+                hostname: "images.unsplash.com",
+                pathname: "/**",
             },
         ],
     },

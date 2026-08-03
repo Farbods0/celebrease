@@ -255,8 +255,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     key={i}
                                     src={g.src} 
                                     alt={g.alt} 
-                                    priority={true}
-                                    unoptimized={g.src.startsWith("http") || g.src.startsWith("/uploads")}
+                                    priority={i === 0}
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                     width={800} 
                                     height={800} 
@@ -276,7 +275,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     onClick={() => setActiveThumb(i)}
                                     aria-label={`View ${g.alt}`}
                                 >
-                                    <Image src={g.src} alt="" width={300} height={300} unoptimized={g.src.startsWith("http") || g.src.startsWith("/uploads")} sizes="(max-width: 768px) 25vw, 15vw" className="object-cover w-full h-full" />
+                                    <Image src={g.src} alt="" width={300} height={300} sizes="(max-width: 768px) 25vw, 15vw" className="object-cover w-full h-full" />
                                 </button>
                             ))}
                         </div>
@@ -500,7 +499,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                             {pieces.map(({ item, qty }) => (
                                 <div key={item.id} className="cb-piece-card" role="listitem">
                                     <div className="cb-piece-thumb">
-                                        <Image src={img(item.image)} alt={item.name} width={400} height={400} unoptimized={Boolean(img(item.image))} sizes="(max-width: 768px) 50vw, 25vw" className="object-cover w-full h-full" />
+                                        <Image src={img(item.image)} alt={item.name} width={400} height={400} sizes="(max-width: 768px) 50vw, 25vw" className="object-cover w-full h-full" />
                                     </div>
                                     <div className="cb-piece-info">
                                         <div className="cb-piece-name">{item.name}</div>
@@ -530,7 +529,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                             aria-label={`View details for ${addOn.name}`}
                                         >
                                             {img(addOn.image) ? (
-                                                <Image src={img(addOn.image)} alt={addOn.name} width={400} height={400} unoptimized={Boolean(img(addOn.image))} sizes="(max-width: 768px) 50vw, 25vw" className="object-cover w-full h-full" />
+                                                <Image src={img(addOn.image)} alt={addOn.name} width={400} height={400} sizes="(max-width: 768px) 50vw, 25vw" className="object-cover w-full h-full" />
                                             ) : (
                                                 <span className="cb-addon-media-ph" aria-hidden="true">🎁</span>
                                             )}

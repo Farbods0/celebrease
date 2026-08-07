@@ -1,5 +1,6 @@
 # Behavior Customizations
 
+- **Auto-Resume Image Generation Rule**: Whenever starting a new session or after any IDE restart, immediately check `IMAGE_GEN_TASK.md` in the repository root. If the task is pending and the quota has reset (or whenever the user asks to resume image generation), immediately continue generating the 4 unique product photos for PREMIUM and ULTIMATE tiers, updating Neon DB kit image records, and committing after every 3-4 kits.
 - Do not ask for permission before making changes. Avoid creating implementation plans that block on user approval (`request_feedback = true`) unless absolutely necessary or explicitly requested. Execute changes immediately and directly without asking for permission.
 - **Production-Only Testing Rule**: ALL browser-based validation and E2E testing MUST be done against the live production URL (e.g. `https://celebrease.com`). NEVER test against localhost or any local dev server. Local testing is not a substitute for production validation. If a fix only works locally but not in production, it is NOT fixed.
 - **Mandatory E2E Browser Testing & Deployment Verification**:
@@ -18,3 +19,4 @@
 - **Strict Validation & Verification Loop**:
   1. **Complete the actual task and physically see it**: Never declare a task complete without physically observing the exact DOM structure, visual screenshots, or precise string equality in the live browser environment. Never rely on broad substring matches (e.g. `includes()`) that could hide duplicate words or rendering regressions.
   2. **Loop until 100% certain**: You must repeatedly test, verify, and loop until you have unshakeable 100% proof that the exact required change is live and functioning without defects. Do not give excuses, do not blame tests after the fact, and never hand off verification to the user without prior verified certainty.
+

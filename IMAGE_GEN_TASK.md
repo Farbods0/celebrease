@@ -5,7 +5,7 @@
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.
 * **STARTER reuse**: STARTER kits with 4 existing unique AI images are kept as-is (0 generations needed for STARTER).
-* **Generation Need**: 4 new images for PREMIUM + 4 new images for ULTIMATE (8 new images per holiday) across remaining tiers (~140 images remaining).
+* **Generation Need**: 4 new images for PREMIUM + 4 new images for ULTIMATE (8 new images per holiday) across remaining tiers (**76 images remaining** across 19 ungenerated kit tiers).
 
 ## Resume Prompt (copy-paste this to restart when quota resets)
 "Resume the image generation task starting from St. Patrick's Day ULTIMATE (needs angles 1-4) and continuing through Thanksgiving PREMIUM & ULTIMATE, Weddings PREMIUM & ULTIMATE, Christmas PREMIUM & ULTIMATE, and the rest of the queue. Follow the tier differentiation logic in IMAGE_GEN_TASK.md: Generate 4 unique product photography images for each PREMIUM and ULTIMATE tier, leaving STARTER kits intact. Save to frontend/public/uploads/holidays/{slug}-{tier}-angle{n}.jpg, update Neon DB kit records, commit and push after every 3-4 kits."

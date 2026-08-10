@@ -1,6 +1,6 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - image generation quota exhausted until 2026-08-09T23:43:33 PDT (11:43 PM tonight)
-**Last Updated**: 2026-08-09 18:51 PDT
+**Status**: PENDING - image generation quota exhausted until 2026-08-09T23:43:33 PDT (11:43 PM tonight / reset in ~2h 44m)
+**Last Updated**: 2026-08-09 21:00 PDT
 
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.

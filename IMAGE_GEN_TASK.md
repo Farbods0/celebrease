@@ -45,9 +45,6 @@ postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-
 ### 3-Tier Holidays (Needs 4 PREMIUM + 4 ULTIMATE images each)
 - St. Patricks Day ULTIMATE
 - Thanksgiving PREMIUM & ULTIMATE
-- Passover PREMIUM & ULTIMATE
-- St. Patricks Day PREMIUM & ULTIMATE
-- Thanksgiving PREMIUM & ULTIMATE
 - Weddings & Rehearsal Dinners PREMIUM & ULTIMATE
 - Christmas PREMIUM & ULTIMATE
 

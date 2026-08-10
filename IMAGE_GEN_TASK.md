@@ -1,19 +1,19 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - image generation quota exhausted until 2026-08-09T23:43:33 PDT (11:43 PM tonight / reset in ~2h 44m)
-**Last Updated**: 2026-08-09 21:00 PDT
+**Status**: PENDING - image generation quota exhausted until 2026-08-10T04:43:33 PDT (~4h 49m)
+**Last Updated**: 2026-08-10 00:05 PDT
 
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.
 * **STARTER reuse**: STARTER kits with 4 existing unique AI images are kept as-is (0 generations needed for STARTER).
-* **Generation Need**: 4 new images for PREMIUM + 4 new images for ULTIMATE (8 new images per holiday) across remaining tiers (~171 images remaining).
+* **Generation Need**: 4 new images for PREMIUM + 4 new images for ULTIMATE (8 new images per holiday) across remaining tiers (~160 images remaining).
 
 ## Resume Prompt (copy-paste this to restart when quota resets)
-"Resume the image generation task starting from Fourth of July / Independence Day PREMIUM (angle 1 generated, needs angles 2-4) & ULTIMATE, Holi PREMIUM & ULTIMATE, and continuing through the list. Follow the tier differentiation logic in IMAGE_GEN_TASK.md: Generate 4 unique product photography images for each PREMIUM and ULTIMATE tier, leaving STARTER kits intact. Save to frontend/public/uploads/holidays/{slug}-{tier}-angle{n}.jpg, update Neon DB kit records, commit and push after every 3-4 kits."
+"Resume the image generation task starting from Holi ULTIMATE (needs angle 4) and continuing through Lunar New Year PREMIUM & ULTIMATE, Passover PREMIUM & ULTIMATE, and the rest of the queue. Follow the tier differentiation logic in IMAGE_GEN_TASK.md: Generate 4 unique product photography images for each PREMIUM and ULTIMATE tier, leaving STARTER kits intact. Save to frontend/public/uploads/holidays/{slug}-{tier}-angle{n}.jpg, update Neon DB kit records, commit and push after every 3-4 kits."
 
 ## DB Connection
 postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require
 
-## Completed Kits (24 unique images generated & updated in Neon DB)
+## Completed Kits (35 unique images generated & updated in Neon DB)
 - Cinco de Mayo STARTER (existing)
 - Cinco de Mayo PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Cinco de Mayo ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
@@ -23,6 +23,9 @@ postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-
 - Graduations STARTER (existing)
 - Graduations PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Graduations ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
+- Fourth of July / Independence Day PREMIUM (COMPLETED - 4 new images generated & updated in DB)
+- Fourth of July / Independence Day ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
+- Holi PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Holi STARTER (existing)
 - Lunar New Year STARTER (existing)
 - Passover STARTER (existing)
@@ -31,11 +34,10 @@ postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-
 - Independence Day STARTER (existing)
 - Weddings STARTER (existing)
 
-## Remaining Generation Queue (~171 images total)
+## Remaining Generation Queue (~160 images total)
 
 ### 3-Tier Holidays (Needs 4 PREMIUM + 4 ULTIMATE images each)
-- Fourth of July / Independence Day PREMIUM (angle 1 generated, needs angles 2-4) & ULTIMATE
-- Holi PREMIUM & ULTIMATE
+- Holi ULTIMATE (needs angle 4 generated & DB updated)
 - Lunar New Year PREMIUM & ULTIMATE
 - Passover PREMIUM & ULTIMATE
 - St. Patricks Day PREMIUM & ULTIMATE

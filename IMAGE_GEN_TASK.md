@@ -4,11 +4,11 @@
 
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.
-* **STARTER reuse**: STARTER kits with 4 existing unique AI images are kept as-is (0 generations needed for STARTER).
-* **Generation Need**: 4 new images for PREMIUM + 4 new images for ULTIMATE (8 new images per holiday) across remaining tiers (**76 images remaining** across 19 ungenerated kit tiers).
+* **STARTER Fixes**: Almost all STARTER kits were found to have duplicated placeholder images. They must ALL be regenerated, except for a few like Thanksgiving and St. Patrick's Day which were verified correct.
+* **Generation Need**: 144 images total across 36 kit tiers.
 
 ## Resume Prompt (copy-paste this to restart when quota resets)
-"Resume the image generation task starting from St. Patrick's Day ULTIMATE (needs angles 1-4) and continuing through Thanksgiving PREMIUM & ULTIMATE, Weddings PREMIUM & ULTIMATE, Christmas PREMIUM & ULTIMATE, and the rest of the queue. Follow the tier differentiation logic in IMAGE_GEN_TASK.md: Generate 4 unique product photography images for each PREMIUM and ULTIMATE tier, leaving STARTER kits intact. Save to frontend/public/uploads/holidays/{slug}-{tier}-angle{n}.jpg, update Neon DB kit records, commit and push after every 3-4 kits."
+"Resume the image generation task. Generate 4 unique product photography images for every kit tier listed in the Remaining Generation Queue in IMAGE_GEN_TASK.md. Save to frontend/public/uploads/holidays/{slug}-{tier}-angle{n}.jpg, update Neon DB kit records, commit and push after every 3-4 kits."
 
 ## DB Connection
 postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require
@@ -40,28 +40,30 @@ postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-
 - Independence Day STARTER (existing)
 - Weddings STARTER (existing)
 
-## Remaining Generation Queue (~140 images total)
+## Remaining Generation Queue (144 images total)
 
-### 3-Tier Holidays (Needs 4 PREMIUM + 4 ULTIMATE images each)
-- St. Patricks Day ULTIMATE
+### Kits needing all 3 tiers (STARTER, PREMIUM, ULTIMATE = 12 images)
+- Christmas
+- Gender Reveals
+- Weddings & Rehearsal Dinners
+
+### Kits needing 2 tiers (STARTER, PREMIUM = 8 images)
+- Baby Showers
+- Birthdays
+- Diwali
+- Easter
+- Eid
+- Engagement Parties
+- Halloween
+- Hanukkah
+- New Year's
+- Nowruz
+- Ramadan
+- Valentine's Day
+
+### Kits needing specific tiers (4 images per tier)
+- St. Patrick's Day ULTIMATE
 - Thanksgiving PREMIUM & ULTIMATE
-- Weddings & Rehearsal Dinners PREMIUM & ULTIMATE
-- Christmas PREMIUM & ULTIMATE
-
-### 2-Tier & Special Holidays (Needs 4 images per un-generated tier = 107 images)
-- Gender Reveals STARTER (angles 2-4), PREMIUM, ULTIMATE
-- New Year's STARTER & PREMIUM
-- Ramadan STARTER & PREMIUM
-- Birthdays STARTER & PREMIUM
-- Valentine's Day STARTER & PREMIUM
-- Halloween STARTER & PREMIUM
-- Baby Showers STARTER & PREMIUM
-- Diwali STARTER & PREMIUM
-- Easter STARTER & PREMIUM
-- Eid STARTER & PREMIUM
-- Engagement Parties STARTER & PREMIUM
-- Hanukkah STARTER & PREMIUM
-- Nowruz STARTER & PREMIUM
 
 ## Steps Per Kit
 1. Generate 4 tier-appropriate images with generate_image tool

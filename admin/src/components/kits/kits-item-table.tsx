@@ -1,5 +1,5 @@
 import { TrashConfirm } from "@/components/ui/trash-confirm";
-import { baseURL, type ApiKit } from "@/lib/api";
+import {  baseURL, type ApiKit , resolveImageUrl } from "@/lib/api";
 
 const STATUS_LABEL: Record<ApiKit["items"][number]["item"]["status"], string> = {
     ACTIVE: "Active",

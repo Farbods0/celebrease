@@ -1,5 +1,5 @@
 import { RouteSkeleton } from "@/components/main/route-skeleton";
-import { baseURL, apiPrefix } from "@/lib/api/base";
+import {  baseURL, apiPrefix , resolveImageUrl } from "@/lib/api/base";
 import { settingsApi, type ApiSiteSettings } from "@/lib/api/settings";
 import { auth } from "@/lib/auth";
 import { createFileRoute, useRouter } from "@tanstack/react-router";

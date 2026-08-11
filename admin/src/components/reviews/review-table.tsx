@@ -1,5 +1,5 @@
 import { TrashConfirm } from "@/components/ui/trash-confirm";
-import { baseURL, reviewsApi, type ApiReview } from "@/lib/api";
+import {  baseURL, reviewsApi, type ApiReview , resolveImageUrl } from "@/lib/api";
 import { useRouter } from "@tanstack/react-router";
 import { Check, Pencil } from "lucide-react";
 import { useState } from "react";

@@ -1,6 +1,6 @@
 import { StockAdjustForm } from "@/components/inventory/stock-adjust-form";
 import { TrashConfirm } from "@/components/ui/trash-confirm";
-import { addOnsApi, baseURL, type ApiAddOn } from "@/lib/api";
+import {  addOnsApi, baseURL, type ApiAddOn , resolveImageUrl } from "@/lib/api";
 import { useRouter } from "@tanstack/react-router";
 import { Pencil, SlidersHorizontal } from "lucide-react";
 import { Fragment, useState } from "react";

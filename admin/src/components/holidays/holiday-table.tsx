@@ -9,7 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { baseURL, holidaysApi, type ApiHoliday, type HolidayCategory } from "@/lib/api";
+import {  baseURL, holidaysApi, type ApiHoliday, type HolidayCategory , resolveImageUrl } from "@/lib/api";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";

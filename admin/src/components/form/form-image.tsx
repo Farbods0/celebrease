@@ -2,7 +2,7 @@ import { useFieldContext } from "@/components/form/form-context";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
-import { baseURL, deleteImage, uploadImage } from "@/lib/api";
+import {  baseURL, deleteImage, uploadImage , resolveImageUrl } from "@/lib/api";
 import { Upload, X } from "lucide-react";
 import { useRef, useState } from "react";
 

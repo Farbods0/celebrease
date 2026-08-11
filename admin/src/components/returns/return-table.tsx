@@ -1,5 +1,5 @@
 import { orderStatusPill } from "@/lib/admin-status";
-import { baseURL, formatDuration, formatMoney, formatTier, totalDeposit, type ApiOrder } from "@/lib/api";
+import {  baseURL, formatDuration, formatMoney, formatTier, totalDeposit, type ApiOrder , resolveImageUrl } from "@/lib/api";
 import moment from "moment";
 
 type ReturnTableProps = {

@@ -1,14 +1,13 @@
 import { RouteSkeleton } from "@/components/main/route-skeleton";
 import { orderStatusPill } from "@/lib/admin-status";
-import {
+import { 
     baseURL,
     dashboardApi,
     formatTier,
     inventoryApi,
     ordersApi,
     type ApiItem,
-    type ApiOrder,
-} from "@/lib/api";
+    type ApiOrder, resolveImageUrl } from "@/lib/api";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 

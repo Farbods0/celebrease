@@ -1,4 +1,4 @@
-import { baseURL, type ApiHoliday } from "@/lib/api";
+import {  baseURL, type ApiHoliday , resolveImageUrl } from "@/lib/api";
 
 type KitsHolidayListProps = {
     holidays: ApiHoliday[];

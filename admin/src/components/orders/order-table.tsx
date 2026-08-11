@@ -1,11 +1,10 @@
 import { orderStatusPill } from "@/lib/admin-status";
-import {
+import { 
     baseURL,
     formatDuration,
     formatMoney,
     formatTier,
-    type ApiOrder,
-} from "@/lib/api";
+    type ApiOrder, resolveImageUrl } from "@/lib/api";
 
 type OrderTableProps = {
     items: ApiOrder[];

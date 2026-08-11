@@ -1,7 +1,7 @@
 import { StockAdjustForm } from "@/components/inventory/stock-adjust-form";
 import { Button } from "@/components/ui/button";
 import { TrashConfirm } from "@/components/ui/trash-confirm";
-import { baseURL, formatKitTier, inventoryApi, type ApiItem, type KitTier } from "@/lib/api";
+import {  baseURL, formatKitTier, inventoryApi, type ApiItem, type KitTier , resolveImageUrl } from "@/lib/api";
 import { useRouter } from "@tanstack/react-router";
 import { Eye, Pencil, SlidersHorizontal, Trash2 } from "lucide-react";
 import { Fragment, useState } from "react";

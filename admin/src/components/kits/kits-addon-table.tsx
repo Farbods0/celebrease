@@ -1,5 +1,5 @@
 import { TrashConfirm } from "@/components/ui/trash-confirm";
-import { baseURL, type ApiHolidayWithAddOns } from "@/lib/api";
+import {  baseURL, type ApiHolidayWithAddOns , resolveImageUrl } from "@/lib/api";
 
 type KitsAddonTableProps = {
     items: ApiHolidayWithAddOns["addOns"];

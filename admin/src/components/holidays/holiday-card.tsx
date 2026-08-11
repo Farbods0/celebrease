@@ -1,4 +1,4 @@
-import { baseURL, type ApiHoliday, type HolidayCategory } from "@/lib/api";
+import {  baseURL, type ApiHoliday, type HolidayCategory , resolveImageUrl } from "@/lib/api";
 
 const CATEGORY_META: Record<HolidayCategory, { label: string; cls: string }> = {
     TRADITIONAL: { label: "Traditional", cls: "cat-trad" },

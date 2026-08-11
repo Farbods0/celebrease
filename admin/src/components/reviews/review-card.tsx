@@ -1,4 +1,4 @@
-import { baseURL, type ApiReview } from "@/lib/api";
+import {  baseURL, type ApiReview , resolveImageUrl } from "@/lib/api";
 
 type ReviewCardProps = {
     item: ApiReview;

@@ -110,13 +110,15 @@ function RouteComponent() {
         setSavingDiscount(true);
         try {
             await settingsApi.update({ yearlyDiscountPercent: discountPct });
+            const promises = [];
             for (const item of items) {
                 const m = Number(item.monthlyPrice);
                 if (!Number.isNaN(m) && m > 0) {
                     const computedY = Math.round(m * 12 * (1 - (discountPct / 100)));
-                    await plansApi.update(item.id, { yearlyPrice: computedY });
+                    promises.push(plansApi.update(item.id, { yearlyPrice: computedY }));
                 }
             }
+            await Promise.all(promises);
             toast.success(`Global ${discountPct}% discount applied & synced to all subscription plans!`);
             await router.invalidate();
         } catch (e) {

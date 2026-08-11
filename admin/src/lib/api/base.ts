@@ -33,6 +33,9 @@ export function resolveImageUrl(url?: string | null): string {
     if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:") || url.startsWith("blob:")) {
         return url;
     }
+    if (url.startsWith("/uploads/")) {
+        return `https://celebrease.com${url}`;
+    }
     return `${baseURL}${url.startsWith("/") ? "" : "/"}${url}`;
 }
 

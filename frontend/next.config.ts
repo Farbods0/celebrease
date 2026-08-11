@@ -51,6 +51,20 @@ const nextConfig: NextConfig = {
             },
         ];
     },
+    async redirects() {
+        return [
+            {
+                source: "/kits/:slug",
+                destination: "/catalog/:slug",
+                permanent: true,
+            },
+            {
+                source: "/kits",
+                destination: "/catalog",
+                permanent: true,
+            },
+        ];
+    },
 };
 
 export default nextConfig;

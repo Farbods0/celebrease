@@ -39,7 +39,7 @@ export function SigninForm() {
                             toast.error("Admins must use the admin portal.");
                             router.push("/signin");
                         } else {
-                            router.push("/account");
+                            window.location.href = "/account";
                         }
                     },
                     onError: (ctx) => {

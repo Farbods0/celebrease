@@ -298,7 +298,7 @@ function RouteComponent() {
                     }}
                 />
 
-                <div className="space-y-4 md:hidden">
+                <div role="table" aria-label="Inventory list (mobile)" className="space-y-4 md:hidden">
                     {filtered.length === 0 ? (
                         <p className="text-center text-sm text-muted-foreground py-10">No inventory items found.</p>
                     ) : (

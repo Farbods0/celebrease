@@ -285,7 +285,7 @@ function RouteComponent() {
                 <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
                     <OrderTable items={items} onView={setSelectedItem} />
 
-                    <div className="md:hidden" style={{ display: "flex", flexDirection: "column", gap: 12, padding: "16px 20px" }}>
+                    <div role="table" aria-label="Orders list (mobile)" className="md:hidden" style={{ display: "flex", flexDirection: "column", gap: 12, padding: "16px 20px" }}>
                         {items.length === 0 ? (
                             <p className="orders-empty">No orders found.</p>
                         ) : (

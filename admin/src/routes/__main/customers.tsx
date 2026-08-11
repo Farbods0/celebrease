@@ -166,7 +166,7 @@ function RouteComponent() {
                 <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
                     <CustomerTable items={filtered} onView={setSelectedItem} />
 
-                    <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 16 }} className="md:hidden">
+                    <div role="table" aria-label="Customers list (mobile)" style={{ padding: 16, display: "flex", flexDirection: "column", gap: 16 }} className="md:hidden">
                         {filtered.length === 0 ? (
                             <p style={{ textAlign: "center", fontSize: 13.5, color: "var(--ink-soft)", padding: "40px 0" }}>
                                 No customers found

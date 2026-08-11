@@ -234,7 +234,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
             >
                 <a href="/" style={{ color: "var(--cb-purple)", fontWeight: 500 }}>Home</a>
                 <span style={{ color: "var(--cb-ink-soft)" }}>/</span>
-                <a href="/catalog" style={{ color: "var(--cb-purple)", fontWeight: 500 }}>Catalog</a>
+                <a href="/catalog" style={{ color: "var(--cb-purple)", fontWeight: 500 }}>Shop Kits</a>
                 <span style={{ color: "var(--cb-ink-soft)" }}>/</span>
                 <span aria-current="page">{holiday.name}</span>
             </nav>

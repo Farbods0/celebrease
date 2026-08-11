@@ -224,7 +224,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                     className="hover:scale-105"
                     onClick={() => router.push("/catalog")}
                 >
-                    Browse A La Carte Catalog &rarr;
+                    Browse A La Carte Kits &rarr;
                 </Button>
             </div>
         </>

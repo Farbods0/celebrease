@@ -87,7 +87,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
                             Please check the URL or try again later.
                         </p>
                         <Link href="/catalog" style={{ marginTop: 16, display: "inline-block" }}>
-                            <Button variant="destructive" size="sm">Back to Catalog</Button>
+                            <Button variant="destructive" size="sm">Back to Shop Kits</Button>
                         </Link>
                     </div>
                 </section>

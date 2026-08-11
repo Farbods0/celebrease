@@ -196,7 +196,7 @@ function SlotCard({ slot, imgSrc, holidayName }: {
                         </button>
                     )}
                     <Link href="/catalog" className="acct-slot-btn acct-slot-btn--outline">
-                        View Catalog
+                        Shop Kits
                     </Link>
                     {slot.orderId && (
                         <Link href="/account" className="acct-slot-btn acct-slot-btn--ghost">

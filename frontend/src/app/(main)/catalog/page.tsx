@@ -18,7 +18,7 @@ export default async function CatalogPage() {
             >
                 <div style={{ maxWidth: "var(--cb-max)", margin: "0 auto" }}>
                     <span className="eyebrow" style={{ marginBottom: "14px", display: "block" }}>
-                        Holiday catalog
+                        Shop Kits
                     </span>
                     <h1
                         style={{

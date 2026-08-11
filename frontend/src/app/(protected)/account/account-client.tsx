@@ -735,11 +735,11 @@ export default function AccountClient() {
                                 <div>
                                     <div className="acct-section-label">Quick Actions</div>
                                     <div className="quick-actions">
-                                        <Link href="/catalog" className="qa-card" aria-label="Browse catalog and add a holiday">
+                                        <Link href="/catalog" className="qa-card" aria-label="Browse kits and add a holiday">
                                             <div className="qa-icon" aria-hidden="true">🏡</div>
                                             <div className="qa-label">Add a Holiday</div>
                                             <div className="qa-desc">
-                                                {openSlots > 0 ? `${openSlots} open slot${openSlots !== 1 ? "s" : ""} remaining` : "Browse the catalog"}
+                                                {openSlots > 0 ? `${openSlots} open slot${openSlots !== 1 ? "s" : ""} remaining` : "Browse kits"}
                                             </div>
                                         </Link>
                                         <button
@@ -898,7 +898,7 @@ export default function AccountClient() {
                                                             }}
                                                         >
                                                             {slot.status === "PENDING"
-                                                                ? "Choose a holiday from the catalog"
+                                                                ? "Choose a holiday from the shop"
                                                                 : "Holiday reserved"}
                                                         </div>
                                                         {slot.status === "PENDING" && (

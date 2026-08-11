@@ -13,7 +13,7 @@ export default function Footer() {
                 <div className="cb-footer-col">
                     <h4>Explore</h4>
                     <Link href="/">Home</Link>
-                    <Link href="/catalog">Catalog</Link>
+                    <Link href="/catalog">Shop Kits</Link>
                     <Link href="/subscription">Subscription</Link>
                     <Link href="/about">About</Link>
                     <Link href="/how-it-works">How It Works</Link>

@@ -12,7 +12,8 @@ export type Holiday =
     | "Valentine's"
     | "Hanukkah"
     | "New Year"
-    | "Baby Shower";
+    | "Baby Shower"
+    | "Ramadan";
 
 export type KitType = "Starter" | "Premium" | "Add-On";
 
@@ -576,7 +577,6 @@ export const SUBSCRIPTIONS: Subscription[] = [
 // ============ ORDERS ============
 
 export type Order = {
-    email: ReactNode;
     orderId: string;
     customer: string;
     holiday: Holiday;

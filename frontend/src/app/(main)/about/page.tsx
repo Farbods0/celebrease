@@ -220,7 +220,7 @@ export default async function AboutPage() {
                                 width={800} height={1200}
                                 unoptimized={true}
                                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                loading="eager"
+                                priority={true}
                             />
                         </div>
                     )}
@@ -240,7 +240,7 @@ export default async function AboutPage() {
                                     width={400} height={400}
                                     unoptimized={true}
                                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                                    loading="eager"
+                                    priority={true}
                                 />
                             </div>
                         ) : null

@@ -271,7 +271,7 @@ export function HolidayDetails({ holiday, kits, addOns = [] }: HolidayDetailsPro
                                     onClick={() => setActiveThumb(i)}
                                     aria-label={`View ${g.alt}`}
                                 >
-                                    <Image src={g.src} alt="" width={300} height={300} unoptimized={true} sizes="(max-width: 768px) 25vw, 15vw" className="object-cover w-full h-full" />
+                                    <Image src={g.src} alt="" width={300} height={300} unoptimized={true} priority={true} sizes="(max-width: 768px) 25vw, 15vw" className="object-cover w-full h-full" />
                                 </button>
                             ))}
                         </div>

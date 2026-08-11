@@ -26,7 +26,7 @@ export function HolidayDistributionChart({ data }: Props) {
                                     borderRadius: 8,
                                     fontSize: 12,
                                 }}
-                                formatter={(value: number, name: string) => [`${value}%`, name]}
+                                formatter={(value: any, name: any) => [`${value}%`, name as string]}
                             />
                             <Pie
                                 data={palette}

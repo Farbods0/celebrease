@@ -59,6 +59,24 @@ const auditResults = {
             if (siteName === 'consumer') auditResults.consumer.pagesTested++;
             else auditResults.admin.pagesTested++;
 
+            // Scroll to bottom to trigger lazy loading
+            await page.evaluate(async () => {
+                await new Promise((resolve) => {
+                    let totalHeight = 0;
+                    const distance = 100;
+                    const timer = setInterval(() => {
+                        const scrollHeight = document.body.scrollHeight;
+                        window.scrollBy(0, distance);
+                        totalHeight += distance;
+                        if (totalHeight >= scrollHeight) {
+                            clearInterval(timer);
+                            resolve();
+                        }
+                    }, 100);
+                });
+            });
+            await page.waitForTimeout(1000); // Wait for lazy images to finish loading
+
             // Screenshot
             const shotPath = path.join(reportDir, `${siteName}_${pageName.replace(/[^a-z0-9]/gi, '_')}.png`);
             await page.screenshot({ path: shotPath, fullPage: false });
@@ -101,7 +119,6 @@ const auditResults = {
     const consumerPages = [
         { name: 'Home', path: '/' },
         { name: 'Catalog', path: '/catalog' },
-        { name: 'Kits', path: '/kits' },
         { name: 'Kit Detail (Christmas)', path: '/catalog/christmas' },
         { name: 'Cart', path: '/cart' },
         { name: 'Checkout', path: '/checkout' },

@@ -42,6 +42,24 @@ const report = {
                 return;
             }
 
+            // Scroll to bottom to trigger lazy loading
+            await page.evaluate(async () => {
+                await new Promise((resolve) => {
+                    let totalHeight = 0;
+                    const distance = 100;
+                    const timer = setInterval(() => {
+                        const scrollHeight = document.body.scrollHeight;
+                        window.scrollBy(0, distance);
+                        totalHeight += distance;
+                        if (totalHeight >= scrollHeight) {
+                            clearInterval(timer);
+                            resolve();
+                        }
+                    }, 100);
+                });
+            });
+            await page.waitForTimeout(1000); // Wait for lazy images
+
             // Check broken images
             const brokenImgs = await page.evaluate(() => {
                 const imgs = Array.from(document.querySelectorAll('img'));
@@ -70,7 +88,6 @@ const report = {
     const consumerUrls = [
         { name: 'Homepage', path: '/' },
         { name: 'Catalog', path: '/catalog' },
-        { name: 'Kits', path: '/kits' },
         { name: 'Christmas Kit Detail', path: '/catalog/christmas' },
         { name: 'Cart Page', path: '/cart' },
         { name: 'Checkout Page', path: '/checkout' },

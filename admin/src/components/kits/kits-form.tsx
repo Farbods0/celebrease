@@ -44,10 +44,10 @@ const formSchema = z
         visibleOnPdp: z.boolean(),
         addOnsEnabled: z.boolean(),
         limitInventory: z.boolean(),
-        image1: z.string().optional(),
-        image2: z.string().optional(),
-        image3: z.string().optional(),
-        image4: z.string().optional(),
+        image1: z.string(),
+        image2: z.string(),
+        image3: z.string(),
+        image4: z.string(),
     })
     .refine((d) => !d.seasonStart || !d.seasonEnd || d.seasonStart <= d.seasonEnd, {
         message: "Season end must be on or after start",

@@ -55,8 +55,8 @@ export function RevenueTrendsChart({ data }: Props) {
                                 borderRadius: 8,
                                 fontSize: 12,
                             }}
-                            formatter={(value: number, name: string) => [
-                                `$${value.toLocaleString()}`,
+                            formatter={(value: any, name: any) => [
+                                `$${(value || 0).toLocaleString()}`,
                                 name === "subscriptions" ? "Subscriptions" : "Rentals",
                             ]}
                             labelStyle={{ color: "var(--muted-foreground)" }}

@@ -114,7 +114,7 @@ function RouteComponent() {
                 const m = Number(item.monthlyPrice);
                 if (!Number.isNaN(m) && m > 0) {
                     const computedY = Math.round(m * 12 * (1 - (discountPct / 100)));
-                    await plansApi.update(item.id, { yearlyPrice: String(computedY) });
+                    await plansApi.update(item.id, { yearlyPrice: computedY });
                 }
             }
             toast.success(`Global ${discountPct}% discount applied & synced to all subscription plans!`);

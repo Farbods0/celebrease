@@ -300,7 +300,7 @@ export default async function HomePage() {
                             { img: "/uploads/holidays/diwali-starter-angle1.jpg", q: "The kit arrived styled and ready. I literally just placed each piece. Done.", a: "Priya K., New York" },
                         ].map((t, i) => (
                             <div key={i} className="cb-testi-card">
-                                <img src={t.img} alt={`Living room decor for ${t.a}`} loading="lazy" decoding="async" className="object-cover w-full" style={{ aspectRatio: "16/10", display: "block" }} />
+                                <Image src={t.img} alt={`Living room decor for ${t.a}`} width={600} height={375} unoptimized={true} className="object-cover w-full" style={{ aspectRatio: "16/10", display: "block" }} />
                                 <div className="cb-testi-body">
                                     <p className="cb-testi-quote">&ldquo;{t.q}&rdquo;</p>
                                     <p className="cb-testi-attr">- {t.a}</p>

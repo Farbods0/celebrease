@@ -49,7 +49,7 @@ export function AddOnCard({ item, onEdit }: AddOnCardProps) {
     return (
         <div className={`addon-card${item.isActive ? "" : " inactive"}`}>
             <div className="addon-img-wrap">
-                <img loading="lazy" decoding="async" src={`${baseURL}${item.image}`} alt={item.name} />
+                <img loading="lazy" decoding="async" src={resolveImageUrl(item.image)} alt={item.name} />
                 {holiday && <span className="holiday-tag">{holiday.name}</span>}
             </div>
             <div className="addon-body">

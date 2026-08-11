@@ -21,7 +21,7 @@ export function HolidayCard({ item, onEdit }: HolidayCardProps) {
                 <div className="hol-cell">
                     <img loading="lazy" decoding="async"
 className="hol-thumb"
-                        src={`${baseURL}${item.image}`}
+                        src={resolveImageUrl(item.image)}
                         alt={item.name}
                         style={item.isActive ? undefined : { filter: "grayscale(.4)" }}
                     />

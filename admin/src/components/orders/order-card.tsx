@@ -29,7 +29,7 @@ export function OrderCard({ item, onView }: OrderCardProps) {
                 <span className={`status ${pill.cls}`}>{pill.label}</span>
             </div>
             <div className="tbl-kit" style={{ marginTop: 12 }}>
-                <img loading="lazy" decoding="async" src={`${baseURL}${item.holiday.image}`} alt="" />
+                <img loading="lazy" decoding="async" src={resolveImageUrl(item.holiday.image)} alt="" />
                 <div>
                     <div className="kit-name">{item.holiday.name}</div>
                     <div className="kit-tier">{formatTier(item.kit.tier)} · {formatDuration(item.duration)}</div>

@@ -39,7 +39,7 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
         }
     };
 
-    const previewUrl = field.state.value ? (field.state.value.startsWith("http") ? field.state.value : `${baseURL}${field.state.value}`) : null;
+    const previewUrl = field.state.value ? (field.state.value.startsWith("http") ? field.state.value : resolveImageUrl(field.state.value)) : null;
 
     return (
         <Field data-invalid={isInvalid}>

@@ -235,7 +235,7 @@ function RouteComponent() {
     };
 
     const initials = (user.name?.match(/\b(\w)/g) ?? []).slice(0, 2).join("").toUpperCase();
-    const avatarSrc = user.image ? (user.image.startsWith("http") ? user.image : `${baseURL}${user.image}`) : undefined;
+    const avatarSrc = user.image ? (user.image.startsWith("http") ? user.image : resolveImageUrl(user.image)) : undefined;
 
     const activeNav = NAV.find((n) => n.key === section)!;
     const headDesc: Record<SectionKey, string> = {
@@ -641,7 +641,7 @@ function CompanySettingsTab({ section }: { section: SectionKey }) {
                         <div className="avatar-row">
                             <div className="logo-box">
                                 {settings.logoUrl ? (
-                                    <img loading="lazy" decoding="async" src={settings.logoUrl.startsWith("http") ? settings.logoUrl : `${baseURL}${settings.logoUrl}`} alt="Logo" />
+                                    <img loading="lazy" decoding="async" src={settings.logoUrl.startsWith("http") ? settings.logoUrl : resolveImageUrl(settings.logoUrl)} alt="Logo" />
                                 ) : (
                                     <span style={{ fontSize: 11, color: "var(--ink-soft)" }}>No logo</span>
                                 )}

@@ -18,7 +18,7 @@ function returnedCell(order: ApiOrder) {
     return { date: m.format("MMM D"), ago: m.fromNow() };
 }
 
-const img = (path?: string | null) => (path ? (path.startsWith("http") ? path : `${baseURL}${path}`) : "");
+const img = resolveImageUrl;
 
 export function ReturnTable({ items, onView }: ReturnTableProps) {
     return (

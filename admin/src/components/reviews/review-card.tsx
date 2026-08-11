@@ -33,7 +33,7 @@ export function ReviewCard({ item, onEdit }: ReviewCardProps) {
                     <span className="rv-name">{item.name}</span>
                     {item.image ? (
                         <span className="rv-kit">
-                            <img loading="lazy" decoding="async" className="kit-thumb" src={`${baseURL}${item.image}`} alt="" />
+                            <img loading="lazy" decoding="async" className="kit-thumb" src={resolveImageUrl(item.image)} alt="" />
                         </span>
                     ) : null}
                     <span className="rv-date">{dateFormatter.format(new Date(item.createdAt))}</span>

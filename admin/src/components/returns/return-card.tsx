@@ -7,7 +7,7 @@ type ReturnCardProps = {
     onView: (item: ApiOrder) => void;
 };
 
-const img = (path?: string | null) => (path ? (path.startsWith("http") ? path : `${baseURL}${path}`) : "");
+const img = resolveImageUrl;
 
 export function ReturnCard({ item, onView }: ReturnCardProps) {
     const pill = orderStatusPill(item.status);

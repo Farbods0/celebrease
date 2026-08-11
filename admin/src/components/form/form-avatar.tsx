@@ -25,7 +25,7 @@ export function FormAvatar({
     const [isDeleting, startDelete] = useTransition();
 
     const value = field.state.value;
-    const previewUrl = value ? (value.startsWith("http") ? value : `${baseURL}${value}`) : fallback;
+    const previewUrl = value ? (value.startsWith("http") ? value : resolveImageUrl(value)) : fallback;
     const busy = isUploading || isDeleting;
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

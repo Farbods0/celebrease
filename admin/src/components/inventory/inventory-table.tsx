@@ -50,7 +50,7 @@ function stockState(item: ApiItem): StockState {
     return { cls: "st-good", label: "Good", rowClass: "", utilClass: "good", utilColor: "var(--green)", pct: util };
 }
 
-const img = (path?: string | null) => (path ? (path.startsWith("http") ? path : `${baseURL}${path}`) : "");
+const img = resolveImageUrl;
 
 type InventoryTableProps = {
     items: ApiItem[];

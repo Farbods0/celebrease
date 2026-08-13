@@ -29,3 +29,5 @@ upload_*.js
 measure_*.js
 backend/scratch_*.js
 # bust cache
+scratch/
+img_venv_311/

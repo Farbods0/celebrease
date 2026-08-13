@@ -81,7 +81,7 @@ async function upload() {
     // Update DB
     console.log("Updating database with new URLs:", urlMap);
     const pool = new Pool({
-        connectionString: 'postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require'
+        connectionString: process.env.DATABASE_URL
     });
     
     for (const [sku, url] of Object.entries(urlMap)) {

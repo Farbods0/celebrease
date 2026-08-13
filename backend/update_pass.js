@@ -3,7 +3,7 @@ const { hashPassword } = require('better-auth/crypto');
 
 (async () => {
   const hash = await hashPassword('Password123!');
-  const client = new Client({ connectionString: 'postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require' });
+  const client = new Client({ connectionString: process.env.DATABASE_URL });
   await client.connect();
   
   // Get user IDs

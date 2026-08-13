@@ -2,7 +2,7 @@ const { neon } = require('@neondatabase/serverless');
 const fs = require('fs');
 const path = require('path');
 
-const sql = neon('postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require');
+const sql = neon(process.env.DATABASE_URL);
 
 const brainDir = 'C:\\Users\\farbo\\.gemini\\antigravity-cli\\brain\\86980309-4154-41b6-a44a-573455a57343';
 const uploadsDir = path.join(__dirname, '../frontend/public/uploads/holidays');

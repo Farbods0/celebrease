@@ -7,7 +7,7 @@ services:
     startCommand: "pnpm run start:prod"
     envVars:
       - key: DATABASE_URL
-        value: "postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
+        value: "<HIDDEN_DATABASE_URL>"
       - key: NODE_ENV
         value: production
       - key: CLIENT

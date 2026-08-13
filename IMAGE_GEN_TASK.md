@@ -11,7 +11,7 @@
 "Resume the image generation task. Generate 4 unique product photography images for every kit tier listed in the Remaining Generation Queue in IMAGE_GEN_TASK.md. Save to frontend/public/uploads/holidays/{slug}-{tier}-angle{n}.jpg, update Neon DB kit records, commit and push after every 3-4 kits."
 
 ## DB Connection
-postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require
+"<HIDDEN_DATABASE_URL>"
 
 ## Completed Kits (56 unique images generated & updated in Neon DB)
 - Cinco de Mayo STARTER (existing)

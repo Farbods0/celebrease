@@ -1,5 +1,5 @@
 const { neon } = require('@neondatabase/serverless');
-const sql = neon('postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require');
+const sql = neon(process.env.DATABASE_URL);
 (async () => {
     // Fix St Patrick's Day STARTER - files on disk use st-patricks-day (no apostrophe)
     const images = [

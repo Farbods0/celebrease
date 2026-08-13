@@ -3,7 +3,7 @@ const { Client } = require('pg');
 
 async function verifyUser(email) {
   const client = new Client({
-    connectionString: "postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require"
+    connectionString: process.env.DATABASE_URL
   });
   await client.connect();
   await client.query('UPDATE "user" SET "emailVerified" = true WHERE email = $1', [email]);

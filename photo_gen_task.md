@@ -3,7 +3,7 @@
 # and upload them to the production database.
 
 ## Database Connection
-postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require
+"<HIDDEN_DATABASE_URL>"
 
 ## Holidays/Tiers needing unique images (currently all 4 slots have the SAME image duplicated)
 Each tier already has 1 hero image (Photo 1). We need to generate Photos 2, 3, 4 for each.

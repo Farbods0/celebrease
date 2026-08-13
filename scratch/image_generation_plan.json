@@ -1,0 +1,1010 @@
+[
+  {
+    "holiday": "Christmas",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "christmas_starter_angle1",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "christmas_starter_angle2",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "christmas_starter_angle3",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "christmas_starter_angle4",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "christmas_premium_angle1",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "christmas_premium_angle2",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "christmas_premium_angle3",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "christmas_premium_angle4",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "ULTIMATE",
+    "angle": 1,
+    "imageName": "christmas_ultimate_angle1",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "ULTIMATE",
+    "angle": 2,
+    "imageName": "christmas_ultimate_angle2",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "ULTIMATE",
+    "angle": 3,
+    "imageName": "christmas_ultimate_angle3",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Christmas",
+    "tier": "ULTIMATE",
+    "angle": 4,
+    "imageName": "christmas_ultimate_angle4",
+    "prompt": "Professional high-end product photography of a Christmas celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "gender-reveals_starter_angle1",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "gender-reveals_starter_angle2",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "gender-reveals_starter_angle3",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "gender-reveals_starter_angle4",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "gender-reveals_premium_angle1",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "gender-reveals_premium_angle2",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "gender-reveals_premium_angle3",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "gender-reveals_premium_angle4",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "ULTIMATE",
+    "angle": 1,
+    "imageName": "gender-reveals_ultimate_angle1",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "ULTIMATE",
+    "angle": 2,
+    "imageName": "gender-reveals_ultimate_angle2",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "ULTIMATE",
+    "angle": 3,
+    "imageName": "gender-reveals_ultimate_angle3",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Gender Reveals",
+    "tier": "ULTIMATE",
+    "angle": 4,
+    "imageName": "gender-reveals_ultimate_angle4",
+    "prompt": "Professional high-end product photography of a Gender Reveals celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "weddings-rehearsal-dinners_starter_angle1",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "weddings-rehearsal-dinners_starter_angle2",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "weddings-rehearsal-dinners_starter_angle3",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "weddings-rehearsal-dinners_starter_angle4",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "weddings-rehearsal-dinners_premium_angle1",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "weddings-rehearsal-dinners_premium_angle2",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "weddings-rehearsal-dinners_premium_angle3",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "weddings-rehearsal-dinners_premium_angle4",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "ULTIMATE",
+    "angle": 1,
+    "imageName": "weddings-rehearsal-dinners_ultimate_angle1",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "ULTIMATE",
+    "angle": 2,
+    "imageName": "weddings-rehearsal-dinners_ultimate_angle2",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "ULTIMATE",
+    "angle": 3,
+    "imageName": "weddings-rehearsal-dinners_ultimate_angle3",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Weddings & Rehearsal Dinners",
+    "tier": "ULTIMATE",
+    "angle": 4,
+    "imageName": "weddings-rehearsal-dinners_ultimate_angle4",
+    "prompt": "Professional high-end product photography of a Weddings & Rehearsal Dinners celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "baby-showers_starter_angle1",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "baby-showers_starter_angle2",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "baby-showers_starter_angle3",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "baby-showers_starter_angle4",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "baby-showers_premium_angle1",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "baby-showers_premium_angle2",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "baby-showers_premium_angle3",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Baby Showers",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "baby-showers_premium_angle4",
+    "prompt": "Professional high-end product photography of a Baby Showers celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "birthdays_starter_angle1",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "birthdays_starter_angle2",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "birthdays_starter_angle3",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "birthdays_starter_angle4",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "birthdays_premium_angle1",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "birthdays_premium_angle2",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "birthdays_premium_angle3",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Birthdays",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "birthdays_premium_angle4",
+    "prompt": "Professional high-end product photography of a Birthdays celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "diwali_starter_angle1",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "diwali_starter_angle2",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "diwali_starter_angle3",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "diwali_starter_angle4",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "diwali_premium_angle1",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "diwali_premium_angle2",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "diwali_premium_angle3",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Diwali",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "diwali_premium_angle4",
+    "prompt": "Professional high-end product photography of a Diwali celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "easter_starter_angle1",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "easter_starter_angle2",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "easter_starter_angle3",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "easter_starter_angle4",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "easter_premium_angle1",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "easter_premium_angle2",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "easter_premium_angle3",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Easter",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "easter_premium_angle4",
+    "prompt": "Professional high-end product photography of a Easter celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "eid_starter_angle1",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "eid_starter_angle2",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "eid_starter_angle3",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "eid_starter_angle4",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "eid_premium_angle1",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "eid_premium_angle2",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "eid_premium_angle3",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Eid",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "eid_premium_angle4",
+    "prompt": "Professional high-end product photography of a Eid celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "engagement-parties_starter_angle1",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "engagement-parties_starter_angle2",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "engagement-parties_starter_angle3",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "engagement-parties_starter_angle4",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "engagement-parties_premium_angle1",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "engagement-parties_premium_angle2",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "engagement-parties_premium_angle3",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Engagement Parties",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "engagement-parties_premium_angle4",
+    "prompt": "Professional high-end product photography of a Engagement Parties celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "halloween_starter_angle1",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "halloween_starter_angle2",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "halloween_starter_angle3",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "halloween_starter_angle4",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "halloween_premium_angle1",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "halloween_premium_angle2",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "halloween_premium_angle3",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Halloween",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "halloween_premium_angle4",
+    "prompt": "Professional high-end product photography of a Halloween celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "hanukkah_starter_angle1",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "hanukkah_starter_angle2",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "hanukkah_starter_angle3",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "hanukkah_starter_angle4",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "hanukkah_premium_angle1",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "hanukkah_premium_angle2",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "hanukkah_premium_angle3",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Hanukkah",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "hanukkah_premium_angle4",
+    "prompt": "Professional high-end product photography of a Hanukkah celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "new-years_starter_angle1",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "new-years_starter_angle2",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "new-years_starter_angle3",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "new-years_starter_angle4",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "new-years_premium_angle1",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "new-years_premium_angle2",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "new-years_premium_angle3",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "New Year's",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "new-years_premium_angle4",
+    "prompt": "Professional high-end product photography of a New Year's celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "nowruz_starter_angle1",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "nowruz_starter_angle2",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "nowruz_starter_angle3",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "nowruz_starter_angle4",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "nowruz_premium_angle1",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "nowruz_premium_angle2",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "nowruz_premium_angle3",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Nowruz",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "nowruz_premium_angle4",
+    "prompt": "Professional high-end product photography of a Nowruz celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "ramadan_starter_angle1",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "ramadan_starter_angle2",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "ramadan_starter_angle3",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "ramadan_starter_angle4",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "ramadan_premium_angle1",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "ramadan_premium_angle2",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "ramadan_premium_angle3",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Ramadan",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "ramadan_premium_angle4",
+    "prompt": "Professional high-end product photography of a Ramadan celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "STARTER",
+    "angle": 1,
+    "imageName": "valentines-day_starter_angle1",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "STARTER",
+    "angle": 2,
+    "imageName": "valentines-day_starter_angle2",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "STARTER",
+    "angle": 3,
+    "imageName": "valentines-day_starter_angle3",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "STARTER",
+    "angle": 4,
+    "imageName": "valentines-day_starter_angle4",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a basic starter collection with essential decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "valentines-day_premium_angle1",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "valentines-day_premium_angle2",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "valentines-day_premium_angle3",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Valentine's Day",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "valentines-day_premium_angle4",
+    "prompt": "Professional high-end product photography of a Valentine's Day celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "St. Patrick's Day",
+    "tier": "ULTIMATE",
+    "angle": 1,
+    "imageName": "st-patricks-day_ultimate_angle1",
+    "prompt": "Professional high-end product photography of a St. Patrick's Day celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "St. Patrick's Day",
+    "tier": "ULTIMATE",
+    "angle": 2,
+    "imageName": "st-patricks-day_ultimate_angle2",
+    "prompt": "Professional high-end product photography of a St. Patrick's Day celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "St. Patrick's Day",
+    "tier": "ULTIMATE",
+    "angle": 3,
+    "imageName": "st-patricks-day_ultimate_angle3",
+    "prompt": "Professional high-end product photography of a St. Patrick's Day celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "St. Patrick's Day",
+    "tier": "ULTIMATE",
+    "angle": 4,
+    "imageName": "st-patricks-day_ultimate_angle4",
+    "prompt": "Professional high-end product photography of a St. Patrick's Day celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "PREMIUM",
+    "angle": 1,
+    "imageName": "thanksgiving_premium_angle1",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "PREMIUM",
+    "angle": 2,
+    "imageName": "thanksgiving_premium_angle2",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "PREMIUM",
+    "angle": 3,
+    "imageName": "thanksgiving_premium_angle3",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "PREMIUM",
+    "angle": 4,
+    "imageName": "thanksgiving_premium_angle4",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is a premium upgraded collection with abundant, high-quality festive decorations. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "ULTIMATE",
+    "angle": 1,
+    "imageName": "thanksgiving_ultimate_angle1",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 1."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "ULTIMATE",
+    "angle": 2,
+    "imageName": "thanksgiving_ultimate_angle2",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 2."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "ULTIMATE",
+    "angle": 3,
+    "imageName": "thanksgiving_ultimate_angle3",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 3."
+  },
+  {
+    "holiday": "Thanksgiving",
+    "tier": "ULTIMATE",
+    "angle": 4,
+    "imageName": "thanksgiving_ultimate_angle4",
+    "prompt": "Professional high-end product photography of a Thanksgiving celebration decoration kit in a beautifully lit modern home. This is the ultimate luxury collection with extravagant, massive decorative displays. Studio lighting, cinematic composition, depth of field, 8k resolution, photorealistic. Angle 4."
+  }
+]

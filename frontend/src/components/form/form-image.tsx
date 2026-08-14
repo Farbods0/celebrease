@@ -22,11 +22,7 @@ export function FormImage({ label, disabled, accept = "image/png,image/jpeg,imag
 
     const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        e.target.value = "";
-        if (!file) return;
-
+    const handleFileUpload = async (file: File) => {
         setUploadError(null);
         setIsUploading(true);
         try {
@@ -36,6 +32,31 @@ export function FormImage({ label, disabled, accept = "image/png,image/jpeg,imag
             setUploadError(error instanceof Error ? error.message : "Upload failed");
         } finally {
             setIsUploading(false);
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        e.target.value = "";
+        if (file) handleFileUpload(file);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            handleFileUpload(file);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+    };
+
+    const handlePaste = (e: React.ClipboardEvent) => {
+        const file = e.clipboardData.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            handleFileUpload(file);
         }
     };
 
@@ -62,18 +83,27 @@ export function FormImage({ label, disabled, accept = "image/png,image/jpeg,imag
                 <button
                     type="button"
                     onClick={() => inputRef.current?.click()}
-                    className="flex w-full flex-col items-center justify-center rounded-md border border-dashed px-6 py-8 text-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onPaste={handlePaste}
+                    className="flex w-full flex-col items-center justify-center rounded-md border border-dashed px-6 py-8 text-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     disabled={disabled || isUploading}
                 >
                     <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">
                         {isUploading ? <Spinner /> : <HugeiconsIcon icon={Upload01Icon} />}
                     </div>
 
-                    <p className="text-sm font-medium">Click to upload image</p>
+                    <p className="text-sm font-medium">Click, paste, or drop image</p>
                     <p className="mt-1 text-xs text-muted-foreground">PNG, JPG or WEBP (max. 5MB)</p>
                 </button>
             ) : (
-                <div className="relative h-36 rounded-md border border-dashed overflow-hidden">
+                <div 
+                    className="relative h-36 rounded-md border border-dashed overflow-hidden focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    tabIndex={0}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onPaste={handlePaste}
+                >
                     <img src={previewUrl} alt="Selected" className="h-full w-full object-cover" />
                     <Button
                         variant="ghost"

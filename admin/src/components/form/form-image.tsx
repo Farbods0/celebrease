@@ -22,11 +22,7 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
 
     const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        e.target.value = "";
-        if (!file) return;
-
+    const handleFileUpload = async (file: File) => {
         setUploadError(null);
         setIsUploading(true);
         try {
@@ -36,6 +32,31 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
             setUploadError(error instanceof Error ? error.message : "Upload failed");
         } finally {
             setIsUploading(false);
+        }
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        e.target.value = "";
+        if (file) handleFileUpload(file);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            handleFileUpload(file);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+    };
+
+    const handlePaste = (e: React.ClipboardEvent) => {
+        const file = e.clipboardData.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            handleFileUpload(file);
         }
     };
 
@@ -62,7 +83,10 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
                 <button
                     type="button"
                     onClick={() => inputRef.current?.click()}
-                    className="group flex w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-primary/40 bg-primary/5 hover:bg-primary/10 hover:border-primary/60 p-8 text-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 transition-colors duration-200"
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onPaste={handlePaste}
+                    className="group flex w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-primary/40 bg-primary/5 hover:bg-primary/10 hover:border-primary/60 p-8 text-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                     disabled={disabled || isUploading}
                 >
                     <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
@@ -74,13 +98,19 @@ export function FormImage({ label, folder, disabled, accept = "image/png,image/j
                     </div>
                     <p className="text-sm font-medium text-foreground">
                         {isUploading ? "Uploading..." : (
-                            <>Click to upload or drag &amp; drop</>
+                            <>Click, paste, or drop image</>
                         )}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">PNG, JPG, WebP, max 10MB</p>
                 </button>
             ) : (
-                <div className="relative h-40 rounded-xl border border-border overflow-hidden bg-muted group">
+                <div 
+                    className="relative h-40 rounded-xl border border-border overflow-hidden bg-muted group focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    tabIndex={0}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                    onPaste={handlePaste}
+                >
                     <img loading="lazy" decoding="async"
 src={previewUrl}
                         alt={field.state.value || undefined}

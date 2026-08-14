@@ -18,11 +18,11 @@ test.describe('CeleBrease Application Flow', () => {
     await expect(page.getByRole('navigation').first()).toBeVisible();
   });
 
-  test('Catalog page successfully fetches and renders holidays', async ({ page }) => {
-    const response = await page.goto('/catalog');
+  test('Shop Kits page successfully fetches and renders holidays', async ({ page }) => {
+    const response = await page.goto('/shop-kits');
     expect(response?.ok()).toBeTruthy();
 
-    // Make sure catalog layout loads
+    // Make sure shop-kits layout loads
     await expect(page.locator('h1').first()).toBeVisible();
 
     // Check that we aren't showing the fallback empty state or an error

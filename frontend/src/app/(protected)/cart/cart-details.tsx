@@ -462,7 +462,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                             <span className="eyebrow">Popular additions</span>
                             <h3>Add another holiday</h3>
                         </div>
-                        <Link href="/catalog" className="cb-also-like-link">See all holidays &#8594;</Link>
+                        <Link href="/shop-kits" className="cb-also-like-link">See all holidays &#8594;</Link>
                     </div>
                     <div className="cb-also-like-scroll" role="list">
                         {[
@@ -474,7 +474,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                         ].map((s) => (
                             <Link
                                 key={s.id}
-                                href={`/catalog/${s.id}`}
+                                href={`/shop-kits/${s.id}`}
                                 className="cb-also-card"
                                 role="listitem"
                                 style={{background: s.bg}}
@@ -567,7 +567,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                         Proceed to checkout
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </Link>
-                    <Link href="/catalog" className="cb-continue-shop">&#8592; Continue browsing</Link>
+                    <Link href="/shop-kits" className="cb-continue-shop">&#8592; Continue browsing</Link>
 
                     <div className="cb-trust-badges" role="list" aria-label="Trust signals">
                         <div className="cb-trust-badge" role="listitem">

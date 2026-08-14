@@ -464,7 +464,7 @@ export default async function AboutPage() {
                             </h2>
                         </div>
                         <Link
-                            href="/catalog"
+                            href="/shop-kits"
                             aria-label="Browse all holiday collections"
                             style={{ color: "var(--cb-purple)", fontWeight: 600, fontSize: 15 }}
                         >

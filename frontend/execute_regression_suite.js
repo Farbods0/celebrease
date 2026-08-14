@@ -87,8 +87,8 @@ const report = {
     // 1. Consumer Public & Catalog Pages
     const consumerUrls = [
         { name: 'Homepage', path: '/' },
-        { name: 'Catalog', path: '/catalog' },
-        { name: 'Christmas Kit Detail', path: '/catalog/christmas' },
+        { name: 'Catalog', path: '/shop-kits' },
+        { name: 'Christmas Kit Detail', path: '/shop-kits/christmas' },
         { name: 'Cart Page', path: '/cart' },
         { name: 'Checkout Page', path: '/checkout' },
         { name: 'Subscription Page', path: '/subscription' },

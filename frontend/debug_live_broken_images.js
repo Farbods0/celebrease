@@ -5,8 +5,8 @@ const { chromium } = require('playwright');
     const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
 
-    console.log('1. Checking PDP https://celebrease.com/catalog/thanksgiving');
-    await page.goto('https://celebrease.com/catalog/thanksgiving', { waitUntil: 'networkidle' });
+    console.log('1. Checking PDP https://celebrease.com/shop-kits/thanksgiving');
+    await page.goto('https://celebrease.com/shop-kits/thanksgiving', { waitUntil: 'networkidle' });
 
     const pdpBroken = await page.evaluate(() => {
         const imgs = Array.from(document.querySelectorAll('img'));

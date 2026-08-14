@@ -735,7 +735,7 @@ export default function AccountClient() {
                                 <div>
                                     <div className="acct-section-label">Quick Actions</div>
                                     <div className="quick-actions">
-                                        <Link href="/catalog" className="qa-card" aria-label="Browse kits and add a holiday">
+                                        <Link href="/shop-kits" className="qa-card" aria-label="Browse kits and add a holiday">
                                             <div className="qa-icon" aria-hidden="true">🏡</div>
                                             <div className="qa-label">Add a Holiday</div>
                                             <div className="qa-desc">
@@ -810,7 +810,7 @@ export default function AccountClient() {
                                                         {openSlots} slot{openSlots !== 1 ? "s" : ""} available for reservation
                                                     </div>
                                                     <div className="psc-actions">
-                                                        <Link href="/catalog" className="btn-psc-solid">
+                                                        <Link href="/shop-kits" className="btn-psc-solid">
                                                             Browse holidays &#8594;
                                                         </Link>
                                                     </div>
@@ -903,7 +903,7 @@ export default function AccountClient() {
                                                         </div>
                                                         {slot.status === "PENDING" && (
                                                             <Link
-                                                                href="/catalog"
+                                                                href="/shop-kits"
                                                                 style={{
                                                                     display: "inline-flex",
                                                                     alignItems: "center",

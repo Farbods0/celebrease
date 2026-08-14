@@ -5,8 +5,8 @@ const publicRoutes = [
     "/",
     "/about",
     "/accessibility",
-    "/catalog",
-    "/catalog/christmas",
+    "/shop-kits",
+    "/shop-kits/christmas",
     "/contact",
     "/faqs",
     "/how-it-works",
@@ -84,7 +84,7 @@ const protectedRoutes = [
   console.log("Populating cart...");
   const cartPage = await context.newPage();
   try {
-      await cartPage.goto('https://celebrease.com/catalog/christmas', { waitUntil: 'networkidle' });
+      await cartPage.goto('https://celebrease.com/shop-kits/christmas', { waitUntil: 'networkidle' });
       // Wait for React to mount and data to load
       await cartPage.waitForTimeout(2000);
       // Look for a button that contains "Reserve", "Add", or "Select"

@@ -86,7 +86,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
                         <p style={{ color: "var(--cb-ink-muted)", marginTop: 8 }}>
                             Please check the URL or try again later.
                         </p>
-                        <Link href="/catalog" style={{ marginTop: 16, display: "inline-block" }}>
+                        <Link href="/shop-kits" style={{ marginTop: 16, display: "inline-block" }}>
                             <Button variant="destructive" size="sm">Back to Shop Kits</Button>
                         </Link>
                     </div>
@@ -113,7 +113,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
                                 <span className="eyebrow">More to celebrate</span>
                                 <h2 id="related-heading">You might also love</h2>
                             </div>
-                            <Link href="/catalog" className="cb-related-link">
+                            <Link href="/shop-kits" className="cb-related-link">
                                 Explore all holidays →
                             </Link>
                         </div>
@@ -129,7 +129,7 @@ export default async function CatalogDetailPage({ params }: { params: Promise<{ 
                                 return (
                                     <Link
                                         key={h.id}
-                                        href={`/catalog/${slugify(h.name)}`}
+                                        href={`/shop-kits/${slugify(h.name)}`}
                                         className="cb-holiday-card"
                                         role="listitem"
                                         aria-label={`${h.name} kit${price !== null ? `, from $${price}` : ""}`}

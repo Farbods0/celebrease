@@ -357,7 +357,7 @@ export default function CheckoutSuccessClient() {
                             <Link href="/account" className="cb-oc-btn-primary" aria-label="View your order details">
                                 View My Order &rarr;
                             </Link>
-                            <Link href="/catalog" className="cb-oc-btn-secondary" aria-label="Browse more holiday kits">
+                            <Link href="/shop-kits" className="cb-oc-btn-secondary" aria-label="Browse more holiday kits">
                                 Browse More Holidays
                             </Link>
                         </div>

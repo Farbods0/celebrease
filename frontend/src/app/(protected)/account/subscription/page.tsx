@@ -164,7 +164,7 @@ function SlotCard({ slot, imgSrc, holidayName }: {
                     <div className="acct-slot-empty-icon" aria-hidden="true">&#127881;</div>
                     <div className="acct-slot-empty-title">Choose a holiday</div>
                     <p className="acct-slot-empty-sub">You have a slot available. Pick a holiday and we will curate a kit for you.</p>
-                    <Link href="/catalog" className="acct-slot-btn acct-slot-btn--primary">+ Choose Holiday</Link>
+                    <Link href="/shop-kits" className="acct-slot-btn acct-slot-btn--primary">+ Choose Holiday</Link>
                 </div>
             </article>
         );
@@ -195,7 +195,7 @@ function SlotCard({ slot, imgSrc, holidayName }: {
                             &#8596; Reassign
                         </button>
                     )}
-                    <Link href="/catalog" className="acct-slot-btn acct-slot-btn--outline">
+                    <Link href="/shop-kits" className="acct-slot-btn acct-slot-btn--outline">
                         Shop Kits
                     </Link>
                     {slot.orderId && (
@@ -216,7 +216,7 @@ function EmptySlotCard({ slotNum }: { slotNum: number }) {
                 <div className="acct-slot-empty-icon" aria-hidden="true">&#127881;</div>
                 <div className="acct-slot-empty-title">Choose a holiday</div>
                 <p className="acct-slot-empty-sub">You have a slot available. Pick a holiday and we will curate a kit for you.</p>
-                <Link href="/catalog" className="acct-slot-btn acct-slot-btn--primary">+ Choose Holiday</Link>
+                <Link href="/shop-kits" className="acct-slot-btn acct-slot-btn--primary">+ Choose Holiday</Link>
             </div>
         </article>
     );

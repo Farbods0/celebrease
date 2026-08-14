@@ -94,7 +94,7 @@ export default function CheckoutPage() {
                                 Browse the catalog to find a kit for your next celebration.
                             </p>
                             <Link
-                                href="/catalog"
+                                href="/shop-kits"
                                 style={{
                                     display: "inline-flex",
                                     alignItems: "center",

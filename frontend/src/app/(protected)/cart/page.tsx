@@ -55,7 +55,7 @@ export default function CartPage() {
                         <div style={{fontSize:"40px",marginBottom:"16px"}}>&#128533;</div>
                         <h2 style={{fontSize:"1.4rem",marginBottom:"10px"}}>Something went wrong</h2>
                         <p style={{color:"var(--cb-ink-muted)",fontSize:"15px",marginBottom:"24px"}}>We could not load your cart. Please try again later.</p>
-                        <Link href="/catalog" className="btn-primary" style={{width:"auto",display:"inline-flex"}}>Browse Holiday Kits &#8594;</Link>
+                        <Link href="/shop-kits" className="btn-primary" style={{width:"auto",display:"inline-flex"}}>Browse Holiday Kits &#8594;</Link>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@ export default function CartPage() {
                 {/* Page header */}
                 <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"clamp(36px,4vw,56px) 24px 0"}}>
                     <nav aria-label="Breadcrumb" style={{fontSize:"13px",color:"var(--cb-ink-soft)",marginBottom:"6px"}}>
-                        <Link href="/" style={{color:"var(--cb-purple)",fontWeight:600}}>Home</Link> &rsaquo; <Link href="/catalog" style={{color:"var(--cb-purple)",fontWeight:600}}>Catalog</Link> &rsaquo; Cart
+                        <Link href="/" style={{color:"var(--cb-purple)",fontWeight:600}}>Home</Link> &rsaquo; <Link href="/shop-kits" style={{color:"var(--cb-purple)",fontWeight:600}}>Catalog</Link> &rsaquo; Cart
                     </nav>
                     <h1 style={{fontSize:"clamp(2rem,4.2vw,3rem)",fontWeight:800,lineHeight:1.08,marginBottom:"10px",fontFamily:"'Playfair Display',Georgia,serif",color:"var(--cb-ink)"}}>Your celebration list</h1>
                 </div>
@@ -82,7 +82,7 @@ export default function CartPage() {
                         <div style={{width:"80px",height:"80px",borderRadius:"50%",background:"var(--cb-gradient-soft)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"38px",marginBottom:"22px"}}>&#128713;</div>
                         <h2 style={{fontSize:"2rem",marginBottom:"12px",fontFamily:"'Playfair Display',Georgia,serif"}}>Your cart is empty</h2>
                         <p style={{color:"var(--cb-ink-muted)",fontSize:"16px",maxWidth:"360px",lineHeight:1.6,marginBottom:"28px"}}>Browse our holiday kits and add one to get started. Every kit includes free two way shipping and full deposit protection.</p>
-                        <Link href="/catalog" className="btn-primary" style={{width:"auto"}}>Browse Holiday Kits &#8594;</Link>
+                        <Link href="/shop-kits" className="btn-primary" style={{width:"auto"}}>Browse Holiday Kits &#8594;</Link>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,7 @@ export default function CartPage() {
             {/* Page header */}
             <div style={{maxWidth:"var(--cb-max)",margin:"0 auto",padding:"clamp(36px,4vw,56px) 24px 0"}}>
                 <nav aria-label="Breadcrumb" style={{fontSize:"13px",color:"var(--cb-ink-soft)",marginBottom:"6px"}}>
-                    <Link href="/" style={{color:"var(--cb-purple)",fontWeight:600}}>Home</Link> &rsaquo; <Link href="/catalog" style={{color:"var(--cb-purple)",fontWeight:600}}>Catalog</Link> &rsaquo; Cart
+                    <Link href="/" style={{color:"var(--cb-purple)",fontWeight:600}}>Home</Link> &rsaquo; <Link href="/shop-kits" style={{color:"var(--cb-purple)",fontWeight:600}}>Catalog</Link> &rsaquo; Cart
                 </nav>
                 <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",gap:"16px",flexWrap:"wrap",marginBottom:"8px"}}>
                     <h1 style={{fontSize:"clamp(2rem,4.2vw,3rem)",fontWeight:800,lineHeight:1.08,fontFamily:"'Playfair Display',Georgia,serif",color:"var(--cb-ink)"}}>Your celebration list</h1>

@@ -4,7 +4,7 @@ const fs = require('fs');
 const routes = [
     "",
     "/about",
-    "/catalog",
+    "/shop-kits",
     "/contact",
     "/faqs",
     "/how-it-works"

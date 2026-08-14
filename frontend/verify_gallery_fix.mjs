@@ -10,7 +10,7 @@ import { chromium } from 'playwright';
   for (let i = 0; i < MAX_RETRIES; i++) {
     console.log(`Checking deployment (Attempt ${i + 1}/${MAX_RETRIES})...`);
     // Need to go to a specific catalog page
-    await page.goto('https://celebrease.com/catalog', { waitUntil: 'networkidle' });
+    await page.goto('https://celebrease.com/shop-kits', { waitUntil: 'networkidle' });
     const firstHolidayHref = await page.evaluate(() => document.querySelector('.cb-holiday-card')?.getAttribute('href'));
     if (!firstHolidayHref) {
       console.log('Could not find holiday link.');

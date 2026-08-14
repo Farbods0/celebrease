@@ -472,7 +472,7 @@ export default function OrderConfirmationPage() {
                             <Link href="/account" className="oc-summary-btn-primary" aria-label="Track your order status">
                                 Track My Order &rarr;
                             </Link>
-                            <Link href="/catalog" className="oc-summary-btn-secondary" aria-label="Browse more holiday kits">
+                            <Link href="/shop-kits" className="oc-summary-btn-secondary" aria-label="Browse more holiday kits">
                                 Browse More Holidays
                             </Link>
                         </div>

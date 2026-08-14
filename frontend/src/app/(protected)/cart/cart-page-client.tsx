@@ -64,7 +64,7 @@ export default function CartPageClient() {
                         </p>
                     </div>
                     <Link
-                        href="/catalog"
+                        href="/shop-kits"
                         className="inline-block px-8 py-3 rounded-full text-sm font-bold text-white no-underline"
                         style={{ background: "linear-gradient(135deg, #9B2FC9, #DC0075)" }}
                     >

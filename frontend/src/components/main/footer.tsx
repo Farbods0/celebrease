@@ -13,16 +13,16 @@ export default function Footer() {
                 <div className="cb-footer-col">
                     <h4>Explore</h4>
                     <Link href="/">Home</Link>
-                    <Link href="/catalog">Shop Kits</Link>
+                    <Link href="/shop-kits">Shop Kits</Link>
                     <Link href="/subscription">Subscription</Link>
                     <Link href="/about">About</Link>
                     <Link href="/how-it-works">How It Works</Link>
                 </div>
                 <div className="cb-footer-col">
                     <h4>Shop by type</h4>
-                    <Link href="/catalog">Traditional</Link>
-                    <Link href="/catalog">Cultural</Link>
-                    <Link href="/catalog">Event-Based</Link>
+                    <Link href="/shop-kits">Traditional</Link>
+                    <Link href="/shop-kits">Cultural</Link>
+                    <Link href="/shop-kits">Event-Based</Link>
                 </div>
                 <div className="cb-footer-col">
                     <h4>Support</h4>

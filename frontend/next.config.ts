@@ -55,12 +55,22 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: "/kits/:slug",
-                destination: "/catalog/:slug",
+                destination: "/shop-kits/:slug",
                 permanent: true,
             },
             {
                 source: "/kits",
-                destination: "/catalog",
+                destination: "/shop-kits",
+                permanent: true,
+            },
+            {
+                source: "/catalog/:slug",
+                destination: "/shop-kits/:slug",
+                permanent: true,
+            },
+            {
+                source: "/catalog",
+                destination: "/shop-kits",
                 permanent: true,
             },
         ];

@@ -26,7 +26,7 @@ import fs from 'fs';
   }
   
   // Try to find if holidays loaded
-  const catalogLink = await page.locator('a[href="/catalog"]').first();
+  const catalogLink = await page.locator('a[href="/shop-kits"]').first();
   if (await catalogLink.isVisible()) {
     console.log('Navigating to Catalog...');
     await catalogLink.click();

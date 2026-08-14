@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const routes = [
     "/subscription",
-    "/catalog/christmas",
+    "/shop-kits/christmas",
     "/cart",
     "/signin",
     "/signup",

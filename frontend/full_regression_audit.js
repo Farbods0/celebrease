@@ -118,8 +118,8 @@ const auditResults = {
     // --- CONSUMER SITE AUDIT ---
     const consumerPages = [
         { name: 'Home', path: '/' },
-        { name: 'Catalog', path: '/catalog' },
-        { name: 'Kit Detail (Christmas)', path: '/catalog/christmas' },
+        { name: 'Catalog', path: '/shop-kits' },
+        { name: 'Kit Detail (Christmas)', path: '/shop-kits/christmas' },
         { name: 'Cart', path: '/cart' },
         { name: 'Checkout', path: '/checkout' },
         { name: 'Subscription', path: '/subscription' },

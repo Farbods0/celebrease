@@ -22,7 +22,7 @@ const { chromium } = require('playwright');
     railwayCallsCount = 0;
     console.log('\n2. Navigating to Catalog (https://celebrease.com/catalog)...');
     const c0 = Date.now();
-    await page.goto('https://celebrease.com/catalog', { waitUntil: 'networkidle' });
+    await page.goto('https://celebrease.com/shop-kits', { waitUntil: 'networkidle' });
     const c1 = Date.now();
     console.log(`-> Catalog networkidle: ${c1 - c0}ms (Railway calls: ${railwayCallsCount})`);
 

@@ -299,7 +299,7 @@ export default function HowItWorksClient() {
                     <Button
                         nativeButton={false}
                         className="bg-white text-primary hover:bg-white/90 font-extrabold rounded-full px-8 py-3 h-auto text-base"
-                        render={<Link href="/catalog">Browse Kits</Link>}
+                        render={<Link href="/shop-kits">Browse Kits</Link>}
                     />
                     <Button
                         nativeButton={false}

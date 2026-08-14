@@ -303,7 +303,7 @@ export default function CheckoutCancelClient() {
                         style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}
                     >
                         <Link
-                            href="/catalog"
+                            href="/shop-kits"
                             className="btn-primary"
                             aria-label="Browse the holiday catalog"
                         >

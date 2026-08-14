@@ -44,7 +44,7 @@ const QA_PASSWORD = process.env.QA_PASSWORD || 'Expecla2*';
 
   // 5. Populate cart & verify /cart deposit styling
   console.log("Populating cart & verifying /cart deposit text...");
-  await page.goto(`${BASE_URL}/catalog/christmas`, { waitUntil: 'networkidle' });
+  await page.goto(`${BASE_URL}/shop-kits/christmas`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(2500);
   const buttons = await page.$$('button');
   for (const btn of buttons) {

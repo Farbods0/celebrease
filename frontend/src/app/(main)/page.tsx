@@ -68,7 +68,7 @@ export default async function HomePage() {
                             Decorate beautifully. Store nothing. Get your deposit back, every time.
                         </p>
                         <div className="cb-hero-ctas">
-                            <Link href="/catalog" className="btn-primary">Start Celebrating →</Link>
+                            <Link href="/shop-kits" className="btn-primary">Start Celebrating →</Link>
                             <Link href="/how-it-works" className="btn-secondary">See how it works</Link>
                         </div>
                         <div className="cb-hero-proof">
@@ -150,14 +150,14 @@ export default async function HomePage() {
                             <span className="eyebrow">Most popular</span>
                             <h2>Decorate your season</h2>
                         </div>
-                        <Link href="/catalog" className="cb-featured-link">Explore all holidays →</Link>
+                        <Link href="/shop-kits" className="cb-featured-link">Explore all holidays →</Link>
                     </div>
                     <div className="cb-card-grid">
                         {featured.map((h) => {
                             const cat = CATEGORY[h.category as keyof typeof CATEGORY] ?? CATEGORY.TRADITIONAL;
                             const price = lowestPrice(h.kits);
                             return (
-                                <Link key={h.id} href={`/catalog/${slugify(h.name)}`} className="cb-holiday-card">
+                                <Link key={h.id} href={`/shop-kits/${slugify(h.name)}`} className="cb-holiday-card">
                                     <Image src={img(h.image)} alt={`${h.name} décor kit`} width={600} height={400} unoptimized={Boolean(img(h.image))} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" className="w-full h-full object-cover" />
                                     <div className="scrim" />
                                     <span className={`cb-cat-badge ${cat.cls}`}>{cat.label}</span>

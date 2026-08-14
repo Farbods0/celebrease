@@ -275,7 +275,7 @@ export default async function HowItWorksPage() {
                                 ))}
                             </ul>
                             <div style={{ marginTop: 4 }}>
-                                <Link href="/catalog" className="btn-out-grad" style={{ width: "fit-content", padding: "0 28px" }}>
+                                <Link href="/shop-kits" className="btn-out-grad" style={{ width: "fit-content", padding: "0 28px" }}>
                                     Browse holidays →
                                 </Link>
                             </div>

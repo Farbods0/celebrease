@@ -75,7 +75,7 @@ export function WishlistGrid() {
     const handleAddToCart = (e: React.MouseEvent, holiday: ApiHoliday) => {
         e.preventDefault();
         e.stopPropagation();
-        router.push(`/catalog/${slugify(holiday.name)}`);
+        router.push(`/shop-kits/${slugify(holiday.name)}`);
     };
 
     if (isLoading) {
@@ -161,7 +161,7 @@ export function WishlistGrid() {
                                 return (
                                     <Link
                                         key={holiday.id}
-                                        href={`/catalog/${slugify(holiday.name)}`}
+                                        href={`/shop-kits/${slugify(holiday.name)}`}
                                         className="cb-holiday-card"
                                         aria-label={`View ${holiday.name} kits`}
                                     >
@@ -253,7 +253,7 @@ export function WishlistGrid() {
                             >
                                 You&apos;ve removed all saved kits. Head back to the catalog to discover new holidays to celebrate.
                             </p>
-                            <Link href="/catalog" className="btn-primary">
+                            <Link href="/shop-kits" className="btn-primary">
                                 Browse holidays
                             </Link>
                         </div>
@@ -333,7 +333,7 @@ export function WishlistGrid() {
                                     flexWrap: "wrap",
                                 }}
                             >
-                                <Link href="/catalog" className="btn-primary" style={{ height: "52px", fontSize: "16px" }}>
+                                <Link href="/shop-kits" className="btn-primary" style={{ height: "52px", fontSize: "16px" }}>
                                     Browse holidays &#8594;
                                 </Link>
                                 <Link href="/subscription" className="btn-secondary" style={{ height: "52px", fontSize: "15px" }}>
@@ -399,7 +399,7 @@ export function WishlistGrid() {
                         </p>
                     </div>
                     <Link
-                        href="/catalog"
+                        href="/shop-kits"
                         aria-label="Browse all holidays in the catalog"
                         style={{
                             position: "relative",

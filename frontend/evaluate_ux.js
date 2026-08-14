@@ -37,13 +37,13 @@ const fs = require('fs');
     await page.screenshot({ path: 'ux_home.png', fullPage: true });
     
     // Check main CTA
-    const hasCatalogLink = await page.locator('a[href="/catalog"]').count() > 0;
+    const hasCatalogLink = await page.locator('a[href="/shop-kits"]').count() > 0;
     console.log(`Homepage has catalog CTA: ${hasCatalogLink}`);
     
     // 2. Catalog
     console.log("Navigating to Catalog...");
-    await page.click('a[href="/catalog"]');
-    await page.waitForURL('**/catalog');
+    await page.click('a[href="/shop-kits"]');
+    await page.waitForURL('**/shop-kits');
     await autoScroll(page);
     await page.screenshot({ path: 'ux_catalog.png', fullPage: true });
     

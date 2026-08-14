@@ -20,7 +20,7 @@ const { chromium, devices } = require('playwright');
     console.log('\n2. Testing PDP Thumbnails Switching...');
     const dCtx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await dCtx.newPage();
-    await page.goto('https://celebrease.com/catalog/thanksgiving', { waitUntil: 'networkidle' });
+    await page.goto('https://celebrease.com/shop-kits/thanksgiving', { waitUntil: 'networkidle' });
 
     const thumbs = await page.$$('button.cb-gallery-thumb');
     console.log(`  Found ${thumbs.length} gallery thumbnails on PDP`);

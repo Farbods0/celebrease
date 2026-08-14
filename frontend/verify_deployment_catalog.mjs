@@ -9,7 +9,7 @@ import { chromium } from '@playwright/test';
   
   for (let i = 0; i < MAX_RETRIES; i++) {
     console.log(`Checking deployment (Attempt ${i + 1}/${MAX_RETRIES})...`);
-    await page.goto('https://celebrease.com/catalog', { waitUntil: 'networkidle' });
+    await page.goto('https://celebrease.com/shop-kits', { waitUntil: 'networkidle' });
     
     // Check if the images on the catalog page have a sizes attribute
     // The previous version had raw <img> without sizes. Our updated version adds sizes="(max-width: 720px) 100vw..."

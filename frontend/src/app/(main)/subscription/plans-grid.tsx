@@ -222,7 +222,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                         transition: "all 0.2s",
                     }}
                     className="hover:scale-105"
-                    onClick={() => router.push("/catalog")}
+                    onClick={() => router.push("/shop-kits")}
                 >
                     Browse A La Carte Kits &rarr;
                 </Button>

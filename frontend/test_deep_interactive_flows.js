@@ -11,7 +11,7 @@ const fs = require('fs');
 
     // --- TEST 1: Add to Cart & Checkout Flow ---
     console.log('\n[TEST 1] Add to Cart & Drawer Flow...');
-    await page.goto('https://celebrease.com/catalog/christmas', { waitUntil: 'networkidle' });
+    await page.goto('https://celebrease.com/shop-kits/christmas', { waitUntil: 'networkidle' });
 
     // Look for Add to Cart button
     const addToCartBtn = page.locator('button:has-text("Add to Cart"), button:has-text("Rent Now"), button:has-text("Subscribe")').first();
@@ -33,7 +33,7 @@ const fs = require('fs');
             console.log('  ✅ Item successfully added to cart and visible on /cart page!');
         }
     } else {
-        findings.push({ severity: 'Minor', component: 'Product Page', description: 'Could not locate explicit Add to Cart button on /catalog/christmas.' });
+        findings.push({ severity: 'Minor', component: 'Product Page', description: 'Could not locate explicit Add to Cart button on /shop-kits/christmas.' });
     }
 
     // --- TEST 2: Signup Password Mismatch Validation ---

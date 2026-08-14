@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
     const tag = request.nextUrl.searchParams.get("tag");
 
     if (tag) {
+        // @ts-ignore
         revalidateTag(tag);
     }
     revalidatePath(path, "page");

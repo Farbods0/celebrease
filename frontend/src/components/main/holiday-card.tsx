@@ -58,7 +58,7 @@ export function HolidayCard({ holiday, index }: { holiday: ApiHoliday; index?: n
     };
 
     return (
-        <Link href={`/catalog/${slugify(holiday.name)}`} className="group border rounded-2xl overflow-hidden flex flex-col">
+        <Link href={`/shop-kits/${slugify(holiday.name)}`} className="group border rounded-2xl overflow-hidden flex flex-col">
             <div className="relative h-64 w-full">
                 <Image 
                     src={holiday.image?.includes("/uploads/") ? holiday.image.substring(holiday.image.indexOf("/uploads/")) : holiday.image?.startsWith("http") ? holiday.image : holiday.image?.startsWith("/") ? holiday.image : `${baseURL}/${holiday.image}`}

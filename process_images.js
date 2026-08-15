@@ -4,7 +4,8 @@ const { Pool } = require('pg');
 
 const transcriptPath = `C:\\Users\\farbo\\.gemini\\antigravity-cli\\brain\\6b9648e8-caf9-4e38-9155-b876cf9cc475\\.system_generated\\logs\\transcript.jsonl`;
 const uploadsDir = `C:\\Users\\farbo\\Documents\\celebrease\\frontend\\public\\uploads\\holidays`;
-const dbUrl = 'postgresql://neondb_owner:npg_CXvGP5goSRV8@ep-tiny-tooth-aqpsu11q-pooler.c-8.us-east-1.aws.neon.tech/neondb?channel_binding=require&sslmode=require';
+require('dotenv').config();
+const dbUrl = process.env.DATABASE_URL;
 
 async function main() {
     const lines = fs.readFileSync(transcriptPath, 'utf8').split('\n').filter(Boolean);

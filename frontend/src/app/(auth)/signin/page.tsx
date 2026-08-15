@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SigninForm } from "./form";
 
 const holidayImages = [
-    { src: `/uploads/holidays/passover-premium-angle1.jpg`, name: "Passover", span: "tall" },
+    { src: `/uploads/holidays/new-year-s-premium-angle1.jpg`, name: "New Year's Eve", span: "tall" },
     { src: `/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg`, name: "Dia de los Muertos", span: "" },
     { src: `/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`, name: "Cinco de Mayo", span: "" },
     { src: `/uploads/holidays/holi-premium-angle1.jpg`, name: "Holi", span: "" },
@@ -13,7 +13,7 @@ const holidayImages = [
 ];
 
 const holidayPills = [
-    { src: `/uploads/holidays/passover-premium-angle1.jpg`, name: "Passover" },
+    { src: `/uploads/holidays/new-year-s-premium-angle1.jpg`, name: "New Year's Eve" },
     { src: `/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`, name: "Cinco de Mayo" },
     { src: `/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg`, name: "Dia de los Muertos" },
     { src: `/uploads/holidays/independence-day-premium-angle1.jpg`, name: "Independence Day" },
@@ -22,7 +22,7 @@ const holidayPills = [
 ];
 
 const proofImages = [
-    { src: `/uploads/holidays/passover-premium-angle1.jpg`, label: "" },
+    { src: `/uploads/holidays/new-year-s-premium-angle1.jpg`, label: "" },
     { src: `/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`, label: "" },
     { src: `/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg`, label: "" },
     { src: `/uploads/holidays/lunar-new-year-premium-angle1.jpg`, label: "" },

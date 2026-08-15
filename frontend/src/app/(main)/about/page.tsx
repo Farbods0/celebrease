@@ -21,7 +21,7 @@ function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, default
         "holi": "/uploads/holidays/holi-premium-angle1.jpg",
         "lunar": "/uploads/holidays/lunar-new-year-premium-angle1.jpg",
         "independence day": "/uploads/holidays/independence-day-premium-angle1.jpg",
-        "passover": "/uploads/holidays/passover-premium-angle1.jpg",
+        "New Year's Eve": "/uploads/holidays/new-year-s-premium-angle1.jpg",
         "st. patricks day": "/uploads/holidays/st-patricks-day-premium-angle1.jpg",
     };
 
@@ -81,14 +81,14 @@ export default async function AboutPage() {
     const mosaic1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
     const mosaic2 = pick(holidays, "graduations", 2, "Graduations");
     const mosaic3 = pick(holidays, "holi", 3, "Holi");
-    const mosaic4 = pick(holidays, "passover", 4, "Passover"); 
+    const mosaic4 = pick(holidays, "New Year's Eve", 4, "New Year's Eve"); 
 
     // Collage section, 8 cells
     const c0 = pick(holidays, "cinco de mayo", 0, "Cinco de Mayo");
     const c1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
     const c2 = pick(holidays, "graduations", 2, "Graduations");
     const c3 = pick(holidays, "holi", 3, "Holi");
-    const c4 = pick(holidays, "passover", 4, "Passover");
+    const c4 = pick(holidays, "New Year's Eve", 4, "New Year's Eve");
     const c5 = pick(holidays, "lunar", 5, "Lunar New Year");
     const c6 = pick(holidays, "independence day", 6, "Fourth of July");
     const c7 = pick(holidays, "st. patricks day", 7, "St. Patrick's Day"); 
@@ -102,7 +102,7 @@ export default async function AboutPage() {
     const more = [
         { key: "lunar", label: "Lunar New Year", h: pick(holidays, "lunar", 11, "Lunar New Year") },
         { key: "independence", label: "Fourth of July", h: pick(holidays, "independence day", 12, "Fourth of July") },
-        { key: "passover", label: "Passover", h: pick(holidays, "passover", 13, "Passover") },
+        { key: "New Year's Eve", label: "New Year's Eve", h: pick(holidays, "New Year's Eve", 13, "New Year's Eve") },
         { key: "st-patricks", label: "St. Patrick's Day", h: pick(holidays, "st. patricks day", 14, "St. Patrick's Day") },
         { key: "dia", label: "Dia de los Muertos", h: pick(holidays, "dia de los muertos", 15, "Dia de los Muertos") },
     ];

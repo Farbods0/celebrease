@@ -60,10 +60,10 @@ export default async function HowItWorksPage() {
     } catch {
         holidays = [];
     }
-    const img1 = { image: "/hiw-1.jpg" };
-    const img2 = { image: "/hiw-2.jpg" };
-    const img3 = { image: "/hiw-3.jpg" };
-    const img4 = { image: "/hiw-4.jpg" };
+    const img1 = { image: "/uploads/holidays/birthdays-premium-angle1.jpg" };
+    const img2 = { image: "/uploads/holidays/passover-premium-angle1.jpg" };
+    const img3 = { image: "/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg" };
+    const img4 = { image: "/uploads/holidays/independence-day-premium-angle2.jpg" };
 
     return (
         <div className="cb">
@@ -689,10 +689,7 @@ export default async function HowItWorksPage() {
                                 fontFamily: "'Playfair Display', Georgia, serif",
                                 fontSize: "clamp(2.4rem, 4vw, 3.4rem)",
                                 fontWeight: 800,
-                                background: "var(--cb-gradient-h)",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                                backgroundClip: "text",
+                                color: "var(--cb-magenta)",
                                 lineHeight: 1,
                             }}>
                                 {stat.num}

@@ -5,6 +5,9 @@ import { toast } from "sonner";
 export const auth = createAuthClient({
     fetchOptions: {
         onError(e) {
+            // Ignore expected unauthenticated errors like "Failed to get session" which happen naturally for guests
+            if (e.error?.status === 401 || e.error?.message === "Failed to get session") return;
+
             if (e.error?.status === 429) {
                 toast.error("Too many requests. Please try again later.");
             } else if (e.error?.message) {

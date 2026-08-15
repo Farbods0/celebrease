@@ -103,7 +103,7 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-hero-art">
                         <div className="img-main">
-                            {hero0 && <Image src={img(hero0.image)} alt={`${hero0.name} décor`} width={1000} height={800} unoptimized={Boolean(img(hero0.image))} sizes="(max-width: 768px) 100vw, 50vw" priority className="w-full h-full object-cover" />}
+                            {hero0 && <Image src={img(hero0.image)} alt={`${hero0.name} décor`} width={1000} height={800} unoptimized={Boolean(img(hero0.image))} sizes="(max-width: 768px) 100vw, 50vw" priority style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                         </div>
                         <div className="cb-kit-float">
                             <div className="kf-row">
@@ -118,7 +118,7 @@ export default async function HomePage() {
                             </div>
                         </div>
                         <div className="img-sub">
-                            {hero1 && <Image src={img(hero1.image)} alt={`${hero1.name} décor`} width={600} height={400} unoptimized={Boolean(img(hero1.image))} sizes="(max-width: 768px) 100vw, 50vw" className="w-full h-full object-cover" />}
+                            {hero1 && <Image src={img(hero1.image)} alt={`${hero1.name} décor`} width={600} height={400} unoptimized={Boolean(img(hero1.image))} sizes="(max-width: 768px) 100vw, 50vw" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                         </div>
                     </div>
                 </div>

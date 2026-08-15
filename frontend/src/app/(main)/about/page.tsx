@@ -281,17 +281,15 @@ export default async function AboutPage() {
                         { num: "78%", label: "Less holiday waste per home" },
                         { num: "19", label: "Holiday collections" },
                     ].map((s) => (
-                        <div key={s.label}>
+                        <div key={s.label} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                             <div
                                 style={{
                                     fontFamily: "'Playfair Display', Georgia, serif",
                                     fontSize: "clamp(2.4rem,4vw,3.4rem)",
                                     fontWeight: 800,
                                     lineHeight: 1,
-                                    background: "var(--cb-gradient-h)",
-                                    WebkitBackgroundClip: "text",
-                                    WebkitTextFillColor: "transparent",
-                                    backgroundClip: "text",
+                                    color: "var(--cb-ink)",
+                                    letterSpacing: "-0.02em",
                                 }}
                             >
                                 {s.num}

@@ -42,7 +42,7 @@ export default async function HomePage() {
     const holidays = data.items;
     const plans = plansData.items;
     
-    const desiredOrderKeys = ["christmas", "new year", "halloween", "thanksgiving", "birthday", "valentine"];
+    const desiredOrderKeys = ["passover", "dia de los muertos", "cinco de mayo", "holi", "independence day", "st. patrick's day", "graduations", "lunar new year"];
     const featured = desiredOrderKeys.map(key => 
         holidays.find(h => h.name.toLowerCase().includes(key))
     ).filter(Boolean) as ApiHoliday[];
@@ -52,8 +52,26 @@ export default async function HomePage() {
         featured.push(...remaining.slice(0, 6 - featured.length));
     }
 
-    const hero0 = featured[0] ?? null;
-    const hero1 = featured[1] ?? featured[0] ?? null;
+    // Force premium AI images for the featured list (which populates Hero, Avatars, and Most Popular)
+    const PREMIUM_IMAGES = [
+        "/uploads/holidays/passover-premium-angle1.jpg",
+        "/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg",
+        "/uploads/holidays/cinco-de-mayo-premium-angle1.jpg",
+        "/uploads/holidays/holi-premium-angle1.jpg",
+        "/uploads/holidays/independence-day-premium-angle1.jpg",
+        "/uploads/holidays/st-patricks-day-premium-angle1.jpg",
+        "/uploads/holidays/graduations-premium-angle1.jpg",
+        "/uploads/holidays/lunar-new-year-premium-angle1.jpg",
+    ];
+
+    const premiumFeatured = featured.map((h, i) => ({
+        ...h,
+        image: PREMIUM_IMAGES[i % PREMIUM_IMAGES.length],
+        // Name is untouched, we're relying on the desiredOrderKeys matching the premium images exactly
+    }));
+
+    const hero0 = premiumFeatured[0] ?? null;
+    const hero1 = premiumFeatured[1] ?? premiumFeatured[0] ?? null;
 
     return (
         <div className="cb">
@@ -73,7 +91,7 @@ export default async function HomePage() {
                         </div>
                         <div className="cb-hero-proof">
                             <div className="cb-avatars">
-                                {featured.slice(0, 4).map((h) => (
+                                {premiumFeatured.slice(0, 4).map((h) => (
                                     <span key={h.id} style={{ backgroundImage: `url('${img(h.image)}')` }} />
                                 ))}
                             </div>
@@ -92,7 +110,7 @@ export default async function HomePage() {
                                 {hero0 && <Image className="kf-thumb" src={img(hero0.image)} alt="" width={64} height={64} unoptimized={Boolean(img(hero0.image))} style={{ objectFit: "cover" }} />}
                                 <div>
                                     <div className="kf-tier">Premium Kit</div>
-                                    <div className="kf-name">{hero0?.name ?? "Christmas"}</div>
+                                    <div className="kf-name">{hero0?.name ?? "Passover"}</div>
                                 </div>
                             </div>
                             <div className="kf-meta">
@@ -153,7 +171,7 @@ export default async function HomePage() {
                         <Link href="/shop-kits" className="cb-featured-link">Explore all holidays →</Link>
                     </div>
                     <div className="cb-card-grid">
-                        {featured.map((h) => {
+                        {premiumFeatured.map((h) => {
                             const cat = CATEGORY[h.category as keyof typeof CATEGORY] ?? CATEGORY.TRADITIONAL;
                             const price = lowestPrice(h.kits);
                             return (

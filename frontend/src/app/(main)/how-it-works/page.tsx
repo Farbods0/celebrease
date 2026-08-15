@@ -53,13 +53,8 @@ const HIW_FAQS = [
 ];
 
 export default async function HowItWorksPage() {
-    let holidays: ApiHoliday[] = [];
-    try {
-        const data = await getHolidays();
-        holidays = data.items ?? [];
-    } catch {
-        holidays = [];
-    }
+    const data = await getHolidays();
+    let holidays: ApiHoliday[] = data.items ?? [];
     const img1 = { image: "/uploads/holidays/birthdays-premium-angle1.jpg" };
     const img2 = { image: "/uploads/holidays/passover-premium-angle1.jpg" };
     const img3 = { image: "/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg" };

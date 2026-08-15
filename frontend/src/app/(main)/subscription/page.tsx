@@ -40,10 +40,15 @@ const COMPARE_ROWS: Array<{
     { label: "Holidays per year",       starter: "3",           premium: "6",                  ultimate: "12" },
     { label: "Kit tiers included",      starter: "Starter",     premium: "Starter + Premium",  ultimate: "All tiers" },
     { label: "Free shipping both ways", starter: "✓",           premium: "✓",                  ultimate: "✓" },
-    { label: "Priority shipping",       starter: "-",           premium: "3-day",              ultimate: "Same-week" },
+    { label: "Priority delivery dates", starter: "-",           premium: "3-day",              ultimate: "Same-week" },
     { label: "Add on discount",         starter: "10% off",     premium: "20% off",            ultimate: "25% off" },
-    { label: "Early access to drops",   starter: "-",           premium: "-",                  ultimate: "✓" },
+    { label: "Additional kit discount", starter: "-",           premium: "10% off",            ultimate: "15% off" },
+    { label: "Professional in-home setup", starter: "-",        premium: "-",                  ultimate: "✓" },
+    { label: "Early access to drops",   starter: "-",           premium: "✓",                  ultimate: "✓" },
+    { label: "Exclusive limited editions", starter: "-",        premium: "-",                  ultimate: "✓" },
+    { label: "Priority support",        starter: "-",           premium: "✓",                  ultimate: "✓" },
     { label: "Deposit protection",      starter: "✓",           premium: "✓",                  ultimate: "✓" },
+    { label: "Pause or skip anytime",   starter: "✓",           premium: "✓",                  ultimate: "✓" },
     { label: "Cancel anytime",          starter: "✓",           premium: "✓",                  ultimate: "✓" },
 ];
 

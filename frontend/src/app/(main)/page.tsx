@@ -42,7 +42,7 @@ export default async function HomePage() {
     const holidays = data.items;
     const plans = plansData.items;
     
-    const desiredOrderKeys = ["passover", "dia de los muertos", "cinco de mayo", "holi", "independence day", "st. patrick's day", "graduations", "lunar new year"];
+    const desiredOrderKeys = ["independence day", "dia de los muertos", "cinco de mayo", "holi", "passover", "st. patrick's day", "graduations", "lunar new year"];
     const featured = desiredOrderKeys.map(key => 
         holidays.find(h => h.name.toLowerCase().includes(key))
     ).filter(Boolean) as ApiHoliday[];
@@ -54,11 +54,11 @@ export default async function HomePage() {
 
     // Force premium AI images for the featured list (which populates Hero, Avatars, and Most Popular)
     const PREMIUM_IMAGES = [
-        "/uploads/holidays/passover-premium-angle1.jpg",
+        "/uploads/holidays/independence-day-premium-angle1.jpg",
         "/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg",
         "/uploads/holidays/cinco-de-mayo-premium-angle1.jpg",
         "/uploads/holidays/holi-premium-angle1.jpg",
-        "/uploads/holidays/independence-day-premium-angle1.jpg",
+        "/uploads/holidays/passover-premium-angle1.jpg",
         "/uploads/holidays/st-patricks-day-premium-angle1.jpg",
         "/uploads/holidays/graduations-premium-angle1.jpg",
         "/uploads/holidays/lunar-new-year-premium-angle1.jpg",
@@ -110,7 +110,7 @@ export default async function HomePage() {
                                 {hero0 && <Image className="kf-thumb" src={img(hero0.image)} alt="" width={64} height={64} unoptimized={Boolean(img(hero0.image))} style={{ objectFit: "cover" }} />}
                                 <div>
                                     <div className="kf-tier">Premium Kit</div>
-                                    <div className="kf-name">{hero0?.name ?? "Passover"}</div>
+                                    <div className="kf-name">{hero0?.name ?? "Independence Day"}</div>
                                 </div>
                             </div>
                             <div className="kf-meta">

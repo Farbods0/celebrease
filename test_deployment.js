@@ -5,10 +5,10 @@ const { chromium } = require('playwright');
     const page = await browser.newPage();
     let found = false;
     for (let i = 0; i < 20; i++) {
-        await page.goto('https://celebrease.com/about', { waitUntil: 'networkidle' });
+        await page.goto('https://celebrease.com', { waitUntil: 'networkidle' });
         const text = await page.content();
-        if (text.includes("Cinco de Mayo")) {
-            console.log("Found 'Cinco de Mayo'! Deployment is live.");
+        if (text.includes("Premium Kit") && text.includes("Independence Day")) {
+            console.log("Found 'Premium Kit Independence Day'! Deployment is live.");
             found = true;
             break;
         }

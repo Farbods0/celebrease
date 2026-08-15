@@ -15,14 +15,14 @@ const img = (path?: string | null) => {
 // Pick N holidays from the list by name hint (fallback to index)
 function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, defaultName?: string): ApiHoliday | undefined {
     const aiQuotaImages: Record<string, string> = {
-        "cinco de mayo": "/uploads/holidays/cinco-de-mayo-premium-angle1.jpg",
-        "dia de los muertos": "/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg",
-        "graduations": "/uploads/holidays/graduations-premium-angle1.jpg",
-        "holi": "/uploads/holidays/holi-premium-angle1.jpg",
-        "lunar": "/uploads/holidays/lunar-new-year-premium-angle1.jpg",
-        "independence day": "/uploads/holidays/independence-day-premium-angle1.jpg",
-        "New Year's Eve": "/uploads/holidays/new-year-s-premium-angle1.jpg",
-        "st. patricks day": "/uploads/holidays/st-patricks-day-premium-angle1.jpg",
+        "cinco de mayo": "/uploads/holidays/cinco-de-mayo.jpg",
+        "dia de los muertos": "/uploads/holidays/dia-de-los-muertos.jpg",
+        "graduations": "/uploads/holidays/graduations.jpg",
+        "holi": "/uploads/holidays/holi.jpg",
+        "lunar": "/uploads/holidays/lunar-new-year.jpg",
+        "independence day": "/uploads/holidays/independence-day.jpg",
+        "Thanksgiving": "/uploads/holidays/thanksgiving.jpg",
+        "st. patricks day": "/uploads/holidays/st-patricks-day.jpg",
     };
 
     const hintLower = hint.toLowerCase();
@@ -81,14 +81,14 @@ export default async function AboutPage() {
     const mosaic1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
     const mosaic2 = pick(holidays, "graduations", 2, "Graduations");
     const mosaic3 = pick(holidays, "holi", 3, "Holi");
-    const mosaic4 = pick(holidays, "New Year's Eve", 4, "New Year's Eve"); 
+    const mosaic4 = pick(holidays, "Thanksgiving", 4, "Thanksgiving"); 
 
     // Collage section, 8 cells
     const c0 = pick(holidays, "cinco de mayo", 0, "Cinco de Mayo");
     const c1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
     const c2 = pick(holidays, "graduations", 2, "Graduations");
     const c3 = pick(holidays, "holi", 3, "Holi");
-    const c4 = pick(holidays, "New Year's Eve", 4, "New Year's Eve");
+    const c4 = pick(holidays, "Thanksgiving", 4, "Thanksgiving");
     const c5 = pick(holidays, "lunar", 5, "Lunar New Year");
     const c6 = pick(holidays, "independence day", 6, "Fourth of July");
     const c7 = pick(holidays, "st. patricks day", 7, "St. Patrick's Day"); 
@@ -102,7 +102,7 @@ export default async function AboutPage() {
     const more = [
         { key: "lunar", label: "Lunar New Year", h: pick(holidays, "lunar", 11, "Lunar New Year") },
         { key: "independence", label: "Fourth of July", h: pick(holidays, "independence day", 12, "Fourth of July") },
-        { key: "New Year's Eve", label: "New Year's Eve", h: pick(holidays, "New Year's Eve", 13, "New Year's Eve") },
+        { key: "Thanksgiving", label: "Thanksgiving", h: pick(holidays, "Thanksgiving", 13, "Thanksgiving") },
         { key: "st-patricks", label: "St. Patrick's Day", h: pick(holidays, "st. patricks day", 14, "St. Patrick's Day") },
         { key: "dia", label: "Dia de los Muertos", h: pick(holidays, "dia de los muertos", 15, "Dia de los Muertos") },
     ];

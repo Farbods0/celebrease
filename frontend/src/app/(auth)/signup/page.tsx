@@ -150,7 +150,7 @@ export default function Signup() {
                 <div className="cb-auth-brand" aria-hidden="true">
                     <div className="cb-auth-brand-bg">
                         <img
-                            src={`${baseURL}/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`}
+                            src={`${baseURL}/uploads/holidays/cinco-de-mayo.jpg`}
                             alt=""
                         />
                     </div>

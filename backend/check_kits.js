@@ -1,0 +1,1 @@
+const { neon } = require('@neondatabase/serverless'); require('dotenv').config(); const sql = neon(process.env.DATABASE_URL); sql`SELECT id, "holidayId", images, tier FROM "kit" LIMIT 20;`.then((r) => { console.log(r); process.exit(0); }).catch(console.error);

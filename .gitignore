@@ -34,3 +34,4 @@ img_venv_311/
 
 # Terminal Paste Image folder
 .cp-images/
+.env

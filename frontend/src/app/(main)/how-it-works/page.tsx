@@ -55,7 +55,7 @@ const HIW_FAQS = [
 export default async function HowItWorksPage() {
     const data = await getHolidays();
     let holidays: ApiHoliday[] = data.items ?? [];
-    const img1 = { image: "/uploads/holidays/graduations.jpg" };
+    const img1 = { image: "/uploads/holidays/weddings.jpg" };
     const img2 = { image: "/uploads/holidays/holi.jpg" };
     const img3 = { image: "/uploads/holidays/cinco-de-mayo.jpg" };
     const img4 = { image: "/uploads/holidays/st-patricks-day.jpg" };

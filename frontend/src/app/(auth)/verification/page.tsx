@@ -24,7 +24,7 @@ const holidayImages = [
     { src: `${baseURL}/uploads/holidays/independence-day.jpg`, alt: "" },
     { src: `${baseURL}/uploads/holidays/st-patricks-day.jpg`, alt: "" },
     { src: `${baseURL}/uploads/holidays/holi.jpg`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/graduations.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/weddings.jpg`, alt: "" },
     { src: `${baseURL}/uploads/holidays/lunar-new-year.jpg`, alt: "" },
 ];
 
@@ -33,7 +33,7 @@ const pills = [
     { name: "Cinco de Mayo", img: `${baseURL}/uploads/holidays/cinco-de-mayo.jpg` },
     { name: "Dia de los Muertos", img: `${baseURL}/uploads/holidays/dia-de-los-muertos.jpg` },
     { name: "Holi", img: `${baseURL}/uploads/holidays/holi.jpg` },
-    { name: "Graduations", img: `${baseURL}/uploads/holidays/graduations.jpg` },
+    { name: "Weddings", img: `${baseURL}/uploads/holidays/weddings.jpg` },
     { name: "St. Patrick's Day", img: `${baseURL}/uploads/holidays/st-patricks-day.jpg` },
 ];
 

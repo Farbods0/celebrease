@@ -17,7 +17,7 @@ function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, default
     const aiQuotaImages: Record<string, string> = {
         "cinco de mayo": "/uploads/holidays/cinco-de-mayo.jpg",
         "dia de los muertos": "/uploads/holidays/dia-de-los-muertos.jpg",
-        "graduations": "/uploads/holidays/graduations.jpg",
+        "weddings": "/uploads/holidays/weddings.jpg",
         "holi": "/uploads/holidays/holi.jpg",
         "lunar": "/uploads/holidays/lunar-new-year.jpg",
         "independence day": "/uploads/holidays/independence-day.jpg",
@@ -79,14 +79,14 @@ export default async function AboutPage() {
     // Mosaic images (hero collage)
     const mosaic0 = pick(holidays, "cinco de mayo", 0, "Cinco de Mayo");
     const mosaic1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
-    const mosaic2 = pick(holidays, "graduations", 2, "Graduations");
+    const mosaic2 = pick(holidays, "weddings", 2, "Weddings");
     const mosaic3 = pick(holidays, "holi", 3, "Holi");
     const mosaic4 = pick(holidays, "Thanksgiving", 4, "Thanksgiving"); 
 
     // Collage section, 8 cells
     const c0 = pick(holidays, "cinco de mayo", 0, "Cinco de Mayo");
     const c1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
-    const c2 = pick(holidays, "graduations", 2, "Graduations");
+    const c2 = pick(holidays, "weddings", 2, "Weddings");
     const c3 = pick(holidays, "holi", 3, "Holi");
     const c4 = pick(holidays, "Thanksgiving", 4, "Thanksgiving");
     const c5 = pick(holidays, "lunar", 5, "Lunar New Year");
@@ -96,7 +96,7 @@ export default async function AboutPage() {
     // Press strip, reuse holiday images
     const press0 = pick(holidays, "cinco de mayo", 8, "Cinco de Mayo");
     const press1 = pick(holidays, "holi", 9, "Holi");
-    const press2 = pick(holidays, "graduations", 10, "Graduations");
+    const press2 = pick(holidays, "weddings", 10, "Weddings");
 
     // "And many more" strip
     const more = [

@@ -8,7 +8,7 @@ const holidayImages = [
     { src: `/uploads/holidays/holi.jpg`, name: "Holi", span: "" },
     { src: `/uploads/holidays/independence-day.jpg`, name: "Independence Day", span: "" },
     { src: `/uploads/holidays/st-patricks-day.jpg`, name: "St. Patrick's Day", span: "wide" },
-    { src: `/uploads/holidays/graduations.jpg`, name: "Graduations", span: "" },
+    { src: `/uploads/holidays/weddings.jpg`, name: "Weddings", span: "" },
     { src: `/uploads/holidays/lunar-new-year.jpg`, name: "Lunar New Year", span: "" },
 ];
 
@@ -18,7 +18,7 @@ const holidayPills = [
     { src: `/uploads/holidays/dia-de-los-muertos.jpg`, name: "Dia de los Muertos" },
     { src: `/uploads/holidays/independence-day.jpg`, name: "Independence Day" },
     { src: `/uploads/holidays/holi.jpg`, name: "Holi" },
-    { src: `/uploads/holidays/graduations.jpg`, name: "Graduations" },
+    { src: `/uploads/holidays/weddings.jpg`, name: "Weddings" },
 ];
 
 const proofImages = [

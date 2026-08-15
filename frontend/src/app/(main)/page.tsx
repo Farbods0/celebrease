@@ -35,7 +35,7 @@ export default async function HomePage() {
     const holidays = hRes.items ?? [];
     const plans = pRes.items ?? [];
     
-    const desiredOrderKeys = ["fourth of july", "día de los muertos", "cinco de mayo", "holi", "thanksgiving", "st. patrick's day", "graduations", "lunar new year"];
+    const desiredOrderKeys = ["fourth of july", "día de los muertos", "cinco de mayo", "holi", "thanksgiving", "st. patrick's day", "weddings", "lunar new year"];
     const featured = desiredOrderKeys.map(key => 
         holidays.find(h => h.name.toLowerCase().includes(key))
     ).filter(Boolean) as ApiHoliday[];
@@ -53,7 +53,7 @@ export default async function HomePage() {
         "/uploads/holidays/holi.jpg",
         "/uploads/holidays/thanksgiving.jpg",
         "/uploads/holidays/st-patricks-day.jpg",
-        "/uploads/holidays/graduations.jpg",
+        "/uploads/holidays/weddings.jpg",
         "/uploads/holidays/lunar-new-year.jpg",
     ];
 

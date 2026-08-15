@@ -2,30 +2,30 @@ import Link from "next/link";
 import { SigninForm } from "./form";
 
 const holidayImages = [
-    { src: `/uploads/holidays/christmas.png`, name: "Christmas", span: "tall" },
-    { src: `/uploads/holidays/halloween.png`, name: "Halloween", span: "" },
-    { src: `/uploads/holidays/diwali.png`, name: "Diwali", span: "" },
-    { src: `/uploads/holidays/nowruz.png`, name: "Nowruz", span: "" },
-    { src: `/uploads/holidays/hanukkah.png`, name: "Hanukkah", span: "" },
-    { src: `/uploads/holidays/easter.png`, name: "Easter", span: "wide" },
-    { src: `/uploads/holidays/eid.png`, name: "Eid", span: "" },
-    { src: `/uploads/holidays/new-years.png`, name: "New Years", span: "" },
+    { src: `/uploads/holidays/passover-premium-angle1.jpg`, name: "Passover", span: "tall" },
+    { src: `/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg`, name: "Dia de los Muertos", span: "" },
+    { src: `/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`, name: "Cinco de Mayo", span: "" },
+    { src: `/uploads/holidays/holi-premium-angle1.jpg`, name: "Holi", span: "" },
+    { src: `/uploads/holidays/independence-day-premium-angle1.jpg`, name: "Independence Day", span: "" },
+    { src: `/uploads/holidays/st-patricks-day-premium-angle1.jpg`, name: "St. Patrick's Day", span: "wide" },
+    { src: `/uploads/holidays/graduations-premium-angle1.jpg`, name: "Graduations", span: "" },
+    { src: `/uploads/holidays/lunar-new-year-premium-angle1.jpg`, name: "Lunar New Year", span: "" },
 ];
 
 const holidayPills = [
-    { src: `/uploads/holidays/christmas.png`, name: "Christmas" },
-    { src: `/uploads/holidays/diwali.png`, name: "Diwali" },
-    { src: `/uploads/holidays/halloween.png`, name: "Halloween" },
-    { src: `/uploads/holidays/hanukkah.png`, name: "Hanukkah" },
-    { src: `/uploads/holidays/nowruz.png`, name: "Nowruz" },
-    { src: `/uploads/holidays/eid.png`, name: "Eid" },
+    { src: `/uploads/holidays/passover-premium-angle1.jpg`, name: "Passover" },
+    { src: `/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`, name: "Cinco de Mayo" },
+    { src: `/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg`, name: "Dia de los Muertos" },
+    { src: `/uploads/holidays/independence-day-premium-angle1.jpg`, name: "Independence Day" },
+    { src: `/uploads/holidays/holi-premium-angle1.jpg`, name: "Holi" },
+    { src: `/uploads/holidays/graduations-premium-angle1.jpg`, name: "Graduations" },
 ];
 
 const proofImages = [
-    { src: `/uploads/holidays/christmas.png`, label: "" },
-    { src: `/uploads/holidays/diwali.png`, label: "" },
-    { src: `/uploads/holidays/halloween.png`, label: "" },
-    { src: `/uploads/holidays/new-years.png`, label: "" },
+    { src: `/uploads/holidays/passover-premium-angle1.jpg`, label: "" },
+    { src: `/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`, label: "" },
+    { src: `/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg`, label: "" },
+    { src: `/uploads/holidays/lunar-new-year-premium-angle1.jpg`, label: "" },
 ];
 
 export default function Signin() {

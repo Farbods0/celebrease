@@ -295,9 +295,9 @@ export default async function HomePage() {
                     </div>
                     <div className="cb-testi-grid">
                         {[
-                            { img: "/events/christmas_cover.jpg", q: "Best Christmas our family has ever had, and I didn't stress once about storage.", a: "Sarah M., Chicago" },
-                            { img: "/uploads/holidays/halloween-starter-angle1.jpg", q: "Subscribed in October and my Halloween was unbelievable. Already booked Christmas.", a: "James T., Austin" },
-                            { img: "/uploads/holidays/diwali-starter-angle1.jpg", q: "The kit arrived styled and ready. I literally just placed each piece. Done.", a: "Priya K., New York" },
+                            { img: "/uploads/holidays/independence-day-premium-angle1.jpg", q: "Best Independence Day our family has ever had, and I didn't stress once about storage.", a: "Sarah M., Chicago" },
+                            { img: "/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg", q: "Subscribed in October and my Dia de los Muertos was unbelievable. Already booked Christmas.", a: "James T., Austin" },
+                            { img: "/uploads/holidays/cinco-de-mayo-premium-angle1.jpg", q: "The kit arrived styled and ready for Cinco de Mayo. I literally just placed each piece. Done.", a: "Priya K., New York" },
                         ].map((t, i) => (
                             <div key={i} className="cb-testi-card">
                                 <Image src={t.img} alt={`Living room decor for ${t.a}`} width={600} height={375} unoptimized={true} className="object-cover w-full" style={{ aspectRatio: "16/10", display: "block" }} />

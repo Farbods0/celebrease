@@ -258,7 +258,7 @@ export default function ForgotPassword() {
                 {/* Brand panel */}
                 <div className="cb-afp-brand" aria-hidden="true">
                     <div className="cb-afp-brand-bg">
-                        <img src={`${baseURL}/uploads/holidays/diwali.png`} alt="" />
+                        <img src={`${baseURL}/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`} alt="" />
                     </div>
                     <div className="cb-afp-brand-content">
                         <p className="cb-afp-brand-quote">

@@ -18,23 +18,23 @@ const verifySchema = z.object({
 const baseURL = "";
 
 const holidayImages = [
-    { src: `${baseURL}/uploads/holidays/christmas.png`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/diwali.png`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/valentines-day.png`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/hanukkah.png`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/easter.png`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/halloween.png`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/ramadan.png`, alt: "" },
-    { src: `${baseURL}/uploads/holidays/nowruz.png`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/passover-premium-angle1.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/cinco-de-mayo-premium-angle1.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/independence-day-premium-angle1.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/st-patricks-day-premium-angle1.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/holi-premium-angle1.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/graduations-premium-angle1.jpg`, alt: "" },
+    { src: `${baseURL}/uploads/holidays/lunar-new-year-premium-angle1.jpg`, alt: "" },
 ];
 
 const pills = [
-    { name: "Christmas", img: `${baseURL}/uploads/holidays/christmas.png` },
-    { name: "Diwali", img: `${baseURL}/uploads/holidays/diwali.png` },
-    { name: "Halloween", img: `${baseURL}/uploads/holidays/halloween.png` },
-    { name: "Nowruz", img: `${baseURL}/uploads/holidays/nowruz.png` },
-    { name: "Eid", img: `${baseURL}/uploads/holidays/eid.png` },
-    { name: "Easter", img: `${baseURL}/uploads/holidays/easter.png` },
+    { name: "Passover", img: `${baseURL}/uploads/holidays/passover-premium-angle1.jpg` },
+    { name: "Cinco de Mayo", img: `${baseURL}/uploads/holidays/cinco-de-mayo-premium-angle1.jpg` },
+    { name: "Dia de los Muertos", img: `${baseURL}/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg` },
+    { name: "Holi", img: `${baseURL}/uploads/holidays/holi-premium-angle1.jpg` },
+    { name: "Graduations", img: `${baseURL}/uploads/holidays/graduations-premium-angle1.jpg` },
+    { name: "St. Patrick's Day", img: `${baseURL}/uploads/holidays/st-patricks-day-premium-angle1.jpg` },
 ];
 
 export default async function Verify({ searchParams }: { searchParams: Promise<{ user?: string; type?: "signup" | "reset" }> }) {
@@ -385,22 +385,22 @@ export default async function Verify({ searchParams }: { searchParams: Promise<{
                         <div className="cb-auth-proof">
                             <div className="cb-auth-proof-imgs">
                                 <span
-                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/christmas.png)` }}
+                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/passover-premium-angle1.jpg)` }}
                                     role="img"
                                     aria-label=""
                                 />
                                 <span
-                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/diwali.png)` }}
+                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/cinco-de-mayo-premium-angle1.jpg)` }}
                                     role="img"
                                     aria-label=""
                                 />
                                 <span
-                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/easter.png)` }}
+                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/st-patricks-day-premium-angle1.jpg)` }}
                                     role="img"
                                     aria-label=""
                                 />
                                 <span
-                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/halloween.png)` }}
+                                    style={{ backgroundImage: `url(${baseURL}/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg)` }}
                                     role="img"
                                     aria-label=""
                                 />

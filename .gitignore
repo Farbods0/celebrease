@@ -31,3 +31,6 @@ backend/scratch_*.js
 # bust cache
 scratch/
 img_venv_311/
+
+# Terminal Paste Image folder
+.cp-images/

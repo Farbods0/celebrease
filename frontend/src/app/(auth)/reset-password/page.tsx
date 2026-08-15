@@ -221,7 +221,7 @@ export default async function ResetPassword() {
                 {/* BRAND PANEL */}
                 <div className="cb-auth-brand-panel" aria-hidden="true">
                     <div className="cb-auth-brand-bg">
-                        <img src={`${baseURL}/uploads/holidays/christmas.png`} alt="" />
+                        <img src={`${baseURL}/uploads/holidays/passover-premium-angle1.jpg`} alt="" />
                     </div>
                     <div className="cb-auth-brand-content">
                         <p className="cb-auth-brand-quote">

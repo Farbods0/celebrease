@@ -47,12 +47,12 @@ JOIN (VALUES
     ('PREMIUM',  5, 'Early access to new holidays'),
 
     ('ULTIMATE', 0, 'Luxury Collection Kits'),
-    ('ULTIMATE', 1, 'Free returns & shipping'),
-    ('ULTIMATE', 2, '15% off kits'),
-    ('ULTIMATE', 3, '25% off add-ons'),
-    ('ULTIMATE', 4, 'Priority delivery dates'),
-    ('ULTIMATE', 5, 'Exclusive limited editions'),
-    ('ULTIMATE', 6, 'Professional in-home setup & takedown')
+    ('ULTIMATE', 1, 'Professional in-home setup & takedown'),
+    ('ULTIMATE', 2, 'Free returns & shipping'),
+    ('ULTIMATE', 3, '15% off kits'),
+    ('ULTIMATE', 4, '25% off add-ons'),
+    ('ULTIMATE', 5, 'Priority delivery dates'),
+    ('ULTIMATE', 6, 'Exclusive limited editions')
 ) AS f("code", "sortOrder", "text") ON f."code" = p."code"::text;
 
 COMMIT;

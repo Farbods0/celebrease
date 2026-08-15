@@ -114,7 +114,7 @@ export default function TermsPage() {
                             <p>
                                 CeleBrease operates as a subscription-based rental service. To rent decoration kits
                                 you must hold an active subscription plan. We currently offer three plan tiers, {" "}
-                                <strong>Silver</strong>, <strong>Gold</strong>, and <strong>Platinum</strong>, each available on monthly or annual billing cycles.
+                                <strong>Starter</strong>, <strong>Premium</strong>, and <strong>Ultimate</strong>, each available on monthly or annual billing cycles.
                             </p>
 
                             <h3>What your plan includes</h3>
@@ -125,7 +125,7 @@ export default function TermsPage() {
                                 </li>
                                 <li>
                                     Access to kit tiers at or below your plan tier (e.g., a Premium subscriber may
-                                    rent Starter or Gold Kits).
+                                    rent Starter or Premium kits).
                                 </li>
                                 <li>
                                     Tiered discounts on kit rental prices and optional add ons as specified on the

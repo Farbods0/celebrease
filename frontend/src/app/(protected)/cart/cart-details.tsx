@@ -7,9 +7,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const tierLabel: Record<KitTier, string> = {
-    STARTER: "Silver Kit",
-    PREMIUM: "Gold Kit",
-    ULTIMATE: "Platinum Kit",
+    STARTER: "Starter Kit",
+    PREMIUM: "Premium Kit",
+    ULTIMATE: "Ultimate Kit",
 };
 
 const dateFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -337,7 +337,7 @@ export default function CartDetails({ carts: initialCarts, subscription }: { car
                                     alt={cart.holiday?.name ?? "Holiday kit"}
                                 />
                                 <div className="cb-cart-item-body">
-                                    <span className="cb-cart-item-tier">{tierLabel[cart.kit?.tier ?? "Silver"]}</span>
+                                    <span className="cb-cart-item-tier">{tierLabel[cart.kit?.tier ?? "STARTER"]}</span>
                                     <div className="cb-cart-item-name">{cart.holiday?.name ?? ""}</div>
                                     <div className="cb-cart-item-meta">
                                         <span>{cart.duration === "SIXTY_DAY" ? "60 days" : "30 days"}</span>

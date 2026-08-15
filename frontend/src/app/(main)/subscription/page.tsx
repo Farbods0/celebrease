@@ -23,7 +23,7 @@ const FAQS = [
     },
     {
         q: "What kits are included in each tier?",
-        a: "Silver Kits include 8-12 décor pieces. Gold Kits include 15-20 pieces with designer styling cards. Platinum Kits include 25+ pieces, premium materials, and exclusive seasonal drops.",
+        a: "Starter kits include 8-12 décor pieces. Premium kits include 15-20 pieces with designer styling cards. Ultimate kits include 25+ pieces, premium materials, and exclusive seasonal drops.",
     },
     {
         q: "Do you ship internationally?",
@@ -38,7 +38,7 @@ const COMPARE_ROWS: Array<{
     ultimate: string;
 }> = [
     { label: "Holidays per year",       starter: "3",           premium: "6",                  ultimate: "12" },
-    { label: "Kit tiers included",      starter: "Silver",     premium: "Starter + Premium",  ultimate: "All tiers" },
+    { label: "Kit tiers included",      starter: "Starter",     premium: "Starter + Premium",  ultimate: "All tiers" },
     { label: "Free shipping both ways", starter: "✓",           premium: "✓",                  ultimate: "✓" },
     { label: "Priority shipping",       starter: "-",           premium: "3-day",              ultimate: "Same-week" },
     { label: "Add on credit",           starter: "-",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
@@ -310,9 +310,9 @@ export default async function SubscriptionPage() {
     const mosaic = holidays.filter((h) => h.isActive).slice(0, 12);
 
     /* Plan price display helpers (used in comparison table sub-labels) */
-    const starter = plans.find((p) => p.code === "Silver");
-    const premium = plans.find((p) => p.code === "Gold");
-    const ultimate = plans.find((p) => p.code === "Platinum");
+    const starter = plans.find((p) => p.code === "STARTER");
+    const premium = plans.find((p) => p.code === "PREMIUM");
+    const ultimate = plans.find((p) => p.code === "ULTIMATE");
 
     const starterPrice = starter ? `$${Number(starter.monthlyPrice).toFixed(0)}/mo` : "$49/mo";
     const premiumPrice = premium ? `$${Number(premium.monthlyPrice).toFixed(0)}/mo` : "$79/mo";

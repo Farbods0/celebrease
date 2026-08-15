@@ -120,9 +120,9 @@ export const Route = createFileRoute("/__main/kits")({
 });
 
 const TIERS: { value: KitTier; label: string }[] = [
-    { value: "Silver", label: "Silver Kit" },
-    { value: "Gold", label: "Gold Kit" },
-    { value: "Platinum", label: "Platinum Kit" },
+    { value: "STARTER", label: "Starter Kit" },
+    { value: "PREMIUM", label: "Premium Kit" },
+    { value: "ULTIMATE", label: "Ultimate Kit" },
 ];
 
 function RouteComponent() {
@@ -131,7 +131,7 @@ function RouteComponent() {
     const [createOpen, setCreateOpen] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [selectedHolidayId, setSelectedHolidayId] = useState<string | null>(holidays[0]?.id ?? null);
-    const [selectedTier, setSelectedTier] = useState<KitTier>("Silver");
+    const [selectedTier, setSelectedTier] = useState<KitTier>("STARTER");
 
     const handleSelectHolidayMobile = (id: string) => {
         setSelectedHolidayId(id);
@@ -155,9 +155,9 @@ function RouteComponent() {
             return { count, avgPrice };
         };
         return {
-            STARTER: compute("Silver"),
-            PREMIUM: compute("Gold"),
-            ULTIMATE: compute("Platinum"),
+            STARTER: compute("STARTER"),
+            PREMIUM: compute("PREMIUM"),
+            ULTIMATE: compute("ULTIMATE"),
         };
     }, [kits]);
 
@@ -244,7 +244,7 @@ function RouteComponent() {
                 </div>
                 <div className="kpi">
                     <div className="top">
-                        <span className="lbl">Platinum Kits</span>
+                        <span className="lbl">Ultimate kits</span>
                         <span className="ic" style={{ background: "var(--amber-bg)", color: "var(--amber)" }}>👑</span>
                     </div>
                     <div className="val">{tierStats.ULTIMATE.count}</div>

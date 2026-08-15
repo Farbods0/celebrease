@@ -69,7 +69,7 @@ export function PlanCard({ item, discountPercent = 20, onEdit }: PlanCardProps) 
         }
     };
 
-    const priceGradient = item.code === "Gold";
+    const priceGradient = item.code === "PREMIUM";
 
     return (
         <div className={`plan-card${meta.featured ? " featured" : ""}`}>
@@ -154,7 +154,7 @@ export function PlanCard({ item, discountPercent = 20, onEdit }: PlanCardProps) 
                         <input
                             className="field-input"
                             readOnly
-                            value={item.description || (item.code === "Silver" ? "Up to $350/yr equivalent retail value" : item.code === "Gold" ? "Up to $750/yr equivalent retail value" : "Up to $1,500/yr equivalent retail value")}
+                            value={item.description || (item.code === "STARTER" ? "Up to $350/yr equivalent retail value" : item.code === "PREMIUM" ? "Up to $750/yr equivalent retail value" : "Up to $1,500/yr equivalent retail value")}
                             style={{ width: "100%", fontSize: "12px" }}
                         />
                     </div>

@@ -662,22 +662,22 @@ export default function OrderConfirmationPage() {
                     <div className="cb-pricing-grid">
                         {[
                             {
-                                tier: "Silver",
+                                tier: "Starter",
                                 price: "$49",
                                 count: "3 holidays per year",
-                                feat: "Designer curated Silver Kits with full deposit protection and free shipping both ways.",
+                                feat: "Designer curated starter kits with full deposit protection and free shipping both ways.",
                                 elevated: false,
                             },
                             {
-                                tier: "Gold",
+                                tier: "Premium",
                                 price: "$79",
                                 count: "6 holidays per year",
-                                feat: "Gold Kits, priority shipping, and free add ons worth up to $25 every season.",
+                                feat: "Premium kits, priority shipping, and free add ons worth up to $25 every season.",
                                 elevated: true,
                                 ribbon: "&#9733; Most loved",
                             },
                             {
-                                tier: "Platinum",
+                                tier: "Ultimate",
                                 price: "$119",
                                 count: "12 holidays per year",
                                 feat: "Every kit tier and first access to limited seasonal drops.",

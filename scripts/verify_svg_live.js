@@ -13,7 +13,7 @@ const fs = require('fs');
         try {
             await page.goto('https://celebrease.com/catalog/evt-001', { waitUntil: 'networkidle' });
             
-            // The Starter kit is the first one or we can just click the Starter tier card
+            // The Silver Kit is the first one or we can just click the Starter tier card
             const starterTierBtn = page.locator('.cb-tier-card').filter({ hasText: /STARTER/i });
             if (await starterTierBtn.count() > 0) {
                 await starterTierBtn.click();

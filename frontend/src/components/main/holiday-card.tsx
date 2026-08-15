@@ -17,7 +17,7 @@ const CATEGORY_LABEL: Record<HolidayCategory, string> = {
     EVENT_BASED: "Event Based",
 };
 
-function tierPrice(holiday: ApiHoliday, tier: "Silver" | "Gold"): string {
+function tierPrice(holiday: ApiHoliday, tier: "STARTER" | "PREMIUM"): string {
     const kit = holiday.kits.find((k) => k.tier === tier);
     if (!kit) return ", ";
 
@@ -97,12 +97,12 @@ export function HolidayCard({ holiday, index }: { holiday: ApiHoliday; index?: n
 
                 <div className="grid grid-cols-2">
                     <div>
-                        <p className="text-sm text-muted-foreground">Silver</p>
-                        <p className="text-base lg:text-lg font-semibold">{tierPrice(holiday, "Silver")}</p>
+                        <p className="text-sm text-muted-foreground">Starter</p>
+                        <p className="text-base lg:text-lg font-semibold">{tierPrice(holiday, "STARTER")}</p>
                     </div>
                     <div>
-                        <p className="text-sm text-muted-foreground">Gold</p>
-                        <p className="text-base lg:text-lg font-semibold">{tierPrice(holiday, "Gold")}</p>
+                        <p className="text-sm text-muted-foreground">Premium</p>
+                        <p className="text-base lg:text-lg font-semibold">{tierPrice(holiday, "PREMIUM")}</p>
                     </div>
                 </div>
 

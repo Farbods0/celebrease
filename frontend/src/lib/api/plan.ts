@@ -1,6 +1,6 @@
 import { apiPrefix, apiURL, readError } from "./base";
 
-export type PlanCode = "Silver" | "Gold" | "Platinum";
+export type PlanCode = "STARTER" | "PREMIUM" | "ULTIMATE";
 
 export type ApiPlanFeature = {
     id: string;

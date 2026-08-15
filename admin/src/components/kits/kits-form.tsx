@@ -15,8 +15,8 @@ type KitsFormProps = {
 };
 
 const TIERS: { value: KitTier; label: string }[] = [
-    { value: "Silver", label: "Silver Kit" },
-    { value: "Gold", label: "Gold Kit" },
+    { value: "STARTER", label: "Starter Kit" },
+    { value: "PREMIUM", label: "Premium Kit" },
 ];
 
 const STATUSES: { value: KitStatus; label: string }[] = [
@@ -32,7 +32,7 @@ const numericString = (label: string) =>
 const formSchema = z
     .object({
         sku: z.string().min(2, "SKU is required").max(64),
-        tier: z.enum(["Silver", "Gold"]),
+        tier: z.enum(["STARTER", "PREMIUM"]),
         holidayId: z.string().min(1, "Holiday is required"),
         status: z.enum(["DRAFT", "ACTIVE", "HIDDEN", "LOW_STOCK"]),
         price30Day: numericString("30-Day price"),
@@ -63,7 +63,7 @@ export function KitsForm({ kit, holidays, defaultHolidayId, defaultTier, onClose
     const form = useAppForm({
         defaultValues: {
             sku: kit?.sku ?? "",
-            tier: kit?.tier ?? defaultTier ?? "Silver",
+            tier: kit?.tier ?? defaultTier ?? "STARTER",
             holidayId: kit?.holidayId ?? defaultHolidayId ?? holidays[0]?.id ?? "",
             status: kit?.status ?? "DRAFT",
             price30Day: kit ? String(kit.price30Day) : "",

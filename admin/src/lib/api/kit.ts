@@ -1,6 +1,6 @@
 import { request, toQuery } from "./base";
 
-export type KitTier = "Silver" | "Gold" | "Platinum";
+export type KitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
 export type KitStatus = "DRAFT" | "ACTIVE" | "HIDDEN" | "LOW_STOCK";
 
 export type ApiKitItem = {
@@ -56,9 +56,9 @@ export type CreateKitPayload = {
 export type UpdateKitPayload = Partial<CreateKitPayload>;
 
 const KIT_TIER_LABEL: Record<KitTier, string> = {
-    STARTER: "Silver",
-    PREMIUM: "Gold",
-    ULTIMATE: "Platinum",
+    STARTER: "Starter",
+    PREMIUM: "Premium",
+    ULTIMATE: "Ultimate",
 };
 
 export function formatKitTier(tier: KitTier) {

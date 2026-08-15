@@ -17,7 +17,7 @@ type PlanFormProps = {
     onClose: () => void;
 };
 
-const PLAN_CODES: PlanCode[] = ["Silver", "Gold", "Platinum"];
+const PLAN_CODES: PlanCode[] = ["STARTER", "PREMIUM", "ULTIMATE"];
 
 const formSchema = z.object({
     code: z.enum(PLAN_CODES),
@@ -50,7 +50,7 @@ export function PlanForm({ plan, existingCodes, onClose }: PlanFormProps) {
 
     const form = useAppForm({
         defaultValues: {
-            code: defaultCode ?? ("Silver" as PlanCode),
+            code: defaultCode ?? ("STARTER" as PlanCode),
             name: plan?.name ?? "",
             description: plan?.description ?? "",
             monthlyPrice: plan?.monthlyPrice ?? "",

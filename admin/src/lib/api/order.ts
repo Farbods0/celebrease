@@ -18,7 +18,7 @@ export type ReturnCondition = "GOOD" | "DAMAGED" | "MISSING" | "LOST";
 
 // Backend supports STARTER | PREMIUM | ULTIMATE; admin's KitTier currently narrows to two,
 // so for orders we keep the wider union to be safe regardless of the kit tier on the order.
-export type OrderKitTier = "Silver" | "Gold" | "Platinum";
+export type OrderKitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
 
 export type ApiOrderUser = {
     id: string;
@@ -196,9 +196,9 @@ const DURATION_LABEL: Record<Duration, string> = {
 };
 
 const TIER_LABEL: Record<OrderKitTier, string> = {
-    STARTER: "Silver",
-    PREMIUM: "Gold",
-    ULTIMATE: "Platinum",
+    STARTER: "Starter",
+    PREMIUM: "Premium",
+    ULTIMATE: "Ultimate",
 };
 
 export function formatOrderStatus(status: OrderStatus) {

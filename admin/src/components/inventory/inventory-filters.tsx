@@ -27,8 +27,8 @@ export const initialFilterState: InventoryFilterState = {
 
 const TIERS: { value: "ALL" | KitTier; label: string }[] = [
     { value: "ALL", label: "All" },
-    { value: "Silver", label: "Silver" },
-    { value: "Gold", label: "Gold" },
+    { value: "STARTER", label: "Starter" },
+    { value: "PREMIUM", label: "Premium" },
 ];
 
 const STATUSES: { value: ItemStatus; label: string }[] = [

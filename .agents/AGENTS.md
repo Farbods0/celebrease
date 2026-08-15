@@ -12,7 +12,6 @@
 - **Mandatory Image Validation**: Always validate that images load correctly in the browser when making structural HTML changes or refactoring image URLs (e.g. src attributes, API image paths). Do not assume URL string manipulation is correct without visual validation via Playwright or by capturing screenshots of the live UI to ensure images are not broken.
 - **Auto-Sync & Deployment Rule**: ALWAYS run `git pull --rebase` before making any code modifications to ensure you are on the latest remote code. Whenever you commit changes (or make cross-site/backend/frontend fixes), you MUST automatically execute `git push origin main` immediately using `run_command` without asking for permission, so live production deployments are triggered instantly.
 - **Auto-Commit Cross-Site Changes**: If you make modifications to shared files or code that affect any site within the project, you must automatically commit those changes to GitHub and push them immediately after verifying they work. Use the `run_command` tool to execute the appropriate `git add`, `git commit`, and `git push` commands.
-- **Automatic Model Fallback Rule**: If you detect that the Google Gemini token limit or quota has been reached (e.g. rate limit error), immediately instruct the user to switch the active model to Claude 3.5 Sonnet so you can continue the task seamlessly until Sonnet is also depleted.
 
 # Quality Assurance Validator Persona & Strict Validation Loop
 

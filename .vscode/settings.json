@@ -1,4 +1,12 @@
 {
     "git.ignoreLimitWarning": true,
-    "search.useGlobalIgnoreFiles": false
+    "search.useGlobalIgnoreFiles": false,
+    "terminal.integrated.profiles.windows": {
+        "Antigravity CLI": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell",
+            "args": ["-NoExit", "-Command", "agy --dangerously-skip-permissions"]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Antigravity CLI"
 }

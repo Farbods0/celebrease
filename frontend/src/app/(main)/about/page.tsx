@@ -14,7 +14,36 @@ const img = (path?: string | null) => {
 
 // Pick N holidays from the list by name hint (fallback to index)
 function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, defaultName?: string): ApiHoliday | undefined {
-    const found = holidays.find((h) => h.name.toLowerCase().includes(hint.toLowerCase()));
+    const aiQuotaImages: Record<string, string> = {
+        "cinco de mayo": "/uploads/holidays/cinco-de-mayo-premium-angle1.jpg",
+        "dia de los muertos": "/uploads/holidays/dia-de-los-muertos-premium-angle1.jpg",
+        "graduations": "/uploads/holidays/graduations-premium-angle1.jpg",
+        "holi": "/uploads/holidays/holi-premium-angle1.jpg",
+        "lunar": "/uploads/holidays/lunar-new-year-premium-angle1.jpg",
+        "independence day": "/uploads/holidays/independence-day-premium-angle1.jpg",
+        "passover": "/uploads/holidays/passover-premium-angle1.jpg",
+        "st. patricks day": "/uploads/holidays/st-patricks-day-premium-angle1.jpg",
+    };
+
+    const hintLower = hint.toLowerCase();
+    const mappedAiImage = Object.keys(aiQuotaImages).find(k => hintLower.includes(k));
+    
+    if (mappedAiImage) {
+        return {
+            id: `mock-${hint}`,
+            name: defaultName || hint,
+            image: aiQuotaImages[mappedAiImage],
+            category: "TRADITIONAL",
+            description: null,
+            sortOrder: 0,
+            isActive: true,
+            createdAt: "",
+            updatedAt: "",
+            kits: []
+        } as unknown as ApiHoliday;
+    }
+
+    const found = holidays.find((h) => h.name.toLowerCase().includes(hintLower));
     if (found && found.image) return found;
     
     // If not found or image is broken, return a fallback with local static image
@@ -48,34 +77,34 @@ export default async function AboutPage() {
     }
 
     // Mosaic images (hero collage)
-    const mosaic0 = pick(holidays, "christmas", 0, "Christmas");
-    const mosaic1 = pick(holidays, "diwali", 1, "Diwali");
-    const mosaic2 = pick(holidays, "halloween", 2, "Halloween");
-    const mosaic3 = pick(holidays, "nowruz", 3, "Nowruz");
-    const mosaic4 = pick(holidays, "thanksgiving", 4, "Birthdays"); // Fallback to Birthday since Thanksgiving image is missing
+    const mosaic0 = pick(holidays, "cinco de mayo", 0, "Cinco de Mayo");
+    const mosaic1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
+    const mosaic2 = pick(holidays, "graduations", 2, "Graduations");
+    const mosaic3 = pick(holidays, "holi", 3, "Holi");
+    const mosaic4 = pick(holidays, "passover", 4, "Passover"); 
 
     // Collage section, 8 cells
-    const c0 = pick(holidays, "christmas", 0, "Christmas");
-    const c1 = pick(holidays, "halloween", 2, "Halloween");
-    const c2 = pick(holidays, "diwali", 1, "Diwali");
-    const c3 = pick(holidays, "thanksgiving", 4, "Birthdays");
-    const c4 = pick(holidays, "hanukkah", 5, "Hanukkah");
-    const c5 = pick(holidays, "nowruz", 3, "Nowruz");
-    const c6 = pick(holidays, "eid", 6, "Eid");
-    const c7 = pick(holidays, "lunar", 7, "New Year's"); // Fallback
+    const c0 = pick(holidays, "cinco de mayo", 0, "Cinco de Mayo");
+    const c1 = pick(holidays, "dia de los muertos", 1, "Dia de los Muertos");
+    const c2 = pick(holidays, "graduations", 2, "Graduations");
+    const c3 = pick(holidays, "holi", 3, "Holi");
+    const c4 = pick(holidays, "passover", 4, "Passover");
+    const c5 = pick(holidays, "lunar", 5, "Lunar New Year");
+    const c6 = pick(holidays, "independence day", 6, "Fourth of July");
+    const c7 = pick(holidays, "st. patricks day", 7, "St. Patrick's Day"); 
 
     // Press strip, reuse holiday images
-    const press0 = pick(holidays, "valentine", 8, "Valentine's Day");
-    const press1 = pick(holidays, "juneteenth", 9, "Eid");
-    const press2 = pick(holidays, "mother", 10, "Baby Showers");
+    const press0 = pick(holidays, "cinco de mayo", 8, "Cinco de Mayo");
+    const press1 = pick(holidays, "holi", 9, "Holi");
+    const press2 = pick(holidays, "graduations", 10, "Graduations");
 
     // "And many more" strip
     const more = [
-        { key: "easter", label: "Easter", h: pick(holidays, "easter", 11, "Easter") },
-        { key: "ramadan", label: "Ramadan", h: pick(holidays, "ramadan", 12, "Ramadan") },
-        { key: "new-years", label: "New Year's", h: pick(holidays, "new year", 13, "New Year's") },
-        { key: "birthdays", label: "Birthdays", h: pick(holidays, "birthday", 14, "Birthdays") },
-        { key: "engagement", label: "Engagements", h: pick(holidays, "engagement", 15, "Engagement Parties") },
+        { key: "lunar", label: "Lunar New Year", h: pick(holidays, "lunar", 11, "Lunar New Year") },
+        { key: "independence", label: "Fourth of July", h: pick(holidays, "independence day", 12, "Fourth of July") },
+        { key: "passover", label: "Passover", h: pick(holidays, "passover", 13, "Passover") },
+        { key: "st-patricks", label: "St. Patrick's Day", h: pick(holidays, "st. patricks day", 14, "St. Patrick's Day") },
+        { key: "dia", label: "Dia de los Muertos", h: pick(holidays, "dia de los muertos", 15, "Dia de los Muertos") },
     ];
 
     return (

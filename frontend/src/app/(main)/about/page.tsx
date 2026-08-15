@@ -15,43 +15,22 @@ const img = (path?: string | null) => {
 // Pick N holidays from the list by name hint (fallback to index)
 function pick(holidays: ApiHoliday[], hint: string, fallbackIdx: number, defaultName?: string): ApiHoliday | undefined {
     const found = holidays.find((h) => h.name.toLowerCase().includes(hint.toLowerCase()));
-    if (found && found.image && !found.image.includes("_cover.jpg") && !found.image.endsWith(".png")) return found;
+    if (found && found.image) return found;
     
-    const uploadMap: Record<string, string> = {
-        christmas: "/uploads/holidays/christmas-starter-angle1.jpg",
-        diwali: "/uploads/holidays/diwali-starter-angle1.jpg",
-        halloween: "/uploads/holidays/halloween-starter-angle1.jpg",
-        nowruz: "/uploads/holidays/nowruz-starter-angle1.jpg",
-        thanksgiving: "/uploads/holidays/thanksgiving-starter-angle1.jpg",
-        hanukkah: "/uploads/holidays/hanukkah-starter-angle1.jpg",
-        eid: "/uploads/holidays/eid-starter-angle1.jpg",
-        lunar: "/uploads/holidays/lunar-new-year-starter-angle1.jpg",
-        valentine: "/uploads/holidays/valentine-s-day-starter-angle1.jpg",
-        juneteenth: "/uploads/holidays/eid-starter-angle1.jpg",
-        mother: "/uploads/holidays/baby-showers-starter-angle1.jpg",
-        easter: "/uploads/holidays/easter-starter-angle1.jpg",
-        ramadan: "/uploads/holidays/ramadan-starter-angle1.jpg",
-        "new year": "/uploads/holidays/new-year-s-starter-angle1.jpg",
-        birthday: "/uploads/holidays/birthdays-starter-angle1.jpg",
-        engagement: "/uploads/holidays/engagement-parties-starter-angle1.jpg",
-    };
-
-    const mappedImage = uploadMap[hint.toLowerCase()];
-    if (mappedImage) {
-        return {
-            id: `mock-${hint}`,
-            name: defaultName || hint,
-            image: mappedImage,
-            category: "TRADITIONAL",
-            kits: [],
-        } as unknown as ApiHoliday;
-    }
-
-    if (holidays.length > 0) {
-        return holidays[fallbackIdx % holidays.length];
-    }
-
-    return undefined;
+    // If not found or image is broken, return a fallback with local static image
+    const name = defaultName || hint.charAt(0).toUpperCase() + hint.slice(1);
+    return {
+        id: `mock-${hint}`,
+        name: name,
+        image: `/events/${name}.png`,
+        category: "TRADITIONAL",
+        description: null,
+        sortOrder: 0,
+        isActive: true,
+        createdAt: "",
+        updatedAt: "",
+        kits: []
+    } as unknown as ApiHoliday;
 }
 
 export default async function AboutPage() {
@@ -263,7 +242,7 @@ export default async function AboutPage() {
                         margin: "0 auto",
                         padding: "48px 24px",
                         display: "grid",
-                        gridTemplateColumns: "repeat(4,1fr)",
+                        gridTemplateColumns: "repeat(3,1fr)",
                         gap: 32,
                         textAlign: "center",
                     }}
@@ -404,7 +383,7 @@ export default async function AboutPage() {
                 <div className="cb-container">
                     <div className="sec-head">
                         <span className="eyebrow">What we stand for</span>
-                        <h2 id="values-heading">Four promises we won&apos;t compromise on.</h2>
+                        <h2 id="values-heading">Six promises we won&apos;t compromise on.</h2>
                         <p>Built into every kit, every delivery, every refund.</p>
                     </div>
 

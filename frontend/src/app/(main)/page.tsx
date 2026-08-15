@@ -35,7 +35,7 @@ export default async function HomePage() {
     const holidays = hRes.items ?? [];
     const plans = pRes.items ?? [];
     
-    const desiredOrderKeys = ["independence day", "dia de los muertos", "cinco de mayo", "holi", "passover", "st. patrick's day", "graduations", "lunar new year"];
+    const desiredOrderKeys = ["fourth of july", "día de los muertos", "cinco de mayo", "holi", "passover", "st. patrick's day", "graduations", "lunar new year"];
     const featured = desiredOrderKeys.map(key => 
         holidays.find(h => h.name.toLowerCase().includes(key))
     ).filter(Boolean) as ApiHoliday[];
@@ -103,7 +103,7 @@ export default async function HomePage() {
                                 {hero0 && <Image className="kf-thumb" src={img(hero0.image)} alt="" width={64} height={64} unoptimized={Boolean(img(hero0.image))} style={{ objectFit: "cover" }} />}
                                 <div>
                                     <div className="kf-tier">Premium Kit</div>
-                                    <div className="kf-name">{hero0?.name ?? "Independence Day"}</div>
+                                    <div className="kf-name">{hero0?.name ?? "Fourth of July"}</div>
                                 </div>
                             </div>
                             <div className="kf-meta">

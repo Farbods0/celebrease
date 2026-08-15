@@ -3,9 +3,9 @@ BEGIN;
 -- Plans (upsert by unique code)
 INSERT INTO "plan" ("id", "code", "name", "description", "monthlyPrice", "yearlyPrice", "holidaysPerYear", "kitDiscount", "addOnDiscount", "isActive", "isPopular", "buttonLabel", "sortOrder", "updatedAt")
 VALUES
-    ('plan_starter',  'STARTER',  'Starter',  'Up to $350 retail value per kit', 49.00,  470.00, 3, 0,  10, true, false, 'Start with Starter', 0, NOW()),
-    ('plan_premium',  'PREMIUM',  'Premium',  'Up to $500 retail value per kit', 79.00,  758.00, 6, 10, 20, true, true, 'Go Premium', 1, NOW()),
-    ('plan_ultimate', 'ULTIMATE', 'Ultimate', 'Up to $750 retail value per kit', 119.00,  1142.00, 12, 15, 25, true, false, 'Go Ultimate', 2, NOW())
+    ('plan_starter',  'STARTER',  'Silver',  'Up to $350 retail value per kit', 79.00,  758.00, 3, 0,  10, true, false, 'Start with Silver', 0, NOW()),
+    ('plan_premium',  'PREMIUM',  'Gold',  'Up to $500 retail value per kit', 129.00,  1238.00, 6, 10, 20, true, true, 'Go Gold', 1, NOW()),
+    ('plan_ultimate', 'ULTIMATE', 'Platinum', 'Up to $750 retail value per kit', 249.00,  2390.00, 12, 15, 25, true, false, 'Go Platinum', 2, NOW())
 ON CONFLICT ("code") DO UPDATE SET
     "name"            = EXCLUDED."name",
     "description"     = EXCLUDED."description",
@@ -52,7 +52,7 @@ JOIN (VALUES
     ('ULTIMATE', 3, '25% off add-ons'),
     ('ULTIMATE', 4, 'Priority delivery dates'),
     ('ULTIMATE', 5, 'Exclusive limited editions'),
-    ('ULTIMATE', 6, 'Concierge support')
+    ('ULTIMATE', 6, 'TaskRabbit setup & takedown')
 ) AS f("code", "sortOrder", "text") ON f."code" = p."code"::text;
 
 COMMIT;

@@ -3,7 +3,7 @@ import { apiPrefix, apiURL, readError } from "./base";
 
 
 export type HolidayCategory = "TRADITIONAL" | "CULTURAL" | "EVENT_BASED";
-export type KitTier = "STARTER" | "PREMIUM" | "ULTIMATE";
+export type KitTier = "Silver" | "Gold" | "Platinum";
 export type KitStatus = "DRAFT" | "ACTIVE" | "HIDDEN" | "LOW_STOCK";
 export type ItemStatus = "ACTIVE" | "LOW_STOCK" | "RETIRED";
 

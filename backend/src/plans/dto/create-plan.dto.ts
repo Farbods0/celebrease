@@ -14,7 +14,7 @@ import {
     MinLength,
 } from "class-validator";
 
-const PLAN_CODES = ["STARTER", "PREMIUM", "ULTIMATE"] as const;
+const PLAN_CODES = ["Silver", "Gold", "Platinum"] as const;
 
 export class CreatePlanDto {
     @IsIn(PLAN_CODES)

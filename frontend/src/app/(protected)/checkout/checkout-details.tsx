@@ -31,9 +31,9 @@ const checkoutSchema = z.object({
 });
 
 const tierLabel: Record<KitTier, string> = {
-    STARTER: "Starter",
-    PREMIUM: "Premium",
-    ULTIMATE: "Ultimate",
+    STARTER: "Silver",
+    PREMIUM: "Gold",
+    ULTIMATE: "Platinum",
 };
 
 const dateFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" });

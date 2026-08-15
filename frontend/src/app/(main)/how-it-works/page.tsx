@@ -299,7 +299,7 @@ export default async function HowItWorksPage() {
                             </p>
                             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
                                 {[
-                                    "Starter, Premium, or Ultimate kit tiers to match your space",
+                                    "Starter, Premium, or Platinum Kit tiers to match your space",
                                     "Styling card with room-by-room placement guide included",
                                     "Professionally cleaned and inspected before every rental",
                                     "Optional add ons (candles, table runners, scent kits) available",

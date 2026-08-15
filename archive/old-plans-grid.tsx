@@ -17,7 +17,7 @@ type PlansGridProps = {
     settings?: { yearlyDiscountPercent?: number };
 };
 
-const HIGHLIGHT_CODE = "PREMIUM";
+const HIGHLIGHT_CODE = "Gold";
 
 function priceFor(plan: ApiPlan, cycle: BillingCycle, discountPercent = 20) {
     const monthly = Number(plan.monthlyPrice);
@@ -125,9 +125,9 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                         const isCurrentPlan = subscription?.plan.id === plan.id;
                         const hasOtherSub = !!subscription && !isCurrentPlan;
                         const defaultLabel =
-                            plan.code === "STARTER"
+                            plan.code === "Silver"
                                 ? "Start with Starter"
-                                : plan.code === "PREMIUM"
+                                : plan.code === "Gold"
                                   ? "Go Premium"
                                   : "Go Ultimate";
                         const buttonLabel = subLoading
@@ -163,7 +163,7 @@ export default function PlansGrid({ plans, settings }: PlansGridProps) {
                                         </div>
                                         <p className="text-sm text-green-600">Billed {billedLabel}</p>
                                         <p className="mt-2 text-xs font-bold text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100 flex items-center gap-1">
-                                            ✨ {plan.description ? plan.description : `${plan.code === "STARTER" ? "Up to $350/yr" : plan.code === "PREMIUM" ? "Up to $750/yr" : "Up to $1,500/yr"} equivalent retail value`}
+                                            ✨ {plan.description ? plan.description : `${plan.code === "Silver" ? "Up to $350/yr" : plan.code === "Gold" ? "Up to $750/yr" : "Up to $1,500/yr"} equivalent retail value`}
                                         </p>
                                     </div>
 

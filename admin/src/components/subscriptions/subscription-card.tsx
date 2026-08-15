@@ -14,8 +14,8 @@ const STATUS_PILL: Record<ApiSubscription["status"], string> = {
 
 function planBadgeClass(name: string) {
     const n = name.toLowerCase();
-    if (n.includes("ultimate")) return "plan-ultimate";
-    if (n.includes("premium")) return "plan-premium";
+    if (n.includes("Platinum")) return "plan-ultimate";
+    if (n.includes("Gold")) return "plan-premium";
     return "plan-starter";
 }
 

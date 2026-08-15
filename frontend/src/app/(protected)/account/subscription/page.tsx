@@ -64,9 +64,9 @@ const SLOT_STATUS_LABELS: Record<HolidaySlotStatus, string> = {
 };
 
 const PLAN_TIER_LABELS: Record<string, string> = {
-    STARTER: "Starter",
-    PREMIUM: "Premium",
-    ULTIMATE: "Ultimate",
+    STARTER: "Silver",
+    PREMIUM: "Gold",
+    ULTIMATE: "Platinum",
 };
 
 /* ------------------------------------------------------------------ */

@@ -30,17 +30,10 @@ const img = (path?: string | null) => {
 };
 
 export default async function HomePage() {
-    let data = { items: [] as ApiHoliday[] };
-    let plansData = { items: [] as ApiPlan[] };
-    try {
-        const [hRes, pRes] = await Promise.all([getHolidays(), getPlans()]);
-        data = hRes;
-        plansData = pRes;
-    } catch (e) {
-        console.error("Failed to fetch holidays or plans:", e);
-    }
-    const holidays = data.items;
-    const plans = plansData.items;
+    const hRes = await getHolidays();
+    const pRes = await getPlans();
+    const holidays = hRes.items ?? [];
+    const plans = pRes.items ?? [];
     
     const desiredOrderKeys = ["independence day", "dia de los muertos", "cinco de mayo", "holi", "passover", "st. patrick's day", "graduations", "lunar new year"];
     const featured = desiredOrderKeys.map(key => 

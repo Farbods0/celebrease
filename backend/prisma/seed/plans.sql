@@ -4,8 +4,8 @@ BEGIN;
 INSERT INTO "plan" ("id", "code", "name", "description", "monthlyPrice", "yearlyPrice", "holidaysPerYear", "kitDiscount", "addOnDiscount", "isActive", "isPopular", "buttonLabel", "sortOrder", "updatedAt")
 VALUES
     ('plan_starter',  'STARTER',  'Starter',  'Up to $350 retail value per kit', 49.00,  470.00, 3, 0,  10, true, false, 'Start with Starter', 0, NOW()),
-    ('plan_premium',  'PREMIUM',  'Premium',  'Up to $500 retail value per kit', 79.00,  758.00, 5, 10, 20, true, true, 'Go Premium', 1, NOW()),
-    ('plan_ultimate', 'ULTIMATE', 'Ultimate', 'Up to $750 retail value per kit', 119.00,  1142.00, 8, 15, 25, true, false, 'Go Ultimate', 2, NOW())
+    ('plan_premium',  'PREMIUM',  'Premium',  'Up to $500 retail value per kit', 79.00,  758.00, 6, 10, 20, true, true, 'Go Premium', 1, NOW()),
+    ('plan_ultimate', 'ULTIMATE', 'Ultimate', 'Up to $750 retail value per kit', 119.00,  1142.00, 12, 15, 25, true, false, 'Go Ultimate', 2, NOW())
 ON CONFLICT ("code") DO UPDATE SET
     "name"            = EXCLUDED."name",
     "description"     = EXCLUDED."description",
@@ -34,28 +34,25 @@ SELECT
     f."sortOrder"
 FROM "plan" p
 JOIN (VALUES
-    ('STARTER',  0, '3 holidays per year'),
-    ('STARTER',  1, 'Curated Starter Kits'),
-    ('STARTER',  2, 'Free returns & shipping'),
-    ('STARTER',  3, '10% off add-ons'),
-    ('STARTER',  4, 'Pause or skip anytime'),
+    ('STARTER',  0, 'Curated Starter Kits'),
+    ('STARTER',  1, 'Free returns & shipping'),
+    ('STARTER',  2, '10% off add-ons'),
+    ('STARTER',  3, 'Pause or skip anytime'),
 
-    ('PREMIUM',  0, '5 holidays per year'),
-    ('PREMIUM',  1, 'Premium Décor Kits'),
-    ('PREMIUM',  2, 'Free returns & shipping'),
-    ('PREMIUM',  3, '10% off kits'),
-    ('PREMIUM',  4, '20% off add-ons'),
-    ('PREMIUM',  5, 'Priority support'),
-    ('PREMIUM',  6, 'Early access to new holidays'),
+    ('PREMIUM',  0, 'Premium Décor Kits'),
+    ('PREMIUM',  1, 'Free returns & shipping'),
+    ('PREMIUM',  2, '10% off kits'),
+    ('PREMIUM',  3, '20% off add-ons'),
+    ('PREMIUM',  4, 'Priority support'),
+    ('PREMIUM',  5, 'Early access to new holidays'),
 
-    ('ULTIMATE', 0, '8 holidays per year'),
-    ('ULTIMATE', 1, 'Luxury Collection Kits'),
-    ('ULTIMATE', 2, 'Free returns & shipping'),
-    ('ULTIMATE', 3, '15% off kits'),
-    ('ULTIMATE', 4, '25% off add-ons'),
-    ('ULTIMATE', 5, 'Priority delivery dates'),
-    ('ULTIMATE', 6, 'Exclusive limited editions'),
-    ('ULTIMATE', 7, 'Concierge support')
+    ('ULTIMATE', 0, 'Luxury Collection Kits'),
+    ('ULTIMATE', 1, 'Free returns & shipping'),
+    ('ULTIMATE', 2, '15% off kits'),
+    ('ULTIMATE', 3, '25% off add-ons'),
+    ('ULTIMATE', 4, 'Priority delivery dates'),
+    ('ULTIMATE', 5, 'Exclusive limited editions'),
+    ('ULTIMATE', 6, 'Concierge support')
 ) AS f("code", "sortOrder", "text") ON f."code" = p."code"::text;
 
 COMMIT;

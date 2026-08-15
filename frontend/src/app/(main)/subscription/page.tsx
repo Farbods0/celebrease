@@ -31,20 +31,17 @@ const FAQS = [
     },
 ];
 
-/* ── Comparison table rows ── */
 const COMPARE_ROWS: Array<{
     label: string;
     starter: string;
     premium: string;
     ultimate: string;
 }> = [
-    { label: "Holidays per year",       starter: "3",           premium: "6",                  ultimate: "Unlimited" },
+    { label: "Holidays per year",       starter: "3",           premium: "6",                  ultimate: "12" },
     { label: "Kit tiers included",      starter: "Starter",     premium: "Starter + Premium",  ultimate: "All tiers" },
     { label: "Free shipping both ways", starter: "✓",           premium: "✓",                  ultimate: "✓" },
     { label: "Priority shipping",       starter: "-",           premium: "3-day",              ultimate: "Same-week" },
     { label: "Add on credit",           starter: "-",           premium: "Up to $25/holiday",  ultimate: "Unlimited" },
-    { label: "Holiday swaps",           starter: "1 per year",  premium: "3 per year",         ultimate: "Unlimited" },
-    { label: "Dedicated stylist",       starter: "-",           premium: "Email / chat",       ultimate: "Video call (1×/yr)" },
     { label: "Early access to drops",   starter: "-",           premium: "-",                  ultimate: "✓" },
     { label: "Deposit protection",      starter: "✓",           premium: "✓",                  ultimate: "✓" },
     { label: "Cancel anytime",          starter: "✓",           premium: "✓",                  ultimate: "✓" },

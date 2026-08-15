@@ -679,8 +679,8 @@ export default function OrderConfirmationPage() {
                             {
                                 tier: "Ultimate",
                                 price: "$119",
-                                count: "Unlimited holidays",
-                                feat: "Every kit tier, a dedicated stylist, and first access to limited seasonal drops.",
+                                count: "12 holidays per year",
+                                feat: "Every kit tier and first access to limited seasonal drops.",
                                 elevated: false,
                             },
                         ].map((plan) => (

@@ -1,6 +1,6 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - (Interim Local Gen Applied) - image generation quota exhausted again until ~2026-08-17 09:28 PDT
-**Last Updated**: 2026-08-17 04:56 PDT
+**Status**: PENDING - (Interim Local Gen Applied) - image generation quota exhausted again until ~2026-08-23 15:34 UTC (08:34 AM PDT)
+**Last Updated**: 2026-08-17 09:35 PDT
 
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.
@@ -13,7 +13,7 @@
 ## DB Connection
 "<HIDDEN_DATABASE_URL>"
 
-## Completed Kits (108 unique images generated & updated in Neon DB)
+## Completed Kits (116 unique images generated & updated in Neon DB)
 - Cinco de Mayo STARTER (existing)
 - Cinco de Mayo PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Cinco de Mayo ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
@@ -51,11 +51,12 @@
 - Baby Showers PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Birthdays STARTER (COMPLETED - 4 new images generated & updated in DB)
 - Birthdays PREMIUM (COMPLETED - 4 new images generated & updated in DB)
+- Diwali STARTER (COMPLETED - 4 new images generated & updated in DB)
+- Diwali PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 
-## Remaining Generation Queue (80 images total)
+## Remaining Generation Queue (72 images total)
 
 ### Kits needing 2 tiers (STARTER, PREMIUM = 8 images)
-- Diwali
 - Easter
 - Eid
 - Engagement Parties

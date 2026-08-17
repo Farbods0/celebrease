@@ -1,6 +1,6 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - (Interim Local Gen Applied) - image generation quota exhausted again until ~2026-08-16 23:28 PDT
-**Last Updated**: 2026-08-16 18:35 PDT
+**Status**: PENDING - (Interim Local Gen Applied) - image generation quota exhausted again until ~2026-08-17 04:28 PDT
+**Last Updated**: 2026-08-16 23:40 PDT
 
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.
@@ -13,7 +13,7 @@
 ## DB Connection
 "<HIDDEN_DATABASE_URL>"
 
-## Completed Kits (80 unique images generated & updated in Neon DB)
+## Completed Kits (92 unique images generated & updated in Neon DB)
 - Cinco de Mayo STARTER (existing)
 - Cinco de Mayo PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Cinco de Mayo ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
@@ -38,21 +38,20 @@
 - St. Patricks Day PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Thanksgiving STARTER (existing)
 - Independence Day STARTER (existing)
-- Weddings STARTER (existing)
 - Christmas STARTER (COMPLETED - 4 new images generated & updated in DB)
 - Christmas PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Christmas ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
 - Gender Reveals STARTER (COMPLETED - 4 new images generated & updated in DB)
 - Gender Reveals PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Gender Reveals ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
+- Weddings & Rehearsal Dinners STARTER (COMPLETED - 4 new images generated & updated in DB)
+- Weddings & Rehearsal Dinners PREMIUM (COMPLETED - 4 new images generated & updated in DB)
+- Weddings & Rehearsal Dinners ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
 
-## Remaining Generation Queue (120 images total)
-
-### Kits needing all 3 tiers (STARTER, PREMIUM, ULTIMATE = 12 images)
-- Weddings & Rehearsal Dinners (Note: STARTER has 3/4 images generated but not pushed)
+## Remaining Generation Queue (108 images total)
 
 ### Kits needing 2 tiers (STARTER, PREMIUM = 8 images)
-- Baby Showers
+- Baby Showers (Note: STARTER has 3/4 images generated but not pushed)
 - Birthdays
 - Diwali
 - Easter

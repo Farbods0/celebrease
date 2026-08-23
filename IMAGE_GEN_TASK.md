@@ -1,6 +1,6 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - (Interim Local Gen Applied) - image generation quota exhausted again until ~2026-08-23 15:34 UTC (08:34 AM PDT)
-**Last Updated**: 2026-08-17 09:35 PDT
+**Status**: PENDING - image generation quota exhausted again until ~2026-08-23 20:44 UTC (01:44 PM PDT)
+**Last Updated**: 2026-08-23 08:48 PDT
 
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.
@@ -13,7 +13,7 @@
 ## DB Connection
 "<HIDDEN_DATABASE_URL>"
 
-## Completed Kits (116 unique images generated & updated in Neon DB)
+## Completed Kits (124 unique images generated & updated in Neon DB)
 - Cinco de Mayo STARTER (existing)
 - Cinco de Mayo PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Cinco de Mayo ULTIMATE (COMPLETED - 4 new images generated & updated in DB)
@@ -53,23 +53,22 @@
 - Birthdays PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 - Diwali STARTER (COMPLETED - 4 new images generated & updated in DB)
 - Diwali PREMIUM (COMPLETED - 4 new images generated & updated in DB)
+- Easter STARTER (COMPLETED - 4 new images generated & updated in DB)
+- Easter PREMIUM (COMPLETED - 4 new images generated & updated in DB)
 
-## Remaining Generation Queue (72 images total)
+## Remaining Generation Queue (64 images total)
 
-### Kits needing 2 tiers (STARTER, PREMIUM = 8 images)
-- Easter
-- Eid
-- Engagement Parties
-- Halloween
-- Hanukkah
-- New Year's
-- Nowruz
-- Ramadan
-- Valentine's Day
-
-### Kits needing specific tiers (4 images per tier)
-- St. Patrick's Day ULTIMATE
-- Thanksgiving PREMIUM & ULTIMATE
+### Kits in progress / needing tiers
+- Eid (STARTER angles 3-4, PREMIUM angles 1-4 = 6 images)
+- Engagement Parties (STARTER, PREMIUM = 8 images)
+- Halloween (STARTER, PREMIUM = 8 images)
+- Hanukkah (STARTER, PREMIUM = 8 images)
+- New Year's (STARTER, PREMIUM = 8 images)
+- Nowruz (STARTER, PREMIUM = 8 images)
+- Ramadan (STARTER, PREMIUM = 8 images)
+- Valentine's Day (STARTER, PREMIUM = 8 images)
+- St. Patrick's Day ULTIMATE (4 images)
+- Thanksgiving PREMIUM & ULTIMATE (8 images)
 
 ## Steps Per Kit
 1. Generate 4 tier-appropriate images with generate_image tool

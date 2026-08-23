@@ -32,19 +32,19 @@
 - Thanksgiving (STARTER - 4 images)
 - Eid (STARTER angles 1 & 2 - 2 images)
 
-## Remaining Generation Queue (74 images total across 19 kit tiers)
+## Remaining Generation Queue (74 images total across 19 kit tiers - Ranked by Priority)
 
-### Kits in progress / needing tiers
-- Eid (STARTER angles 3-4, PREMIUM angles 1-4 = 6 images)
-- Engagement Parties (STARTER, PREMIUM = 8 images)
-- Halloween (STARTER, PREMIUM = 8 images)
-- Hanukkah (STARTER, PREMIUM = 8 images)
-- New Year's (STARTER, PREMIUM = 8 images)
-- Nowruz (STARTER, PREMIUM = 8 images)
-- Ramadan (STARTER, PREMIUM = 8 images)
-- Valentine's Day (STARTER, PREMIUM = 8 images)
-- St. Patrick's Day ULTIMATE (4 images)
-- Thanksgiving PREMIUM & ULTIMATE (8 images)
+### Priority Order
+1. **New Year's** (STARTER 4 images, PREMIUM 4 images = 8 images) — *User Priority #1*
+2. **Thanksgiving** (PREMIUM 4 images, ULTIMATE 4 images = 8 images) — *User Priority #2*
+3. **St. Patrick's Day** (ULTIMATE 4 images = 4 images) — *User Priority #3*
+4. **Halloween** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #1 US Party/Retail Popularity*
+5. **Valentine's Day** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #2 US Popularity*
+6. **Hanukkah** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #3 US Popularity*
+7. **Engagement Parties** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #4 US Event Demand*
+8. **Eid** (STARTER angles 3-4 [2 images], PREMIUM 4 images = 6 images) — *Ranked #5 Popularity*
+9. **Ramadan** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #6 Popularity*
+10. **Nowruz** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #7 Popularity*
 
 ## Steps Per Kit
 1. Generate 4 tier-appropriate images with generate_image tool

@@ -1,6 +1,6 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - image generation quota exhausted again until 2026-08-24 06:43 UTC (23:43 PDT)
-**Last Updated**: 2026-08-23 19:12 PDT
+**Status**: PENDING - image generation quota exhausted again until 2026-08-24 11:43 UTC (04:43 PDT)
+**Last Updated**: 2026-08-23 23:48 PDT
 
 ## Rule & Logic
 * **Tier Differentiation**: Every tier (STARTER, PREMIUM, ULTIMATE) of every holiday must have **4 unique product photography images**.
@@ -14,7 +14,7 @@
 ## DB Connection
 "<HIDDEN_DATABASE_URL>"
 
-## Completed Kits (190 unique images generated & updated in Neon DB)
+## Completed Kits (194 unique images generated & updated in Neon DB)
 - Cinco de Mayo (STARTER, PREMIUM, ULTIMATE - 12 images)
 - Dia de los Muertos (STARTER, PREMIUM, ULTIMATE - 12 images)
 - Graduations (STARTER, PREMIUM, ULTIMATE - 12 images)
@@ -27,19 +27,18 @@
 - Weddings & Rehearsal Dinners (STARTER, PREMIUM, ULTIMATE - 12 images)
 - Thanksgiving (STARTER, PREMIUM, ULTIMATE - 12 images)
 - St. Patrick's Day (STARTER, PREMIUM, ULTIMATE - 12 images)
+- Halloween (STARTER, PREMIUM - 8 images)
 - New Year's (STARTER, PREMIUM - 8 images)
 - Baby Showers (STARTER, PREMIUM - 8 images)
 - Birthdays (STARTER, PREMIUM - 8 images)
 - Diwali (STARTER, PREMIUM - 8 images)
 - Easter (STARTER, PREMIUM - 8 images)
-- Halloween (STARTER - 4 images)
 - Eid (STARTER angles 1 & 2 - 2 images)
 
-## Remaining Generation Queue (50 images total across 13 kit tiers - Ranked by Priority)
+## Remaining Generation Queue (46 images total across 12 kit tiers - Ranked by Priority)
 
 ### Priority Order
-1. **Halloween** (PREMIUM 4 images = 4 images) — *Ranked #1 US Party/Retail Popularity*
-2. **Valentine's Day** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #2 US Popularity*
+1. **Valentine's Day** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #2 US Popularity*
 3. **Hanukkah** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #3 US Popularity*
 4. **Engagement Parties** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #4 US Event Demand*
 5. **Eid** (STARTER angles 3-4 [2 images], PREMIUM 4 images = 6 images) — *Ranked #5 Popularity*

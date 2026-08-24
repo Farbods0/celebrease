@@ -14,7 +14,7 @@
 ## DB Connection
 "<HIDDEN_DATABASE_URL>"
 
-## Completed Kits (178 unique images generated & updated in Neon DB)
+## Completed Kits (190 unique images generated & updated in Neon DB)
 - Cinco de Mayo (STARTER, PREMIUM, ULTIMATE - 12 images)
 - Dia de los Muertos (STARTER, PREMIUM, ULTIMATE - 12 images)
 - Graduations (STARTER, PREMIUM, ULTIMATE - 12 images)
@@ -25,27 +25,26 @@
 - Christmas (STARTER, PREMIUM, ULTIMATE - 12 images)
 - Gender Reveals (STARTER, PREMIUM, ULTIMATE - 12 images)
 - Weddings & Rehearsal Dinners (STARTER, PREMIUM, ULTIMATE - 12 images)
+- Thanksgiving (STARTER, PREMIUM, ULTIMATE - 12 images)
+- St. Patrick's Day (STARTER, PREMIUM, ULTIMATE - 12 images)
 - New Year's (STARTER, PREMIUM - 8 images)
 - Baby Showers (STARTER, PREMIUM - 8 images)
 - Birthdays (STARTER, PREMIUM - 8 images)
 - Diwali (STARTER, PREMIUM - 8 images)
 - Easter (STARTER, PREMIUM - 8 images)
-- St. Patrick's Day (STARTER, PREMIUM - 8 images)
-- Thanksgiving (STARTER, PREMIUM - 8 images)
+- Halloween (STARTER - 4 images)
 - Eid (STARTER angles 1 & 2 - 2 images)
 
-## Remaining Generation Queue (62 images total across 16 kit tiers - Ranked by Priority)
+## Remaining Generation Queue (50 images total across 13 kit tiers - Ranked by Priority)
 
 ### Priority Order
-1. **Thanksgiving** (ULTIMATE 4 images = 4 images) — *User Priority #2*
-2. **St. Patrick's Day** (ULTIMATE 4 images = 4 images) — *User Priority #3*
-4. **Halloween** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #1 US Party/Retail Popularity*
-5. **Valentine's Day** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #2 US Popularity*
-6. **Hanukkah** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #3 US Popularity*
-7. **Engagement Parties** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #4 US Event Demand*
-8. **Eid** (STARTER angles 3-4 [2 images], PREMIUM 4 images = 6 images) — *Ranked #5 Popularity*
-9. **Ramadan** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #6 Popularity*
-10. **Nowruz** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #7 Popularity*
+1. **Halloween** (PREMIUM 4 images = 4 images) — *Ranked #1 US Party/Retail Popularity*
+2. **Valentine's Day** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #2 US Popularity*
+3. **Hanukkah** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #3 US Popularity*
+4. **Engagement Parties** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #4 US Event Demand*
+5. **Eid** (STARTER angles 3-4 [2 images], PREMIUM 4 images = 6 images) — *Ranked #5 Popularity*
+6. **Ramadan** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #6 Popularity*
+7. **Nowruz** (STARTER 4 images, PREMIUM 4 images = 8 images) — *Ranked #7 Popularity*
 
 ## Steps Per Kit
 1. Generate 4 tier-appropriate images with generate_image tool

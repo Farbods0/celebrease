@@ -7,6 +7,9 @@
   "dependencies": {
     "pg": "^8.22.0",
     "playwright": "^1.62.1",
-    "postgres": "^3.4.9"
+    "postgres": "^3.4.9",
+    "puppeteer": "^25.8.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }

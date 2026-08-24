@@ -7,5 +7,6 @@ allowBuilds:
   canvas: set this to true or false
   esbuild: true
   prisma: true
+  puppeteer: set this to true or false
   sharp: true
   unrs-resolver: true

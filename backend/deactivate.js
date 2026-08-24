@@ -1,1 +1,0 @@
-const { neon } = require('@neondatabase/serverless'); require('dotenv').config(); const sql = neon(process.env.DATABASE_URL); sql`UPDATE holiday SET "isActive" = false WHERE name = 'Passover'`.then(() => { console.log('Deactivated Passover'); process.exit(0); }).catch(console.error);

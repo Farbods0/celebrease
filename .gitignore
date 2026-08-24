@@ -20,6 +20,7 @@ build/
 
 # Uploads & Temp
 backend/uploads/
+uploads/
 
 # Scratch & DB scripts
 scratch_*.js
@@ -30,6 +31,7 @@ measure_*.js
 backend/scratch_*.js
 # bust cache
 scratch/
+img_venv/
 img_venv_311/
 
 # Terminal Paste Image folder

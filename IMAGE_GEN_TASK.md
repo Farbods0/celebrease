@@ -1,5 +1,5 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - image generation quota exhausted again until 2026-08-30 21:33 UTC (14:33 PDT)
+**Status**: PENDING - image generation quota exhausted again until 2026-08-31 02:33 UTC (19:33 PDT)
 **Last Updated**: 2026-08-24 04:54 PDT
 
 ## Rule & Logic
@@ -35,11 +35,11 @@
 - Valentine's Day (STARTER, PREMIUM - 8 images)
 - Eid (STARTER angles 1 & 2 - 2 images)
 - Hanukkah (STARTER, PREMIUM - 8 images)
+- Engagement Parties (STARTER, PREMIUM - 8 images)
 
-## Remaining Generation Queue (30 images total across 8 kit tiers - Ranked by Priority)
+## Remaining Generation Queue (22 images total across 6 kit tiers - Ranked by Priority)
 
 ### Priority Order
-1. **Engagement Parties** (STARTER 4 images, PREMIUM 4 images = 8 images) â€” *Ranked #4 US Event Demand*
 4. **Eid** (STARTER angles 3-4 [2 images], PREMIUM 4 images = 6 images) â€” *Ranked #5 Popularity*
 5. **Ramadan** (STARTER 4 images, PREMIUM 4 images = 8 images) â€” *Ranked #6 Popularity*
 6. **Nowruz** (STARTER 4 images, PREMIUM 4 images = 8 images) â€” *Ranked #7 Popularity*

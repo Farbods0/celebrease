@@ -12,6 +12,7 @@ import { KitsModule } from "@/kits/kits.module";
 import { OrdersModule } from "@/orders/orders.module";
 import { PlansModule } from "@/plans/plans.module";
 import { ReviewsModule } from "@/reviews/reviews.module";
+import { SettingsModule } from "@/settings/settings.module";
 import { StripeModule } from "@/stripe/stripe.module";
 import { SubscriptionsModule } from "@/subscriptions/subscriptions.module";
 import { UploadModule } from "@/upload/upload.module";
@@ -53,6 +54,7 @@ import { join } from "path";
         CartModule,
         DashboardModule,
         ReviewsModule,
+        SettingsModule,
     ],
     controllers: [AppController],
     providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],

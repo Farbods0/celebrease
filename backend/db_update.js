@@ -9,11 +9,11 @@ async function run() {
   
   // Update Nowruz Starter (evt-006)
   await client.query(`UPDATE kit SET images = ARRAY[$1, $2, $3, $4] WHERE "holidayId" = $5 AND tier = $6`, 
-    ['/uploads/holidays/nowruz-starter-angle1.jpg', '/uploads/holidays/nowruz-starter-angle2.jpg', '/uploads/holidays/nowruz-starter-angle3.jpg', '/uploads/holidays/nowruz-starter-angle4.jpg', 'evt-006', 'STARTER']);
+    ['/uploads/holidays/nowruz-starter-angle1-v2.jpg', '/uploads/holidays/nowruz-starter-angle2-v2.jpg', '/uploads/holidays/nowruz-starter-angle3-v2.jpg', '/uploads/holidays/nowruz-starter-angle4-v2.jpg', 'evt-006', 'STARTER']);
 
   // Update Nowruz Premium (evt-006)
   await client.query(`UPDATE kit SET images = ARRAY[$1, $2, $3, $4] WHERE "holidayId" = $5 AND tier = $6`, 
-    ['/uploads/holidays/nowruz-premium-angle1.jpg', '/uploads/holidays/nowruz-premium-angle2.jpg', '/uploads/holidays/nowruz-premium-angle3.jpg', '/uploads/holidays/nowruz-premium-angle4.jpg', 'evt-006', 'PREMIUM']);
+    ['/uploads/holidays/nowruz-premium-angle1-v2.jpg', '/uploads/holidays/nowruz-premium-angle2-v2.jpg', '/uploads/holidays/nowruz-premium-angle3-v2.jpg', '/uploads/holidays/nowruz-premium-angle4-v2.jpg', 'evt-006', 'PREMIUM']);
 
   console.log('DB Updated');
   await client.end();

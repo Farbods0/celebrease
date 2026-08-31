@@ -6,7 +6,7 @@ const client = new Client({
 
 async function run() {
   await client.connect();
-  const res = await client.query(`SELECT id, name FROM holiday WHERE name ILIKE '%engage%'`);
+  const res = await client.query(`SELECT id, name FROM holiday WHERE name ILIKE '%eid%' OR name ILIKE '%ramadan%'`);
   console.log(res.rows);
   await client.end();
 }

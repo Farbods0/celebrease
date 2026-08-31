@@ -1,5 +1,5 @@
 # CeleBrease Image Generation Task
-**Status**: PENDING - image generation quota exhausted again until 2026-08-31 02:33 UTC (19:33 PDT)
+**Status**: PENDING - image generation quota exhausted again until 2026-08-31 07:33 UTC (00:33 PDT)
 **Last Updated**: 2026-08-24 04:54 PDT
 
 ## Rule & Logic
